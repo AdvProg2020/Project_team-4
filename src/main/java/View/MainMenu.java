@@ -1,15 +1,13 @@
 package View;
 
-import java.awt.Menu;
-
 import static View.CommandProcessor.getMatcher;
 
-public class MainMenu extends java.awt.Menu {
+public class MainMenu extends Menu{
 
 
-    private java.awt.Menu productMenu = new ProductMenu();
-    private java.awt.Menu createLoginMenu = new CreateLoginMenu();
-    private java.awt.Menu offMenu = new OffMenu();
+    private Menu productMenu = new ProductMenu();
+    private Menu createLoginMenu = new CreateLoginMenu();
+    private Menu offMenu = new OffMenu();
 
     public MainMenu(){
         options.add("create account [manager|seller|customer] [username]");
@@ -36,10 +34,9 @@ public class MainMenu extends java.awt.Menu {
             } else if (getMatcher(input, "help").find()) {
                 help();
             } else if (getMatcher(input, "back").find()) {
-                if(previousMenu == null){
+                if (previousMenu == null) {
                     System.err.println("This your first menu.");
-                }
-                else{
+                } else {
                     previousMenu.run(this, input);
                 }
             } else {
