@@ -17,15 +17,10 @@ public abstract class Account {
 
 
 
-    public Account(String userName, String firstName, String lastName, String email, String phoneNumber, String passWord, double credit) {
+    public Account(String userName, String passWord) {
         this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
         this.passWord = passWord;
         this.offCodes = new ArrayList<CodedOff>();
-        this.credit = credit;
         this.sellOrBuyHistory = new ArrayList<BuyLog>();
         this.buyOrSellLogs = new ArrayList<BuyLog>();
         allAccounts.add(this);
@@ -103,5 +98,9 @@ public abstract class Account {
 
     public ArrayList<BuyLog> getBuyOrSellLogs() {
         return buyOrSellLogs;
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
     }
 }
