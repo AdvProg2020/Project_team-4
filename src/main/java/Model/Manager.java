@@ -1,86 +1,42 @@
 package Model;
 
-
-
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Manager extends Account {
 
-    private static boolean isFirstManagerCreatedOrNot = false;
+    private static HashMap<String, Manager> managers;
 
+    private static ArrayList<Request> registerSellerAccountRequests;
+    private static ArrayList<Request>  editProductsRequests;
+    private static ArrayList<Request> editOffRequests;
+    private static ArrayList<Account> allAccounts;
+    private static ArrayList<Category> categories;
 
-    private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
-    private static ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
-    private static ArrayList<RequestOff> editOffRequests = new ArrayList<>();
-    private static ArrayList<SaveAble> allAccounts = new ArrayList<>();
-    private static final ArrayList<SaveAble> categories = new ArrayList<>();
-
-
-
-
-    public Manager(String userName, String passWord) {
-        super(userName, passWord);
-        SaveAndLoad.getSaveAndLoad().writeJSON(this, Manager.class, userName);
-    }
-
-    public static void removeDiscount(String offName) {
-        if (CodedOff.getAllDiscounts().contains(CodedOff.getOffCodeWithName(offName))) {
-            CodedOff.getAllDiscounts().remove(CodedOff.getOffCodeWithName(offName));
-        }
-        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "offCodes");
-    }
+    private static ArrayList<CodedOff> offCodes;
 
     public void editOffCode(CodedOff offCode) {
         //offCodes.get(offCode)
     }
 
-    public static ArrayList<RequestANewSellerAccount> getRegisterSellerAccountRequests() {
+    public static ArrayList<Request> getRegisterSellerAccountRequests() {
         return registerSellerAccountRequests;
     }
 
-    public static ArrayList<RequestProduct> getEditProductsRequests() {
+    public static ArrayList<Request> getEditProductsRequest() {
         return editProductsRequests;
     }
 
-
-    public static ArrayList<RequestOff> getEditOffRequests() {
+    public static ArrayList<Request> getEditOffRequests() {
         return editOffRequests;
-    }
-
-    public static ArrayList<Request> getAllRequests() {
-        ArrayList<Request> allRequests = new ArrayList<>();
-        allRequests.addAll(registerSellerAccountRequests);
-        allRequests.addAll(editOffRequests);
-        allRequests.addAll(editProductsRequests);
-        return allRequests;
     }
 
     public void addOffCode() {
 
     }
 
-    public static boolean addANewManager(String userName, String passWord, Boolean isRequestFromManger) {
-        File directory = new File(System.getProperty("user.dir") + "\\" + Manager.class);
-        if (directory.isDirectory()) {
-            String[] files = directory.list();
-            isFirstManagerCreatedOrNot = files.length > 0;
-        }
-        if ((!isFirstManagerCreatedOrNot) || isRequestFromManger){
-            new Manager(userName, passWord);
-            isFirstManagerCreatedOrNot = false;
-            return true;
-        }
-        return false;
-    }
 
-//    public static boolean addANewSellerRequest(String userName, String passWord, String requestId) {
-//        registerSellerAccountRequests.add(new RequestANewSellerAccount(requestId, "Create a seller account", userName, passWord));
-//        return true;
-//    }
-
-
-    public ArrayList<SaveAble> getAllAccounts() {
+    public ArrayList<Account> getAllAccounts() {
         return allAccounts;
     }
 
@@ -98,170 +54,5 @@ public class Manager extends Account {
 
     public void addACategory() {
 
-    }
-
-
-    public static void AnswerRequest(Request request, boolean acceptOrDecline) {
-
-    }
-
-    public static boolean acceptRequest(String request1) {
-        Request request = getRequestByName(request1);
-        if (request.getRequestType() == RequestType.ACCOUNT) {
-            accountRequestAccept((RequestANewSellerAccount) request);
-            return true;
-        } else if (request.getRequestType() == RequestType.OFF) {
-            editOff((RequestOff) request);
-            return true;
-        } else if (request.getRequestType() == RequestType.PRODUCT){
-            editProduct((RequestProduct) request);
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean accountRequestAccept(RequestANewSellerAccount request) {
-        if (registerSellerAccountRequests.contains(request)) {
-            new Seller(request.getUserName(), request.getPassWord());
-            registerSellerAccountRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean addANewSellerRequest(String userName, String passWord) {
-        registerSellerAccountRequests.add(new RequestANewSellerAccount(RequestType.ACCOUNT, userName, passWord));
-        SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
-        return true;
-    }
-
-    private static boolean editProduct(RequestProduct request) {
-        if (editProductsRequests.contains(request)) {
-            if (request.getProductName().startsWith("productBarcode: ")) {
-                Product product = Product.getProductWithBarcode(request.getProductName().substring(17));
-                product.setAmountOfExist(request.getProductAmountOfExist());
-                product.setCategoryTags(request.getProductCategoryTags());
-                product.setCategory(request.getProductCategory());
-                product.setCompany(request.getProductCompany());
-                product.setCost(request.getProductCost());
-                product.setDescription(request.getProductDescription());
-                product.setTags(request.getProductTags());
-                for (String seller: product.getSellers()) {
-                    if (Seller.getAccountWithName(seller) != null) {
-                        Seller seller1 = ((Seller)Seller.getAccountWithName(seller));
-                        seller1.setSellingProducts(product.getProductBarcode());
-                        SaveAndLoad.getSaveAndLoad().writeJSON(seller1, Seller.class, seller1.getName());
-                    }
-                }
-                String category = product.getCategory();
-                Category.getCategoryByName(category).setProducts(product.getProductBarcode());
-                editProductsRequests.remove(request);
-                SaveAndLoad.getSaveAndLoad().saveGenerally();
-                return true;
-            } else {
-                Product product = Product.getProductWithBarcode(request.getProductName());
-                if (Product.getAllProducts().contains(product)) {
-                    Product.getAllProducts().remove(product);
-                }
-                Product product1 = new Product(request.getProduct());
-                for (String seller: product1.getSellers()) {
-                    if (Seller.getAccountWithName(seller) != null) {
-                        Seller seller1 = ((Seller)Seller.getAccountWithName(seller));
-                        seller1.setSellingProducts(product1.getProductBarcode());
-                        SaveAndLoad.getSaveAndLoad().writeJSON(seller1, Seller.class, seller1.getName());
-                    }
-                }
-                String category = product1.getCategory();
-                Category.getCategoryByName(category).setProducts(product1.getProductBarcode());
-                editProductsRequests.remove(request);
-//                SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
-                SaveAndLoad.getSaveAndLoad().saveGenerally();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean editOff(RequestOff request) {
-        if (editOffRequests.contains(request)) {
-            Off off = Off.getOffByBarcode(request.getOffName());
-            if (Off.getAllOffs().contains(off)) {
-                Off.getAllOffs().remove(off);
-            }
-            new Off(request.getOff().getStartDate(), request.getOff().getProducts(), request.getOff().getEndDate(), request.getOff().getOffAmount());
-            editOffRequests.remove(request);
-//            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
-            SaveAndLoad.getSaveAndLoad().saveGenerally();
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean declineRequest(String request1) {
-        Request request = getRequestByName(request1);
-        if (editOffRequests.contains(request)) {
-            editOffRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
-
-            return true;
-        } else if (editProductsRequests.contains(request)) {
-            editProductsRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editProductsRequests, ArrayList.class, "editProductsRequests");
-
-            return true;
-        } else if (registerSellerAccountRequests.contains(request)) {
-            registerSellerAccountRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
-
-            return true;
-        }
-        return false;
-    }
-
-    public static void setRegisterSellerAccountRequest(Request registerSellerAccountRequests) {
-        //Manager.registerSellerAccountRequests.add((RequestANewSellerAccount) registerSellerAccountRequests);
-    }
-
-    public static void setEditProductsRequest(Request editProductsRequests) {
-        Manager.editProductsRequests.add((RequestProduct) editProductsRequests);
-    }
-
-    public static void setEditOffRequests(Request editOffRequests) {
-        Manager.editOffRequests.add((RequestOff) editOffRequests);
-    }
-
-    public static Request getRequestByName(String id) {
-        for (Request request : registerSellerAccountRequests) {
-            if (request.getName().equalsIgnoreCase(id)) {
-                return request;
-            }
-        }
-        for (Request request : editOffRequests) {
-            if (request.getName().equalsIgnoreCase(id)) {
-                return request;
-            }
-        }
-        for (Request request : editProductsRequests) {
-            if (request.getName().equalsIgnoreCase(id)) {
-                return request;
-            }
-        }
-        return null;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Manager{" +
-                "userName='" + userName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", passWord='" + passWord + '\'' +
-                ", credit=" + credit +
-                '}';
     }
 }

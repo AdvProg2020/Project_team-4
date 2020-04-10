@@ -3,41 +3,16 @@ package Model;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Category extends SaveAble {
-    private static ArrayList<Category> allCategories = new ArrayList<>();
+public class Category {
+    private static HashMap<String, Category> categories;
     private String name;
     private ArrayList<String> tags;
-    private ArrayList<String> subCategories;
-    private ArrayList<String> products;
+    private ArrayList<Category> subCategories;
+    private ArrayList<Product> products;
 
-    public Category(String name, ArrayList<String> tags, ArrayList<String> products, ArrayList<String> subCategories) {
-        this.name = name;
-        if (allCategories.contains(getCategoryByName(name))) {
-            deleteCategoryAndProducts(name);
-        }
-        this.tags = tags;
-        this.subCategories = subCategories;
-        this.products = products;
-        for (String product: products) {
-            Product.getProductWithBarcode(product).setCategoryTags(tags);
-        }
-        allCategories.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
-    }
-
-    public static void deleteCategoryAndProducts(String name) {
-        Category categoryToDelete = getCategoryByName(name);
-        for (String product: categoryToDelete.products) {
-            if (Product.getAllProducts().contains(Product.getProductWithBarcode(product))) {
-                Product.getAllProducts().remove(Product.getProductWithBarcode(product));
-            }
-        }
-        allCategories.remove(categoryToDelete);
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
-    }
-
-    public static ArrayList<String> searchInCategories() {
+    public static ArrayList<Product> searchInCategories() {
         return null;
     }
 
@@ -45,53 +20,24 @@ public class Category extends SaveAble {
         return name;
     }
 
-    public static ArrayList<Product> getProductsOfACategory(String categoryName, ArrayList<String> filters) {
+    public static ArrayList<Product> getProductsOfACategory(Category category, ArrayList<String> filters) {
         ArrayList<Product> productsToShow = new ArrayList<Product>();
-        if (getCategoryByName(categoryName).products.size() != 0) {
-            for (String product : getCategoryByName(categoryName).products) {
-                if (filters.size() == 0 || Product.getProductWithBarcode(product).getCategoryTags().contains(filters)) {
-                    productsToShow.add(Product.getProductWithBarcode(product));
+        if (categories.get(category.getName()).products.size() != 0) {
+            for (Product product : categories.get(category.getName()).products) {
+                if (filters.size() == 0 || product.getCategoryTags().contains(filters)) {
+                    productsToShow.add(product);
                 }
             }
         }
-        for (String subCategory : getCategoryByName(categoryName).subCategories) {
-            if (Category.getCategoryByName(subCategory).products != null) {
-                Category.getCategoryByName(subCategory).getProductsOfACategory(Category.getCategoryByName(subCategory).getName(), filters);
+        for (Category subCategory : categories.get(category.getName()).subCategories) {
+            if (subCategory.products != null) {
+                subCategory.getProductsOfACategory(subCategory, filters);
             }
         }
         return productsToShow;
     }
 
-    public static Category getCategoryByName(String name) {
-        for (Category category : allCategories) {
-            if (category.getName().equalsIgnoreCase(name)) {
-                return category;
-            }
-        }
+    public static String compareBetweenTwoProduct(Category category, Product product1, Product product2) {
         return null;
     }
-
-    public static ArrayList<Category> getAllCategories() {
-        return allCategories;
-    }
-
-    public static String compareBetweenTwoProduct(String category, String product1, String product2) {
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "name='" + name + '\'' +
-                ", tags=" + tags +
-                ", subCategories=" + subCategories +
-                ", products=" + products +
-                '}';
-    }
-
-
-    public void setProducts(String products) {
-        this.products.add(products);
-    }
-
 }

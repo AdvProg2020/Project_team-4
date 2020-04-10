@@ -1,37 +1,18 @@
 package Model;
 
 
-import java.util.ArrayList;
 
-public class Comment extends SaveAble {
-    private String commentBarcode;
-    private static ArrayList<Comment> allComments;
-    private String commentingAccount;
-    private String product;
+public class Comment {
+    private Account commentingAccount;
+    private Product product;
     private String commentText;
     private enum commentStatus {
-        PROCESS, APPROVED, REJECTED
+        inProcessOfApproval, approved, notApproved
     }
     private boolean boughtTheProductOrNot;
 
-    public Comment(String commentingAccount, String product, String commentText, boolean boughtTheProductOrNot) {
-        this.commentingAccount = commentingAccount;
-        this.product = product;
-        this.commentText = commentText;
-        this.boughtTheProductOrNot = boughtTheProductOrNot;
-        allComments.add(this);
-    }
-
-    public String getCommentBarcode() {
-        return commentBarcode;
-    }
-
-    public boolean hasBoughtTheProductOrNot (String customer) {
+    public boolean hasBoughtTheProductOrNot (Customer customer) {
         return false;
     }
 
-    @Override
-    protected String getName() {
-        return commentBarcode;
-    }
 }

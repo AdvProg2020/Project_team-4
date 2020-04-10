@@ -1,48 +1,52 @@
 package Model;
-import java.io.File;
 
-public abstract class Account extends SaveAble {
+import java.util.ArrayList;
 
+public abstract class Account {
+    protected static ArrayList<Account> allAccounts = new ArrayList<Account>();
     protected String userName;
     protected String firstName;
     protected String lastName;
     protected String email;
     protected String phoneNumber;
     protected String passWord ;
-
+    protected ArrayList<CodedOff> offCodes;
     protected double credit;
+    protected ArrayList<BuyLog> sellOrBuyHistory;
+    protected ArrayList<BuyLog> buyOrSellLogs;
 
 
-    public Account(String userName, String passWord) {
+
+    public Account(String userName, String firstName, String lastName, String email, String phoneNumber, String passWord, double credit) {
         this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.passWord = passWord;
+        this.offCodes = new ArrayList<CodedOff>();
+        this.credit = credit;
+        this.sellOrBuyHistory = new ArrayList<BuyLog>();
+        this.buyOrSellLogs = new ArrayList<BuyLog>();
+        allAccounts.add(this);
     }
 
-    public static Account getAccountWithName(String name){
-        Account account;
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSON(name, Manager.class);
-        if(account != null){
-            return account;
+    public static Account getAccountWithName(String name) {
+        for (Account account : allAccounts) {
+            if (account.getUserName().equalsIgnoreCase(name)) {
+                return account;
+            }
         }
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSON(name, Customer.class);
-        if(account != null){
-            return account;
-        }
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSON(name, Seller.class);
-        return account;
+        return null;
     }
 
-    public static void deleteAccount(Account account) {
-        File file = new File(account.getClass() + "\\" + account.getUserName());
-        file.delete();
-    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName   = lastName;
     }
 
     public void setEmail(String email) {
@@ -55,6 +59,10 @@ public abstract class Account extends SaveAble {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    public ArrayList<Account> getAllAccounts() {
+        return allAccounts;
     }
 
     public String getUserName() {
@@ -81,16 +89,19 @@ public abstract class Account extends SaveAble {
         return passWord;
     }
 
+    public ArrayList<CodedOff> getOffCodes() {
+        return offCodes;
+    }
+
     public double getCredit() {
         return credit;
     }
 
-    public void setCredit(double credit) {
-        this.credit = credit;
+    public ArrayList<BuyLog> getSellOrBuyHistory() {
+        return sellOrBuyHistory;
     }
 
-    @Override
-    protected String getName() {
-        return userName;
+    public ArrayList<BuyLog> getBuyOrSellLogs() {
+        return buyOrSellLogs;
     }
 }
