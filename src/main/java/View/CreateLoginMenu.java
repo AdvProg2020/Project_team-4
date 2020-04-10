@@ -1,10 +1,8 @@
 package View;
 
-import java.awt.Menu;
-
 import static View.CommandProcessor.getMatcher;
 
-public class CreateLoginMenu extends java.awt.Menu {
+public class CreateLoginMenu extends Menu{
 
     public CreateLoginMenu(){
         options.add("create account [manager|seller|customer] [username]");

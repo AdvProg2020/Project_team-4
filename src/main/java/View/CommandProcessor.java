@@ -1,6 +1,7 @@
 package View;
 
 
+import Controll.Controller;
 import Model.Account;
 import Model.Customer;
 import Model.Product;
@@ -59,7 +60,7 @@ public class CommandProcessor {
             case 2:
             case 3:
         }
-        switch (getTypeFromUsername(splitInput[1])) {
+        switch (Controller.getController().getTypeFromUsername(splitInput[1])) {
             case "manager":
                 managerMenu.run(createLoginMenu, null);
                 break;
@@ -74,7 +75,7 @@ public class CommandProcessor {
 
     public static void getPersonalInfo(){
         ArrayList<String> personalInfos = new ArrayList<>();
-        personalInfos.addAll(requestPersonalInfo());
+        personalInfos.addAll(Controller.getController().requestPersonalInfo());
         for (String personalInfo : personalInfos) {
             System.out.println(personalInfo);
         }
@@ -82,14 +83,14 @@ public class CommandProcessor {
 
     public static void getCompanyInfo(){
         ArrayList<String> companyInfos = new ArrayList<>();
-        companyInfos.addAll(requestCompanyInfo());
+        companyInfos.addAll(Controller.getController().requestCompanyInfo());
         for (String companyInfo : companyInfos) {
             System.out.println(companyInfo);
         }
     }
 
     public static void editField(String[] splitInput){
-        switch(requestEditField(splitInput[1], splitInput[3])){
+        switch(Controller.getController().requestEditField(splitInput[1], splitInput[3])){
             case true:
             case false:
         }
@@ -97,7 +98,7 @@ public class CommandProcessor {
 
     public static void getSalesHistory(){
         ArrayList<String> salesHistory = new ArrayList<>();
-        salesHistory.addAll(requestSalesHistoryInfo());
+        salesHistory.addAll(Controller.getController().requestSalesHistoryInfo());
         for (String saleHistory : salesHistory) {
             System.out.println(saleHistory);
         }
@@ -105,19 +106,19 @@ public class CommandProcessor {
 
     public static void manageProducts(){
         ArrayList<Product> products = new ArrayList<>();
-        products.addAll(requestListOfProducts());
+        products.addAll(Controller.getController().requestListOfProducts());
         for (Product product : products) {
             System.out.println(product);
         }
     }
 
     public static void getProductInfo(){
-        System.out.println(requestProductInfo());
+        System.out.println(Controller.getController().requestProductInfo());
     }
 
     public static void getProductBuyers(){
         ArrayList<Account> buyers = new ArrayList<>();
-        buyers.addAll(requestProductBuyers());
+        buyers.addAll(Controller.getController().requestProductBuyers());
         for (Account buyer : buyers) {
             System.out.println(buyer);
         }
@@ -125,23 +126,23 @@ public class CommandProcessor {
 
     public static void showEditableField(){
         ArrayList<String> fields = new ArrayList<>();
-        fields.addAll(requestProductFields());
+        fields.addAll(Controller.getController().requestProductFields());
         for (String field : fields) {
             System.out.println(field);
         }
         getCommandEdit();
     }
 
-    public void getCommandEdit(){
+    public static void getCommandEdit(){
         System.out.println("Enter field that you want to edit: ");
         String editField = scanner.nextLine();
         System.out.println("Enter new value: ");
         String newValue = scanner.nextLine();
-        requestedit(editField, newValue);
+        Controller.getController().requestEdit(editField, newValue);
     }
 
     public static void addProduct(){
-        requestAddingNewProduct();
+        Controller.getController().requestAddingNewProduct();
     }
 
     public static void showAddProductFields(){

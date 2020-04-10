@@ -28,13 +28,13 @@ public class SellerMenu extends Menu {
             } else if (getMatcher(input, "add product").find()) {
                 CommandProcessor.addProduct();
             } else if (getMatcher(input, "remove product [productId]").find()) {
-                CommandProcessor
+                CommandProcessor.removeProduct();
             } else if (getMatcher(input, "show categories").find()) {
-                CommandProcessor
+                CommandProcessor.showCategories();
             } else if (getMatcher(input, "view offs").find()) {
-
+                CommandProcessor.viewOffs();
             } else if (getMatcher(input, "view balance").find()) {
-
+                CommandProcessor.viewBalance();
             } else if (getMatcher(input, "help").find()) {
                 help();
             } else if (getMatcher(input, "back").find()) {
