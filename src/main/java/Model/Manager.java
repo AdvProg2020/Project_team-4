@@ -15,6 +15,10 @@ public class Manager extends Account {
 
     private static ArrayList<CodedOff> offCodes;
 
+    public Manager(String userName, String firstName, String lastName, String email, String phoneNumber, String passWord, double credit) {
+        super(userName, firstName, lastName, email, phoneNumber, passWord, credit);
+    }
+
     public void editOffCode(CodedOff offCode) {
         //offCodes.get(offCode)
     }

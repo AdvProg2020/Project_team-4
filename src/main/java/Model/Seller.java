@@ -9,6 +9,10 @@ public class Seller extends Account {
     private ArrayList<Product> sellingProducts;
     private ArrayList<Off> offs;
 
+    public Seller(String userName, String firstName, String lastName, String email, String phoneNumber, String passWord, double credit) {
+        super(userName, firstName, lastName, email, phoneNumber, passWord, credit);
+    }
+
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
