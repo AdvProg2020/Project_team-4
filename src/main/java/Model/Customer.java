@@ -6,6 +6,10 @@ public class Customer extends Account {
     private ArrayList<Product> cart;
     private ArrayList<BuyLog> buyingHistory;
 
+    public Customer(String userName, String firstName, String lastName, String email, String phoneNumber, String passWord, double credit) {
+        super(userName, firstName, lastName, email, phoneNumber, passWord, credit);
+    }
+
 
     public ArrayList<Product> getProducts() {
         return null;
