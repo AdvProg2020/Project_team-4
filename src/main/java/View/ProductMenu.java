@@ -1,6 +1,7 @@
 package View;
 
-import static View.CommandProcessor.getMatcher;
+import static View.Manager.getMatcher;
+import static View.Manager.getMatcher;
 
 public class ProductMenu extends Menu {
 
@@ -10,7 +11,7 @@ public class ProductMenu extends Menu {
 
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
-        while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             if (getMatcher(input, "digest").find()) {
 
             } else if (getMatcher(input, "attributes").find()) {
@@ -28,7 +29,7 @@ public class ProductMenu extends Menu {
                     previousMenu.run(this, input);
                 }
             } else {
-                if (CommandProcessor.isValidCommand(input)) {
+                if (Manager.isValidCommand(input)) {
                     System.err.println("You must login first");
                 } else {
                     System.err.println("invalid command");

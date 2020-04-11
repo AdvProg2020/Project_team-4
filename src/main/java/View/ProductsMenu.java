@@ -1,11 +1,11 @@
 package View;
 
-import static View.CommandProcessor.getMatcher;
+import static View.Manager.getMatcher;
 
 public class ProductsMenu extends Menu{
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
-        while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             if (getMatcher(input, "view category").find()) {
                 CommandProcessor.processCreateAccount(input.split("\\s"));
             } else if (getMatcher(input, "filtering").find()) {
@@ -25,7 +25,7 @@ public class ProductsMenu extends Menu{
                     previousMenu.run(this, input);
                 }
             } else {
-                if (CommandProcessor.isValidCommand(input)) {
+                if (Manager.isValidCommand(input)) {
                     System.err.println("You must login first");
                 } else {
                     System.err.println("invalid command");

@@ -1,40 +1,53 @@
 package View;
 
-import static View.CommandProcessor.getMatcher;
+import static View.Manager.*;
 
 public class SellerMenu extends Menu {
 
     public SellerMenu() {
-
+        options.add("view personal info");
+        options.add("view company information");
+        options.add("view sales history");
+        options.add("manage products");
+        options.add("view [productId]");
+        options.add("view buyers [productId]");
+        options.add("edit [productId]");
+        options.add("add product");
+        options.add("remove product [productId]");
+        options.add("show categories");
+        options.add("view offs");
+        options.add("view balance");
+        options.add("help");
+        options.add("back");
     }
 
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
-        while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             if (getMatcher(input, "view personal info").find()) {
-                CommandProcessor.getPersonalInfo();
+                getPersonalInfo();
             } else if (getMatcher(input, "view company information").find()) {
-                CommandProcessor.getCompanyInfo();
+                getCompanyInfo();
             } else if (getMatcher(input, "view sales history").find()) {
-                CommandProcessor.getSalesHistory();
+                getSalesHistory();
             } else if (getMatcher(input, "manage products").find()) {
-                CommandProcessor.manageProducts();
+                manageProducts();
             } else if (getMatcher(input, "view [productId]").find()) {
-                CommandProcessor.getProductInfo();
+                getProductInfo();
             } else if (getMatcher(input, "view buyers [productId]").find()) {
-                CommandProcessor.getProductBuyers();
+                getProductBuyers();
             } else if (getMatcher(input, "edit [productId]").find()) {
-                CommandProcessor.showEditableField();
+                showEditableField();
             } else if (getMatcher(input, "add product").find()) {
-                CommandProcessor.addProduct();
+                getProductInfoForAdd();
             } else if (getMatcher(input, "remove product [productId]").find()) {
-                CommandProcessor.removeProduct();
+                removeProduct();
             } else if (getMatcher(input, "show categories").find()) {
-                CommandProcessor.showCategories();
+                showCategories();
             } else if (getMatcher(input, "view offs").find()) {
-                CommandProcessor.viewOffs();
+                viewOffs();
             } else if (getMatcher(input, "view balance").find()) {
-                CommandProcessor.viewBalance();
+                viewBalance();
             } else if (getMatcher(input, "help").find()) {
                 help();
             } else if (getMatcher(input, "back").find()) {
@@ -44,7 +57,7 @@ public class SellerMenu extends Menu {
                     previousMenu.run(this, input);
                 }
             } else {
-                if (CommandProcessor.isValidCommand(input)) {
+                if (Manager.isValidCommand(input)) {
                     System.err.println("You must login first");
                 } else {
                     System.err.println("invalid command");
