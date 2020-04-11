@@ -1,29 +1,30 @@
 package View;
 
-import static View.CommandProcessor.getMatcher;
+import static View.Manager.*;
 
 public class ManagerMenu extends Menu {
 
 
     public ManagerMenu() {
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
+        options.add("view personal info");
+        options.add("edit [field] to [new]");
+        options.add("manage users");
+        options.add("manage all products");
+        options.add("create discount code");
+        options.add("view discount codes");
+        options.add("manage requests");
+        options.add("manage categories");
+        options.add("help");
+        options.add("back");
     }
 
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
-        while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             if (getMatcher(input, "view personal info").find()) {
-                CommandProcessor.getPersonalInfo();
+                getPersonalInfo();
             } else if (getMatcher(input, "edit [field] to [new]").find()) {
-                CommandProcessor.editField(input.split("\\s"));
+                editField(input.split("\\s"));
             } else if (getMatcher(input, "manage users").find()) {
 
             } else if (getMatcher(input, "manage all products").find()) {
@@ -45,7 +46,7 @@ public class ManagerMenu extends Menu {
                     previousMenu.run(this, input);
                 }
             } else {
-                if (CommandProcessor.isValidCommand(input)) {
+                if (Manager.isValidCommand(input)) {
                     System.err.println("You must login first");
                 } else {
                     System.err.println("invalid command");
