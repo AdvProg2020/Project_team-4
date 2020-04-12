@@ -26,7 +26,7 @@ public class Manager {
     private static Menu mainMenu = new MainMenu();
 
 
-    /**************************general fuctions*************************************/
+    /**************************general functions*************************************/
 
     public static boolean isValidCommand(String command) {
         for (String validCommand : validCommands) {
@@ -177,4 +177,9 @@ public class Manager {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
+
+
+    /*****************ControllerFunctions*******************/
+
+
 }

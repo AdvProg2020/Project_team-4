@@ -38,18 +38,6 @@ public class CustomerMenu extends Menu {
 
             } else if (getMatcher(input, "view discount codes").find()) {
 
-            } else if (getMatcher(input, "products").find()) {
-
-            } else if (getMatcher(input, "view categories").find()) {
-
-            } else if (getMatcher(input, "filtering").find()) {
-
-            } else if (getMatcher(input, "sorting").find()) {
-
-            } else if (getMatcher(input, "show products").find()) {
-
-            } else if (getMatcher(input, "show product [productId]").find()) {
-
             } else if (getMatcher(input, "help").find()) {
                 help();
             } else if (getMatcher(input, "back").find()) {
