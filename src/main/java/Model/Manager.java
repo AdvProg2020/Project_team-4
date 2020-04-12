@@ -5,7 +5,17 @@ import java.util.HashMap;
 
 public class Manager extends Account {
 
-    private static HashMap<String, Manager> managers;
+    private static boolean isTheFirstManagerCreatedOrNot;
+
+    private static ArrayList<Manager> allManagers;
+
+    public Manager(String userName, String passWord) {
+        super(userName, passWord);
+        allManagers.add(this);
+        isTheFirstManagerCreatedOrNot = true;
+    }
+
+    private static ArrayList<Manager> managers;
 
     private static ArrayList<Request> registerSellerAccountRequests;
     private static ArrayList<Request>  editProductsRequests;
@@ -14,6 +24,10 @@ public class Manager extends Account {
     private static ArrayList<Category> categories;
 
     private static ArrayList<CodedOff> offCodes;
+
+    public Manager(String userName, String firstName, String lastName, String email, String phoneNumber, String passWord, double credit) {
+        super(userName, firstName, lastName, email, phoneNumber, passWord, credit);
+    }
 
     public void editOffCode(CodedOff offCode) {
         //offCodes.get(offCode)
@@ -33,6 +47,19 @@ public class Manager extends Account {
 
     public void addOffCode() {
 
+    }
+
+    public static boolean addANewManager(String userName, String passWord) {
+        if (isTheFirstManagerCreatedOrNot){
+            return false;
+        }
+        allManagers.add(new Manager(userName, passWord));
+        return true;
+    }
+
+    public static boolean addANewSellerRequest(String userName, String passWord) {
+        registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
+        return true;
     }
 
 
@@ -55,4 +82,8 @@ public class Manager extends Account {
     public void addACategory() {
 
     }
+
+
+
+
 }
