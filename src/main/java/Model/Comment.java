@@ -1,8 +1,10 @@
 package Model;
 
 
+import java.util.ArrayList;
 
 public class Comment {
+    private static ArrayList<Comment> allComments;
     private Account commentingAccount;
     private Product product;
     private String commentText;
@@ -10,6 +12,14 @@ public class Comment {
         inProcessOfApproval, approved, notApproved
     }
     private boolean boughtTheProductOrNot;
+
+    public Comment(Account commentingAccount, Product product, String commentText, boolean boughtTheProductOrNot) {
+        this.commentingAccount = commentingAccount;
+        this.product = product;
+        this.commentText = commentText;
+        this.boughtTheProductOrNot = boughtTheProductOrNot;
+        allComments.add(this);
+    }
 
     public boolean hasBoughtTheProductOrNot (Customer customer) {
         return false;
