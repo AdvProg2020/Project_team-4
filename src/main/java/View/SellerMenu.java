@@ -1,17 +1,20 @@
 package View;
 
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import static View.Commands.getEnumNameByRegex;
 import static View.Manager.*;
+
 
 public class SellerMenu extends Menu {
 
+    private ArrayList<String> regexOfThisMenu = new ArrayList<>();
+    private Commands commands;
+
     public SellerMenu() {
-        options.add("view personal info");
         options.add("view company information");
         options.add("view sales history");
         options.add("manage products");
-        options.add("view [productId]");
-        options.add("view buyers [productId]");
-        options.add("edit [productId]");
         options.add("add product");
         options.add("remove product [productId]");
         options.add("show categories");
@@ -21,50 +24,81 @@ public class SellerMenu extends Menu {
         options.add("back");
     }
 
+    private String getEnumName(ArrayList<String> allRegex, String input) {
+        for (String regex : allRegex) {
+            if (getMatcher(input, regex).find()) {
+                return getEnumNameByRegex(regex);
+            }
+        }
+        return null;
+    }
+
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "view personal info").find()) {
-                getPersonalInfo();
-            } else if (getMatcher(input, "view company information").find()) {
-                getCompanyInfo();
-            } else if (getMatcher(input, "view sales history").find()) {
-                getSalesHistory();
-            } else if (getMatcher(input, "manage products").find()) {
-                manageProducts();
-            } else if (getMatcher(input, "view [productId]").find()) {
-                getProductInfo();
-            } else if (getMatcher(input, "view buyers [productId]").find()) {
-                getProductBuyers();
-            } else if (getMatcher(input, "edit [productId]").find()) {
-                showEditableField();
-            } else if (getMatcher(input, "add product").find()) {
-                getProductInfoForAdd();
-            } else if (getMatcher(input, "remove product [productId]").find()) {
-                removeProduct();
-            } else if (getMatcher(input, "show categories").find()) {
-                showCategories();
-            } else if (getMatcher(input, "view offs").find()) {
-                viewOffs();
-            } else if (getMatcher(input, "view balance").find()) {
-                viewBalance();
-            } else if (getMatcher(input, "help").find()) {
-                help();
-            } else if (getMatcher(input, "back").find()) {
-                if (previousMenu == null) {
-                    System.err.println("This your first menu.");
-                } else {
-                    previousMenu.run(this, input);
-                }
-            } else {
-                if (Manager.isValidCommand(input)) {
-                    System.err.println("You must login first");
-                } else {
-                    System.err.println("invalid command");
-                }
+            switch (getEnumName(commands.getAllRegex(), input)) {
+                case "VIEW_PERSONAL_INFO":
+                    getPersonalInfo();
+                    if ("EDIT_PERSONAL_INFO".equals(getEnumName(commands.getAllRegex(), input))) {
 
+                    }
+                case "VIEW_COMPANY_INFORMATION":
+                    getCompanyInfo();
+                    break;
+                case "VIEW_SALES_HISTORY":
+                    getSalesHistory();
+                    break;
+                case "MANAGE_PRODUCTS":
+                    manageProducts();
+                    switch (getEnumName(regexOfThisMenu, input)) {
+                        case "VIEW_PRODUCT":
+                            getProductInfo();
+                            break;
+                        case "VIEW_BUYERS":
+                            getProductBuyers();
+                            break;
+                        case "EDIT_PRODUCT":
+                            showEditableField();
+                            break;
+                    }
+                    break;
+
+                case "ADD_PRODUCT":
+                    getProductInfoForAdd();
+                    break;
+                case "REMOVE_PRODUCT":
+                    removeProduct();
+                    break;
+                case "SHOW_CATEGORIES":
+                    showCategories();
+                    break;
+                case "VIEW_OFFS":
+                    viewOffs();
+                    break;
+                case "VIEW_BALANCE":
+                    viewBalance();
+                    break;
+                case "HELP":
+                    help();
+                    break;
+                case "BACK":
+                    if (previousMenu == null) {
+                        System.err.println("This your first menu.");
+                    } else {
+                        previousMenu.run(this, input);
+                    }
+                    break;
+                default:
+                    if (Manager.isValidCommand(input)) {
+                        System.err.println("You must login first");
+                    } else {
+                        System.err.println("invalid command");
+                    }
+                    break;
             }
         }
-    }
-}
 
+
+    }
+
+}
