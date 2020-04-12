@@ -25,4 +25,16 @@ public class CodedOff {
     public String getOffBarcode() {
         return offBarcode;
     }
+
+    @Override
+    public String toString() {
+        return "CodedOff{" +
+                "offBarcode='" + offBarcode + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", offAmount=" + offAmount +
+                ", numberOfUsageForEachAccount=" + numberOfUsageForEachAccount +
+                ", discountIsForTheseAccounts=" + discountIsForTheseAccounts +
+                '}';
+    }
 }
