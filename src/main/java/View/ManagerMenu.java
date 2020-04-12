@@ -1,0 +1,60 @@
+package View;
+
+import static View.Manager.*;
+
+public class ManagerMenu extends Menu {
+
+
+    public ManagerMenu() {
+        options.add("view personal info");
+        options.add("edit [field] to [new]");
+        options.add("manage users");
+        options.add("manage all products");
+        options.add("create discount code");
+        options.add("view discount codes");
+        options.add("manage requests");
+        options.add("manage categories");
+        options.add("help");
+        options.add("back");
+    }
+
+    public void run(Menu previousMenu, String input) {
+        System.out.println("Enter your command :");
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
+            if (getMatcher(input, "view personal info").find()) {
+                getPersonalInfo();
+            } else if (getMatcher(input, "edit [field] to [new]").find()) {
+                editField(input.split("\\s"));
+            } else if (getMatcher(input, "manage users").find()) {
+
+            } else if (getMatcher(input, "manage all products").find()) {
+
+            } else if (getMatcher(input, "create discount code").find()) {
+
+            } else if (getMatcher(input, "view discount codes").find()) {
+
+            } else if (getMatcher(input, "manage requests").find()) {
+
+            } else if (getMatcher(input, "manage categories").find()) {
+
+            } else if (getMatcher(input, "help").find()) {
+                help();
+            } else if (getMatcher(input, "back").find()) {
+                if (previousMenu == null) {
+                    System.err.println("This your first menu.");
+                } else {
+                    previousMenu.run(this, input);
+                }
+            } else {
+                if (Manager.isValidCommand(input)) {
+                    System.err.println("You must login first");
+                } else {
+                    System.err.println("invalid command");
+                }
+
+            }
+        }
+    }
+
+}
+
