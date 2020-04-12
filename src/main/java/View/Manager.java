@@ -1,22 +1,30 @@
 package View;
 
 import Control.Controller;
-import Model.Account;
 import Model.Product;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static View.Commands.findEnum;
+import static View.Outputs.*;
+import static View.ProductMenu.giveProductId;
 import static java.lang.Double.parseDouble;
 
 
 public class Manager {
+
+
+    //--------> fields
     public static Scanner scanner;
+    public static Commands commands;
+    public static CommandProcessor commandProcessor = new CommandProcessor();
     public static ArrayList<String> validCommands = new ArrayList<>();
 
-    //Menus.
+    // -------> menus
     private static Menu createLoginMenu = new CreateLoginMenu();
     private static Menu managerMenu = new ManagerMenu();
     private static Menu sellerMenu = new SellerMenu();
@@ -29,35 +37,42 @@ public class Manager {
     /**************************general functions*************************************/
 
     public static boolean isValidCommand(String command) {
-        for (String validCommand : validCommands) {
-            if (validCommand.equals(command)) {
-                return true;
-            }
-        }
-        return false;
+        if(findEnum(commands.getAllRegex(), command).equals(null))
+            return false;
+        else
+            return true;
     }
 
+    public static boolean isAnyUserLogin(){
+        return Controller.getOurController().requestIsAnyUserLogin();
+    }
     public static String getType(){
-        return Controller.getOurController.requestLoginedUser();
+        return Controller.getOurController().requestLoginedUser();
     }
 
     /*****************************Create/Login****************************************/
-
-    public static int CreateAccount(String type, String username, String password) {
-        return Controller.getOurController().requestCreateAccount(type, username, password);
+    public static void createAccount(String type, String username, String password) {
+        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
     }
 
-    public static int Login(String username, String password) {
-        return Controller.getOurController().requestLogin(username, password);
+    public static void login(String username, String password) {
+        printLoginResult(Controller.getOurController().requestLogin(username, password));
     }
-
 
     public static String requestPassword() {
         System.out.println("Enter your password:");
         return CommandProcessor.scanner.nextLine();
     }
 
-    /******************************************************************************/
+    /***************************************OffsMenu***************************************/
+    public static void offsList(){
+        printOffsListResult(Controller.getOurController().requestOffsList());
+    }
+
+    public static void showProduct(String productId){
+        giveProductId(productId);
+
+    }
 
     public static void getPersonalInfo() {
         ArrayList<String> personalInfos = new ArrayList<>();
@@ -179,7 +194,7 @@ public class Manager {
     }
 
 
-    /*****************ControllerFunctions*******************/
+    /*****************RelatedControllerFunctions*******************/
 
 
 }

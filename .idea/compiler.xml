@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="AP-Project" />
         <module name="Project_team-4" />
+        <module name="Project" />
         <module name="APproject" />
       </profile>
     </annotationProcessing>
