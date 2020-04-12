@@ -5,6 +5,8 @@ import Controll.Controller;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static View.Manager.*;
+import static View.Outputs.printCreateAccountResult;
+import static View.Outputs.printLoginResult;
 
 public class CommandProcessor {
     public static Manager manager = new Manager();
@@ -26,31 +28,19 @@ public class CommandProcessor {
     }
 
     public static void processCreateAccount(String[] splitInput) {
-        switch (Manager.CreateAccount(splitInput[2], splitInput[3], requestPassword())) {
-            case 1:
-            case 2:
-            case 3:
-        }
+        Manager.createAccount(splitInput[2], splitInput[3], requestPassword());
     }
 
     public static void processLogin(String[] splitInput) {
-        switch (Manager.Login(splitInput[1], requestPassword())) {
-            case 1:
-            case 2:
-            case 3:
-        }
-        switch (Controller.getOurController().getTypeFromUsername(splitInput[1])) {
-            case "manager":
-                managerMenu.run(createLoginMenu, null);
-                break;
-            case "seller":
-                sellerMenu.run(createLoginMenu, null);
-                break;
-            case "customer":
-                customerMenu.run(createLoginMenu, null);
-                break;
-        }
+        Manager.login(splitInput[1], requestPassword());
     }
 
+    public static void processOffsList(String[] splitInput) {
+        Manager.offsList();
+    }
+
+    public static void processShowProduct(String[] splitInput){
+        Manager.showProduct(splitInput[2]);
+    }
 
 }

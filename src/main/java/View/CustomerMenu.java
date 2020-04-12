@@ -19,8 +19,6 @@ public class CustomerMenu extends Menu {
         options.add("show product [productId]");
         options.add("help");
         options.add("back");
-
-
     }
 
     public void run(Menu previousMenu, String input) {
