@@ -1,4 +1,4 @@
-package Controll;
+package Control;
 
 public class Controller {
     private Controller ourControll = new Controller();
