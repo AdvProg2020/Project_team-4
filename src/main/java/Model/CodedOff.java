@@ -21,4 +21,8 @@ public class CodedOff {
         this.discountIsForTheseAccounts = new ArrayList<Account>();
         allOfCodes.add(this);
     }
+
+    public String getOffBarcode() {
+        return offBarcode;
+    }
 }
