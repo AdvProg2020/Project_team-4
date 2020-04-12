@@ -1,19 +1,28 @@
 package View;
 
-import static View.Manager.getMatcher;
-import static View.Manager.showOffProductList;
+
+import static View.CommandProcessor.*;
+import static View.Commands.findEnum;
+import static View.Manager.*;
 
 public class OffMenu extends Menu {
     public OffMenu() {
-        options.add("");
-
+        options.add("show product [productId]");
+        options.add("help");
+        options.add("back");
+        options.add("logout");
     }
 
     public void run(Menu previousMenu, String input) {
-        showOffProductList();
+        processOffsList(input.split("\\s"));
         System.out.println("Enter your command :");
         while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "show product [productId]").find()) {
+            switch(findEnum(commands.getAllRegex(), input)){
+                case "SHOW_PRODUCT":
+                    processShowProduct(input.split("\\s"));
+                case "HELP":
+                case "BACK":
+                case "LOGOUT":
             }
         }
     }

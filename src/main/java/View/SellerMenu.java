@@ -1,15 +1,11 @@
 package View;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-import static View.Commands.getEnumNameByRegex;
+import static View.Commands.;
 import static View.Manager.*;
 
 
 public class SellerMenu extends Menu {
-
-    private ArrayList<String> regexOfThisMenu = new ArrayList<>();
-    private Commands commands;
 
     public SellerMenu() {
         options.add("view company information");
@@ -22,24 +18,18 @@ public class SellerMenu extends Menu {
         options.add("view balance");
         options.add("help");
         options.add("back");
+        options.add("logout");
     }
 
-    private String getEnumName(ArrayList<String> allRegex, String input) {
-        for (String regex : allRegex) {
-            if (getMatcher(input, regex).find()) {
-                return getEnumNameByRegex(regex);
-            }
-        }
-        return null;
-    }
+
 
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            switch (getEnumName(commands.getAllRegex(), input)) {
+            switch (findEnum(commands.getAllRegex(), input)) {
                 case "VIEW_PERSONAL_INFO":
                     getPersonalInfo();
-                    if ("EDIT_PERSONAL_INFO".equals(getEnumName(commands.getAllRegex(), input))) {
+                    if ("EDIT_PERSONAL_INFO".equals(findEnum(commands.getAllRegex(), input))) {
 
                     }
                 case "VIEW_COMPANY_INFORMATION":
@@ -50,7 +40,7 @@ public class SellerMenu extends Menu {
                     break;
                 case "MANAGE_PRODUCTS":
                     manageProducts();
-                    switch (getEnumName(regexOfThisMenu, input)) {
+                    switch (findEnum(regexOfThisMenu, input)) {
                         case "VIEW_PRODUCT":
                             getProductInfo();
                             break;

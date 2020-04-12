@@ -1,52 +1,65 @@
 package View;
 
-import static View.Manager.getMatcher;
-import static View.Manager.getMatcher;
+import static View.CommandProcessor.*;
+import static View.Commands.findEnum;
+import static View.Manager.*;
 
-public class MainMenu extends Menu{
+public class MainMenu extends Menu {
 
 
     private Menu productMenu = new ProductMenu();
+    private Menu productsMenu = new ProductsMenu();
+    private Menu mainMenu = new MainMenu();
     private Menu createLoginMenu = new CreateLoginMenu();
     private Menu offMenu = new OffMenu();
 
-    public MainMenu(){
+    public MainMenu() {
         options.add("create account [manager|seller|customer] [username]");
         options.add("login [username]");
         options.add("products");
         options.add("offs");
         options.add("help");
         options.add("back");
-
+        options.add("logout");
     }
-
 
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "create account [manager|seller|customer] [username]").find()) {
-                Manager.processCreateAccount(input.split("\\s"));
-            } else if (getMatcher(input, "login [username]").find()) {
-                Manager.processLogin(input.split("\\s"));
-            } else if (getMatcher(input, "products").find()) {
-                productMenu.run(this, input);
-            } else if (getMatcher(input, "offs").find()) {
-                offMenu.run(this , input);
-            } else if (getMatcher(input, "help").find()) {
-                help();
-            } else if (getMatcher(input, "back").find()) {
-                if (previousMenu == null) {
-                    System.err.println("This your first menu.");
-                } else {
-                    previousMenu.run(this, input);
-                }
-            } else {
-                if (Manager.isValidCommand(input)) {
-                    System.err.println("You must login first");
-                } else {
-                    System.err.println("invalid command");
-                }
+            switch (findEnum(commands.getAllRegex(), input)) {
+                case "CREATE_ACCOUNT":
+                    processCreateAccount(input.split("\\s"));
+                    break;
+                case "LOGIN":
+                    processLogin(input.split("\\s"));
+                    break;
 
+                case "PRODUCTS":
+                    productsMenu.run(this, input);
+                    break;
+
+                case "OFFS":
+                    offMenu.run(this, input);
+                    break;
+
+                case "HELP":
+                    help();
+                    break;
+
+                case "BACK":
+                    if (previousMenu == null) {
+                        System.err.println("This your first menu.");
+                    } else {
+                        previousMenu.run(this, input);
+                    }
+                    break;
+                default:
+                    if (Manager.isValidCommand(input)) {
+                        System.err.println("You must login first");
+                    } else {
+                        System.err.println("invalid command");
+                    }
+                    break;
             }
         }
     }

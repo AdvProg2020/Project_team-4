@@ -1,39 +1,47 @@
 package View;
 
-import static View.Manager.getMatcher;
+import static View.Commands.findEnum;
+import static View.Manager.commands;
 import static View.Manager.getMatcher;
 
 public class ProductMenu extends Menu {
+
+    private static String productId;
 
     public ProductMenu() {
 
     }
 
+    public static void giveProductId(String productId) {
+        ProductMenu.productId = productId;
+    }
+
+
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "digest").find()) {
-
-            } else if (getMatcher(input, "attributes").find()) {
-
-            } else if (getMatcher(input, "compare [productID]").find()) {
-
-            } else if (getMatcher(input, "Comments").find()) {
-
-            } else if (getMatcher(input, "help").find()) {
-                help();
-            } else if (getMatcher(input, "back").find()) {
-                if (previousMenu == null) {
-                    System.err.println("This your first menu.");
-                } else {
-                    previousMenu.run(this, input);
-                }
-            } else {
-                if (Manager.isValidCommand(input)) {
-                    System.err.println("You must login first");
-                } else {
-                    System.err.println("invalid command");
-                }
+            switch (findEnum(commands.getAllRegex(), input)) {
+                case "DIGEST":
+                case "ATTRIBUTES":
+                case "COMPARE":
+                case "COMMENTS":
+                case "HELP":
+                case "BACK":
+                    if (previousMenu == null) {
+                        System.err.println("This your first menu.");
+                    } else {
+                        previousMenu.run(this, input);
+                    }
+                    break;
+                case "LOGIN":
+                case "CREATE_ACCOUNT":
+                case "LOGOUT":
+                default:
+                    if (Manager.isValidCommand(input)) {
+                        System.err.println("You must login first");
+                    } else {
+                        System.err.println("invalid command");
+                    }
 
             }
         }
