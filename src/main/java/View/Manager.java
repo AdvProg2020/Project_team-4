@@ -1,6 +1,6 @@
 package View;
 
-import Controll.Controller;
+import Control.Controller;
 import Model.Account;
 import Model.Product;
 
