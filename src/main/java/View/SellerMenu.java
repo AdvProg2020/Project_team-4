@@ -1,7 +1,7 @@
 package View;
 
 import java.util.ArrayList;
-import static View.Commands.;
+import static View.Commands.*;
 import static View.Manager.*;
 
 
@@ -40,7 +40,7 @@ public class SellerMenu extends Menu {
                     break;
                 case "MANAGE_PRODUCTS":
                     manageProducts();
-                    switch (findEnum(regexOfThisMenu, input)) {
+                    switch (findEnum(commands.getAllRegex(), input)) {
                         case "VIEW_PRODUCT":
                             getProductInfo();
                             break;

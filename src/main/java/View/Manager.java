@@ -1,9 +1,9 @@
 package View;
 
 import Control.Controller;
-import Model.Account;
 import Model.Product;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -44,10 +44,10 @@ public class Manager {
     }
 
     public static boolean isAnyUserLogin(){
-        return Controller.getOurController.requestIsAnyUserLogin();
+        return Controller.getOurController().requestIsAnyUserLogin();
     }
     public static String getType(){
-        return Controller.getOurController.requestLoginedUser();
+        return Controller.getOurController().requestLoginedUser();
     }
 
     /*****************************Create/Login****************************************/
@@ -73,7 +73,6 @@ public class Manager {
         giveProductId(productId);
 
     }
-
 
     public static void getPersonalInfo() {
         ArrayList<String> personalInfos = new ArrayList<>();
