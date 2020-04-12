@@ -24,4 +24,8 @@ public class BuyLog {
         this.deliveredOrNot = deliveredOrNot;
         allBuyLogs.add(this);
     }
+
+    public String getLogBarcode() {
+        return logBarcode;
+    }
 }

@@ -4,6 +4,7 @@ package Model;
 import java.util.ArrayList;
 
 public class Comment {
+    private  String commentBarcode;
     private static ArrayList<Comment> allComments;
     private Account commentingAccount;
     private Product product;
@@ -19,6 +20,10 @@ public class Comment {
         this.commentText = commentText;
         this.boughtTheProductOrNot = boughtTheProductOrNot;
         allComments.add(this);
+    }
+
+    public String getCommentBarcode() {
+        return commentBarcode;
     }
 
     public boolean hasBoughtTheProductOrNot (Customer customer) {
