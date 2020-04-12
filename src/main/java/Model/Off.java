@@ -26,4 +26,15 @@ public class Off {
         this.offAmount = offAmount;
         allOffs.add(this);
     }
+
+    @Override
+    public String toString() {
+        return "Off{" +
+                "offBarcode='" + offBarcode + '\'' +
+                ", products=" + products +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", offAmount=" + offAmount +
+                '}';
+    }
 }
