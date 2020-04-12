@@ -5,6 +5,9 @@ import static View.CommandProcessor.processLogin;
 import static View.Commands.findEnum;
 import static View.Manager.*;
 
+import static View.CommandProcessor.processCreateAccount;
+import static View.CommandProcessor.processLogin;
+
 public class CreateLoginMenu extends Menu{
 
     public CreateLoginMenu(){

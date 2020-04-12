@@ -1,6 +1,7 @@
 package View;
 
-import Control.Controller;
+import Controll.Controller;
+import Controll.Controller.*;
 import Model.Product;
 
 import java.awt.*;
