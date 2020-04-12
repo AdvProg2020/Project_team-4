@@ -37,4 +37,8 @@ public class Off {
                 ", offAmount=" + offAmount +
                 '}';
     }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
 }
