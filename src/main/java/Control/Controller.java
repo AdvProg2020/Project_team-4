@@ -1,11 +1,11 @@
 package Control;
 
 public class Controller {
-    private Controller ourController = new Controller();
+    private static Controller ourController = new Controller();
 
-    public static Controller getOurController(){
+    public static Controller getOurController() {
         return ourController;
     }
 
-
 }
+
