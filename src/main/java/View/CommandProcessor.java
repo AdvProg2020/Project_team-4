@@ -2,11 +2,11 @@ package View;
 
 
 
+import View.Menu.Menu;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import static View.Manager.*;
-import static View.Outputs.printCreateAccountResult;
-import static View.Outputs.printLoginResult;
 
 public class CommandProcessor {
     public static Manager manager = new Manager();

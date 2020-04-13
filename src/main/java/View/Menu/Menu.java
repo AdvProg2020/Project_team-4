@@ -1,4 +1,4 @@
-package View;
+package View.Menu;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
         public abstract void run(Menu previousMenu, String input);
 
-        public void help() {
+        public void showCommands() {
             for (String option : options) {
                 System.out.println("---> " + option);
             }

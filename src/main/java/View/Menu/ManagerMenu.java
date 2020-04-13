@@ -1,4 +1,6 @@
-package View;
+package View.Menu;
+
+import View.Manager;
 
 import static View.Manager.*;
 
@@ -38,7 +40,7 @@ public class ManagerMenu extends Menu {
             } else if (getMatcher(input, "manage categories").find()) {
 
             } else if (getMatcher(input, "help").find()) {
-                help();
+                showCommands();
             } else if (getMatcher(input, "back").find()) {
                 if (previousMenu == null) {
                     System.err.println("This your first menu.");

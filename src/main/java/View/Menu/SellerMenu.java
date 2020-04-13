@@ -1,6 +1,7 @@
-package View;
+package View.Menu;
 
-import java.util.ArrayList;
+import View.Manager;
+
 import static View.Commands.*;
 import static View.Manager.*;
 
@@ -69,7 +70,7 @@ public class SellerMenu extends Menu {
                     viewBalance();
                     break;
                 case "HELP":
-                    help();
+                    showCommands();
                     break;
                 case "BACK":
                     if (previousMenu == null) {

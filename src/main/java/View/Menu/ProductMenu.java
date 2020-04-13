@@ -1,8 +1,9 @@
-package View;
+package View.Menu;
+
+import View.Manager;
 
 import static View.Commands.findEnum;
 import static View.Manager.commands;
-import static View.Manager.getMatcher;
 
 public class ProductMenu extends Menu {
 

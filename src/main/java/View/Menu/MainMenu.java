@@ -1,4 +1,6 @@
-package View;
+package View.Menu;
+
+import View.*;
 
 import static View.CommandProcessor.*;
 import static View.Commands.findEnum;
@@ -43,7 +45,7 @@ public class MainMenu extends Menu {
                     break;
 
                 case "HELP":
-                    help();
+                    showCommands();
                     break;
 
                 case "BACK":

@@ -1,8 +1,11 @@
-package View;
+package View.Menu;
+
+import View.CommandProcessor;
+import View.Manager;
 
 import static View.Manager.getMatcher;
 
-public class ProductsMenu extends Menu{
+public class ProductsMenu extends Menu {
     public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
@@ -17,7 +20,7 @@ public class ProductsMenu extends Menu{
             } else if (getMatcher(input, "show product [productId]").find()) {
 
             } else if (getMatcher(input, "help").find()) {
-                help();
+                showCommands();
             } else if (getMatcher(input, "back").find()) {
                 if (previousMenu == null) {
                     System.err.println("This your first menu.");
