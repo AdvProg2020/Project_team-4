@@ -23,7 +23,7 @@ public class CustomerMenu extends Menu {
         options.add("back");
     }
 
-    public void run(Menu previousMenu, String input) {
+    public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             if (getMatcher(input, "view personal info").find()) {
@@ -44,7 +44,7 @@ public class CustomerMenu extends Menu {
                 if (previousMenu == null) {
                     System.err.println("This your first menu.");
                 } else {
-                    previousMenu.run(this, input);
+                    previousMenu.execute(this, input);
                 }
             } else {
                 if (Manager.isValidCommand(input)) {
