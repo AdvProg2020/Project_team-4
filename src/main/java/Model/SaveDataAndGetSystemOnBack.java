@@ -236,7 +236,7 @@ public class SaveDataAndGetSystemOnBack {
     private Account readJSONSeller(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        BufferedReader bufferedReader = new BufferedReader(
+        BufferedReader bufferedReader = new  BufferedReader(
                 new FileReader(name));
 
         Account account = gson.fromJson(bufferedReader, Account.class);
