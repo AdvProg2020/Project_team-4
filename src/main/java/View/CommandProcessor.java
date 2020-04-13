@@ -2,7 +2,7 @@ package View;
 
 
 
-import View.Menu.Menu;
+import View.Menu.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,46 +13,40 @@ public class CommandProcessor {
     public static Scanner scanner;
     public static ArrayList<String> validCommands = new ArrayList<>();
 
-    //Menus.
-    private static Menu createLoginMenu = new CreateLoginMenu();
-    private static Menu managerMenu = new ManagerMenu();
-    private static Menu sellerMenu = new SellerMenu();
-    private static Menu customerMenu = new CustomerMenu();
-    private static Menu productMenu = new ProductMenu();
-    private static Menu offMenu = new OffMenu();
-    private static Menu mainMenu = new MainMenu();
-
     public CommandProcessor(Manager boss) {
         this.manager = manager;
         scanner = new Scanner(System.in);
     }
 
     public static void processCreateAccount(String[] splitInput) {
-        switch (Manager.CreateAccount(splitInput[2], splitInput[3], requestPassword())) {
-            case 1:
-            case 2:
-            case 3:
-        }
+        Manager.createAccount(splitInput[2], splitInput[3], getPassword());
     }
 
     public static void processLogin(String[] splitInput) {
-        switch (Manager.Login(splitInput[1], requestPassword())) {
-            case 1:
-            case 2:
-            case 3:
-        }
-        switch (Controller.getOurController().getTypeFromUsername(splitInput[1])) {
-            case "manager":
-                managerMenu.run(createLoginMenu, null);
-                break;
-            case "seller":
-                sellerMenu.run(createLoginMenu, null);
-                break;
-            case "customer":
-                customerMenu.run(createLoginMenu, null);
-                break;
-        }
+        Manager.login(splitInput[1], getPassword());
     }
+
+    public static void processOffsList(String[] splitInput) {
+        Manager.offsList();
+    }
+
+    public static void processShowProduct(String[] splitInput, Menu previousMenu, String input){
+        Manager.showProduct(splitInput[2], previousMenu, input);
+    }
+
+    public static void processDigest(String productId){
+        Manager.digest(productId);
+    }
+
+    public static void processAddToCart() {
+        addToCart();
+    }
+
+    public static void processSelectSeller(String[] splitInput){
+        selectSeller(splitInput[2]);
+    }
+
+
 
 
 }

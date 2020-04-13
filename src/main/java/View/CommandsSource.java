@@ -1,12 +1,14 @@
 package View;
 
+import View.Menu.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import static View.Manager.getMatcher;
 
-public enum Commands {
+public enum CommandsSource {
     /************************************GeneralCommands*****************************************/
 
     VIEW_PERSONAL_INFO("VIEW_PERSONAL_INFO", ""),
@@ -117,17 +119,28 @@ public enum Commands {
     // ------> fields
     private String name;
     private String regex;
+    private String command;
+    private Menu menu;
     public Pattern commandPattern;
     private ArrayList<String> allRegex = new ArrayList<>();
 
 
     // ------> constructor
-    Commands(String name, String regex) {
+    CommandsSource(String name, String regex) {
         this.name = name;
         this.regex = regex;
         allRegex.add(regex);
         this.commandPattern = Pattern.compile(regex);
     }
+    // ------> Menus
+    private static Menu createLoginMenu = new CreateLoginMenu();
+    private static Menu managerMenu = new ManagerMenu();
+    private static Menu sellerMenu = new SellerMenu();
+    private static Menu customerMenu = new CustomerMenu();
+    private static Menu productMenu = new ProductMenu();
+    private static Menu offMenu = new OffMenu();
+    private static Menu mainMenu = new MainMenu();
+
 
     //-------> methods
     public List<String> getAllRegex() {
@@ -152,7 +165,7 @@ public enum Commands {
     }
 
     public static String getEnumNameByRegex(String regex) {
-        for (Commands command : Commands.values()) {
+        for (CommandsSource command : CommandsSource.values()) {
             if (command.getRegex().equals(regex)) {
                 return command.getName();
             }

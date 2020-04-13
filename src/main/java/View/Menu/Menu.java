@@ -6,7 +6,7 @@ import java.util.ArrayList;
         protected Menu previousMenu;
         protected ArrayList<String> options = new ArrayList<>();
 
-        public abstract void run(Menu previousMenu, String input);
+        public abstract void execute(Menu previousMenu, String input);
 
         public void showCommands() {
             for (String option : options) {
