@@ -1,63 +1,68 @@
 package View.Menu;
 
-import Control.Controller;
-import Model.Customer;
-import Model.Manager;
-import Model.Seller;
+import View.*;
+
+import static View.CommandProcessor.*;
+import static View.Commands.findEnum;
+import static View.Manager.*;
 
 public class MainMenu extends Menu {
 
+
+    private Menu productMenu = new ProductMenu();
+    private Menu productsMenu = new ProductsMenu();
+    private Menu mainMenu = new MainMenu();
+    private Menu createLoginMenu = new CreateLoginMenu();
+    private Menu offMenu = new OffMenu();
+
     public MainMenu() {
-        options.add("products #");
-        options.add("offs #");
-        options.add("login menu");
-        options.add("Account-Based orders #");
+        options.add("create account [manager|seller|customer] [username]");
+        options.add("login [username]");
+        options.add("products");
+        options.add("offs");
         options.add("help");
         options.add("back");
-
+        options.add("logout");
     }
 
-    private static void goToUserSection() {
-        if(Controller.getOurController().getLoggedInAccount() == null){
-            System.out.println("you should login first");
-            return;
-        }
-        if (Customer.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
-            CustomerMenu.getCustomerMenu().execute();
-        } else if (Manager.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
-            ManagerMenu.managerMenu().execute();
-        } else if (Seller.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
-            SellerMenu.getSellerMenu().execute();
-        }
-    }
+    public void run(Menu previousMenu, String input) {
+        System.out.println("Enter your command :");
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
+            switch (findEnum(commands.getAllRegex(), input)) {
+                case "CREATE_ACCOUNT":
+                    processCreateAccount(input.split("\\s"));
+                    break;
+                case "LOGIN":
+                    processLogin(input.split("\\s"));
+                    break;
 
-    public void execute() {
-        String input;
-        do {
-            show();
-            System.out.println("Enter Number :");
-            if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
-                continue;
+                case "PRODUCTS":
+                    productsMenu.run(this, input);
+                    break;
+
+                case "OFFS":
+                    offMenu.run(this, input);
+                    break;
+
+                case "HELP":
+                    showCommands();
+                    break;
+
+                case "BACK":
+                    if (previousMenu == null) {
+                        System.err.println("This your first menu.");
+                    } else {
+                        previousMenu.run(this, input);
+                    }
+                    break;
+                default:
+                    if (Manager.isValidCommand(input)) {
+                        System.err.println("You must login first");
+                    } else {
+                        System.err.println("invalid command");
+                    }
+                    break;
             }
-            switch (input.trim()) {
-                case "1":
-                    ProductsMenu.getProductsMenu().execute();
-                    break;
-                case "2":
-                    OffsMenu.getOffsMenu().execute();
-                    break;
-                case "3":
-                    LoginMenu.getLoginMenu().execute();
-                    break;
-                case "4":
-                    goToUserSection();
-                    break;
-                case "5":
-                    show();
-                    break;
-                case "6":
-                    return;
-            }
-        }while (!input.equalsIgnoreCase("end"));
+        }
     }
 }

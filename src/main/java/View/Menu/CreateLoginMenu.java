@@ -1,14 +1,13 @@
-package View;
+package View.Menu;
+
+import View.Manager;
 
 import static View.CommandProcessor.processCreateAccount;
 import static View.CommandProcessor.processLogin;
 import static View.Commands.findEnum;
 import static View.Manager.*;
 
-import static View.CommandProcessor.processCreateAccount;
-import static View.CommandProcessor.processLogin;
-
-public class CreateLoginMenu extends Menu{
+public class CreateLoginMenu extends Menu {
 
     public CreateLoginMenu(){
         options.add("create account [manager|seller|customer] [username]");
@@ -28,7 +27,7 @@ public class CreateLoginMenu extends Menu{
                     processLogin(input.split("\\s"));
                     break;
                 case "HELP":
-                    help();
+                    showCommands();
                     break;
                 case "BACK":
                     if(previousMenu == null){

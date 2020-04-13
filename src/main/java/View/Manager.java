@@ -3,8 +3,8 @@ package View;
 import Controll.Controller;
 import Controll.Controller.*;
 import Model.Product;
+import View.Menu.Menu;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 import static View.Commands.findEnum;
 import static View.Outputs.*;
-import static View.ProductMenu.giveProductId;
+import static ProductMenu.giveProductId;
 import static java.lang.Double.parseDouble;
 
 
