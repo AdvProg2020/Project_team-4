@@ -1,7 +1,5 @@
 package View;
 
-import Control.Controller;
-
 import java.util.ArrayList;
 
 public class Outputs {
@@ -34,17 +32,9 @@ public class Outputs {
         }
     }
 
-    public static void printDigestResult(String result){
-        System.out.println(result);
-    }
 
-    public static void printAddProductResult(int result){
-        switch (result) {
-            case 0:
-            case 1:
-        }
 
-    }
+
 
 }
 

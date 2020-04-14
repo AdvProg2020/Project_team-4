@@ -2,7 +2,7 @@ package View.Menu;
 
 import View.Manager;
 
-import static View.CommandsSource.*;
+import static View.Commands.*;
 import static View.Manager.*;
 
 
@@ -24,13 +24,13 @@ public class SellerMenu extends Menu {
 
 
 
-    public void execute(Menu previousMenu, String input) {
+    public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            switch (findEnum(commandsSource.getAllRegex(), input)) {
+            switch (findEnum(commands.getAllRegex(), input)) {
                 case "VIEW_PERSONAL_INFO":
                     getPersonalInfo();
-                    if ("EDIT_PERSONAL_INFO".equals(findEnum(commandsSource.getAllRegex(), input))) {
+                    if ("EDIT_PERSONAL_INFO".equals(findEnum(commands.getAllRegex(), input))) {
 
                     }
                 case "VIEW_COMPANY_INFORMATION":
@@ -41,7 +41,7 @@ public class SellerMenu extends Menu {
                     break;
                 case "MANAGE_PRODUCTS":
                     manageProducts();
-                    switch (findEnum(commandsSource.getAllRegex(), input)) {
+                    switch (findEnum(commands.getAllRegex(), input)) {
                         case "VIEW_PRODUCT":
                             getProductInfo();
                             break;
@@ -55,7 +55,7 @@ public class SellerMenu extends Menu {
                     break;
 
                 case "ADD_PRODUCT":
-                    addProduct();
+                    getProductInfoForAdd();
                     break;
                 case "REMOVE_PRODUCT":
                     removeProduct();
@@ -76,7 +76,7 @@ public class SellerMenu extends Menu {
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
-                        previousMenu.execute(this, input);
+                        previousMenu.run(this, input);
                     }
                     break;
                 default:

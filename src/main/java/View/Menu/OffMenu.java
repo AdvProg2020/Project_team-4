@@ -13,20 +13,20 @@ public class OffMenu extends Menu {
         options.add("logout");
     }
 
-    public void execute(Menu previousMenu, String input) {
+    public void run(Menu previousMenu, String input) {
         processOffsList(input.split("\\s"));
         System.out.println("Enter your command :");
         while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
-            switch(commandsSource.findEnum(commandsSource.getAllRegex(), input)){
+            switch(commands.findEnum(commands.getAllRegex(), input)){
                 case "SHOW_PRODUCT":
-                    processShowProduct(input.split("\\s"), this, input);
+                    processShowProduct(input.split("\\s"));
                 case "HELP":
                     showCommands();
                 case "BACK":
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
-                        previousMenu.execute(this, input);
+                        previousMenu.run(this, input);
                     }
                     break;
                 case "LOGOUT":
