@@ -1,11 +1,9 @@
 package Model;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
 public abstract class Account {
     protected static ArrayList<Account> allAccounts = new ArrayList<Account>();
-=======
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,8 +11,6 @@ import java.util.ArrayList;
 
 public abstract class Account {
     private static Account loggedInAccount;
-    //protected static ArrayList<Account> allAccounts = new ArrayList<Account>();
->>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
     protected String userName;
     protected String firstName;
     protected String lastName;
@@ -34,7 +30,6 @@ public abstract class Account {
         this.offCodes = new ArrayList<CodedOff>();
         this.sellOrBuyHistory = new ArrayList<BuyLog>();
         this.buyOrSellLogs = new ArrayList<BuyLog>();
-<<<<<<< HEAD
         allAccounts.add(this);
     }
 
@@ -45,7 +40,6 @@ public abstract class Account {
             }
         }
         return null;
-=======
         //allAccounts.add(this);
     }
 
@@ -56,7 +50,6 @@ public abstract class Account {
 
     public static void login(Account account) {
         loggedInAccount = account;
->>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
     }
 
 
@@ -80,15 +73,9 @@ public abstract class Account {
         this.passWord = passWord;
     }
 
-<<<<<<< HEAD
     public ArrayList<Account> getAllAccounts() {
         return allAccounts;
     }
-=======
-    //public ArrayList<Account> getAllAccounts() {
-    //    return allAccounts;
-    //}
->>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
 
     public String getUserName() {
         return userName;

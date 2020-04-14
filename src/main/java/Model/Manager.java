@@ -8,13 +8,6 @@ public class Manager extends Account {
     private static boolean isTheFirstManagerCreatedOrNot;
 
     private static ArrayList<Manager> allManagers;
-
-    public Manager(String userName, String passWord) {
-        super(userName, passWord);
-        allManagers.add(this);
-        isTheFirstManagerCreatedOrNot = true;
-    }
-
     private static ArrayList<Manager> managers;
 
     private static ArrayList<Request> registerSellerAccountRequests;
@@ -24,6 +17,13 @@ public class Manager extends Account {
     private static ArrayList<Category> categories;
 
     private static ArrayList<CodedOff> offCodes;
+
+
+    public Manager(String userName, String passWord) {
+        super(userName, passWord);
+        allManagers.add(this);
+        isTheFirstManagerCreatedOrNot = true;
+    }
 
     public void editOffCode(CodedOff offCode) {
         //offCodes.get(offCode)
