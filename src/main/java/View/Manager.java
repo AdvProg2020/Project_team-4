@@ -6,7 +6,6 @@ import Model.Product;
 import View.Menu.Menu;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,8 +19,7 @@ public class Manager {
 
 
     //--------> fields
-    public static Scanner scanner;
-    public static Commands commands;
+
     public static CommandProcessor commandProcessor = new CommandProcessor();
     public static ArrayList<String> validCommands = new ArrayList<>();
 
@@ -52,18 +50,11 @@ public class Manager {
     }
 
     /*****************************Create/Login****************************************/
-    public static void createAccount(String type, String username, String password) {
-        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
-    }
 
-    public static void login(String username, String password) {
-        printLoginResult(Controller.getOurController().requestLogin(username, password));
-    }
 
-    public static String requestPassword() {
-        System.out.println("Enter your password:");
-        return CommandProcessor.scanner.nextLine();
-    }
+
+
+
 
     /***************************************OffsMenu***************************************/
     public static void offsList(){
@@ -186,7 +177,7 @@ public class Manager {
     }
 
     public void run() {
-        mainMenu.run(null, null);
+        mainMenu.execute(null, null);
     }
 
     public static Matcher getMatcher(String input, String regex) {

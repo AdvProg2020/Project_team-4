@@ -1,12 +1,19 @@
 package View.Menu;
 
-import java.util.ArrayList;
+import View.CommandsSource;
 
-    public abstract class Menu {
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Menu {
         protected Menu previousMenu;
+        protected Scanner scanner;
+        protected CommandsSource commands;
         protected ArrayList<String> options = new ArrayList<>();
 
-        public abstract void run(Menu previousMenu, String input);
+        public void execute(Menu previousMenu, String input){
+
+        }
 
         public void showCommands() {
             for (String option : options) {
@@ -16,3 +23,12 @@ import java.util.ArrayList;
 
 
     }
+
+
+    /************************************************/
+    private String name;
+    protected HashMap<Integer, Menu> submenus;
+    protected Menu parentMenu;
+    public static Scanner scanner;
+    protected static Manager manager;
+    protected static ArrayList<Menu> allMenus;

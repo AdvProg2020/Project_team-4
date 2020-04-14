@@ -1,49 +1,47 @@
 package View.Menu;
 
-import View.Manager;
+import Control.Controller;
 
-import static View.CommandProcessor.processCreateAccount;
-import static View.CommandProcessor.processLogin;
-import static View.Commands.findEnum;
-import static View.Manager.*;
+import static View.CommandsSource.findEnum;
+import static View.Outputs.printCreateAccountResult;
+import static View.Outputs.printLoginResult;
 
 public class CreateLoginMenu extends Menu {
 
-    public CreateLoginMenu(){
+    public CreateLoginMenu() {
         options.add("create account [manager|seller|customer] [username]");
         options.add("login [username]");
         options.add("help");
         options.add("back");
     }
 
-    public void run(Menu previousMenu, String input) {
+    public void createAccount(String type, String username, String password) {
+        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
+    }
+
+    public void login(String username, String password) {
+        printLoginResult(Controller.getOurController().requestLogin(username, password));
+    }
+
+    public String requestPassword() {
+        System.out.println("Enter your password:");
+        return scanner.nextLine();
+    }
+
+    public void execute(Menu previousMenu, String input) {
+
         System.out.println("Enter your command :");
-        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            switch(findEnum(commands.getAllRegex(), input)){
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+            switch (findEnum(commands.getAllRegex(), input)) {
+                String[] splitInput = input.split("\\s");
                 case "CREATE_ACCOUNT":
-                    processCreateAccount(input.split("\\s"));
+                    createAccount(splitInput[2], splitInput[3], requestPassword());
                     break;
                 case "LOGIN":
-                    processLogin(input.split("\\s"));
-                    break;
-                case "HELP":
-                    showCommands();
-                    break;
-                case "BACK":
-                    if(previousMenu == null){
-                        System.err.println("This is your first menu.");
-                    }
-                    else{
-                        previousMenu.run(this, input);
-                    }
+                    login(splitInput[1], requestPassword());
                     break;
                 default:
-                    if (Manager.isValidCommand(input)) {
-                        System.err.println("You must login first");
-                    } else {
-                        System.err.println("invalid command");
-                    }
-                    break;
+                    Menu.execute(null, input);
             }
         }
 
