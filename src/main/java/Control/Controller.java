@@ -25,6 +25,7 @@ public class Controller {
             return 1;
         }else if(type.equals("manager")){
             Manager.addANewManager(username, password);
+            //request send
             return 1;
         }else return 3;
     }
