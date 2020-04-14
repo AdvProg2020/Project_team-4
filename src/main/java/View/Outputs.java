@@ -1,7 +1,10 @@
 package View;
 
+<<<<<<< HEAD
 import Control.Controller;
 
+=======
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
 import java.util.ArrayList;
 
 public class Outputs {
@@ -34,6 +37,7 @@ public class Outputs {
         }
     }
 
+<<<<<<< HEAD
     public static void printDigestResult(String result){
         System.out.println(result);
     }
@@ -45,6 +49,11 @@ public class Outputs {
         }
 
     }
+=======
+
+
+
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
 
 }
 

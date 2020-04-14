@@ -6,6 +6,7 @@ import Model.Manager;
 import Model.Seller;
 
 public class Controller {
+
     private final static Controller ourController = new Controller();
 
     public static Controller getOurController() {

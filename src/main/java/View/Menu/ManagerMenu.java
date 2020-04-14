@@ -20,7 +20,11 @@ public class ManagerMenu extends Menu {
         options.add("back");
     }
 
+<<<<<<< HEAD
     public void execute(Menu previousMenu, String input) {
+=======
+    public void run(Menu previousMenu, String input) {
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             if (getMatcher(input, "view personal info").find()) {
@@ -45,7 +49,11 @@ public class ManagerMenu extends Menu {
                 if (previousMenu == null) {
                     System.err.println("This your first menu.");
                 } else {
+<<<<<<< HEAD
                     previousMenu.execute(this, input);
+=======
+                    previousMenu.run(this, input);
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
                 }
             } else {
                 if (Manager.isValidCommand(input)) {

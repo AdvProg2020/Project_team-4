@@ -4,7 +4,11 @@ import View.Manager;
 
 import static View.CommandProcessor.processCreateAccount;
 import static View.CommandProcessor.processLogin;
+<<<<<<< HEAD
 import static View.CommandsSource.findEnum;
+=======
+import static View.Commands.findEnum;
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
 import static View.Manager.*;
 
 public class CreateLoginMenu extends Menu {
@@ -16,10 +20,17 @@ public class CreateLoginMenu extends Menu {
         options.add("back");
     }
 
+<<<<<<< HEAD
     public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             switch(findEnum(commandsSource.getAllRegex(), input)){
+=======
+    public void run(Menu previousMenu, String input) {
+        System.out.println("Enter your command :");
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
+            switch(findEnum(commands.getAllRegex(), input)){
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
                 case "CREATE_ACCOUNT":
                     processCreateAccount(input.split("\\s"));
                     break;
@@ -34,7 +45,11 @@ public class CreateLoginMenu extends Menu {
                         System.err.println("This is your first menu.");
                     }
                     else{
+<<<<<<< HEAD
                         previousMenu.execute(this, input);
+=======
+                        previousMenu.run(this, input);
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
                     }
                     break;
                 default:

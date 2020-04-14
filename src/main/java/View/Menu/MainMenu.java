@@ -3,7 +3,11 @@ package View.Menu;
 import View.*;
 
 import static View.CommandProcessor.*;
+<<<<<<< HEAD
 import static View.CommandsSource.findEnum;
+=======
+import static View.Commands.findEnum;
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
 import static View.Manager.*;
 
 public class MainMenu extends Menu {
@@ -25,10 +29,17 @@ public class MainMenu extends Menu {
         options.add("logout");
     }
 
+<<<<<<< HEAD
     public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             switch (findEnum(commandsSource.getAllRegex(), input)) {
+=======
+    public void run(Menu previousMenu, String input) {
+        System.out.println("Enter your command :");
+        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
+            switch (findEnum(commands.getAllRegex(), input)) {
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
                 case "CREATE_ACCOUNT":
                     processCreateAccount(input.split("\\s"));
                     break;
@@ -37,11 +48,19 @@ public class MainMenu extends Menu {
                     break;
 
                 case "PRODUCTS":
+<<<<<<< HEAD
                     productsMenu.execute(this, input);
                     break;
 
                 case "OFFS":
                     offMenu.execute(this, input);
+=======
+                    productsMenu.run(this, input);
+                    break;
+
+                case "OFFS":
+                    offMenu.run(this, input);
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
                     break;
 
                 case "HELP":
@@ -52,7 +71,11 @@ public class MainMenu extends Menu {
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
+<<<<<<< HEAD
                         previousMenu.execute(this, input);
+=======
+                        previousMenu.run(this, input);
+>>>>>>> 1215782625c187da6d753a32c21bccbe93b052eb
                     }
                     break;
                 default:
