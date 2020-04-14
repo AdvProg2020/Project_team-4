@@ -6,10 +6,10 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 
 public class SaveDataAndGetSystemOnBack {
-    public void saveData() {
+    public static void saveData() {
 
     }
-    private void writeJSONAccount(Account account) throws IOException {
+    public static void writeJSONAccount(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -17,7 +17,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONAccount(String name) throws FileNotFoundException {
+    public static Account readJSONAccount(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -27,7 +27,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONBuyLog(BuyLog buyLog) throws IOException {
+    public static void writeJSONBuyLog(BuyLog buyLog) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(buyLog.getLogBarcode());
@@ -35,7 +35,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private BuyLog readJSONBuyLog(String name) throws FileNotFoundException {
+    public static BuyLog readJSONBuyLog(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -45,7 +45,7 @@ public class SaveDataAndGetSystemOnBack {
         return buyLog;
     }
 
-    private void writeJSONCategory(Category category) throws IOException {
+    public static void writeJSONCategory(Category category) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(category.getName());
@@ -53,7 +53,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Category readJSONCategory(String name) throws FileNotFoundException {
+    public static Category readJSONCategory(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -63,7 +63,7 @@ public class SaveDataAndGetSystemOnBack {
         return category;
     }
 
-    private void writeJSONCodedOff(CodedOff codedOff) throws IOException {
+    public static void writeJSONCodedOff(CodedOff codedOff) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(codedOff.getOffBarcode());
@@ -71,7 +71,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private CodedOff readJSONCodedOff(String name) throws FileNotFoundException {
+    public static CodedOff readJSONCodedOff(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -81,7 +81,7 @@ public class SaveDataAndGetSystemOnBack {
         return codedOff;
     }
 
-    private void writeJSONComment(Comment comment) throws IOException {
+    public static void writeJSONComment(Comment comment) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(comment.getCommentBarcode());
@@ -89,7 +89,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Comment readJSONComment(String name) throws FileNotFoundException {
+    public static Comment readJSONComment(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -99,7 +99,7 @@ public class SaveDataAndGetSystemOnBack {
         return comment;
     }
 
-    private void writeJSONCustomer(Customer customer) throws IOException {
+    public static void writeJSONCustomer(Customer customer) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(customer.getUserName());
@@ -107,7 +107,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Customer readJSONCustomer(String name) throws FileNotFoundException {
+    public static Customer readJSONCustomer(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -117,7 +117,7 @@ public class SaveDataAndGetSystemOnBack {
         return customer;
     }
 
-    private void writeJSONManager(Account account) throws IOException {
+    public static void writeJSONManager(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -125,7 +125,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONManager(String name) throws FileNotFoundException {
+    public static Account readJSONManager(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -135,7 +135,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONOff(Account account) throws IOException {
+    public static void writeJSONOff(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -143,7 +143,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONOff(String name) throws FileNotFoundException {
+    public static Account readJSONOff(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -153,7 +153,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONProduct(Account account) throws IOException {
+    public static void writeJSONProduct(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -161,7 +161,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONProduct(String name) throws FileNotFoundException {
+    public static Account readJSONProduct(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -171,7 +171,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONRequest(Account account) throws IOException {
+    public static void writeJSONRequest(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -179,7 +179,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONRequest(String name) throws FileNotFoundException {
+    public static Account readJSONRequest(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -189,7 +189,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONRequestANewSellerAccount(Account account) throws IOException {
+    public static void writeJSONRequestANewSellerAccount(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -197,7 +197,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONRequestANewSellerAccount(String name) throws FileNotFoundException {
+    public static Account readJSONRequestANewSellerAccount(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -207,7 +207,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONScore(Account account) throws IOException {
+    public static void writeJSONScore(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -215,7 +215,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONScore(String name) throws FileNotFoundException {
+    public static Account readJSONScore(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(
@@ -225,7 +225,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONSeller(Account account) throws IOException {
+    public static void writeJSONSeller(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -233,7 +233,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONSeller(String name) throws FileNotFoundException {
+    public static Account readJSONSeller(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new  BufferedReader(
@@ -243,7 +243,7 @@ public class SaveDataAndGetSystemOnBack {
         return account;
     }
 
-    private void writeJSONSellLog(Account account) throws IOException {
+    public static void writeJSONSellLog(Account account) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         FileWriter writer = new FileWriter(account.getUserName());
@@ -251,7 +251,7 @@ public class SaveDataAndGetSystemOnBack {
         writer.close();
     }
 
-    private Account readJSONSellLog(String name) throws FileNotFoundException {
+    public static Account readJSONSellLog(String name) throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         BufferedReader bufferedReader = new BufferedReader(

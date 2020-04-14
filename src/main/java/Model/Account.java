@@ -1,9 +1,13 @@
 package Model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public abstract class Account {
-    protected static ArrayList<Account> allAccounts = new ArrayList<Account>();
+    private static Account loggedInAccount;
+    //protected static ArrayList<Account> allAccounts = new ArrayList<Account>();
     protected String userName;
     protected String firstName;
     protected String lastName;
@@ -23,16 +27,16 @@ public abstract class Account {
         this.offCodes = new ArrayList<CodedOff>();
         this.sellOrBuyHistory = new ArrayList<BuyLog>();
         this.buyOrSellLogs = new ArrayList<BuyLog>();
-        allAccounts.add(this);
+        //allAccounts.add(this);
     }
 
-    public static Account getAccountWithName(String name) {
-        for (Account account : allAccounts) {
-            if (account.getUserName().equalsIgnoreCase(name)) {
-                return account;
-            }
-        }
-        return null;
+    public static Account getAccountWithName(String name) throws FileNotFoundException {
+        return SaveDataAndGetSystemOnBack.readJSONAccount(name);
+    }
+
+
+    public static void login(Account account) {
+
     }
 
 
@@ -56,9 +60,9 @@ public abstract class Account {
         this.passWord = passWord;
     }
 
-    public ArrayList<Account> getAllAccounts() {
-        return allAccounts;
-    }
+    //public ArrayList<Account> getAllAccounts() {
+    //    return allAccounts;
+    //}
 
     public String getUserName() {
         return userName;
