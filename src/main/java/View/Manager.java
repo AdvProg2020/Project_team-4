@@ -1,78 +1,75 @@
 package View;
 
-import Controll.Controller;
-import Controll.Controller.*;
+import Control.Controller;
 import Model.Product;
-import View.Menu.Menu;
+import View.Menu.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static View.Commands.findEnum;
+import static Model.Category.getCategoryByName;
+import static View.CommandsSource.findEnum;
+import static View.Menu.ProductMenu.giveProductId;
 import static View.Outputs.*;
-import static ProductMenu.giveProductId;
 import static java.lang.Double.parseDouble;
 
 
 public class Manager {
 
-
     //--------> fields
     public static Scanner scanner;
-    public static Commands commands;
-    public static CommandProcessor commandProcessor = new CommandProcessor();
+    public static CommandsSource commandsSource;
+    public static CommandProcessor commandProcessor = new CommandProcessor(this);
     public static ArrayList<String> validCommands = new ArrayList<>();
 
-    // -------> menus
-    private static Menu createLoginMenu = new CreateLoginMenu();
-    private static Menu managerMenu = new ManagerMenu();
-    private static Menu sellerMenu = new SellerMenu();
-    private static Menu customerMenu = new CustomerMenu();
-    private static Menu productMenu = new ProductMenu();
-    private static Menu offMenu = new OffMenu();
-    private static Menu mainMenu = new MainMenu();
+    //Menus.
+    private static Menu createLoginMenu;
+    private static Menu managerMenu;
+    private static Menu sellerMenu;
+    private static Menu customerMenu;
+    private static Menu productMenu;
+    private static Menu offMenu;
+    private static Menu mainMenu;
 
-
-    /**************************general functions*************************************/
-
-    public static boolean isValidCommand(String command) {
-        if(findEnum(commands.getAllRegex(), command).equals(null))
-            return false;
-        else
-            return true;
+    // ----> constructor
+    public Manager() {
     }
+
+
+    // ----> methods
+
+
+
+
 
     public static boolean isAnyUserLogin(){
         return Controller.getOurController().requestIsAnyUserLogin();
     }
+
     public static String getType(){
         return Controller.getOurController().requestLoginedUser();
     }
 
-    /*****************************Create/Login****************************************/
-    public static void createAccount(String type, String username, String password) {
-        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
-    }
 
-    public static void login(String username, String password) {
-        printLoginResult(Controller.getOurController().requestLogin(username, password));
-    }
 
-    public static String requestPassword() {
-        System.out.println("Enter your password:");
-        return CommandProcessor.scanner.nextLine();
-    }
 
-    /***************************************OffsMenu***************************************/
+    //----> ProductMenu
+
+
+
+
+
+    //----> OffsMenu
+
     public static void offsList(){
         printOffsListResult(Controller.getOurController().requestOffsList());
     }
 
-    public static void showProduct(String productId){
+    public static void showProduct(String productId, Menu previousMenu, String input){
         giveProductId(productId);
-
+        productMenu.execute(previousMenu, input);
     }
 
     public static void getPersonalInfo() {
@@ -143,28 +140,6 @@ public class Manager {
         Controller.getOurController().requestEdit(editField, newValue);
     }
 
-    public static int getProductInfoForAdd() {
-        System.out.println("Enter the name of product:");
-        String name = scanner.nextLine();
-        System.out.println("Enter the name of company:");
-        String company = scanner.nextLine();
-        System.out.println("Enter cost:");
-        double cost = parseDouble(scanner.nextLine());
-        System.out.println("Enter category:");
-        String category = scanner.nextLine();
-        System.out.println("Enter description:");
-        String description = scanner.nextLine();
-        return Controller.getOurController().requestAddingNewProduct(name, company, cost, category, description);
-    }
-
-    public static void addProduct() {
-        switch (getProductInfoForAdd()) {
-            case 0:
-            case 1:
-        }
-
-    }
-
     public static void removeProduct() {
 
     }
@@ -185,8 +160,15 @@ public class Manager {
 
     }
 
-    public void run() {
-        mainMenu.run(null, null);
+
+
+    // ----> checked methods
+    public static void digest(String productId){
+        printDigestResult(Controller.getOurController().requestDigest(productId));
+    }
+
+    public void execute() {
+        mainMenu.execute(null, null);
     }
 
     public static Matcher getMatcher(String input, String regex) {
@@ -194,8 +176,42 @@ public class Manager {
         return pattern.matcher(input);
     }
 
+    public static void createAccount(String type, String username, String password) {
+        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
+    }
 
-    /*****************RelatedControllerFunctions*******************/
+    public static void login(String username, String password) {
+        printLoginResult(Controller.getOurController().requestLogin(username, password));
+    }
 
+    public static String getPassword() {
+        System.out.println("Enter your password:");
+        return CommandProcessor.scanner.nextLine();
+    }
 
+    public static int getProductInfoForAddProduct() {
+        System.out.println("Enter the name of product:");
+        String name = scanner.nextLine();
+        System.out.println("Enter the name of company:");
+        String company = scanner.nextLine();
+        System.out.println("Enter cost:");
+        double cost = parseDouble(scanner.nextLine());
+        System.out.println("Enter category:");
+        String category = scanner.nextLine();
+        System.out.println("Enter description:");
+        String description = scanner.nextLine();
+        printAddProductResult(Controller.getOurController().requestAddProduct(name, company, cost, getCategoryByName(category), description,
+                requestLoggedInUser()));
+    }
+
+    public static void addProduct() {
+        getProductInfoForAddProduct();
+    }
+
+    public static boolean isValidCommand(String command) {
+        if(findEnum(commandsSource.getAllRegex(), command).equals(null))
+            return false;
+        else
+            return true;
+    }
 }

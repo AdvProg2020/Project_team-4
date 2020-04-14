@@ -4,7 +4,7 @@ import View.Manager;
 
 import static View.CommandProcessor.processCreateAccount;
 import static View.CommandProcessor.processLogin;
-import static View.Commands.findEnum;
+import static View.CommandsSource.findEnum;
 import static View.Manager.*;
 
 public class CreateLoginMenu extends Menu {
@@ -16,10 +16,10 @@ public class CreateLoginMenu extends Menu {
         options.add("back");
     }
 
-    public void run(Menu previousMenu, String input) {
+    public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            switch(findEnum(commands.getAllRegex(), input)){
+            switch(findEnum(commandsSource.getAllRegex(), input)){
                 case "CREATE_ACCOUNT":
                     processCreateAccount(input.split("\\s"));
                     break;
@@ -34,7 +34,7 @@ public class CreateLoginMenu extends Menu {
                         System.err.println("This is your first menu.");
                     }
                     else{
-                        previousMenu.run(this, input);
+                        previousMenu.execute(this, input);
                     }
                     break;
                 default:
