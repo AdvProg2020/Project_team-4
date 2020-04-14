@@ -3,7 +3,7 @@ package View.Menu;
 import View.*;
 
 import static View.CommandProcessor.*;
-import static View.CommandsSource.findEnum;
+import static View.Commands.findEnum;
 import static View.Manager.*;
 
 public class MainMenu extends Menu {
@@ -25,10 +25,10 @@ public class MainMenu extends Menu {
         options.add("logout");
     }
 
-    public void execute(Menu previousMenu, String input) {
+    public void run(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            switch (findEnum(commandsSource.getAllRegex(), input)) {
+            switch (findEnum(commands.getAllRegex(), input)) {
                 case "CREATE_ACCOUNT":
                     processCreateAccount(input.split("\\s"));
                     break;
@@ -37,11 +37,11 @@ public class MainMenu extends Menu {
                     break;
 
                 case "PRODUCTS":
-                    productsMenu.execute(this, input);
+                    productsMenu.run(this, input);
                     break;
 
                 case "OFFS":
-                    offMenu.execute(this, input);
+                    offMenu.run(this, input);
                     break;
 
                 case "HELP":
@@ -52,7 +52,7 @@ public class MainMenu extends Menu {
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
-                        previousMenu.execute(this, input);
+                        previousMenu.run(this, input);
                     }
                     break;
                 default:
