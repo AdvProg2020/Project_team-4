@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 public abstract class Account {
     protected static ArrayList<Account> allAccounts = new ArrayList<Account>();
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+public abstract class Account {
+    private static Account loggedInAccount;
     protected String userName;
     protected String firstName;
     protected String lastName;
@@ -33,6 +40,16 @@ public abstract class Account {
             }
         }
         return null;
+        //allAccounts.add(this);
+    }
+
+    public static Account getAccountWithName(String name) throws FileNotFoundException {
+        return SaveDataAndGetSystemOnBack.readJSONAccount(name);
+    }
+
+
+    public static void login(Account account) {
+        loggedInAccount = account;
     }
 
 
