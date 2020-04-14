@@ -36,7 +36,7 @@ public abstract class Account {
 
 
     public static void login(Account account) {
-
+        loggedInAccount = account;
     }
 
 
