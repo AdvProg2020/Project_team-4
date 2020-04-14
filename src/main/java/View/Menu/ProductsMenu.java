@@ -1,40 +1,21 @@
 package View.Menu;
 
-import View.CommandProcessor;
-import View.Manager;
-
-import static View.Manager.getMatcher;
+import static View.CommandsSource.findEnum;
 
 public class ProductsMenu extends Menu {
-    public void execute(Menu previousMenu, String input) {
+    public void execute(String input) {
         System.out.println("Enter your command :");
-        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "view category").find()) {
-                CommandProcessor.processCreateAccount(input.split("\\s"));
-            } else if (getMatcher(input, "filtering").find()) {
-                CommandProcessor.processLogin(input.split("\\s"));
-            } else if (getMatcher(input, "sorting").find()) {
 
-            } else if (getMatcher(input, "show products").find()) {
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+            String[] splitInput = input.split("\\s");
+            switch (findEnum(commands.getAllRegex(), input)) {
 
-            } else if (getMatcher(input, "show product [productId]").find()) {
+                case "SORTING":
 
-            } else if (getMatcher(input, "help").find()) {
-                showCommands();
-            } else if (getMatcher(input, "back").find()) {
-                if (previousMenu == null) {
-                    System.err.println("This your first menu.");
-                } else {
-                    previousMenu.execute(this, input);
-                }
-            } else {
-                if (Manager.isValidCommand(input)) {
-                    System.err.println("You must login first");
-                } else {
-                    System.err.println("invalid command");
-                }
+                case"SHOW_PRODUCTS":
 
-            }
+                case "SHOW_PRODUCT":
+
         }
     }
 }

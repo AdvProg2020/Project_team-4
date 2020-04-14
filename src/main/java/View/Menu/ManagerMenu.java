@@ -2,7 +2,9 @@ package View.Menu;
 
 import View.Manager;
 
+import static View.CommandsSource.findEnum;
 import static View.Manager.*;
+import static View.Menu.SellerMenu.editField;
 
 public class ManagerMenu extends Menu {
 
@@ -22,37 +24,25 @@ public class ManagerMenu extends Menu {
 
     public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
-        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "view personal info").find()) {
-                getPersonalInfo();
-            } else if (getMatcher(input, "edit [field] to [new]").find()) {
-                editField(input.split("\\s"));
-            } else if (getMatcher(input, "manage users").find()) {
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+            String[] splitInput = input.split("\\s");
+            switch (findEnum(commands.getAllRegex(), input)) {
+                case "edit [field] to [new]":
+                    editField(input.split("\\s"));
+                case "MANAGE_USERS":
 
-            } else if (getMatcher(input, "manage all products").find()) {
+                case "MANAGE_ALL_PRODUCT":
 
-            } else if (getMatcher(input, "create discount code").find()) {
+                case "CREATE_DISCOUNT_CODE":
 
-            } else if (getMatcher(input, "view discount codes").find()) {
+                case "VIEW_DISCOUNT_CODE":
 
-            } else if (getMatcher(input, "manage requests").find()) {
+                case "MANAGE_REQUESTS":
 
-            } else if (getMatcher(input, "manage categories").find()) {
+                case "MANAGE_CATEGORIES":
 
-            } else if (getMatcher(input, "help").find()) {
-                showCommands();
-            } else if (getMatcher(input, "back").find()) {
-                if (previousMenu == null) {
-                    System.err.println("This your first menu.");
-                } else {
-                    previousMenu.execute(this, input);
-                }
-            } else {
-                if (Manager.isValidCommand(input)) {
-                    System.err.println("You must login first");
-                } else {
-                    System.err.println("invalid command");
-                }
+                default:
+                    super.execute(input);
 
             }
         }
