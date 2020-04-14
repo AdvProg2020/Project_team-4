@@ -3,7 +3,6 @@ package View.Menu;
 import View.CommandProcessor;
 
 import static View.CommandProcessor.*;
-import static View.Manager.*;
 
 public class OffMenu extends Menu {
     public OffMenu() {
@@ -13,7 +12,7 @@ public class OffMenu extends Menu {
         options.add("logout");
     }
 
-    public void run(Menu previousMenu, String input) {
+    public void execute(Menu previousMenu, String input) {
         processOffsList(input.split("\\s"));
         System.out.println("Enter your command :");
         while (!(input = CommandProcessor.scanner.nextLine()).equalsIgnoreCase("end")) {
@@ -26,7 +25,7 @@ public class OffMenu extends Menu {
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
-                        previousMenu.run(this, input);
+                        previousMenu.execute(this, input);
                     }
                     break;
                 case "LOGOUT":

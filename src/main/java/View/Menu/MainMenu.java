@@ -4,7 +4,6 @@ import View.*;
 
 import static View.CommandProcessor.*;
 import static View.Commands.findEnum;
-import static View.Manager.*;
 
 public class MainMenu extends Menu {
 
@@ -25,7 +24,7 @@ public class MainMenu extends Menu {
         options.add("logout");
     }
 
-    public void run(Menu previousMenu, String input) {
+    public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             switch (findEnum(commands.getAllRegex(), input)) {
@@ -37,11 +36,11 @@ public class MainMenu extends Menu {
                     break;
 
                 case "PRODUCTS":
-                    productsMenu.run(this, input);
+                    productsMenu.execute(this, input);
                     break;
 
                 case "OFFS":
-                    offMenu.run(this, input);
+                    offMenu.execute(this, input);
                     break;
 
                 case "HELP":
@@ -52,7 +51,7 @@ public class MainMenu extends Menu {
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
-                        previousMenu.run(this, input);
+                        previousMenu.execute(this, input);
                     }
                     break;
                 default:

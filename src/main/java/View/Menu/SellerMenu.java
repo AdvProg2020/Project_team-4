@@ -24,7 +24,7 @@ public class SellerMenu extends Menu {
 
 
 
-    public void run(Menu previousMenu, String input) {
+    public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
             switch (findEnum(commands.getAllRegex(), input)) {
@@ -76,7 +76,7 @@ public class SellerMenu extends Menu {
                     if (previousMenu == null) {
                         System.err.println("This your first menu.");
                     } else {
-                        previousMenu.run(this, input);
+                        previousMenu.execute(this, input);
                     }
                     break;
                 default:
