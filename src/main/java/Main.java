@@ -1,12 +1,11 @@
-import View.Manager;
-import View.CommandProcessor;
-
-public class Main {
-
-    public static void main(String[] args) {
-        Manager boss = new Manager();
-        CommandProcessor commandProcessor = new CommandProcessor(boss);
-        commandProcessor.run();
-    }
-
-}
+//import View.Manager;
+//import View.CommandProcessor;
+//
+//public class Main {
+//
+//    public static void main(String[] args) {
+//        Manager manager = new Manager();
+//        manager.run();
+//    }
+//
+//}
