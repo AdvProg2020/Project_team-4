@@ -23,7 +23,9 @@ public class Controller {
             Seller.addANewSeller(username, password);
             return 1;
         }else if(type.equals("manager")){
-            Manager.addANewManager(username, password);
+            if(!Manager.addANewManager(username, password)){
+                return 4;
+            }
             //request send
             return 1;
         }else return 3;
@@ -33,8 +35,8 @@ public class Controller {
         if(Account.getAccountWithName(username) == null){
             return 2;
         }if(Account.getAccountWithName(username).getPassWord().equals(password)){
-            //login this
-
+            Account.login(Account.getAccountWithName(username));
+            return 1;
         }
         return 3;
     }
