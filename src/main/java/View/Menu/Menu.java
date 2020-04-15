@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import static View.CommandsSource.findEnum;
 import static View.Outputs.*;
 
-public class Menu {
+public abstract class Menu {
     protected Menu previousMenu;
     protected Scanner scanner;
     protected CommandsSource commands;
