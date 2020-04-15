@@ -161,7 +161,7 @@ public enum CommandsSource {
                 return getEnumNameByRegex(regex);
             }
         }
-        return null;
+        return "Very wrong";
     }
 
     public static String getEnumNameByRegex(String regex) {
