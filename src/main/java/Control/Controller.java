@@ -42,6 +42,13 @@ public class Controller {
         return 3;
     }
 
+    public Account showAnUser(String username){
+       return Account.getAccountWithName(username);
+    }
 
+    public Account deleteAnUser(String username){
+        Account account = Account.getAccountWithName(username);
+        Account.deleteAccount(username);
+    }
 }
 
