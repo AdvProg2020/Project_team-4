@@ -1,11 +1,11 @@
-//import View.Manager;
-//import View.CommandProcessor;
-//
-//public class Main {
-//
-//    public static void main(String[] args) {
-//        Manager manager = new Manager();
-//        manager.run();
-//    }
-//
-//}
+import View.Menu.MainMenu;
+import View.Menu.Menu;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Menu mainMenu = new MainMenu();
+        mainMenu.execute(null, null);
+    }
+
+}

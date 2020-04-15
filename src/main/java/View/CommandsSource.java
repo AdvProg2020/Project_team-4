@@ -4,9 +4,10 @@ import View.Menu.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static View.Manager.getMatcher;
+import static View.Menu.Menu.getMatcher;
 
 public enum CommandsSource {
     /************************************GeneralCommands*****************************************/
@@ -133,12 +134,11 @@ public enum CommandsSource {
         this.commandPattern = Pattern.compile(regex);
     }
     // ------> Menus
-    private static Menu createLoginMenu = new CreateLoginMenu();
     private static Menu managerMenu = new ManagerMenu();
     private static Menu sellerMenu = new SellerMenu();
     private static Menu customerMenu = new CustomerMenu();
     private static Menu productMenu = new ProductMenu();
-    private static Menu offMenu = new OffMenu();
+    private static Menu offMenu = new OffsMenu();
     private static Menu mainMenu = new MainMenu();
 
 
@@ -171,5 +171,14 @@ public enum CommandsSource {
             }
         }
         return null;
+    }
+
+    public static boolean isThisRegexMatch(String regex, String input) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            return true;
+        }
+        return false;
     }
 }

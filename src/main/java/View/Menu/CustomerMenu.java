@@ -2,6 +2,7 @@ package View.Menu;
 
 import View.Manager;
 
+import static View.CommandsSource.findEnum;
 import static View.Manager.*;
 
 public class CustomerMenu extends Menu {
@@ -25,33 +26,21 @@ public class CustomerMenu extends Menu {
 
     public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
-        while (!(input = Manager.scanner.nextLine()).equalsIgnoreCase("end")) {
-            if (getMatcher(input, "view personal info").find()) {
-                getPersonalInfo();
-            } else if (getMatcher(input, "view cart").find()) {
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+            String[] splitInput = input.split("\\s");
+            switch (findEnum(commands.getAllRegex(), input)) {
+                case "VIEW_CART":
 
-            } else if (getMatcher(input, "purchase").find()) {
+                case "PURCHASE":
 
-            } else if (getMatcher(input, "view orders").find()) {
+                case "VIEW_ORDERS":
 
-            } else if (getMatcher(input, "view balance").find()) {
+                case "VIEW_BALANCE":
 
-            } else if (getMatcher(input, "view discount codes").find()) {
+                case "VIEW_DISCOUNT_CODES":
 
-            } else if (getMatcher(input, "help").find()) {
-                showCommands();
-            } else if (getMatcher(input, "back").find()) {
-                if (previousMenu == null) {
-                    System.err.println("This your first menu.");
-                } else {
-                    previousMenu.execute(this, input);
-                }
-            } else {
-                if (Manager.isValidCommand(input)) {
-                    System.err.println("You must login first");
-                } else {
-                    System.err.println("invalid command");
-                }
+                default:
+                    super.execute(input);
 
             }
         }

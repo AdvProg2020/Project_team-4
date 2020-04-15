@@ -32,7 +32,12 @@ public class Outputs {
         }
     }
 
-
+    public static void printLogoutResult(int result){
+        switch(result){
+            case 1:
+            case 2:
+        }
+    }
 
 
 
