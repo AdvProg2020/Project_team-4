@@ -4,6 +4,7 @@ import View.Menu.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static View.Menu.Menu.getMatcher;
@@ -170,5 +171,14 @@ public enum CommandsSource {
             }
         }
         return null;
+    }
+
+    public static boolean isThisRegexMatch(String regex, String input) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            return true;
+        }
+        return false;
     }
 }
