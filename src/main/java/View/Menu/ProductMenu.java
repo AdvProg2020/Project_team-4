@@ -14,12 +14,14 @@ public class ProductMenu extends Menu {
         giveProductId(productId);
 
     }
-    public void execute(Menu previousMenu, String input) {
+    public void execute(String input) {
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             switch (findEnum(commands.getAllRegex(), input)) {
                 case "DIGEST":
+                    break;
                 case "ATTRIBUTES":
+                    break;
                 case "COMPARE":
                 case "COMMENTS":
                 default:
