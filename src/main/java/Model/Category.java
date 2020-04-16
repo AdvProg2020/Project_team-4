@@ -54,8 +54,22 @@ public class Category {
         return null;
     }
 
+    public static ArrayList<Category> getAllCategories() {
+        return allCategories;
+    }
+
     public static String compareBetweenTwoProduct(Category category, Product product1, Product product2) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", tags=" + tags +
+                ", subCategories=" + subCategories +
+                ", products=" + products +
+                '}';
     }
 
 
