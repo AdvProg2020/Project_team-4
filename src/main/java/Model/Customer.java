@@ -6,9 +6,11 @@ public class Customer extends Account {
     private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private ArrayList<Product> cart;
     private ArrayList<BuyLog> buyingHistory;
+    private ArrayList<CodedOff> offCodes;
 
     public Customer(String userName, String passWord) {
         super(userName, passWord);
+        this.offCodes = new ArrayList<>();
         allCustomers.add(this);
     }
 
@@ -22,6 +24,10 @@ public class Customer extends Account {
     }
 
 
+    @Override
+    public ArrayList<CodedOff> getOffCodes() {
+        return offCodes;
+    }
 
     public void filterOrSearchInProducts() {
         return;
