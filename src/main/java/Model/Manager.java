@@ -45,6 +45,10 @@ public class Manager extends Account {
 
     }
 
+    public static void remove(Product productWithName) {
+
+    }
+
     public static boolean addANewManager(String userName, String passWord, Boolean isRequestFromManger) {
         if (isFirstManagerCreatedOrNot && isRequestFromManger){
             new Manager(userName, passWord);

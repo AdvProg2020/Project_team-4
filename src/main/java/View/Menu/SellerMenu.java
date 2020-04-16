@@ -47,7 +47,7 @@ public class SellerMenu extends Menu {
         }
     }
 
-    private static void editField(String[] splitInput) {
+    static void editField(String[] splitInput) {
         switch (Controller.getOurController().requestEditField(splitInput[1], splitInput[3])) {
             case true:
             case false:

@@ -14,6 +14,10 @@ public class Customer extends Account {
         allCustomers.add(this);
     }
 
+    public static void newCustomer(String username, String password) {
+    }
+
+
 
     public ArrayList<Product> getProducts() {
         return null;
