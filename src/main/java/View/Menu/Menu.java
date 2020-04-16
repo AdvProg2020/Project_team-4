@@ -13,7 +13,7 @@ import static View.Outputs.*;
 
 public abstract class Menu {
     protected Menu previousMenu;
-    protected Scanner scanner;
+    public static Scanner scanner;
     protected CommandsSource commands;
     protected ArrayList<String> options = new ArrayList<>();
     private ArrayList<String> validCommands = new ArrayList<>();
@@ -68,6 +68,7 @@ public abstract class Menu {
         System.out.println("Enter your password:");
         return scanner.nextLine();
     }
+
 
     public void execute(String input) {
         String[] splitInput = input.split("\\s");

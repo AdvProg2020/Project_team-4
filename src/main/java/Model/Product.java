@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class Product {
     private static ArrayList<Product> allProducts;
     private String productBarcode;
+    private static ArrayList<Customer> byers = new ArrayList<>();
     private static HashMap<String, Product> products;
     private enum  productStatus {
         inProcessOfMaking, inProcessOfEditing, approved
