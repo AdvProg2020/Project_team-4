@@ -41,11 +41,11 @@ public abstract class Menu {
     }
 
     private void createAccount(String type, String username, String password) {
-        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
+        printCreateAccountResult(Controller.getOurController().controllerNewAccount(type, username, password));
     }
 
     private void login(String username, String password) {
-        printLoginResult(Controller.getOurController().requestLogin(username, password));
+        printLoginResult(Controller.getOurController().controllerLogin(username, password));
     }
 
     private void logout() {

@@ -10,93 +10,135 @@ public class SaveDataAndGetSystemOnBack {
 
     }
     public static void writeJSONAccount(Account account) throws IOException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        FileWriter writer = new FileWriter(account.getUserName());
-        writer.write(gson.toJson(account));
-        writer.close();
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(account.getUserName());
+            writer.write(gson.toJson(account));
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
     }
 
     public static Account readJSONAccount(String name) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(name));
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(name));
 
-        Account account = gson.fromJson(bufferedReader, Account.class);
-        return account;
+            Account account = gson.fromJson(bufferedReader, Account.class);
+            return account;
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            return null;
+        }
     }
 
     public static void writeJSONBuyLog(BuyLog buyLog) throws IOException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        FileWriter writer = new FileWriter(buyLog.getLogBarcode());
-        writer.write(gson.toJson(buyLog));
-        writer.close();
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(buyLog.getLogBarcode());
+            writer.write(gson.toJson(buyLog));
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
     }
 
     public static BuyLog readJSONBuyLog(String name) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(name));
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(name));
 
-        BuyLog buyLog = gson.fromJson(bufferedReader, BuyLog.class);
-        return buyLog;
+            BuyLog buyLog = gson.fromJson(bufferedReader, BuyLog.class);
+            return buyLog;
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            return null;
+        }
     }
 
     public static void writeJSONCategory(Category category) throws IOException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        FileWriter writer = new FileWriter(category.getName());
-        writer.write(gson.toJson(category));
-        writer.close();
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(category.getName());
+            writer.write(gson.toJson(category));
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+
     }
 
     public static Category readJSONCategory(String name) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(name));
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(name));
 
-        Category category = gson.fromJson(bufferedReader, Category.class);
-        return category;
+            Category category = gson.fromJson(bufferedReader, Category.class);
+            return category;
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            return null;
+        }
+
     }
 
     public static void writeJSONCodedOff(CodedOff codedOff) throws IOException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        FileWriter writer = new FileWriter(codedOff.getOffBarcode());
-        writer.write(gson.toJson(codedOff));
-        writer.close();
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(codedOff.getOffBarcode());
+            writer.write(gson.toJson(codedOff));
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+
     }
 
     public static CodedOff readJSONCodedOff(String name) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(name));
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(name));
 
-        CodedOff codedOff = gson.fromJson(bufferedReader, CodedOff.class);
-        return codedOff;
+            CodedOff codedOff = gson.fromJson(bufferedReader, CodedOff.class);
+            return codedOff;
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
+            return null;
+        }
+
     }
 
     public static void writeJSONComment(Comment comment) throws IOException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        FileWriter writer = new FileWriter(comment.getCommentBarcode());
-        writer.write(gson.toJson(comment));
-        writer.close();
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(comment.getCommentBarcode());
+            writer.write(gson.toJson(comment));
+            writer.close();
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("File not found");
+        }
+
     }
 
     public static Comment readJSONComment(String name) throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(name));
+        try {
 
-        Comment comment = gson.fromJson(bufferedReader, Comment.class);
-        return comment;
+        }
+
     }
 
     public static void writeJSONCustomer(Customer customer) throws IOException {
