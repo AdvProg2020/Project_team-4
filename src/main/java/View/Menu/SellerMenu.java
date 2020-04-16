@@ -1,7 +1,6 @@
 package View.Menu;
 
 import Control.Controller;
-import Model.Account;
 import Model.Product;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class SellerMenu extends Menu {
         return Controller.getOurController().requestAddProduct(name, company, cost, category, description);
     }
 
-    public static void getCompanyInfo() {
+    private static void getCompanyInfo() {
         ArrayList<String> companyInfos = new ArrayList<>();
         companyInfos.addAll(Controller.getOurController().requestCompanyInfo());
         for (String companyInfo : companyInfos) {
@@ -48,14 +47,14 @@ public class SellerMenu extends Menu {
         }
     }
 
-    public static void editField(String[] splitInput) {
+    private static void editField(String[] splitInput) {
         switch (Controller.getOurController().requestEditField(splitInput[1], splitInput[3])) {
             case true:
             case false:
         }
     }
 
-    public static void getSalesHistory() {
+    private static void getSalesHistory() {
         ArrayList<String> salesHistory = new ArrayList<>();
         salesHistory.addAll(Controller.getOurController().requestSalesHistoryInfo());
         for (String saleHistory : salesHistory) {
@@ -63,7 +62,7 @@ public class SellerMenu extends Menu {
         }
     }
 
-    public static void manageProducts() {
+    private static void manageProducts() {
         ArrayList<Product> products = new ArrayList<>();
         products.addAll(Controller.getOurController().requestListOfProducts());
         for (Product product : products) {
@@ -71,11 +70,11 @@ public class SellerMenu extends Menu {
         }
     }
 
-    public static void getProductInfo() {
+    private static void getProductInfo() {
         System.out.println(Controller.getOurController().requestProductInfo());
     }
 
-    public static void productBuyers() {
+    private static void productBuyers() {
         printProductBuyersResult(Controller.getOurController().requestProductBuyers());
     }
 
@@ -94,6 +93,26 @@ public class SellerMenu extends Menu {
                     super.execute(input);
             }
         }
+    }
+
+    private static void getProductInfoForAdd(){
+
+    }
+
+    private static void removeProduct(){
+
+    }
+
+    private static void showCategories(){
+
+    }
+
+    private static void viewOffs(){
+
+    }
+
+    private static void viewBalance(){
+
     }
 
     public void execute(String input) {
