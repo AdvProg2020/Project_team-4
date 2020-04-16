@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Manager extends Account {
@@ -76,6 +77,21 @@ public class Manager extends Account {
 
     public void addACategory() {
 
+    }
+
+    public static void removeProduct(Product product) {
+        File file = new File(product.getName());
+
+        if(file.delete())
+        {
+            System.out.println("File deleted successfully");
+        }
+        else
+        {
+            System.out.println("Failed to delete the file");
+        }
+        assert Product.getProductsInProducts() != null;
+        Product.getProductsInProducts().remove(product);
     }
 
 

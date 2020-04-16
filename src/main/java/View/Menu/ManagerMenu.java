@@ -7,6 +7,7 @@ import Model.Category;
 import Model.Customer;
 import Model.Request;
 import View.CommandsSource;
+import View.Outputs;
 
 import java.util.ArrayList;
 
@@ -51,19 +52,17 @@ public class ManagerMenu extends Menu {
                         case "CREATE_MANAGER_PROFILE" :
                             System.out.println("Please enter a userName:");
                             input = scanner.nextLine();
-                            if (Controller.getOurController().checkTheUserNameBeforeRegister(input)) {
+//                            if (Controller.getOurController().checkTheUserNameBeforeRegister(input)) {
                                 System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
                                 input = scanner.nextLine();
                                 splitInput = input.split("\\s");
-                                if (Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4])
-                               ) {
-                                    System.out.println("Manager created.");
-                                } else {
-                                    System.out.println("Sth went wrong in creation");
-                                }
-                            } else {
-                                System.out.println("UserName exists already.");
-                            }
+                               /* if (*/
+                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4]));
+//                               ) {
+//                                    System.out.println("Manager created.");
+//                                } else {
+//                                    System.out.println("Sth went wrong in creation");
+//                                }
                             break;
                         default:
                             System.out.println("Enter a valid command please.");

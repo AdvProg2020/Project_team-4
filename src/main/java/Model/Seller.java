@@ -18,8 +18,8 @@ public class Seller extends Account {
     private ArrayList<Product> sellingProducts;
     private ArrayList<Off> offs;
 
-    public static boolean addANewSeller(String userName, String passWord) {
-        Manager.addANewSellerRequest(userName, passWord);
+    public static boolean addANewSeller(String requestId, String userName, String passWord) {
+        Manager.addANewSellerRequest(requestId, userName, passWord);
         return true;
     }
 
@@ -53,6 +53,15 @@ public class Seller extends Account {
 
     public void sendEditOffRequest() {
         //Manager.receiveEditOffRequest();
+    }
+
+    public static Seller getSellerByName(String name) {
+        for (Seller seller : allSellers) {
+            if (seller.getName().equalsIgnoreCase(name)) {
+                return seller;
+            }
+        }
+        return null;
     }
 
 
