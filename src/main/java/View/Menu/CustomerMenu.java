@@ -1,5 +1,6 @@
 package View.Menu;
 
+import Control.Controller;
 import View.Manager;
 
 import static View.CommandsSource.findEnum;
@@ -22,6 +23,20 @@ public class CustomerMenu extends Menu {
         options.add("show product [productId]");
         options.add("help");
         options.add("back");
+    }
+
+    private static Menu getCartMenu() {
+        return new Menu() {
+            @Override
+            protected void showCommands() {
+
+            }
+
+            @Override
+            public void execute(String input) {
+                super.execute(input);
+            }
+        };
     }
 
     public void execute(Menu previousMenu, String input) {
