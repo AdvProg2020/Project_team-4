@@ -51,6 +51,11 @@ public class Outputs {
         System.out.println(result);
     }
 
-
+    public static void printAddToCartResult(int result){
+        switch(result){
+            case 1:
+            case 2:
+        }
+    }
 }
 
