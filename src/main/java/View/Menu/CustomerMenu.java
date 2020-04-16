@@ -1,12 +1,18 @@
 package View.Menu;
 
 import Control.Controller;
+import Model.Customer;
+import View.CommandsSource;
 import View.Manager;
+
+import java.util.ArrayList;
 
 import static View.CommandsSource.findEnum;
 import static View.Manager.*;
 
 public class CustomerMenu extends Menu {
+
+    private Menu nextMenu = null;
 
     public CustomerMenu() {
         options.add("view personal info");
@@ -25,11 +31,11 @@ public class CustomerMenu extends Menu {
         options.add("back");
     }
 
-    private static Menu getCartMenu() {
+    public static Menu getLFinalPurchaseMenu() {
         return new Menu() {
             @Override
             protected void showCommands() {
-
+                super.showCommands();
             }
 
             @Override
@@ -39,21 +45,95 @@ public class CustomerMenu extends Menu {
         };
     }
 
+    private static Menu getCartMenu() {
+        return new Menu() {
+            @Override
+            protected void showCommands() {
+
+            }
+
+            @Override
+            public void execute(String input) {
+                Controller.getOurController().showCart();
+                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+                    String[] splitInput = input.split("\\s");
+                    switch (findEnum(commands.getAllRegex(), input)) {
+                        case "SHOW_PRODUCTS" :
+                            Controller.getOurController().showProducts();
+                            break;
+                        case "View" :
+                            Controller.getOurController().showProduct();
+                            break;
+                            case ""
+                    }
+                }
+            }
+        };
+    }
+
+    private static Menu getViewOrdersMenu() {
+        return new Menu() {
+            @Override
+            protected void showCommands() {
+
+            }
+
+            @Override
+            public void execute(String input) {
+                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+                    String[] splitInput = input.split("\\s");
+                    switch (findEnum(commands.getAllRegex(), input)) {
+                        case "SHOW_ORDER" :
+                            Controller.getOurController().showOrder(splitInput[2]);
+                            break;
+                        case "RATE_PRODUCT" :
+                            Controller.getOurController().rateProduct();
+                    }
+                }
+            }
+        };
+    }
+
+    private static void receiveInformation() {
+        String input = "";
+        System.out.println("Enter address:\nphoneNumber:");
+        String address = scanner.nextLine().trim();
+        String phoneNumber = CommandsSource.getField("Please enter a valid barcode", "(\\d+)");
+        Controller.getOurController().purchase(address, phoneNumber);
+    }
+
+    private static void offCodeCheck() {
+        String input = "";
+        System.out.println("Enter your offCode");
+        String offCode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");
+        Controller.getOurController().checkOffCodeAndSet(offCode);
+    }
+
+    private static void pay() {
+        Controller.getOurController().pay();
+    }
+
     public void execute(Menu previousMenu, String input) {
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             String[] splitInput = input.split("\\s");
             switch (findEnum(commands.getAllRegex(), input)) {
                 case "VIEW_CART":
-
+                    nextMenu = getCartMenu();
+                    nextMenu.showCommands();
+                    nextMenu.execute("");
                 case "PURCHASE":
-
+                    receiveInformation();
+                    offCodeCheck();
+                    pay();
                 case "VIEW_ORDERS":
-
+                    nextMenu = getViewOrdersMenu();
+                    nextMenu.showCommands();
+                    nextMenu.execute("");
                 case "VIEW_BALANCE":
-
+                    Controller.getOurController().showCustomerBalance();
                 case "VIEW_DISCOUNT_CODES":
-
+                    Controller.getOurController().showCustomerDiscountCodes();
                 default:
                     super.execute(input);
 
