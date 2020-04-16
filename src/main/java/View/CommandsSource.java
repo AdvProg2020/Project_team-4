@@ -182,7 +182,7 @@ public enum CommandsSource {
     public static String getField(String errorToPrint, String regex) {
         String input = "";
         while (!isThisRegexMatch(regex, input = Menu.scanner.nextLine().trim())) {
-            System.out.println();
+            System.out.println(errorToPrint);
         }
         return input.trim();
     }
