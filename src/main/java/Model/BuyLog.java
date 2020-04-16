@@ -3,7 +3,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class BuyLog {
+public class BuyLog extends SaveAble{
     private static ArrayList<BuyLog> allBuyLogs;
     private String logBarcode;
     private String date;
@@ -26,6 +26,11 @@ public class BuyLog {
     }
 
     public String getLogBarcode() {
+        return logBarcode;
+    }
+
+    @Override
+    protected String getName() {
         return logBarcode;
     }
 }

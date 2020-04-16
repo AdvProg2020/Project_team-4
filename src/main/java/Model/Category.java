@@ -5,7 +5,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Category {
+public class Category extends SaveAble{
     private static ArrayList<Category> allCategories;
     private String name;
     private ArrayList<String> tags;
@@ -71,6 +71,8 @@ public class Category {
                 ", products=" + products +
                 '}';
     }
+
+
 
 
 }

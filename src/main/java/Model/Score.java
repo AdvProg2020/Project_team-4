@@ -14,4 +14,5 @@ public class Score {
         this.product = product;
         allScores.add(this);
     }
+
 }

@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Request {
+public class Request extends SaveAble{
     private static ArrayList<Request> allRequest;
     private String requestType;
     private String requestId;
@@ -24,5 +24,10 @@ public class Request {
             }
         }
         return null;
+    }
+
+    @Override
+    protected String getName() {
+        return requestId;
     }
 }

@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Off {
+public class Off extends SaveAble{
     private static ArrayList<Off> allOffs;
     private static HashMap<String, Off> offs;
     private String offBarcode;
@@ -34,6 +34,11 @@ public class Off {
                 ", endDate='" + endDate + '\'' +
                 ", offAmount=" + offAmount +
                 '}';
+    }
+
+    @Override
+    protected String getName() {
+        return offBarcode;
     }
 
     public ArrayList<Product> getProducts() {
