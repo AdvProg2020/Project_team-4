@@ -25,9 +25,9 @@ public abstract class Account extends SaveAble {
         this.buyOrSellLogs = new ArrayList();
 //allAccounts.add(this);
     }
-    public static Account getAccountWithName(String name) throws FileNotFoundException {
-        return SaveDataAndGetSystemOnBack.readJSONAccount(name);
-    }
+//    public static Account getAccountWithName(String name) throws FileNotFoundException {
+//        return SaveDataAndGetSystemOnBack.readJSONAccount(name);
+//    }
     public static void deleteAccount(Account account) {
         File file = new File(account.getUserName());
 

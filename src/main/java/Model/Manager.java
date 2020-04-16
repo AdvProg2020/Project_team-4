@@ -1,11 +1,10 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Manager extends Account {
 
-    private static boolean isTheFirstManagerCreatedOrNot;
+    private static boolean isFirstManagerCreatedOrNot;
 
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
@@ -22,7 +21,7 @@ public class Manager extends Account {
     public Manager(String userName, String passWord) {
         super(userName, passWord);
         allManagers.add(this);
-        isTheFirstManagerCreatedOrNot = true;
+        isFirstManagerCreatedOrNot = false;
     }
 
     public void editOffCode(CodedOff offCode) {
@@ -45,16 +44,16 @@ public class Manager extends Account {
 
     }
 
-    public static boolean addANewManager(String userName, String passWord) {
-        if (isTheFirstManagerCreatedOrNot){
-            return false;
+    public static boolean addANewManager(String userName, String passWord, Boolean isRequestFromManger) {
+        if (isFirstManagerCreatedOrNot && isRequestFromManger){
+            new Manager(userName, passWord);
+            return true;
         }
-        allManagers.add(new Manager(userName, passWord));
-        return true;
+        return false;
     }
 
-    public static boolean addANewSellerRequest(String userName, String passWord) {
-        registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
+    public static boolean addANewSellerRequest(String userName, String passWord, String requestId) {
+        registerSellerAccountRequests.add(new RequestANewSellerAccount(requestId, "Create a seller account", userName, passWord));
         return true;
     }
 
