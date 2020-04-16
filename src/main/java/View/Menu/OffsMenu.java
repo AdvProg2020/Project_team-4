@@ -1,9 +1,13 @@
 package View.Menu;
 
 import Control.Controller;
+import View.CommandsSource;
+
 import static View.Outputs.*;
 
 public class OffsMenu extends Menu {
+
+    private ProductMenu productMenu = new ProductMenu();
 
     public OffsMenu() {
         options.add("show product [productId]");
@@ -12,12 +16,13 @@ public class OffsMenu extends Menu {
         options.add("logout");
     }
 
-    public static void offsList(){
+    public static void offsList() {
         printOffsListResult(Controller.getOurController().requestOffsList());
     }
 
-    private static void showProduct(String[] splitInput){
-        printShowProductResult(Controller.getOurController().requestShowProduct(splitInput[2]));
+    private void showProduct(String[] splitInput, String input) {
+        productMenu.setProductId(splitInput[2]);
+        productMenu.execute(input);
     }
 
     public void execute(String input) {
@@ -25,11 +30,10 @@ public class OffsMenu extends Menu {
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             String[] splitInput = input.split("\\s");
-            switch(commands.findEnum(commands.getAllRegex(), input)){
-                case "SHOW_PRODUCT":
-                    showProduct(splitInput);
-                default:
-                    super.execute(input);
+            if ("SHOW_PRODUCT".equals(CommandsSource.findEnum(commands.getAllRegex(), input))) {
+                showProduct(splitInput, input);
+            } else {
+                super.execute(input);
             }
         }
     }
