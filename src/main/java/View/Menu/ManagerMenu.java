@@ -43,10 +43,10 @@ public class ManagerMenu extends Menu {
                     String[] splitInput = input.split("\\s");
                     switch (findEnum(commands.getAllRegex(), input)) {
                         case "VIEW_USER" :
-                            Controller.getOurController().showAnUser(splitInput[1]);
+                            Controller.getOurController().controllerShowUser(splitInput[1]);
                             break;
                         case "REMOVE_USER" :
-                            Controller.getOurController().deleteAnUser(splitInput[2]);
+                            Controller.getOurController().controllerDeleteAnUser(splitInput[2]);
                             break;
                         case "CREATE_MANAGER_PROFILE" :
                             System.out.println("Please enter a userName:");
@@ -55,7 +55,7 @@ public class ManagerMenu extends Menu {
                                 System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
                                 input = scanner.nextLine();
                                 splitInput = input.split("\\s");
-                                if (Controller.getOurController().createAnewManagerAccountFromManagerPortal(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4])
+                                if (Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4])
                                ) {
                                     System.out.println("Manager created.");
                                 } else {
@@ -82,7 +82,7 @@ public class ManagerMenu extends Menu {
         String endingTime = CommandsSource.getField("Please enter a valid endingTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
         double offAmount = Double.parseDouble(CommandsSource.getField("Please enter a valid offAmount", "(\\d+)"));
         int usageTimes = Integer.parseInt(CommandsSource.getField("Please enter a valid usageTime", "(\\d+)"));
-        Controller.getOurController().createAOffCode(barcode, startingTime, endingTime, offAmount, usageTimes);
+        Controller.getOurController().controllerCreateOffCode(barcode, startingTime, endingTime, offAmount, usageTimes);
     }
 
     private static Menu getDiscountCodeMenu() {
@@ -182,7 +182,7 @@ public class ManagerMenu extends Menu {
         Controller.getOurController().createCategory(name, subCategories, tags, productsList);
     }
 
-    public void execute(Menu previousMenu, String input) {
+    public void execute(String input) {
         Menu nextMenu = null;
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
@@ -202,7 +202,7 @@ public class ManagerMenu extends Menu {
                         //input = scanner.nextLine();
                         if (CommandsSource.isThisRegexMatch("remove\\s(\\w+)", input)) {
                             splitInput = input.split("\\s");
-                            Controller.getOurController().removeProduct(splitInput[1]);
+                            Controller.getOurController().controllerRemoveProduct(splitInput[1]);
                         }
                     }
                     break;

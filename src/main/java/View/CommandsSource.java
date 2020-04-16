@@ -120,8 +120,6 @@ public enum CommandsSource {
     // ------> fields
     private String name;
     private String regex;
-    private String command;
-    private Menu menu;
     public Pattern commandPattern;
     private ArrayList<String> allRegex = new ArrayList<>();
 
@@ -133,6 +131,8 @@ public enum CommandsSource {
         allRegex.add(regex);
         this.commandPattern = Pattern.compile(regex);
     }
+
+
     // ------> Menus
     private static Menu managerMenu = new ManagerMenu();
     private static Menu sellerMenu = new SellerMenu();
@@ -176,10 +176,7 @@ public enum CommandsSource {
     public static boolean isThisRegexMatch(String regex, String input) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
-        if (matcher.matches()) {
-            return true;
-        }
-        return false;
+        return matcher.matches();
     }
 
     public static String getField(String errorToPrint, String regex) {

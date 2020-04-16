@@ -3,8 +3,7 @@ package View.Menu;
 import Control.Controller;
 import View.CommandsSource;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,11 +41,11 @@ public abstract class Menu {
     }
 
     private void createAccount(String type, String username, String password) {
-        printCreateAccountResult(Controller.getOurController().requestCreateAccount(type, username, password));
+        printCreateAccountResult(Controller.getOurController().controllerNewAccount(type, username, password));
     }
 
     private void login(String username, String password) {
-        printLoginResult(Controller.getOurController().requestLogin(username, password));
+        printLoginResult(Controller.getOurController().controllerLogin(username, password));
     }
 
     private void logout() {
@@ -57,7 +56,6 @@ public abstract class Menu {
         System.out.println("Enter your password:");
         return scanner.nextLine();
     }
-
 
     public void execute(String input) {
         String[] splitInput = input.split("\\s");
@@ -73,14 +71,6 @@ public abstract class Menu {
                 break;
             case "HELP":
                 showCommands();
-                break;
-            case "VIEW_PERSONAL_INFO":
-                if(isAnyUserLogin()){
-                    viewPersonalInfo(input);
-                }
-                else{
-                    System.err.println("invalid command");
-                }
                 break;
             case "BACK":
                 if (previousMenu == null) {
