@@ -65,6 +65,9 @@ public class CodedOff extends SaveAble{
     }
 
 
+    public static ArrayList<CodedOff> getAllDiscounts() {
+        return allOfCodes;
+    }
 
     public static CodedOff getOffCodeWithName(String name) {
         for (CodedOff offCode : allOfCodes) {

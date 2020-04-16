@@ -55,6 +55,15 @@ public class Product extends SaveAble{
 
     }
 
+    public static Product getProductWithName(String name) {
+        for (Product product : allProducts) {
+            if (product.getName().equalsIgnoreCase(name)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     @Override
     protected String getName() {
         return productBarcode;
