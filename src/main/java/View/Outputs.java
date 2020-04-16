@@ -1,12 +1,8 @@
 package View;
 
-
-import Model.Account;
 import Model.Customer;
-import Model.Off;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Outputs {
 
@@ -51,6 +47,9 @@ public class Outputs {
         }
     }
 
+    public static void printShowProductResult(String result){
+        System.out.println(result);
+    }
 
 
 }
