@@ -77,7 +77,7 @@ public class ManagerMenu extends Menu {
         String input = "";
         ArrayList<Customer> usersToContain = new ArrayList<>();
         System.out.println("Enter barcode:\nstartingTime:\nendingTime:\noffAmount:\nusageTimes:\nusersToContain");
-        String barcode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");;
+        String barcode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");
         String startingTime = CommandsSource.getField("Please enter a valid starTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
         String endingTime = CommandsSource.getField("Please enter a valid endingTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
         double offAmount = Double.parseDouble(CommandsSource.getField("Please enter a valid offAmount", "(\\d+)"));
@@ -103,6 +103,7 @@ public class ManagerMenu extends Menu {
                             System.out.println(Controller.getOurController().getDiscount(splitInput[3]));
                             break;
                         case "EDIT_DISCOUNT_CODE" :
+                            Controller.getOurController().removeDiscount(splitInput[3]);
                             creatDiscountCode();
                         case "REMOVE_DISCOUNT_CODE" :
                             Controller.getOurController().removeDiscount(splitInput[3]);
