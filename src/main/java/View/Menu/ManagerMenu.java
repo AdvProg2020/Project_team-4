@@ -182,7 +182,7 @@ public class ManagerMenu extends Menu {
         Controller.getOurController().createAOffCode(barcode, startingTime, endingTime, offAmount, usageTimes);
     }
 
-    public void execute(Menu previousMenu, String input) {
+    public void execute(String input) {
         Menu nextMenu = null;
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {

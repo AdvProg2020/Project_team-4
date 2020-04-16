@@ -3,8 +3,7 @@ package View.Menu;
 import Control.Controller;
 import View.CommandsSource;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +57,6 @@ public abstract class Menu {
         return scanner.nextLine();
     }
 
-
     public void execute(String input) {
         String[] splitInput = input.split("\\s");
         switch (findEnum(commands.getAllRegex(), input)) {
@@ -73,14 +71,6 @@ public abstract class Menu {
                 break;
             case "HELP":
                 showCommands();
-                break;
-            case "VIEW_PERSONAL_INFO":
-                if(isAnyUserLogin()){
-                    viewPersonalInfo(input);
-                }
-                else{
-                    System.err.println("invalid command");
-                }
                 break;
             case "BACK":
                 if (previousMenu == null) {
