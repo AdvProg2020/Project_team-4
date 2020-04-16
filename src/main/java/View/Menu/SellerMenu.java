@@ -2,10 +2,12 @@ package View.Menu;
 
 import Control.Controller;
 import Model.Account;
+import Model.Product;
 
 import java.util.ArrayList;
 
 import static View.CommandsSource.findEnum;
+import static View.Outputs.*;
 import static java.lang.Double.parseDouble;
 
 public class SellerMenu extends Menu {
@@ -73,29 +75,25 @@ public class SellerMenu extends Menu {
         System.out.println(Controller.getOurController().requestProductInfo());
     }
 
-    public static void getProductBuyers() {
-        ArrayList<Account> buyers = new ArrayList<>();
-        buyers.addAll(Controller.getOurController().requestProductBuyers());
-        for (Account buyer : buyers) {
-            System.out.println(buyer);
-        }
+    public static void productBuyers() {
+        printProductBuyersResult(Controller.getOurController().requestProductBuyers());
     }
 
-    public static void showEditableField() {
-        ArrayList<String> fields = new ArrayList<>();
-        fields.addAll(Controller.getOurController().requestProductFields());
-        for (String field : fields) {
-            System.out.println(field);
-        }
-        getCommandEdit();
+    private static void editPersonalInfo(){
+
     }
 
-    public static void getCommandEdit() {
-        System.out.println("Enter field that you want to edit: ");
-        String editField = scanner.nextLine();
-        System.out.println("Enter new value: ");
-        String newValue = scanner.nextLine();
-        Controller.getOurController().requestEdit(editField, newValue);
+    private void viewPersonalInfo(String input) {
+        printPersonalInfoResult(Controller.getOurController().requestLoggedInUser());
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+            String[] splitInput = input.split("\\s");
+            switch (findEnum(commands.getAllRegex(), input)) {
+                case "EDIT_PERSONAL_INFO":
+                    editPersonalInfo();
+                default:
+                    super.execute(input);
+            }
+        }
     }
 
     public void execute(String input) {
@@ -104,10 +102,7 @@ public class SellerMenu extends Menu {
             String[] splitInput = input.split("\\s");
             switch (findEnum(commands.getAllRegex(), input)) {
                 case "VIEW_PERSONAL_INFO":
-                    getPersonalInfo();
-                    if ("EDIT_PERSONAL_INFO".equals(findEnum(commands.getAllRegex(), input))) {
-
-                    }
+                    viewPersonalInfo(input);
                 case "VIEW_COMPANY_INFORMATION":
                     getCompanyInfo();
                     break;
@@ -121,10 +116,10 @@ public class SellerMenu extends Menu {
                             getProductInfo();
                             break;
                         case "VIEW_BUYERS":
-                            getProductBuyers();
+                            productBuyers();
                             break;
                         case "EDIT_PRODUCT":
-                            showEditableField();
+
                             break;
                     }
                     break;

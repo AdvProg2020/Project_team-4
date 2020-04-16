@@ -11,13 +11,9 @@ public class OffsMenu extends Menu {
         options.add("logout");
     }
 
-
-
     public static void offsList(){
         printOffsListResult(Controller.getOurController().requestOffsList());
     }
-
-
 
     public void execute(String input) {
         System.out.println("Enter your command :");

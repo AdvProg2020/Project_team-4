@@ -27,7 +27,6 @@ public class Customer extends Account {
         return;
     }
 
-
     public String productsComparing() {
         return null;
     }

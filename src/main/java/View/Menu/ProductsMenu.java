@@ -9,7 +9,6 @@ public class ProductsMenu extends Menu {
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             String[] splitInput = input.split("\\s");
             switch (findEnum(commands.getAllRegex(), input)) {
-
                 case "SORTING":
 
                 case"SHOW_PRODUCTS":

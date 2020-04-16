@@ -161,7 +161,7 @@ public enum CommandsSource {
                 return getEnumNameByRegex(regex);
             }
         }
-        return null;
+        return "Very wrong";
     }
 
     public static String getEnumNameByRegex(String regex) {
@@ -180,5 +180,13 @@ public enum CommandsSource {
             return true;
         }
         return false;
+    }
+
+    public static String getField(String errorToPrint, String regex) {
+        String input = "";
+        while (!isThisRegexMatch(regex, input = Menu.scanner.nextLine().trim())) {
+            System.out.println();
+        }
+        return input.trim();
     }
 }

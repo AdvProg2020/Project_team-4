@@ -13,18 +13,10 @@ import static View.Outputs.*;
 
 public abstract class Menu {
     protected Menu previousMenu;
-    protected Scanner scanner;
+    public static Scanner scanner;
     protected CommandsSource commands;
     protected ArrayList<String> options = new ArrayList<>();
     private ArrayList<String> validCommands = new ArrayList<>();
-
-    public static void getPersonalInfo() {
-        ArrayList<String> personalInfos = new ArrayList<>();
-        personalInfos.addAll(Controller.getOurController().requestPersonalInfo(), getType());
-        for (String personalInfo : personalInfos) {
-            System.out.println(personalInfo);
-        }
-    }
 
     public static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
@@ -40,10 +32,7 @@ public abstract class Menu {
     }
 
     public boolean isValidCommand(String command) {
-        if (findEnum(commands.getAllRegex(), command).equals(null))
-            return false;
-        else
-            return true;
+        return !findEnum(commands.getAllRegex(), command).equals("Very wrong");
     }
 
     protected void showCommands() {
@@ -69,6 +58,7 @@ public abstract class Menu {
         return scanner.nextLine();
     }
 
+
     public void execute(String input) {
         String[] splitInput = input.split("\\s");
         switch (findEnum(commands.getAllRegex(), input)) {
@@ -85,7 +75,12 @@ public abstract class Menu {
                 showCommands();
                 break;
             case "VIEW_PERSONAL_INFO":
-                getPersonalInfo();
+                if(isAnyUserLogin()){
+                    viewPersonalInfo(input);
+                }
+                else{
+                    System.err.println("invalid command");
+                }
                 break;
             case "BACK":
                 if (previousMenu == null) {
