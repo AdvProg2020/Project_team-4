@@ -57,7 +57,7 @@ public class ManagerMenu extends Menu {
                                 input = scanner.nextLine();
                                 splitInput = input.split("\\s");
                                /* if (*/
-                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4]));
+                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1]));
 //                               ) {
 //                                    System.out.println("Manager created.");
 //                                } else {
@@ -111,7 +111,7 @@ public class ManagerMenu extends Menu {
                 }
             }
         };
-        System.out.println(Controller.getOurController().showAllDiscountCodes());
+//        System.out.println(Controller.getOurController().showAllDiscountCodes());
     }
 
     private static Menu getManageRequestMenu() {

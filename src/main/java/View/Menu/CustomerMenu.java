@@ -3,12 +3,12 @@ package View.Menu;
 import Control.Controller;
 import Model.Customer;
 import View.CommandsSource;
-import View.Manager;
+//import View.Manager;
 
 import java.util.ArrayList;
 
 import static View.CommandsSource.findEnum;
-import static View.Manager.*;
+//import static View.Manager.*;
 
 public class CustomerMenu extends Menu {
 
@@ -64,7 +64,7 @@ public class CustomerMenu extends Menu {
                         case "View" :
                             Controller.getOurController().showProduct();
                             break;
-                            case ""
+                            //case ""
                     }
                 }
             }
