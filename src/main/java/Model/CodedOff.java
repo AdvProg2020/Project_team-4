@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CodedOff {
+public class CodedOff extends SaveAble{
     private static ArrayList<CodedOff> allOfCodes;
     private String offBarcode;
     private String startTime;
@@ -36,5 +36,10 @@ public class CodedOff {
                 ", numberOfUsageForEachAccount=" + numberOfUsageForEachAccount +
                 ", discountIsForTheseAccounts=" + discountIsForTheseAccounts +
                 '}';
+    }
+
+    @Override
+    protected String getName() {
+        return offBarcode;
     }
 }

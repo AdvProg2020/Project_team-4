@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-public abstract class Account {
+public abstract class Account extends SaveAble {
     private static Account loggedInAccount;
     //protected static ArrayList allAccounts = new ArrayList();
     protected String userName;
@@ -93,5 +93,10 @@ public abstract class Account {
     }
     public void setCredit(double credit) {
         this.credit = credit;
+    }
+
+    @Override
+    protected String getName() {
+        return userName;
     }
 }

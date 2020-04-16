@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class SellLog {
+public class SellLog extends SaveAble{
     private static ArrayList<SellLog> allSelLogs;
     private String logBarcode;
     private String date;
@@ -22,5 +22,10 @@ public class SellLog {
         this.customerName = customerName;
         this.deliveredOrNot = deliveredOrNot;
         allSelLogs.add(this);
+    }
+
+    @Override
+    protected String getName() {
+        return logBarcode;
     }
 }

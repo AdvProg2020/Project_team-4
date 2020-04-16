@@ -3,7 +3,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Comment {
+public class Comment extends SaveAble{
     private  String commentBarcode;
     private static ArrayList<Comment> allComments;
     private Account commentingAccount;
@@ -30,4 +30,8 @@ public class Comment {
         return false;
     }
 
+    @Override
+    protected String getName() {
+        return commentBarcode;
+    }
 }
