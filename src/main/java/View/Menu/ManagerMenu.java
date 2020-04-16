@@ -43,19 +43,19 @@ public class ManagerMenu extends Menu {
                     String[] splitInput = input.split("\\s");
                     switch (findEnum(commands.getAllRegex(), input)) {
                         case "VIEW_USER" :
-                            Controller.getOurController.showAnUser(splitInput[1]);
+                            Controller.getOurController().showAnUser(splitInput[1]);
                             break;
                         case "REMOVE_USER" :
-                            Controller.getOurController.deleteAnUser(splitInput[2]);
+                            Controller.getOurController().deleteAnUser(splitInput[2]);
                             break;
                         case "CREATE_MANAGER_PROFILE" :
                             System.out.println("Please enter a userName:");
                             input = scanner.nextLine();
-                            if (Controller.getOurController.checkTheUserNameBeforeRegister(input)) {
+                            if (Controller.getOurController().checkTheUserNameBeforeRegister(input)) {
                                 System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
                                 input = scanner.nextLine();
                                 splitInput = input.split("\\s");
-                                if (Controller.getOurController.createAnewManagerAccountFromManagerPortal(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4]);
+                                if (Controller.getOurController().createAnewManagerAccountFromManagerPortal(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4])
                                ) {
                                     System.out.println("Manager created.");
                                 } else {
@@ -89,11 +89,12 @@ public class ManagerMenu extends Menu {
         return new Menu() {
             @Override
             protected void showCommands() {
-                System.out.println(Controller.getOurController().getAllDiscounts());
+
             }
 
             @Override
             public void execute(String input) {
+                System.out.println(Controller.getOurController().getAllDiscounts());
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
                     switch (findEnum(commands.getAllRegex(), input)) {
@@ -116,11 +117,12 @@ public class ManagerMenu extends Menu {
         return new Menu() {
             @Override
             protected void showCommands() {
-                System.out.println(Controller.getOurController().showAllRequests());
+
             }
 
             @Override
             public void execute(String input) {
+                System.out.println(Controller.getOurController().showAllRequests());
                 Request request = null;
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
@@ -145,11 +147,12 @@ public class ManagerMenu extends Menu {
         return new Menu() {
             @Override
             protected void showCommands() {
-                System.out.println(Category.getAllCategories());
+
             }
 
             @Override
             public void execute(String input) {
+                System.out.println(Category.getAllCategories());
                 Request request = null;
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
@@ -159,10 +162,8 @@ public class ManagerMenu extends Menu {
                             System.out.println(request);
                             break;
                         case "ADD_CATEGORY" :
-                            Controller.getOurController().acceptRequest(request);
-                            break;
                         case "REMOVE_CATEGORY" :
-                            Controller.getOurController().declineRequest(request);
+                            addCategory();
                             break;
                     }
                 }
@@ -173,13 +174,12 @@ public class ManagerMenu extends Menu {
     private static void addCategory() {
         String input = "";
         ArrayList<Customer> usersToContain = new ArrayList<>();
-        System.out.println("Enter barcode:\nstartingTime:\nendingTime:\noffAmount:\nusageTimes:\nusersToContain");
-        String barcode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");;
-        String startingTime = CommandsSource.getField("Please enter a valid starTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
-        String endingTime = CommandsSource.getField("Please enter a valid endingTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
-        double offAmount = Double.parseDouble(CommandsSource.getField("Please enter a valid offAmount", "(\\d+)"));
-        int usageTimes = Integer.parseInt(CommandsSource.getField("Please enter a valid usageTime", "(\\d+)"));
-        Controller.getOurController().createAOffCode(barcode, startingTime, endingTime, offAmount, usageTimes);
+        System.out.println("Enter name:\nsubCategorie:\ntags:\nproductsList:");
+        String name = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");;
+        String subCategories = scanner.nextLine().trim();
+        String tags = scanner.nextLine().trim();
+        String productsList = scanner.nextLine().trim();
+        Controller.getOurController().createCategory(name, subCategories, tags, productsList);
     }
 
     public void execute(Menu previousMenu, String input) {
