@@ -1,17 +1,20 @@
 package View.Menu;
 
+import java.util.regex.Matcher;
+
 import static View.CommandsSource.findEnum;
 
 public class ProductsMenu extends Menu {
 
     public ProductsMenu() {
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
+        options.add("sorting");
+        options.add("show products");
+        options.add("show product");
+        options.add("back");
+        options.add("create account [manager|seller|customer] [username]");
+        options.add("login [username]");
+        options.add("logout");
+        options.add("help");
     }
 
     private static void sorting(){
@@ -24,22 +27,31 @@ public class ProductsMenu extends Menu {
 
     }
 
-    public void execute(String input) {
+    public void execute() {
         System.out.println("Enter your command :");
-        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-            String[] splitInput = input.split("\\s");
-            switch (findEnum(commands.getAllRegex(), input)) {
-                case "SORTING":
+        Matcher matcher;
+        do {
+            showCommands();
+            String input = scanner.nextLine();
+            if(!getMatcher(scanner.nextLine(), "(\\d)").matches()){
+                continue;
+            }
+            switch (input) {
+                case "1":
                     sorting();
                     break;
-                case "SHOW_PRODUCTS":
+                case "2":
                     showProducts();
                     break;
-                case "SHOW_PRODUCT":
+                case "3":
                     showProduct();
                     break;
+                case "4":
+                    return;
+                default:
+                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }
+        }while (true);
     }
 }
 

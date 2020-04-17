@@ -23,10 +23,14 @@ public abstract class Account extends SaveAble {
         this.offCodes = new ArrayList();
         this.sellOrBuyHistory = new ArrayList();
         this.buyOrSellLogs = new ArrayList();
-//allAccounts.add(this);
     }
-    public static SaveAble getAccountWithName(String name) throws FileNotFoundException {
-        return SaveDataAndGetSystemOnBack.readJSONAccount(name);
+    public static SaveAble getAccountWithName(String name){
+        try {
+            return SaveDataAndGetSystemOnBack.readJSONAccount(name);
+        }
+        catch (FileNotFoundException e){
+            return null;
+        }
     }
     public static void deleteAccount(Account account) {
         File file = new File(account.getUserName());
@@ -42,6 +46,13 @@ public abstract class Account extends SaveAble {
     }
     public static void login(Account account) {
         loggedInAccount = account;
+    }
+    public static boolean logout(){
+        if(loggedInAccount == null){
+            return false;
+        }
+        loggedInAccount = null;
+        return true;
     }
     public void setFirstName(String firstName) {
         this.firstName = firstName;

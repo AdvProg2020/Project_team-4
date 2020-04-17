@@ -14,37 +14,43 @@ public class Controller {
         return ourController;
     }
 
-    public int controllerNewAccount(String type, String username, String password) throws FileNotFoundException {
+    public int controllerNewAccount(String type, String username, String password){
         if (Account.getAccountWithName(username) != null){
-            return 2;
+            return 4;
         }
         switch (type) {
             case "customer":
                 Customer.newCustomer(username, password);
                 return 1;
             case "seller":
-                Seller.addANewSeller(username, password, "uhyghuj59");
-                return 1;
+                // id!
+                Seller.addANewSeller("uhyghuj59", username, password);
+                return 2;
             case "manager":
-                if (!Manager.addANewManager(false, username, password)) {
-                    return 4;
+                if (!Manager.addANewManager(username, password, false)) {
+                    return 3;
                 }
-                //first manager created
                 return 1;
             default:
-                return 3;
+                return 5;
         }
     }
 
-    public int controllerLogin(String username, String password) throws FileNotFoundException {
+    public int controllerLogin(String username, String password){
         if(Account.getAccountWithName(username) == null){
-            //Account not found
             return 2;
         }if(Account.getAccountWithName(username).getPassWord().equals(password)){
-            Account.login((Account) Account.getAccountWithName(username));
+            Account.login((Account) (Account.getAccountWithName(username)));
             return 1;
         }
         return 3;
+    }
+
+    public int requestLogout(){
+        if(Account.logout()){
+            return 1;
+        }
+        return 2;
     }
 
     public Account controllerShowUser(String username) throws FileNotFoundException {
@@ -71,6 +77,19 @@ public class Controller {
     public ArrayList<CodedOff> getAllDiscounts(){
         return CodedOff.getAllDiscounts();
     }
+
+    public Off controllerGetDiscount(String offCodeName) {
+        return CodedOff.getOffCodeWithId(offCodeName);
+    }
+
+    public void controllerRemoveDiscount(String offCodeName) {
+        CodedOff.removeOffCode(CodedOff.getOffCodeWithId(offCodeName));
+    }
+
+    public ArrayList<CodedOff> showAllDiscountCodes(){
+        return CodedOff.getAllDiscounts();
+    }
+
 
 
     public void showCart() {
