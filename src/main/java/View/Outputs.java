@@ -6,34 +6,55 @@ import java.util.ArrayList;
 
 public class Outputs {
 
-    public static void printCreateAccountResult(int result) {
+    public static boolean printCreateAccountResult(int result) {
         switch (result) {
             case 1:
+                System.out.println("Account created successfully");
+                return true;
             case 2:
+                System.out.println("request for being seller sent!");
+                return true;
             case 3:
-            default:
+                System.out.println("only manager can create manager Account");
+                return false;
+            case 4:
+                System.out.println("please Enter another username this name exist!");
+                return false;
+            case 5:
+                System.out.println("type should be customer or seller or manager");
+                return false;
         }
+        return false;
     }
 
-    public static void printLoginResult(int result) {
+    public static boolean printLoginResult(int result) {
         switch (result) {
             case 1:
+                System.out.println("successfully logged in!");
+                return true;
             case 2:
+                System.out.println("username not found please try again!");
+                return false;
             case 3:
-            default:
+                System.out.println("invalid password! please try again!");
+                return false;
+        }
+        return false;
+    }
+
+    public static void printLogoutResult(int result) {
+        switch (result) {
+            case 1:
+                System.out.println("logged out successfully!");
+                return;
+            case 2:
+                System.out.println("you should login first!");
         }
     }
 
     public static void printOffsListResult(ArrayList resultOff) {
         for (Object off : resultOff) {
             System.out.println(off);
-        }
-    }
-
-    public static void printLogoutResult(int result) {
-        switch (result) {
-            case 1:
-            case 2:
         }
     }
 

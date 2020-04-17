@@ -25,16 +25,24 @@ public class OffsMenu extends Menu {
         productMenu.execute(input);
     }
 
-    public void execute(String input) {
+    public void execute() {
         offsList();
-        System.out.println("Enter your command :");
-        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-            String[] splitInput = input.split("\\s");
-            if ("SHOW_PRODUCT".equals(CommandsSource.findEnum(commands.getAllRegex(), input))) {
-                showProduct(splitInput, input);
-            } else {
-                super.execute(input);
+        System.out.println("Enter number :");
+        do {
+            showCommands();
+            String input;
+            if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
+                continue;
             }
-        }
+            switch (input) {
+                case "1":
+                    System.out.println("show product");
+                    break;
+                case "2":
+                    return;
+                default:
+                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - 2);
+            }
+        }while (true);
     }
 }

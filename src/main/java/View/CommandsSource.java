@@ -28,8 +28,8 @@ public enum CommandsSource {
 
     /*********************************Create/LoginMenuCommands***********************************/
 
-    CREATE_ACCOUNT("CREATE_ACCOUNT", "(?i)create\\s+account\\s+(manager|seller|customer)\\s+(\\w)+"),
-    LOGIN("LOGIN", ""),
+    CREATE_ACCOUNT("CREATE_ACCOUNT", "(manager|seller|customer)\\s+(\\S+)\\s+(\\S+)"),
+    LOGIN("LOGIN", "(\\S+)\\s+(\\S+)"),
 
 
     /************************************ManagerMenuCommands*************************************/

@@ -4,8 +4,8 @@ import View.Menu.Menu;
 public class Main {
 
     public static void main(String[] args) {
-        Menu mainMenu = new MainMenu();
-        mainMenu.execute(null, null);
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.execute();
     }
 
 }

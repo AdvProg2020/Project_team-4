@@ -4,6 +4,7 @@ import Control.Controller;
 import Model.Seller;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 import static View.CommandsSource.findEnum;
 import static View.Outputs.printAddToCartResult;
@@ -13,20 +14,20 @@ public class ProductMenu extends Menu {
     private String productId;
 
     public ProductMenu() {
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
-        options.add("");
+        options.add("digestMenu");
+        options.add("attributes");
+        options.add("compare");
+        options.add("comments");
+        options.add("back");
         options.add("");
         options.add("");
     }
 
-    private void addToCart(){
+    private static void addToCart(){
         printAddToCartResult(Controller.getOurController().requestAddProductToCart(this.getProductId()));
     }
 
-    private void selectSeller(){
+    private static void selectSeller(){
         ArrayList<Seller> sellers = new ArrayList<>();
         sellers.addAll(Controller.getOurController().requestProductSeller(this.getProductId()));
         for (Seller seller : sellers) {
@@ -42,7 +43,6 @@ public class ProductMenu extends Menu {
             protected void showCommands() {
                 options.add("add to cart");
                 options.add("select seller [seller_username]");
-                options.add("help");
                 options.add("back");
                 for (String option : options) {
                     System.out.println("---> " + option);
@@ -50,62 +50,70 @@ public class ProductMenu extends Menu {
             }
 
             @Override
-            public void execute(String input) {
+            public void execute() {
                 System.out.println("Enter your command :");
-                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-                    switch (findEnum(commands.getAllRegex(), input)) {
-                        case "ADD_TO_CART":
+                do {
+                    showCommands();
+                    String input;
+                    if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
+                        continue;
+                    }
+                    switch (input) {
+                        case "1":
                             addToCart();
                             break;
-                        case "SELECT_SELLER":
+                        case "2":
                             selectSeller();
                             break;
+                        case "3":
+                            return;
                         default:
-                            super.execute(input);
+                            DefaultMenu.getInstance().execute(Integer.parseInt(input) - 2);
                     }
-                }
+                }while (true);
             }
-        }
+        };
     }
 
     private static void digest() {
-
+        System.out.println("in digest");
     }
 
     private static void attributes() {
-
     }
 
     private static void compare() {
-
     }
 
     private static void comments() {
-
     }
 
-    public void execute(String input) {
-        System.out.println("Enter your command :");
-        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+    public void execute() {
+        System.out.println("Enter Number :");
+        String input;
+        do {
+            if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
+                continue;
+            }
             switch (findEnum(commands.getAllRegex(), input)) {
-                case "DIGEST":
-                    digestMenu().execute(input);
+                case "1":
+                    digestMenu().execute();
                     break;
-                case "ATTRIBUTES":
+                case "2":
                     attributes();
                     break;
-                case "COMPARE":
+                case "3":
                     compare();
                     break;
-                case "COMMENTS":
+                case "4":
                     comments();
                     break;
+                case "5":
+                    return;
                 default:
-                    super.execute(input);
-
-
+                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }
+        }while(true);
     }
 
     public String getProductId() {
