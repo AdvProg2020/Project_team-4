@@ -11,7 +11,6 @@ public class MainMenu extends Menu{
 
     private Menu productMenu = new ProductMenu();
     private Menu productsMenu = new ProductsMenu();
-    private Menu mainMenu = new MainMenu();
     private Menu offMenu = new OffsMenu();
 
     public MainMenu() {
