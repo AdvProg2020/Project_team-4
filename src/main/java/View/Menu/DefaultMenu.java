@@ -69,5 +69,7 @@ public class DefaultMenu extends Menu {
     }
 
     @Override
-    protected void execute() {}
+    protected void execute() {
+
+    }
 }
