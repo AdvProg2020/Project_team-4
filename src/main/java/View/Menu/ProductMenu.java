@@ -23,11 +23,11 @@ public class ProductMenu extends Menu {
         options.add("");
     }
 
-    private static void addToCart(){
+    private static void addToCart() {
         printAddToCartResult(Controller.getOurController().requestAddProductToCart(this.getProductId()));
     }
 
-    private static void selectSeller(){
+    private static void selectSeller() {
         ArrayList<Seller> sellers = new ArrayList<>();
         sellers.addAll(Controller.getOurController().requestProductSeller(this.getProductId()));
         for (Seller seller : sellers) {
@@ -55,7 +55,7 @@ public class ProductMenu extends Menu {
                 do {
                     showCommands();
                     String input;
-                    if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
+                    if (!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()) {
                         continue;
                     }
                     switch (input) {
@@ -70,7 +70,7 @@ public class ProductMenu extends Menu {
                         default:
                             DefaultMenu.getInstance().execute(Integer.parseInt(input) - 2);
                     }
-                }while (true);
+                } while (true);
             }
         };
     }
@@ -91,8 +91,8 @@ public class ProductMenu extends Menu {
     public void execute() {
         System.out.println("Enter Number :");
         String input;
-        do {
-            if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
+        while (true) {
+            if (!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()) {
                 continue;
             }
             switch (findEnum(commands.getAllRegex(), input)) {
@@ -113,7 +113,7 @@ public class ProductMenu extends Menu {
                 default:
                     DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }while(true);
+        }
     }
 
     public String getProductId() {

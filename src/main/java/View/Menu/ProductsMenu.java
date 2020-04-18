@@ -30,10 +30,10 @@ public class ProductsMenu extends Menu {
     public void execute() {
         System.out.println("Enter your command :");
         Matcher matcher;
-        do {
+        while (true) {
             showCommands();
-            String input = scanner.nextLine();
-            if(!getMatcher(scanner.nextLine(), "(\\d)").matches()){
+            String input = scanner.nextLine().trim();
+            if(!getMatcher(input, "(\\d)").matches()){
                 continue;
             }
             switch (input) {
@@ -51,7 +51,7 @@ public class ProductsMenu extends Menu {
                 default:
                     DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }while (true);
+        }
     }
 }
 

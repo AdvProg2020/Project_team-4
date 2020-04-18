@@ -42,6 +42,6 @@ public class MainMenu extends Menu{
                 default:
                     DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }while (!scanner.nextLine().trim().equalsIgnoreCase("end"));
+        }while (!input.equalsIgnoreCase("end"));
     }
 }

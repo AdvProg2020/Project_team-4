@@ -22,13 +22,13 @@ public class OffsMenu extends Menu {
 
     private void showProduct(String[] splitInput, String input) {
         productMenu.setProductId(splitInput[2]);
-        productMenu.execute(input);
+        productMenu.execute();
     }
 
     public void execute() {
         offsList();
         System.out.println("Enter number :");
-        do {
+        while(true) {
             showCommands();
             String input;
             if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
@@ -43,6 +43,6 @@ public class OffsMenu extends Menu {
                 default:
                     DefaultMenu.getInstance().execute(Integer.parseInt(input) - 2);
             }
-        }while (true);
+        }
     }
 }
