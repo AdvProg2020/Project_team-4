@@ -113,7 +113,8 @@ public class CustomerMenu extends Menu {
         Controller.getOurController().pay();
     }
 
-    public void execute(String input) {
+    public void execute() {
+
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             String[] splitInput = input.split("\\s");
