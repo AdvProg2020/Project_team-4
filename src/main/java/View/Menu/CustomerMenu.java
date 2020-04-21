@@ -122,7 +122,6 @@ public class CustomerMenu extends Menu {
                     Controller.getOurController().showCustomerBalance();
                 case "VIEW_DISCOUNT_CODES":
                     Controller.getOurController().showCustomerDiscountCodes();
-
             }
         }
     }
