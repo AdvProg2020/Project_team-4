@@ -13,8 +13,8 @@ public class Controller {
         return ourController;
     }
 
-    public int controllerNewAccount(String type, String username, String password){
-        if (Account.getAccountWithName(username) != null){
+    public int controllerNewAccount(String type, String username, String password) {
+        if (Account.getAccountWithName(username) != null) {
             return 4;
         }
         switch (type) {
@@ -35,18 +35,19 @@ public class Controller {
         }
     }
 
-    public int controllerLogin(String username, String password){
-        if(Account.getAccountWithName(username) == null){
+    public int controllerLogin(String username, String password) {
+        if (Account.getAccountWithName(username) == null) {
             return 2;
-        }if(Account.getAccountWithName(username).getPassWord().equals(password)){
+        }
+        if (Account.getAccountWithName(username).getPassWord().equals(password)) {
             Account.login(Account.getAccountWithName(username));
             return 1;
         }
         return 3;
     }
 
-    public int requestLogout(){
-        if(Account.logout()){
+    public int requestLogout() {
+        if (Account.logout()) {
             return 1;
         }
         return 2;
@@ -60,20 +61,15 @@ public class Controller {
         Account.deleteAccount((Account) Account.getAccountWithName(username));
     }
 
-    public void controllerCreateNewManagerAccountFromManager(String username, String firstName, String lastName, String email, String phoneNumber, String password){
-        // voroodi ha kheili ezafie!
-        Manager.addANewManager(password, username, true);
-    }
-
-    public void controllerRemoveProduct(String productName){
+    public void controllerRemoveProduct(String productName) {
         Manager.remove(Product.getProductWithName(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, String startingTime, String endingTime, double offAmount, int usageTimes, String containingCustomers){
+    public void controllerCreateOffCode(String barcode, String startingTime, String endingTime, double offAmount, int usageTimes, String containingCustomers) {
         new Off(barcode, startingTime, endingTime, offAmount);
     }
 
-    public ArrayList<CodedOff> getAllCodedOff(){
+    public ArrayList<CodedOff> getAllCodedOff() {
         return CodedOff.getAllDiscounts();
     }
 
@@ -82,78 +78,91 @@ public class Controller {
     }
 
     public void controllerRemoveCodedOff(String offCodeName) {
-        if(CodedOff.getOffCodeWithName(offCodeName) == null){
+        if (CodedOff.getOffCodeWithName(offCodeName) == null) {
             return;
         }
         CodedOff.removeOffCode(CodedOff.getOffCodeWithName(offCodeName));
     }
 
-    public ArrayList<CodedOff> showAllDiscountCodes(){
+    public ArrayList<CodedOff> showAllDiscountCodes() {
         return CodedOff.getAllDiscounts();
     }
 
 
-
-    public void showCart() {
-
+    public ArrayList<Product> showCart() {
+        return (Account.getLoggedInAccount().getCart());
     }
 
-    public void showProducts() {
-        
+    public ArrayList<Product> showProducts() {
+        return Product.showAllProducts();
     }
 
-    public void showProduct() {
-        
+    public Product showProduct(String productName) {
+        return Product.getProductWithName(productName);
     }
 
     public void showOrder(String s) {
+
     }
 
     public void rateProduct() {
-        
+
     }
 
     public void purchase(String address, String phoneNumber) {
+
     }
 
     public void checkOffCodeAndSet(String offCode) {
+
     }
 
     public void pay() {
+        Account.getLoggedInAccount().pay();
     }
 
     public void showCustomerBalance() {
+
     }
 
     public void showCustomerDiscountCodes() {
+
     }
 
-    public int controllerCreateNewManagerAccountFromManager(String s, String s1) {
-        return 0;
+    public int controllerCreateNewManagerAccountFromManager(String username, String password) {
+        if(Account.getAccountWithName(username) != null){
+            return 2;
+        }
+        Manager.addANewManager(username, password, true);
+        return 1;
     }
 
     public void createCategory(String name, String subCategories, String tags, String productsList) {
+
     }
 
-    public boolean showAllRequests() {
-        return false;
+    public ArrayList<Request> showAllRequests() {
+        return ;
     }
 
     public void acceptRequest(Request request) {
+        Manager.acceptRequest();
     }
 
     public void declineRequest(Request request) {
+        Manager.decliineRequest();
     }
 
     public boolean getDiscount(String s) {
         return false;
     }
 
-    public void removeDiscount(String s) {
+    public void removeDiscount(String offName) {
+        Manager.removeDiscount(offName);
     }
 
     public int requestAddProductToCart(String productId) {
-        return 0;
+        Account.getLoggedInAccount().addProductToCart(Product.getProductWithName(productId));
     }
 
     public Collection<? extends Seller> requestProductSeller(String productId) {
