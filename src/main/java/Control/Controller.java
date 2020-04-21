@@ -1,13 +1,12 @@
 package Control;
 
 import Model.*;
-import com.sun.tools.javac.jvm.Code;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class Controller {
+
     private final static Controller ourController = new Controller();
 
     public static Controller getOurController() {
@@ -40,7 +39,7 @@ public class Controller {
         if(Account.getAccountWithName(username) == null){
             return 2;
         }if(Account.getAccountWithName(username).getPassWord().equals(password)){
-            Account.login((Account) (Account.getAccountWithName(username)));
+            Account.login(Account.getAccountWithName(username));
             return 1;
         }
         return 3;
@@ -54,7 +53,7 @@ public class Controller {
     }
 
     public Account controllerShowUser(String username) {
-        return (Account) Account.getAccountWithName(username);
+        return Account.getAccountWithName(username);
     }
 
     public void controllerDeleteAnUser(String username) {
@@ -74,15 +73,18 @@ public class Controller {
         new Off(barcode, startingTime, endingTime, offAmount);
     }
 
-    public ArrayList<CodedOff> getAllDiscounts(){
+    public ArrayList<CodedOff> getAllCodedOff(){
         return CodedOff.getAllDiscounts();
     }
 
-    public CodedOff controllerGetDiscount(String offCodeName) {
+    public CodedOff controllerGetCodedOff(String offCodeName) {
         return CodedOff.getOffCodeWithName(offCodeName);
     }
 
-    public void controllerRemoveDiscount(String offCodeName) {
+    public void controllerRemoveCodedOff(String offCodeName) {
+        if(CodedOff.getOffCodeWithName(offCodeName) == null){
+            return;
+        }
         CodedOff.removeOffCode(CodedOff.getOffCodeWithName(offCodeName));
     }
 
@@ -93,6 +95,7 @@ public class Controller {
 
 
     public void showCart() {
+
     }
 
     public void showProducts() {
