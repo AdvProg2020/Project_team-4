@@ -24,13 +24,8 @@ public abstract class Account extends SaveAble {
         this.sellOrBuyHistory = new ArrayList();
         this.buyOrSellLogs = new ArrayList();
     }
-    public static SaveAble getAccountWithName(String name){
-        try {
-            return SaveDataAndGetSystemOnBack.readJSONAccount(name);
-        }
-        catch (FileNotFoundException e){
-            return null;
-        }
+    public static Account getAccountWithName(String name){
+        return (Account) SaveDataAndGetSystemOnBack.readJSONAccount(name);
     }
     public static void deleteAccount(Account account) {
         File file = new File(account.getUserName());
@@ -105,6 +100,8 @@ public abstract class Account extends SaveAble {
     public void setCredit(double credit) {
         this.credit = credit;
     }
+
+
 
 
 
