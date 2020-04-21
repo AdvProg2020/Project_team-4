@@ -21,7 +21,7 @@ public class SaveDataAndGetSystemOnBack {
         }
     }
 
-    public static SaveAble readJSONAccount(String name) throws FileNotFoundException {
+    public static SaveAble readJSONAccount(String name) {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
