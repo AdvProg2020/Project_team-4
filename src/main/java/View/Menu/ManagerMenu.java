@@ -34,12 +34,8 @@ public class ManagerMenu extends Menu {
     private Menu getManageUsersMenu() {
         return new Menu() {
             @Override
-            protected void showCommands() {
-                System.out.println("You can view or delete an account or create a manager profile.");
-            }
-
-            @Override
-            public void execute(String input) {
+            public void execute() {
+                String input = "";
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
                     switch (findEnum(commands.getAllRegex(), input)) {
@@ -52,17 +48,11 @@ public class ManagerMenu extends Menu {
                         case "CREATE_MANAGER_PROFILE" :
                             System.out.println("Please enter a userName:");
                             input = scanner.nextLine();
-//                            if (Controller.getOurController().checkTheUserNameBeforeRegister(input)) {
                                 System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
                                 input = scanner.nextLine();
                                 splitInput = input.split("\\s");
-                               /* if (*/
+
                             Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1]));
-//                               ) {
-//                                    System.out.println("Manager created.");
-//                                } else {
-//                                    System.out.println("Sth went wrong in creation");
-//                                }
                             break;
                         default:
                             System.out.println("Enter a valid command please.");
@@ -93,7 +83,8 @@ public class ManagerMenu extends Menu {
             }
 
             @Override
-            public void execute(String input) {
+            public void execute() {
+                String input = "";
                 System.out.println(Controller.getOurController().getAllDiscounts());
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
@@ -122,7 +113,8 @@ public class ManagerMenu extends Menu {
             }
 
             @Override
-            public void execute(String input) {
+            public void execute() {
+                String input = "";
                 System.out.println(Controller.getOurController().showAllRequests());
                 Request request = null;
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
@@ -152,7 +144,8 @@ public class ManagerMenu extends Menu {
             }
 
             @Override
-            public void execute(String input) {
+            public void execute() {
+                String input = "";
                 System.out.println(Category.getAllCategories());
                 Request request = null;
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
@@ -183,7 +176,9 @@ public class ManagerMenu extends Menu {
         Controller.getOurController().createCategory(name, subCategories, tags, productsList);
     }
 
-    public void execute(String input) {
+    @Override
+    public void execute() {
+        String input = "";
         Menu nextMenu = null;
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
@@ -195,7 +190,7 @@ public class ManagerMenu extends Menu {
                 case "MANAGE_USERS":
                     nextMenu = getManageUsersMenu();
                     nextMenu.showCommands();
-                    nextMenu.execute("");
+                    nextMenu.execute();
                     break;
                 case "MANAGE_ALL_PRODUCT":
                     while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
@@ -213,19 +208,17 @@ public class ManagerMenu extends Menu {
                 case "VIEW_DISCOUNT_CODE":
                     nextMenu = getDiscountCodeMenu();
                     nextMenu.showCommands();
-                    nextMenu.execute("");
+                    nextMenu.execute();
                     break;
                 case "MANAGE_REQUESTS":
                     nextMenu = getManageRequestMenu();
                     nextMenu.showCommands();
-                    nextMenu.execute("");
+                    nextMenu.execute();
                     break;
                 case "MANAGE_CATEGORIES":
                     nextMenu = getManageCategoriesMenu();
                     nextMenu.showCommands();
-                    nextMenu.execute("");
-                default:
-                    super.execute(input);
+                    nextMenu.execute();
 
             }
         }
