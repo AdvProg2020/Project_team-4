@@ -1,6 +1,7 @@
 package Control;
 
 import Model.*;
+import com.sun.tools.javac.jvm.Code;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -77,12 +78,12 @@ public class Controller {
         return CodedOff.getAllDiscounts();
     }
 
-    public Off controllerGetDiscount(String offCodeName) {
-        return CodedOff.getOffCodeWithId(offCodeName);
+    public CodedOff controllerGetDiscount(String offCodeName) {
+        return CodedOff.getOffCodeWithName(offCodeName);
     }
 
     public void controllerRemoveDiscount(String offCodeName) {
-        CodedOff.removeOffCode(CodedOff.getOffCodeWithId(offCodeName));
+        CodedOff.removeOffCode(CodedOff.getOffCodeWithName(offCodeName));
     }
 
     public ArrayList<CodedOff> showAllDiscountCodes(){

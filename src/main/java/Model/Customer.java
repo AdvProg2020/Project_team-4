@@ -17,7 +17,9 @@ public class Customer extends Account {
     public static void newCustomer(String username, String password) {
     }
 
-
+    public ArrayList<Product> getCart() {
+        return cart;
+    }
 
     public ArrayList<Product> getProducts() {
         return null;
