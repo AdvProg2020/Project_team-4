@@ -52,11 +52,11 @@ public class Controller {
         return 2;
     }
 
-    public Account controllerShowUser(String username) throws FileNotFoundException {
-       return (Account) Account.getAccountWithName(username);
+    public Account controllerShowUser(String username) {
+        return (Account) Account.getAccountWithName(username);
     }
 
-    public void controllerDeleteAnUser(String username) throws FileNotFoundException {
+    public void controllerDeleteAnUser(String username) {
         Account.deleteAccount((Account) Account.getAccountWithName(username));
     }
 

@@ -31,29 +31,20 @@ public class CustomerMenu extends Menu {
         options.add("back");
     }
 
-    public static Menu getLFinalPurchaseMenu() {
-        return new Menu() {
-            @Override
-            protected void showCommands() {
-                super.showCommands();
-            }
-
-            @Override
-            public void execute(String input) {
-                super.execute(input);
-            }
-        };
-    }
+//    public static Menu getFinalPurchaseMenu() {
+//        return new Menu() {
+//            @Override
+//            public void execute(String input) {
+//                super.execute(input);
+//            }
+//        };
+//    }
 
     private static Menu getCartMenu() {
         return new Menu() {
             @Override
-            protected void showCommands() {
-
-            }
-
-            @Override
-            public void execute(String input) {
+            public void execute() {
+                String input = "";
                 Controller.getOurController().showCart();
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
@@ -74,12 +65,8 @@ public class CustomerMenu extends Menu {
     private static Menu getViewOrdersMenu() {
         return new Menu() {
             @Override
-            protected void showCommands() {
-
-            }
-
-            @Override
-            public void execute(String input) {
+            public void execute() {
+                String input = "";
                 while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
                     String[] splitInput = input.split("\\s");
                     switch (findEnum(commands.getAllRegex(), input)) {
@@ -114,7 +101,7 @@ public class CustomerMenu extends Menu {
     }
 
     public void execute() {
-
+        String input = "";
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             String[] splitInput = input.split("\\s");
@@ -122,7 +109,7 @@ public class CustomerMenu extends Menu {
                 case "VIEW_CART":
                     nextMenu = getCartMenu();
                     nextMenu.showCommands();
-                    nextMenu.execute("");
+                    nextMenu.execute();
                 case "PURCHASE":
                     receiveInformation();
                     offCodeCheck();
@@ -130,13 +117,11 @@ public class CustomerMenu extends Menu {
                 case "VIEW_ORDERS":
                     nextMenu = getViewOrdersMenu();
                     nextMenu.showCommands();
-                    nextMenu.execute("");
+                    nextMenu.execute();
                 case "VIEW_BALANCE":
                     Controller.getOurController().showCustomerBalance();
                 case "VIEW_DISCOUNT_CODES":
                     Controller.getOurController().showCustomerDiscountCodes();
-                default:
-                    super.execute(input);
 
             }
         }
