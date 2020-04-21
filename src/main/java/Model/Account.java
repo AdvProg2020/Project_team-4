@@ -64,9 +64,6 @@ public abstract class Account extends SaveAble {
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
-    //public ArrayList getAllAccounts() {
-// return allAccounts;
-//}
     public String getUserName() {
         return userName;
     }
@@ -102,8 +99,9 @@ public abstract class Account extends SaveAble {
     }
 
 
-
-
+    public static Account getLoggedInAccount() {
+        return loggedInAccount;
+    }
 
     @Override
     protected String getName() {
