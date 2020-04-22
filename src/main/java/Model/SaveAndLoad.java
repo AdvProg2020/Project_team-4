@@ -5,32 +5,36 @@ import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
-public class SaveDataAndGetSystemOnBack {
-    public static void saveData() {
+public class SaveAndLoad {
 
+    private static SaveAndLoad saveAndLoad = new SaveAndLoad();
+
+    private SaveAndLoad() { }
+
+    public static SaveAndLoad getSaveAndLoad() {
+        return saveAndLoad;
     }
 
-    public static void writeJSONAccount(SaveAble saveAble) throws IOException {
+    public void writeJSONAccount(SaveAble saveAble){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             FileWriter writer = new FileWriter(saveAble.getName());
             writer.write(gson.toJson(saveAble));
             writer.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+        }catch (IOException e){
+            System.out.println(e);
         }
     }
 
-    public static SaveAble readJSONAccount(String name) {
+    public SaveAble readJSONAccount(String name) {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             BufferedReader bufferedReader = new BufferedReader(
                     new FileReader(name));
 
-            SaveAble saveAble = gson.fromJson(bufferedReader, SaveAble.class);
-            return saveAble;
+            return gson.fromJson(bufferedReader, SaveAble.class);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             return null;
