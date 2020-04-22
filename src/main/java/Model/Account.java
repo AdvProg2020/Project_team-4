@@ -22,7 +22,8 @@ public abstract class Account extends SaveAble {
         this.buyOrSellLogs = new ArrayList();
     }
     public static Account getAccountWithName(String name){
-        return (Account) SaveAndLoad.readJSONAccount(name);
+
+        return (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" +name);
     }
     public static void deleteAccount(Account account) {
         File file = new File(account.getUserName());

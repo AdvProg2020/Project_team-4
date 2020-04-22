@@ -19,7 +19,7 @@ public class SaveAndLoad {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(saveAble.getName());
+            FileWriter writer = new FileWriter(saveAble.getClass() + "\\" + saveAble.getName());
             writer.write(gson.toJson(saveAble));
             writer.close();
         }catch (IOException e){
