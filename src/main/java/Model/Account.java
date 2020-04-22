@@ -1,8 +1,5 @@
 package Model;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 public abstract class Account extends SaveAble {
     private static Account loggedInAccount;
@@ -25,7 +22,7 @@ public abstract class Account extends SaveAble {
         this.buyOrSellLogs = new ArrayList();
     }
     public static Account getAccountWithName(String name){
-        return (Account) SaveDataAndGetSystemOnBack.readJSONAccount(name);
+        return (Account) SaveAndLoad.readJSONAccount(name);
     }
     public static void deleteAccount(Account account) {
         File file = new File(account.getUserName());
