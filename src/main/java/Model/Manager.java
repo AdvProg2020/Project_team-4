@@ -94,8 +94,12 @@ public class Manager extends Account {
         {
             System.out.println("Failed to delete the file");
         }
-        assert Product.getProductsInProducts() != null;
+        Product.getProducts() != null;
         Product.getProductsInProducts().remove(product);
+    }
+
+    public static void AnswerRequest(Request request, boolean acceptOrDecline) {
+
     }
 
 

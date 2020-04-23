@@ -12,21 +12,21 @@ public class Handler {
         return handler;
     }
 
-//    public static void login(Account account) {
-//        loggedInAccount = account;
-//    }
-//
-//    public static boolean logout(){
-//        if(loggedInAccount == null){
-//            return false;
-//        }
-//        loggedInAccount = null;
-//        return true;
-//    }
-//
-//    public static Account getLoggedInAccount() {
-//        return loggedInAccount;
-//    }
+    public static void login(Account account) {
+        loggedInAccount = account;
+    }
+
+    public static boolean logout(){
+        if(loggedInAccount == null){
+            return false;
+        }
+        loggedInAccount = null;
+        return true;
+    }
+
+    public static Account getLoggedInAccount() {
+        return loggedInAccount;
+    }
 
 
 }

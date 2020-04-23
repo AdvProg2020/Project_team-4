@@ -1,31 +1,24 @@
 package Model;
 
-import Control.Controller;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class History {
     private String logBarcode;
-    private LocalDateTime date;
+    private String date;
     private double cost;
     private double offSCost;
-    private ArrayList<String> products;
-    private ArrayList<String> name;
+    private ArrayList<Product> products;
+    private String name;
     private boolean deliveredOrNot;
 
-    public History(LocalDateTime date, double paidCost, double offSCost, ArrayList<String> sellerName, ArrayList<String> products) {
-        this.logBarcode = Product.givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
+    public History(String logBarcode, String date, double paidCost, double offSCost, String sellerName, boolean deliveredOrNot) {
+        this.logBarcode = logBarcode;
         this.date = date;
         this.cost = paidCost;
         this.offSCost = offSCost;
-        this.products = products;
+        this.products = new ArrayList<Product>();
         this.name = sellerName;
-    }
-
-    public String getLogBarcode() {
-        return logBarcode;
+        this.deliveredOrNot = deliveredOrNot;
     }
 }
 

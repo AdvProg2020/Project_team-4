@@ -9,7 +9,9 @@ public class SaveAndLoad {
 
     private static SaveAndLoad saveAndLoad = new SaveAndLoad();
 
-    private SaveAndLoad() { }
+    private SaveAndLoad() {
+
+    }
 
     public static SaveAndLoad getSaveAndLoad() {
         return saveAndLoad;
