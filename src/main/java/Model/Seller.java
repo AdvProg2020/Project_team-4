@@ -3,13 +3,17 @@ package Model;
 import java.util.ArrayList;
 
 public class Seller extends Account {
-    private static ArrayList<Seller> allSellers = new ArrayList<Seller>();
+
+    //private static ArrayList<Seller> allSellers = new ArrayList<Seller>();
+    protected ArrayList<History> history;
+
     public Seller(String userName, String passWord) {
         super(userName, passWord);
         this.sellHistory = new ArrayList<BuyLog>();
         this.sellingProducts = new ArrayList<Product>();
         this.offs = new ArrayList<Off>();
-        allSellers.add(this);
+        this.history = new ArrayList<>();
+        //allSellers.add(this);
     }
 
     protected String companyName;

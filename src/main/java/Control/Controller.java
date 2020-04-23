@@ -9,6 +9,8 @@ public class Controller {
 
     private final static Controller ourController = new Controller();
 
+    private static Account loggedInAccount;
+
     public static Controller getOurController() {
         return ourController;
     }
@@ -40,16 +42,18 @@ public class Controller {
             return 2;
         }
         if (Account.getAccountWithName(username).getPassWord().equals(password)) {
-            Account.login(Account.getAccountWithName(username));
+            loggedInAccount = Account.getAccountWithName(username);
+//            Account.login(Account.getAccountWithName(username));
             return 1;
         }
         return 3;
     }
 
-    public int requestLogout() {
-        if (Account.logout()) {
+    public int logout() {
+        if (loggedInAccount == null) {
             return 1;
         }
+        loggedInAccount = null;
         return 2;
     }
 
@@ -90,7 +94,7 @@ public class Controller {
 
 
     public ArrayList<Product> showCart() {
-        return (Account.getLoggedInAccount().getCart());
+        return (((Customer)loggedInAccount).getCart());
     }
 
     public ArrayList<Product> showProducts() {
@@ -118,7 +122,7 @@ public class Controller {
     }
 
     public void pay() {
-        Account.getLoggedInAccount().pay();
+        ((Customer)loggedInAccount).pay();
     }
 
     public void showCustomerBalance() {
@@ -162,7 +166,7 @@ public class Controller {
     }
 
     public int requestAddProductToCart(String productId) {
-        Account.getLoggedInAccount().addProductToCart(Product.getProductWithName(productId));
+        ((Customer)loggedInAccount).addProductToCart(Product.getProductWithName(productId));
     }
 
     public Collection<? extends Seller> requestProductSeller(String productId) {

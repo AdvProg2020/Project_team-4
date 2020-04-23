@@ -9,7 +9,7 @@ public class Product extends SaveAble{
     private static ArrayList<Product> allProducts;
     private String productBarcode;
     private static ArrayList<Customer> byers = new ArrayList<>();
-    private static HashMap<String, Product> products;
+    //private static HashMap<String, Product> products;
     private enum  productStatus {
         inProcessOfMaking, inProcessOfEditing, approved
     }
@@ -23,6 +23,8 @@ public class Product extends SaveAble{
     private String description;
     private ArrayList<Comment> comments;
     private int averageScore;
+    private int amountOfExist;
+    private ArrayList<String> tags;
 
     public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore) {
         this.productBarcode = productBarcode;
@@ -36,12 +38,17 @@ public class Product extends SaveAble{
         this.description = description;
         this.comments = new ArrayList<Comment>();
         this.averageScore = averageScore;
+        this.tags = new ArrayList<>();
         allProducts.add(this);
     }
 
-    public static ArrayList<Product> getProductsInProducts() {
-        return null;
+
+
+    public static ArrayList<Product> getAllProducts() {
+        return allProducts;
     }
+
+
 
     public ArrayList<String> getCategoryTags() {
         return categoryTags;
@@ -55,6 +62,10 @@ public class Product extends SaveAble{
 
     }
 
+    public void addTag(ArrayList<String> tags) {
+        this.tags.addAll(tags);
+    }
+
     public static Product getProductWithName(String name) {
         for (Product product : allProducts) {
             if (product.getName().equalsIgnoreCase(name)) {
@@ -62,6 +73,33 @@ public class Product extends SaveAble{
             }
         }
         return null;
+    }
+
+    public static ArrayList<Product> getProductsWithTags(String name, ArrayList<String> tags) {
+        ArrayList<Product> products = new ArrayList();
+        for (Product product : allProducts) {
+            if (product.getName().equalsIgnoreCase(name)) {
+                products.add(product);
+            }
+        }
+        if (tags == null) {
+            return products;
+        }
+        else {
+            for (Product product : products) {
+                for (String tag : tags) {
+                    if (!product.getTags().contains(tag)) {
+                        products.remove(product);
+                        break;
+                    }
+                }
+            }
+            return products;
+        }
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
     @Override

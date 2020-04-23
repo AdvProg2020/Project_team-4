@@ -50,7 +50,7 @@ public class DefaultMenu extends Menu {
 
 
     private void logout() {
-        printLogoutResult(Controller.getOurController().requestLogout());
+        printLogoutResult(Controller.getOurController().logout());
     }
 
 
