@@ -12,4 +12,12 @@ public class RequestANewSellerAccount extends Request {
         this.passWord = passWord;
         allRequestANewSellerAccounts.add(this);
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
 }

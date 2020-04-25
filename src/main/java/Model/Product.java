@@ -43,7 +43,62 @@ public class Product extends SaveAble{
         allProducts.add(this);
     }
 
+    public Product(Product product) {
+        this.productBarcode = product.getProductBarcode();
+        this.name = product.getName();
+        this.categoryTags = product.getCategoryTags();
+        this.company = product.getCompany();
+        this.cost = product.getCost();
+        this.sellers = product.getSellers();
+        this.existsOrNot = product.isExistsOrNot();
+        this.category = product.getCategory();
+        this.description = product.getDescription();
+        this.comments = product.getComments();
+        this.averageScore = product.getAverageScore();
+        this.tags = product.getTags();
+        this.amountOfExist = product.getAmountOfExist();
+        allProducts.add(this);
+    }
 
+    public String getProductBarcode() {
+        return productBarcode;
+    }
+
+    public static ArrayList<Customer> getByers() {
+        return byers;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public ArrayList<Seller> getSellers() {
+        return sellers;
+    }
+
+    public boolean isExistsOrNot() {
+        return existsOrNot;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public int getAverageScore() {
+        return averageScore;
+    }
+
+    public int getAmountOfExist() {
+        return amountOfExist;
+    }
 
     public static ArrayList<Product> getAllProducts() {
         return allProducts;
@@ -123,4 +178,5 @@ public class Product extends SaveAble{
     public static ArrayList<Product> showAllProducts() {
         return allProducts;
     }
+
 }
