@@ -4,6 +4,7 @@ import Model.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class Controller {
 
@@ -69,7 +70,7 @@ public class Controller {
         Manager.remove(Product.getProductWithName(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, String startingTime, String endingTime, double offAmount, int usageTimes, String containingCustomers) {
+    public void controllerCreateOffCode(String barcode, Date startingTime, Date endingTime, double offAmount, int usageTimes, String containingCustomers) {
         new Off(barcode, startingTime, endingTime, offAmount);
     }
 
@@ -146,11 +147,11 @@ public class Controller {
     }
 
     public ArrayList<Request> showAllRequests() {
-        return ;
+        return Manager.getAllRequests();
     }
 
     public void acceptRequest(Request request) {
-        Manager.acceptRequest();
+        Manager.acceptRequest(request);
     }
 
     public void declineRequest(Request request) {

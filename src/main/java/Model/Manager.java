@@ -41,6 +41,13 @@ public class Manager extends Account {
         return editOffRequests;
     }
 
+    public static ArrayList<Request> getAllRequests() {
+        ArrayList<Request> allRequests = new ArrayList<>(registerSellerAccountRequests);
+        allRequests.addAll(editOffRequests);
+        allRequests.addAll(editProductsRequests);
+        return allRequests;
+    }
+
     public void addOffCode() {
 
     }
@@ -94,15 +101,43 @@ public class Manager extends Account {
         {
             System.out.println("Failed to delete the file");
         }
-        Product.getProducts() != null;
-        Product.getProductsInProducts().remove(product);
+        Product.removeProduct(product);
     }
 
     public static void AnswerRequest(Request request, boolean acceptOrDecline) {
 
     }
 
+    public static boolean acceptRequest(Request request) {
+        if (request.getRequestType() == RequestType.ACCOUNT) {
+            accountRequestAccept();
+            return true;
+        } else if (request.getRequestType() == RequestType.OFF) {
+            editOff();
+            return true;
+        } else if (request.getRequestType() == RequestType.PRODUCT){
+            editProduct();
+            return true;
+        }
+        return false;
+    }
 
+    private static boolean accountRequestAccept(Request request) {
+        if (registerSellerAccountRequests.contains(request)) {
 
+        }
+        return false;
+    }
 
+    public static void setRegisterSellerAccountRequest(Request registerSellerAccountRequests) {
+        Manager.registerSellerAccountRequests.add(registerSellerAccountRequests);
+    }
+
+    public static void setEditProductsRequest(Request editProductsRequests) {
+        Manager.editProductsRequests.add(editProductsRequests);
+    }
+
+    public static void setEditOffRequests(Request editOffRequests) {
+        Manager.editOffRequests.add(editOffRequests);
+    }
 }
