@@ -134,14 +134,30 @@ public class Manager extends Account {
     private static boolean editProduct(RequestProduct request) {
         if (editProductsRequests.contains(request)) {
             new Product(request.getProduct());
+            editProductsRequests.remove(request);
             return true;
         }
         return false;
     }
 
     private static boolean editOff(RequestOff request) {
-        if (editProductsRequests.contains(request)) {
+        if (editOffRequests.contains(request)) {
             new Off(request.getOff().getOffBarcode(), request.getOff().getStartDate(), request.getOff().getEndDate(), request.getOff().getOffAmount());
+            editOffRequests.remove(request);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean declineRequest(Request request) {
+        if (editOffRequests.contains(request)) {
+            editOffRequests.remove(request);
+            return true;
+        } else if (editProductsRequests.contains(request)) {
+            editProductsRequests.remove(request);
+            return true;
+        } else if (registerSellerAccountRequests.contains(request)) {
+            registerSellerAccountRequests.remove(request);
             return true;
         }
         return false;
