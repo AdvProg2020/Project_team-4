@@ -33,7 +33,7 @@ public class Customer extends Account {
 //    }
 
 
-    @Override
+
     public ArrayList<CodedOff> getOffCodes() {
         return offCodes;
     }
@@ -56,12 +56,22 @@ public class Customer extends Account {
 
     public boolean pay() {
         //check if money is enough
-        if (this.getCredit() < )
-        return false;
+        if (this.getCredit() < getCartMoney()) {
+            return false;
+        } else {
+            this.credit -= getCartMoney();
+            return true;
+        }
     }
 
     public int getCartMoney() {
-
+        int cartCost = 0;
+        if (this.cart.size() != 0) {
+            for (Product product : cart) {
+                cartCost += product.getCost();
+            }
+        }
+        return cartCost;
     }
 
 

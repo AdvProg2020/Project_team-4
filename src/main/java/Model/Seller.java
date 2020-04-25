@@ -6,6 +6,7 @@ public class Seller extends Account {
 
     //private static ArrayList<Seller> allSellers = new ArrayList<Seller>();
     protected ArrayList<History> history;
+    private ArrayList<Product> products;
 
     public Seller(String userName, String passWord) {
         super(userName, passWord);
@@ -13,6 +14,7 @@ public class Seller extends Account {
         this.sellingProducts = new ArrayList<Product>();
         this.offs = new ArrayList<Off>();
         this.history = new ArrayList<>();
+        this.products = new ArrayList<>();
         //allSellers.add(this);
     }
 
