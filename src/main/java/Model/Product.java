@@ -107,4 +107,8 @@ public class Product extends SaveAble{
     protected String getName() {
         return productBarcode;
     }
+
+    public double getCost() {
+        return cost;
+    }
 }
