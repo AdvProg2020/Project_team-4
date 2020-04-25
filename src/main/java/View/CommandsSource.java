@@ -4,6 +4,7 @@ import View.Menu.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,6 +123,7 @@ public enum CommandsSource {
     private String regex;
     public Pattern commandPattern;
     private ArrayList<String> allRegex = new ArrayList<>();
+    private static Scanner scanner = Menu.getScanner();
 
 
     // ------> constructor
@@ -179,11 +181,12 @@ public enum CommandsSource {
         return matcher.matches();
     }
 
-    public static String getField(String errorToPrint, String regex) {
+    public static Matcher getField(String errorToPrint, String regex) {
         String input = "";
-        while (!isThisRegexMatch(regex, input = Menu.scanner.nextLine().trim())) {
+        while (!isThisRegexMatch(regex, input = scanner.nextLine().trim())) {
             System.out.println(errorToPrint);
         }
-        return input.trim();
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(input);
     }
 }
