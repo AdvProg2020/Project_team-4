@@ -10,9 +10,9 @@ public class Manager extends Account {
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
 
-    private static ArrayList<Request> registerSellerAccountRequests;
-    private static ArrayList<Request>  editProductsRequests;
-    private static ArrayList<Request> editOffRequests;
+    private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests;
+    private static ArrayList<RequestProduct>  editProductsRequests;
+    private static ArrayList<RequestOff> editOffRequests;
     private static ArrayList<Account> allAccounts;
     private static ArrayList<Category> categories;
 
@@ -29,20 +29,21 @@ public class Manager extends Account {
         //offCodes.get(offCode)
     }
 
-    public static ArrayList<Request> getRegisterSellerAccountRequests() {
+    public static ArrayList<RequestANewSellerAccount> getRegisterSellerAccountRequests() {
         return registerSellerAccountRequests;
     }
 
-    public static ArrayList<Request> getEditProductsRequest() {
+    public static ArrayList<RequestProduct> getEditProductsRequest() {
         return editProductsRequests;
     }
 
-    public static ArrayList<Request> getEditOffRequests() {
+    public static ArrayList<RequestOff> getEditOffRequests() {
         return editOffRequests;
     }
 
     public static ArrayList<Request> getAllRequests() {
-        ArrayList<Request> allRequests = new ArrayList<>(registerSellerAccountRequests);
+        ArrayList<Request> allRequests = new ArrayList<>();
+        allRequests.addAll(registerSellerAccountRequests);
         allRequests.addAll(editOffRequests);
         allRequests.addAll(editProductsRequests);
         return allRequests;
@@ -110,34 +111,51 @@ public class Manager extends Account {
 
     public static boolean acceptRequest(Request request) {
         if (request.getRequestType() == RequestType.ACCOUNT) {
-            accountRequestAccept();
+            accountRequestAccept((RequestANewSellerAccount) request);
             return true;
         } else if (request.getRequestType() == RequestType.OFF) {
-            editOff();
+            editOff((RequestOff) request);
             return true;
         } else if (request.getRequestType() == RequestType.PRODUCT){
-            editProduct();
+            editProduct((RequestProduct) request);
             return true;
         }
         return false;
     }
 
-    private static boolean accountRequestAccept(Request request) {
+    private static boolean accountRequestAccept(RequestANewSellerAccount request) {
         if (registerSellerAccountRequests.contains(request)) {
+            SaveAndLoad.getSaveAndLoad().writeJSONAccount(new Customer(request.getUserName(), request.getPassWord()));
+            return true;
+        }
+        return false;
+    }
 
+    private static boolean editProduct(RequestProduct request) {
+        if (editProductsRequests.contains(request)) {
+            new Product(request.getProduct());
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean editOff(RequestOff request) {
+        if (editProductsRequests.contains(request)) {
+            new Off(request.getOff().getOffBarcode(), request.getOff().getStartDate(), request.getOff().getEndDate(), request.getOff().getOffAmount());
+            return true;
         }
         return false;
     }
 
     public static void setRegisterSellerAccountRequest(Request registerSellerAccountRequests) {
-        Manager.registerSellerAccountRequests.add(registerSellerAccountRequests);
+        Manager.registerSellerAccountRequests.add((RequestANewSellerAccount) registerSellerAccountRequests);
     }
 
     public static void setEditProductsRequest(Request editProductsRequests) {
-        Manager.editProductsRequests.add(editProductsRequests);
+        Manager.editProductsRequests.add((RequestProduct) editProductsRequests);
     }
 
     public static void setEditOffRequests(Request editOffRequests) {
-        Manager.editOffRequests.add(editOffRequests);
+        Manager.editOffRequests.add((RequestOff) editOffRequests);
     }
 }

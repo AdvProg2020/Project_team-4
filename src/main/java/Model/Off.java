@@ -26,6 +26,22 @@ public class Off extends SaveAble{
         allOffs.add(this);
     }
 
+    public String getOffBarcode() {
+        return offBarcode;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public double getOffAmount() {
+        return offAmount;
+    }
+
     @Override
     public String toString() {
         return "Off{" +

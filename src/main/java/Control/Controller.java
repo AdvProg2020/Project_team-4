@@ -155,7 +155,7 @@ public class Controller {
     }
 
     public void declineRequest(Request request) {
-        Manager.decliineRequest();
+        Manager.declineRequest();
     }
 
     public boolean getDiscount(String s) {
