@@ -155,13 +155,14 @@ public class Controller {
     }
 
     public void declineRequest(Request request) {
-        Manager.declineRequest();
+        Manager.declineRequest(request);
     }
 
     public boolean getDiscount(String s) {
         return false;
     }
 
+    /////////////////////////////////////////////////////////////////chi kar mikone
     public void removeDiscount(String offName) {
         Manager.removeDiscount(offName);
     }
