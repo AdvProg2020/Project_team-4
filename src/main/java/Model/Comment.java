@@ -10,7 +10,7 @@ public class Comment extends SaveAble{
     private Product product;
     private String commentText;
     private enum commentStatus {
-        inProcessOfApproval, approved, notApproved
+        PROCESS, APPROVED, REJECTED
     }
     private boolean boughtTheProductOrNot;
 

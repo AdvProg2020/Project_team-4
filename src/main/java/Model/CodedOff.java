@@ -4,20 +4,21 @@ import com.sun.tools.javac.jvm.Code;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class CodedOff extends SaveAble{
     private static ArrayList<CodedOff> allOfCodes;
     private String offBarcode;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
     private double offAmount;
     private int usageTime;
     private HashMap<Account, Integer> numberOfUsageForEachAccount;
     private ArrayList<Account> discountIsForTheseAccounts;
     private ArrayList<Customer> containingCustomers;
 
-    public CodedOff(String offBarcode, String startTime, String endTime, double offAmount, int usageTime, ArrayList<Customer> containingCustomers) {
+    public CodedOff(String offBarcode, Date startTime, Date endTime, double offAmount, int usageTime, ArrayList<Customer> containingCustomers) {
         this.offBarcode = offBarcode;
         this.startTime = startTime;
         this.endTime = endTime;
