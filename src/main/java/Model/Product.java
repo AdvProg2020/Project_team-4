@@ -11,7 +11,7 @@ public class Product extends SaveAble{
     private static ArrayList<Customer> byers = new ArrayList<>();
     //private static HashMap<String, Product> products;
     private enum  productStatus {
-        inProcessOfMaking, inProcessOfEditing, approved
+        MAKING, EDITING, APPROVED
     }
     private String name;
     private ArrayList<String> categoryTags;
@@ -26,7 +26,7 @@ public class Product extends SaveAble{
     private int amountOfExist;
     private ArrayList<String> tags;
 
-    public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore) {
+    public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
         this.productBarcode = productBarcode;
         this.name = name;
         this.categoryTags = new ArrayList<String>();
@@ -38,7 +38,8 @@ public class Product extends SaveAble{
         this.description = description;
         this.comments = new ArrayList<Comment>();
         this.averageScore = averageScore;
-        this.tags = new ArrayList<>();
+        this.tags = tags;
+        this.amountOfExist = amountOfExist;
         allProducts.add(this);
     }
 
