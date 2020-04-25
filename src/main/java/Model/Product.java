@@ -111,4 +111,16 @@ public class Product extends SaveAble{
     public double getCost() {
         return cost;
     }
+
+    public static boolean removeProduct(Product product) {
+        if (allProducts.contains(product)) {
+            allProducts.remove(product);
+            return true;
+        }
+        return false;
+    }
+
+    public static ArrayList<Product> showAllProducts() {
+        return allProducts;
+    }
 }
