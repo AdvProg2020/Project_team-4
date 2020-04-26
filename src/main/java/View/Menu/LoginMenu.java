@@ -1,12 +1,11 @@
 package View.Menu;
 
 import Control.Controller;
+import View.CommandsSource;
 
-import javax.naming.ldap.Control;
-import java.awt.*;
 import java.util.regex.Matcher;
+
 import static View.Outputs.*;
-import static View.Outputs.printLoginResult;
 
 public class LoginMenu extends Menu {
 
@@ -27,9 +26,9 @@ public class LoginMenu extends Menu {
     public void execute() {
         String input;
         do {
-            show();
+            showCommands();
             System.out.println("Enter Number :");
-            if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+            if(!CommandsSource.isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                 continue;
             }
             switch (input.trim()) {
@@ -37,62 +36,57 @@ public class LoginMenu extends Menu {
                     createAccount();
                     break;
                 case "2":
-                    if(login()){
-                        return;
-                    }
+                    login();
                     break;
                 case "3":
                     logout();
                     break;
                 case "4":
-                    show();
+                    showCommands();
                     break;
                 case "5":
                     return;
             }
-        } while (!input.equalsIgnoreCase("end"));
+        }while (!input.equalsIgnoreCase("end"));
     }
 
     private void createAccount() {
-        String error = "please Enter type(customer|seller|manger) and username \n" + "" +
-                "sample : \t customer ali\n" +
+        String input;
+        Matcher matcher;
+        String error = "please Enter type(customer|seller|manger) username \n" + "" +
+                "sample : \t create account customer ali\n" +
                 "for back write \"back\"";
-        // create account
-        Matcher matchUsername = getField(error, "(customer|seller|manager) (\\S+)");
-        if (matchUsername == null) {
-            return;
-        }
-        Matcher matchPassword = getField("Enter a valid password", "(\\S+)");
-        if (matchPassword == null) {
-            return;
-        }
-        //enter command or go to while
-        printCreateAccountResult(Controller.getOurController().controllerNewAccount(matchUsername.group(1),
-                matchUsername.group(2),
-                matchPassword.group(1)));
-    }
-
-    private boolean login() {
-
-        if(Controller.getOurController().getLoggedInAccount() != null){
-            return printLoginResult(4);
-        }
-
-        String error = "please Enter username \n" + "" +
-                "sample : \t login ali\n" +
-                "for back write \"break\"";
-        Matcher matcher1 = getField(error, "login\\s(\\S+)");
+        Matcher matcher1 = CommandsSource.getField(error, "create account (customer|seller|manger) (\\S+)");
         if (matcher1 == null) {
-            return false;
+            return;
         }
-        Matcher matcher2 = getField("Enter a valid password", "(\\S+)");
+        Matcher matcher2 = CommandsSource.getField("Enter a valid password", "(\\S+)");
         if (matcher2 == null) {
-            return false;
+            return;
         }
-        return printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
+        //////har dafe dastooro bayad bezane ya bere too while
+        printCreateAccountResult(Controller.getOurController().controllerNewAccount(matcher1.group(1),
+                matcher1.group(2),
+                matcher2.group(1)));
     }
 
-    public static void logout() {
+    private void login() {
+        String error = "please Enter username \n" + "" +
+                "sample : \t login account customer ali\n" +
+                "for back write \"break\"";
+        Matcher matcher1 = CommandsSource.getField(error, "login\\s(\\S+)");
+        if (matcher1 == null) {
+            return;
+        }
+        Matcher matcher2 = CommandsSource.getField("Enter a valid password", "(\\S+)");
+        if (matcher1 == null) {
+            return;
+        }
+        printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
+    }
+
+
+    private void logout() {
         printLogoutResult(Controller.getOurController().logout());
     }
 

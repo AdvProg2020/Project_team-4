@@ -1,6 +1,6 @@
 package Model;
 import java.io.File;
-import java.util.ArrayList;
+
 public abstract class Account extends SaveAble {
 
     //protected static ArrayList allAccounts = new ArrayList();

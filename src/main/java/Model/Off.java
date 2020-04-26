@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Off extends SaveAble{
+public class Off extends SaveAble {
     private static ArrayList<Off> allOffs;
     private static HashMap<String, Off> offs;
     private String offBarcode;

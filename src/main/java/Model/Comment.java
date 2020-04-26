@@ -3,8 +3,8 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Comment extends SaveAble{
-    private  String commentBarcode;
+public class Comment extends SaveAble {
+    private String commentBarcode;
     private static ArrayList<Comment> allComments;
     private Account commentingAccount;
     private Product product;

@@ -38,7 +38,6 @@ public class SaveAndLoad {
 
             return gson.fromJson(bufferedReader, SaveAble.class);
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
             return null;
         }
     }

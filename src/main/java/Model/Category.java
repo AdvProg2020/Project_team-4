@@ -3,9 +3,8 @@ package Model;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Category extends SaveAble{
+public class Category extends SaveAble {
     private static ArrayList<Category> allCategories;
     private String name;
     private ArrayList<String> tags;

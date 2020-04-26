@@ -18,6 +18,8 @@ public class Customer extends Account {
     }
 
     public static void newCustomer(String username, String password) {
+        Customer customer = new Customer(username, password);
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(customer);
     }
 
     public ArrayList<Product> getCart() {
