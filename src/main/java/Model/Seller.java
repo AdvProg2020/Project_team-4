@@ -23,8 +23,8 @@ public class Seller extends Account {
         //allSellers.add(this);
     }
 
-    public static boolean addANewSeller(String requestId, String userName, String passWord) {
-        Manager.addANewSellerRequest(requestId, userName, passWord);
+    public static boolean addANewSeller(String id, String userName, String passWord) {
+        Manager.addANewSellerRequest(id, userName, passWord);
         return true;
     }
 

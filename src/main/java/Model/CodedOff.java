@@ -1,13 +1,11 @@
 package Model;
 
-import com.sun.tools.javac.jvm.Code;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class CodedOff extends SaveAble{
+public class CodedOff extends SaveAble {
     private static ArrayList<CodedOff> allOfCodes;
     private String offBarcode;
     private Date startTime;

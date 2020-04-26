@@ -1,6 +1,7 @@
 package View;
 
-import View.Menu.*;
+import View.Menu.MainMenu;
+import View.Menu.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,12 +136,12 @@ public enum CommandsSource {
     }
 
 
-    // ------> Menus
-    private static Menu managerMenu = new ManagerMenu();
-    private static Menu sellerMenu = new SellerMenu();
-    private static Menu customerMenu = new CustomerMenu();
-    private static Menu productMenu = new ProductMenu();
-    private static Menu offMenu = new OffsMenu();
+//    // ------> Menus
+//    private static Menu managerMenu = new ManagerMenu();
+//    private static Menu sellerMenu = new SellerMenu();
+//    private static Menu customerMenu = new CustomerMenu();
+//    private static Menu productMenu = new ProductMenu();
+//    private static Menu offMenu = new OffsMenu();
     private static Menu mainMenu = new MainMenu();
 
 
@@ -190,7 +191,8 @@ public enum CommandsSource {
             System.out.println(errorToPrint);
         }
         while (!isThisRegexMatch(regex, input = scanner.nextLine().trim()));
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(input);
+        Matcher matcher = Pattern.compile(regex).matcher(input);
+        matcher.matches();
+        return matcher;
     }
 }

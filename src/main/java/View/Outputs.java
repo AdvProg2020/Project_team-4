@@ -63,9 +63,9 @@ public class Outputs {
     }
 
     public static void printProductBuyersResult(ArrayList result) {
-        for (Object object : resultAccount) {
-            System.out.println(object);
-        }
+//        for (Object object : resultAccount) {
+//            System.out.println(object);
+//        }
     }
 
     public static void printShowProductResult(String result){

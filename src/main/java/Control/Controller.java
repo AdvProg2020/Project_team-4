@@ -25,8 +25,7 @@ public class Controller {
                 Customer.newCustomer(username, password);
                 return 1;
             case "seller":
-                // id!
-                Seller.addANewSeller("uhyghuj59", username, password);
+                Seller.addANewSeller("kljsadfk", username, password);
                 return 2;
             case "manager":
                 if (!Manager.addANewManager(username, password, false)) {
@@ -169,6 +168,7 @@ public class Controller {
 
     public int requestAddProductToCart(String productId) {
         ((Customer)loggedInAccount).addProductToCart(Product.getProductWithName(productId));
+        return 1;
     }
 
     public Collection<? extends Seller> requestProductSeller(String productId) {
@@ -180,10 +180,37 @@ public class Controller {
     }
 
 
-    public static boolean editField(String ) {
-
+    public static boolean editField(String field) {
+        return true;
     }
 
 
+    public int requestAddProduct(String name, String company, double cost, String category, String description) {
+        return 0;
+    }
+
+    public ArrayList requestCompanyInfo() {
+        return null;
+    }
+
+    public ArrayList requestSalesHistoryInfo() {
+        return null;
+    }
+
+    public ArrayList requestListOfProducts() {
+        return null;
+    }
+
+    public boolean requestProductInfo() {
+        return false;
+    }
+
+    public ArrayList requestProductBuyers() {
+        return null;
+    }
+
+    public Customer requestLoggedInUser() {
+        return null;
+    }
 }
 

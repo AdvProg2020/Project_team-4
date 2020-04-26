@@ -11,7 +11,7 @@ public class Manager extends Account {
     private static ArrayList<Manager> managers;
 
     private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests;
-    private static ArrayList<RequestProduct>  editProductsRequests;
+    private static ArrayList<RequestProduct> editProductsRequests;
     private static ArrayList<RequestOff> editOffRequests;
     private static ArrayList<Account> allAccounts;
     private static ArrayList<Category> categories;
@@ -23,6 +23,9 @@ public class Manager extends Account {
         super(userName, passWord);
         allManagers.add(this);
         isFirstManagerCreatedOrNot = false;
+    }
+
+    public static void removeDiscount(String offName) {
     }
 
     public void editOffCode(CodedOff offCode) {

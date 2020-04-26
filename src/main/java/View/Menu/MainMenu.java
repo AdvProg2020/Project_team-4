@@ -1,46 +1,45 @@
 package View.Menu;
 
-import View.CommandsSource;
+public class MainMenu extends Menu {
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-
-import static View.CommandsSource.findEnum;
-
-public class MainMenu extends Menu{
-
-    private Menu productMenu = new ProductMenu();
-    private Menu productsMenu = new ProductsMenu();
-    private Menu offMenu = new OffsMenu();
+//    private Menu productMenu = new ProductMenu();
+//    private Menu productsMenu = new ProductsMenu();
+//    private Menu offMenu = new OffsMenu();
 
     public MainMenu() {
         options.add("products");
         options.add("offs");
+        options.add("login menu");
+        options.add("help");
         options.add("back");
-        options.add("create account [manager|seller|customer] [username]");
-        options.add("login [username]");
-        options.add("logout");
+
     }
 
     public void execute() {
-        System.out.println("Enter Number :");
         String input;
         do {
             showCommands();
+            System.out.println("Enter Number :");
             if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
                 continue;
             }
             switch (input.trim()) {
                 case "1":
-                    productsMenu.execute();
+//                    productsMenu.execute();
                     break;
                 case "2":
-                    offMenu.execute();
+                    //off menu
+//                    offMenu.execute();
                     break;
                 case "3":
+                    LoginMenu.getLoginMenu().execute();
+                    showCommands();
+                    break;
+                case "4":
+                    showCommands();
+                    break;
+                case "5":
                     return;
-                default:
-                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
         }while (!input.equalsIgnoreCase("end"));
     }

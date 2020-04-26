@@ -3,9 +3,8 @@ package Model;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Product extends SaveAble{
+public class Product extends SaveAble {
     private static ArrayList<Product> allProducts;
     private String productBarcode;
     private static ArrayList<Customer> byers = new ArrayList<>();
