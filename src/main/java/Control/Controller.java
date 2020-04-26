@@ -10,7 +10,7 @@ public class Controller {
 
     private final static Controller ourController = new Controller();
 
-    private static Account loggedInAccount;
+    private static Account loggedInAccount = null;
 
     public static Controller getOurController() {
         return ourController;
@@ -174,5 +174,16 @@ public class Controller {
     public Collection<? extends Seller> requestProductSeller(String productId) {
         return null;
     }
+
+    public static Account getLoggedInAccount() {
+        return loggedInAccount;
+    }
+
+
+    public static boolean editField(String ) {
+
+    }
+
+
 }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static View.CommandsSource.findEnum;
 //import static View.Manager.*;
-import static View.Menu.SellerMenu.editField;
+import static View.Menu.SellerMenu.personalInfo;
 
 public class ManagerMenu extends Menu {
 
@@ -179,20 +179,18 @@ public class ManagerMenu extends Menu {
     @Override
     public void execute() {
         String input = "";
-        Menu nextMenu = null;
         System.out.println("Enter your command :");
         while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             String[] splitInput = input.split("\\s");
             switch (findEnum(commands.getAllRegex(), input)) {
-                case "edit [field] to [new]":
-                    editField(input.split("\\s"));
+                case "1":
+                    personalInfo(input.split("\\s"));
                     break;
-                case "MANAGE_USERS":
-                    nextMenu = getManageUsersMenu();
-                    nextMenu.showCommands();
-                    nextMenu.execute();
+                case "2":
+                    getManageUsersMenu().showCommands();
+                    getManageUsersMenu().execute();
                     break;
-                case "MANAGE_ALL_PRODUCT":
+                case "3":
                     while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
                         System.out.println("remove a product:");
                         //input = scanner.nextLine();
@@ -202,20 +200,20 @@ public class ManagerMenu extends Menu {
                         }
                     }
                     break;
-                case "CREATE_DISCOUNT_CODE":
+                case "4":
                     creatDiscountCode();
                     break;
-                case "VIEW_DISCOUNT_CODE":
+                case "5":
                     nextMenu = getDiscountCodeMenu();
-                    nextMenu.showCommands();
+                    getDiscountCodeMenu.showCommands();
                     nextMenu.execute();
                     break;
-                case "MANAGE_REQUESTS":
+                case "6":
                     nextMenu = getManageRequestMenu();
                     nextMenu.showCommands();
                     nextMenu.execute();
                     break;
-                case "MANAGE_CATEGORIES":
+                case "7":
                     nextMenu = getManageCategoriesMenu();
                     nextMenu.showCommands();
                     nextMenu.execute();

@@ -183,9 +183,13 @@ public enum CommandsSource {
 
     public static Matcher getField(String errorToPrint, String regex) {
         String input = "";
-        while (!isThisRegexMatch(regex, input = scanner.nextLine().trim())) {
+        do{
+            if (input.equalsIgnoreCase("back")) {
+                return null;
+            }
             System.out.println(errorToPrint);
         }
+        while (!isThisRegexMatch(regex, input = scanner.nextLine().trim()));
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }

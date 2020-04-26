@@ -60,4 +60,22 @@ public class Seller extends Account {
         //Manager.receiveEditOffRequest();
     }
 
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "history=" + history +
+                ", products=" + products +
+                ", companyName='" + companyName + '\'' +
+                ", sellHistory=" + sellHistory +
+                ", sellingProducts=" + sellingProducts +
+                ", offs=" + offs +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", credit=" + credit +
+                '}';
+    }
 }
