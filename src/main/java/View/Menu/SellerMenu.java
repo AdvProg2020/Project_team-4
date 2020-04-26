@@ -47,10 +47,15 @@ public class SellerMenu extends Menu {
         }
     }
 
-    static void editField(String[] splitInput) {
-        switch (Controller.getOurController().requestEditField(splitInput[1], splitInput[3])) {
+    static void personalInfo() {
+        String input = scanner.nextLine();
+        String[] splitInput =
+        System.out.println(Controller.getLoggedInAccount());
+        switch (Controller.getOurController().editField(splitInput[1], splitInput[2])) {
             case true:
+
             case false:
+
         }
     }
 

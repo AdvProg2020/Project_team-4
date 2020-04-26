@@ -74,7 +74,18 @@ public class Customer extends Account {
         return cartCost;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Customer{" +
+                ", history=" + history +
+                ", offCodes=" + offCodes +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", credit=" + credit +
+                '}';
+    }
 }

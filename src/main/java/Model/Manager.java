@@ -174,4 +174,17 @@ public class Manager extends Account {
     public static void setEditOffRequests(Request editOffRequests) {
         Manager.editOffRequests.add((RequestOff) editOffRequests);
     }
+
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", credit=" + credit +
+                '}';
+    }
 }
