@@ -15,13 +15,13 @@ public class Outputs {
                 System.out.println("request for being seller sent!");
                 return true;
             case 3:
-                System.out.println("only manager can create manager Account");
+                System.err.println("only manager can create manager Account");
                 return false;
             case 4:
-                System.out.println("please Enter another username this name exist!");
+                System.err.println("please Enter another username this name exist!");
                 return false;
             case 5:
-                System.out.println("type should be customer or seller or manager");
+                System.err.println("type should be customer or seller or manager");
                 return false;
         }
         return false;

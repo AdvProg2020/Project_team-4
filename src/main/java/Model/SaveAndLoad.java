@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class SaveAndLoad {
 
@@ -29,6 +30,18 @@ public class SaveAndLoad {
         }
     }
 
+    public void writeJSONAccount(ArrayList<SaveAble> saveAble){
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + "\\" + saveAble.getClass()));
+            writer.write(gson.toJson(saveAble));
+            writer.close();
+        }catch (IOException e){
+            System.out.println(e);
+        }
+    }
+
     public SaveAble readJSONAccount(String name) {
         try {
             GsonBuilder builder = new GsonBuilder();
@@ -41,6 +54,5 @@ public class SaveAndLoad {
             return null;
         }
     }
-
 
 }

@@ -22,8 +22,9 @@ public abstract class Account extends SaveAble {
     }
 
     public static Account getAccountWithName(String name){
-
-        return (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" +name);
+        Account account;
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" +name);
+        return account;
     }
 
     public static void deleteAccount(Account account) {

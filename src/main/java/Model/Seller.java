@@ -20,12 +20,8 @@ public class Seller extends Account {
         this.offs = new ArrayList<Off>();
         this.history = new ArrayList<>();
         this.products = new ArrayList<>();
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this);
         //allSellers.add(this);
-    }
-
-    public static boolean addANewSeller(String id, String userName, String passWord) {
-        Manager.addANewSellerRequest(id, userName, passWord);
-        return true;
     }
 
     public void setCompanyName(String companyName) {

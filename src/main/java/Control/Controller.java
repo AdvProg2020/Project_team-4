@@ -25,7 +25,7 @@ public class Controller {
                 Customer.newCustomer(username, password);
                 return 1;
             case "seller":
-                Seller.addANewSeller("kljsadfk", username, password);
+                Manager.addANewSellerRequest(username, password);
                 return 2;
             case "manager":
                 if (!Manager.addANewManager(username, password, false)) {
@@ -145,7 +145,7 @@ public class Controller {
 
     }
 
-    public ArrayList<Request> showAllRequests() {
+    public ArrayList<SaveAble> showAllRequests() {
         return Manager.getAllRequests();
     }
 

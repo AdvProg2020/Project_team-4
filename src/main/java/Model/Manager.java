@@ -1,28 +1,29 @@
 package Model;
 
 import java.io.File;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Manager extends Account {
 
-    private static boolean isFirstManagerCreatedOrNot;
+    private static boolean isFirstManagerCreatedOrNot = true;
 
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
 
-    private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests;
-    private static ArrayList<RequestProduct> editProductsRequests;
-    private static ArrayList<RequestOff> editOffRequests;
-    private static ArrayList<Account> allAccounts;
-    private static ArrayList<Category> categories;
+    private static ArrayList<SaveAble> registerSellerAccountRequests = new ArrayList<>();
+    private static ArrayList<SaveAble> editProductsRequests = new ArrayList<>();;
+    private static ArrayList<SaveAble> editOffRequests = new ArrayList<>();;
+    private static ArrayList<SaveAble> allAccounts = new ArrayList<>();;
+    private static ArrayList<SaveAble> categories = new ArrayList<>();;
 
     private static ArrayList<CodedOff> offCodes;
 
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);
-        allManagers.add(this);
-        isFirstManagerCreatedOrNot = false;
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this);
     }
 
     public static void removeDiscount(String offName) {
@@ -32,20 +33,20 @@ public class Manager extends Account {
         //offCodes.get(offCode)
     }
 
-    public static ArrayList<RequestANewSellerAccount> getRegisterSellerAccountRequests() {
+    public static ArrayList<SaveAble> getRegisterSellerAccountRequests() {
         return registerSellerAccountRequests;
     }
 
-    public static ArrayList<RequestProduct> getEditProductsRequest() {
+    public static ArrayList<SaveAble> getEditProductsRequest() {
         return editProductsRequests;
     }
 
-    public static ArrayList<RequestOff> getEditOffRequests() {
+    public static ArrayList<SaveAble> getEditOffRequests() {
         return editOffRequests;
     }
 
-    public static ArrayList<Request> getAllRequests() {
-        ArrayList<Request> allRequests = new ArrayList<>();
+    public static ArrayList<SaveAble> getAllRequests() {
+        ArrayList<SaveAble> allRequests = new ArrayList<>();
         allRequests.addAll(registerSellerAccountRequests);
         allRequests.addAll(editOffRequests);
         allRequests.addAll(editProductsRequests);
@@ -61,20 +62,21 @@ public class Manager extends Account {
     }
 
     public static boolean addANewManager(String userName, String passWord, Boolean isRequestFromManger) {
-        if (isFirstManagerCreatedOrNot && isRequestFromManger){
+        if (isFirstManagerCreatedOrNot || isRequestFromManger){
             new Manager(userName, passWord);
+            isFirstManagerCreatedOrNot = false;
             return true;
         }
         return false;
     }
 
-    public static boolean addANewSellerRequest(String userName, String passWord, String requestId) {
-        registerSellerAccountRequests.add(new RequestANewSellerAccount(requestId, "Create a seller account", userName, passWord));
-        return true;
-    }
+//    public static boolean addANewSellerRequest(String userName, String passWord, String requestId) {
+//        registerSellerAccountRequests.add(new RequestANewSellerAccount(requestId, "Create a seller account", userName, passWord));
+//        return true;
+//    }
 
 
-    public ArrayList<Account> getAllAccounts() {
+    public ArrayList<SaveAble> getAllAccounts() {
         return allAccounts;
     }
 
@@ -128,10 +130,16 @@ public class Manager extends Account {
 
     private static boolean accountRequestAccept(RequestANewSellerAccount request) {
         if (registerSellerAccountRequests.contains(request)) {
-            SaveAndLoad.getSaveAndLoad().writeJSONAccount(new Customer(request.getUserName(), request.getPassWord()));
+            new Seller(request.getUserName(), request.getPassWord());
             return true;
         }
         return false;
+    }
+
+    public static boolean addANewSellerRequest(String userName, String passWord) {
+        registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(registerSellerAccountRequests);
+        return true;
     }
 
     private static boolean editProduct(RequestProduct request) {

@@ -7,7 +7,7 @@ public class Request extends SaveAble {
     private RequestType requestType;
     private String requestId;
 
-    public Request(String requestType, String requestId) {
+    public Request(String requestType) {
         if(requestType.equalsIgnoreCase(String.valueOf(RequestType.ACCOUNT))) {
             this.requestType = RequestType.ACCOUNT;
             Manager.setRegisterSellerAccountRequest(this);
@@ -20,7 +20,6 @@ public class Request extends SaveAble {
         } else {
             return;
         }
-        this.requestId = requestId;
         allRequest.add(this);
     }
 

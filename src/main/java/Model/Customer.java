@@ -13,13 +13,12 @@ public class Customer extends Account {
     public Customer(String userName, String passWord) {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
-        //allCustomers.add(this);
         this.history = new ArrayList<>();
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this);
     }
 
     public static void newCustomer(String username, String password) {
-        Customer customer = new Customer(username, password);
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(customer);
+        new Customer(username, password);
     }
 
     public ArrayList<Product> getCart() {

@@ -51,12 +51,11 @@ public class LoginMenu extends Menu {
     }
 
     private void createAccount() {
-        String input;
-        Matcher matcher;
-        String error = "please Enter type(customer|seller|manger) username \n" + "" +
-                "sample : \t create account customer ali\n" +
+        String error = "please Enter type(customer|seller|manger) and username \n" + "" +
+                "sample : \t customer ali\n" +
                 "for back write \"back\"";
-        Matcher matcher1 = CommandsSource.getField(error, "create account (customer|seller|manger) (\\S+)");
+        // create account
+        Matcher matcher1 = CommandsSource.getField(error, "(customer|seller|manager) (\\S+)");
         if (matcher1 == null) {
             return;
         }

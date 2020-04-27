@@ -3,8 +3,8 @@ package Model;
 public class RequestProduct extends Request {
     private Product product;
 
-    public RequestProduct(String requestType, String requestId, Product product) {
-        super(requestType, requestId);
+    public RequestProduct(String requestType, Product product) {
+        super(requestType);
         this.product = product;
     }
 
