@@ -138,7 +138,7 @@ public class Manager extends Account {
 
     public static boolean addANewSellerRequest(String userName, String passWord) {
         registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(registerSellerAccountRequests);
+        SaveAndLoad.getSaveAndLoad().writeJSONArray(registerSellerAccountRequests);
         return true;
     }
 

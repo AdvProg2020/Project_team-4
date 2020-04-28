@@ -14,6 +14,8 @@ public abstract class Account extends SaveAble {
     protected double credit;
     //protected ArrayList buyOrSellLogs;
 
+    public Account (){}
+
     public Account(String userName, String passWord) {
         this.userName = userName;
         this.passWord = passWord;
@@ -23,7 +25,15 @@ public abstract class Account extends SaveAble {
 
     public static Account getAccountWithName(String name){
         Account account;
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" +name);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name, Customer.class);
+        if(account != null){
+            return account;
+        }
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name, Manager.class);
+        if(account != null){
+            return account;
+        }
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name, Seller.class);
         return account;
     }
 

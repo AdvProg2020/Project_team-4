@@ -18,7 +18,7 @@ public class SaveAndLoad {
         return saveAndLoad;
     }
 
-    public void writeJSONAccount(SaveAble saveAble){
+    public void writeJSON(SaveAble saveAble){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
@@ -30,11 +30,11 @@ public class SaveAndLoad {
         }
     }
 
-    public void writeJSONAccount(ArrayList<SaveAble> saveAble){
+    public void writeJSONAccount(Account saveAble){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + "\\" + saveAble.getClass()));
+            FileWriter writer = new FileWriter(String.valueOf(  Account.class + "\\" + saveAble.getName()));
             writer.write(gson.toJson(saveAble));
             writer.close();
         }catch (IOException e){
@@ -42,14 +42,24 @@ public class SaveAndLoad {
         }
     }
 
-    public SaveAble readJSONAccount(String name) {
+    public void writeJSONArray(ArrayList<SaveAble> saveAble){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(name));
+            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + "\\" + saveAble));
+            writer.write(gson.toJson(saveAble));
+            writer.close();
+        }catch (IOException e){
+            System.out.println(e);
+        }
+    }
 
-            return gson.fromJson(bufferedReader, SaveAble.class);
+    public Object readJSONAccount(String name, Class className) {
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(name));
+            return gson.fromJson(bufferedReader, className);
         } catch (FileNotFoundException e) {
             return null;
         }

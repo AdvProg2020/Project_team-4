@@ -10,6 +10,8 @@ public class Customer extends Account {
     protected ArrayList<History> history;
     protected ArrayList<CodedOff> offCodes;
 
+    public Customer(){}
+
     public Customer(String userName, String passWord) {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
