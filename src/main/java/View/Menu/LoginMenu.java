@@ -1,10 +1,7 @@
 package View.Menu;
 
 import Control.Controller;
-import View.CommandsSource;
-
 import java.util.regex.Matcher;
-
 import static View.Outputs.*;
 
 public class LoginMenu extends Menu {
@@ -28,7 +25,7 @@ public class LoginMenu extends Menu {
         do {
             showCommands();
             System.out.println("Enter Number :");
-            if(!CommandsSource.isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+            if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                 continue;
             }
             switch (input.trim()) {
@@ -47,7 +44,7 @@ public class LoginMenu extends Menu {
                 case "5":
                     return;
             }
-        }while (!input.equalsIgnoreCase("end"));
+        } while (!input.equalsIgnoreCase("end"));
     }
 
     private void createAccount() {
@@ -55,35 +52,34 @@ public class LoginMenu extends Menu {
                 "sample : \t customer ali\n" +
                 "for back write \"back\"";
         // create account
-        Matcher matcher1 = CommandsSource.getField(error, "(customer|seller|manager) (\\S+)");
-        if (matcher1 == null) {
+        Matcher matchUsername = getField(error, "(customer|seller|manager) (\\S+)");
+        if (matchUsername == null) {
             return;
         }
-        Matcher matcher2 = CommandsSource.getField("Enter a valid password", "(\\S+)");
-        if (matcher2 == null) {
+        Matcher matchPassword = getField("Enter a valid password", "(\\S+)");
+        if (matchPassword == null) {
             return;
         }
-        //////har dafe dastooro bayad bezane ya bere too while
-        printCreateAccountResult(Controller.getOurController().controllerNewAccount(matcher1.group(1),
-                matcher1.group(2),
-                matcher2.group(1)));
+        //enter command or go to while
+        printCreateAccountResult(Controller.getOurController().controllerNewAccount(matchUsername.group(1),
+                matchUsername.group(2),
+                matchPassword.group(1)));
     }
 
     private void login() {
         String error = "please Enter username \n" + "" +
                 "sample : \t login ali\n" +
                 "for back write \"break\"";
-        Matcher matcher1 = CommandsSource.getField(error, "login\\s(\\S+)");
+        Matcher matcher1 = getField(error, "login\\s(\\S+)");
         if (matcher1 == null) {
             return;
         }
-        Matcher matcher2 = CommandsSource.getField("Enter a valid password", "(\\S+)");
+        Matcher matcher2 = getField("Enter a valid password", "(\\S+)");
         if (matcher2 == null) {
             return;
         }
         printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
     }
-
 
     private void logout() {
         printLogoutResult(Controller.getOurController().logout());

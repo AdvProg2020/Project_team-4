@@ -4,14 +4,7 @@ package View.Menu;
 
 import Control.Controller;
 import Model.*;
-import View.CommandsSource;
-import View.Outputs;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
-
-import static View.CommandsSource.findEnum;
-//import static View.Manager.*;
 
 
 public class ManagerMenu extends Menu {
@@ -44,7 +37,7 @@ public class ManagerMenu extends Menu {
                 do {
                     showCommands();
                     System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end too go back:");
-                    if(!CommandsSource.isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
                     }
                     switch (input.trim()) {
@@ -189,7 +182,7 @@ public class ManagerMenu extends Menu {
     private static Menu getViewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
-                Matcher matcher = CommandsSource.getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
+                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
                 switch (Controller.getOurController().editField(matcher.group(1))) {
                     case 1:
                         SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount());
@@ -206,7 +199,7 @@ public class ManagerMenu extends Menu {
                 String input;
                 do {
                     System.out.println("Enter 1 for edit a field and 2 for back:");
-                    if(!CommandsSource.isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
                     }
                     switch (input) {
@@ -221,8 +214,6 @@ public class ManagerMenu extends Menu {
         };
     }
 
-
-
     @Override
     public void execute() {
         String input = "";
@@ -230,7 +221,7 @@ public class ManagerMenu extends Menu {
         do {
             showCommands();
             System.out.println("Enter Number :");
-            if(!CommandsSource.isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+            if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                 continue;
             }
             switch (input.trim()) {

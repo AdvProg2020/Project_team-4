@@ -1,7 +1,6 @@
 package Control;
 
 import Model.*;
-import View.CommandsSource;
 import View.Menu.Menu;
 
 import java.util.ArrayList;
@@ -9,6 +8,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+
+import static View.Menu.Menu.getField;
 
 public class Controller {
 
@@ -64,7 +65,7 @@ public class Controller {
     }
 
     public void controllerShowUser() {
-        Matcher input = CommandsSource.getField("please write in this format: view [username]", "view\\s(\\S+)");
+        Matcher input = getField("please write in this format: view [username]", "view\\s(\\S+)");
         System.out.println(Account.getAccountWithName(input.group(1)));
     }
 
@@ -189,7 +190,7 @@ public class Controller {
 
     public static int editField(String field) {
         System.out.println("Enter your new wanted amount for the field you chose");
-        Matcher newAmount = CommandsSource.getField("Please enter a valid string", "(\\S+)");
+        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
         switch (field) {
             case "firstName":
                 loggedInAccount.setFirstName(newAmount.group(1));

@@ -1,16 +1,11 @@
 package View.Menu;
 
 import Control.Controller;
-import Model.Account;
 import Model.Customer;
 import Model.Manager;
 import Model.Seller;
 
 public class MainMenu extends Menu {
-
-//    private Menu productMenu = new ProductMenu();
-//    private Menu productsMenu = new ProductsMenu();
-//    private Menu offMenu = new OffsMenu();
 
     public MainMenu() {
         options.add("products");
@@ -24,11 +19,11 @@ public class MainMenu extends Menu {
 
     private static void goToNahieKarbari() {
         if (Customer.class.equals(Controller.getLoggedInAccount().getClass())) {
-            ManagerMenu.getManagerMenu().execute();
+            CustomerMenu.getCustomerMenu().execute();
         } else if (Manager.class.equals(Controller.getLoggedInAccount().getClass())) {
-
+            ManagerMenu.getManagerMenu().execute();
         } else if (Seller.class.equals(Controller.getLoggedInAccount().getClass())) {
-
+            SellerMenu.getSellerMenu().execute();
         } else {
             System.out.println("No user is logged in.");
         }
