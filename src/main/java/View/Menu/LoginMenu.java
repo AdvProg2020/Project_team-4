@@ -71,14 +71,14 @@ public class LoginMenu extends Menu {
 
     private void login() {
         String error = "please Enter username \n" + "" +
-                "sample : \t login account customer ali\n" +
+                "sample : \t login ali\n" +
                 "for back write \"break\"";
         Matcher matcher1 = CommandsSource.getField(error, "login\\s(\\S+)");
         if (matcher1 == null) {
             return;
         }
         Matcher matcher2 = CommandsSource.getField("Enter a valid password", "(\\S+)");
-        if (matcher1 == null) {
+        if (matcher2 == null) {
             return;
         }
         printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));

@@ -45,10 +45,10 @@ public class Outputs {
     public static void printLogoutResult(int result) {
         switch (result) {
             case 1:
-                System.out.println("logged out successfully!");
+                System.out.println("you should login first!");
                 return;
             case 2:
-                System.out.println("you should login first!");
+                System.out.println("logged out successfully!");
         }
     }
 

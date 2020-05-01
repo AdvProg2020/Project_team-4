@@ -1,5 +1,9 @@
 package View.Menu;
 
+import Control.Controller;
+import Model.Account;
+import Model.Customer;
+
 public class MainMenu extends Menu {
 
 //    private Menu productMenu = new ProductMenu();
@@ -10,9 +14,16 @@ public class MainMenu extends Menu {
         options.add("products");
         options.add("offs");
         options.add("login menu");
+        options.add("Account-Based orders");
         options.add("help");
         options.add("back");
 
+    }
+
+    private static void goToNahieKarbari() {
+        if (Customer.class.equals(Controller.getLoggedInAccount().getClass())) {
+
+        }
     }
 
     public void execute() {
@@ -36,9 +47,11 @@ public class MainMenu extends Menu {
                     showCommands();
                     break;
                 case "4":
+                    goToNahieKarbari();
+                case "5":
                     showCommands();
                     break;
-                case "5":
+                case "6":
                     return;
             }
         }while (!input.equalsIgnoreCase("end"));
