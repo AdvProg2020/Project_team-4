@@ -23,7 +23,7 @@ public class LoginMenu extends Menu {
     public void execute() {
         String input;
         do {
-            showCommands();
+            show();
             System.out.println("Enter Number :");
             if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                 continue;
@@ -39,7 +39,7 @@ public class LoginMenu extends Menu {
                     logout();
                     break;
                 case "4":
-                    showCommands();
+                    show();
                     break;
                 case "5":
                     return;
@@ -81,7 +81,7 @@ public class LoginMenu extends Menu {
         printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
     }
 
-    private void logout() {
+    public static void logout() {
         printLogoutResult(Controller.getOurController().logout());
     }
 

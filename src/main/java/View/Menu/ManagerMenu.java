@@ -35,7 +35,7 @@ public class ManagerMenu extends Menu {
                 String input = "";
                 System.out.println("Enter your command :");
                 do {
-                    showCommands();
+                    show();
                     System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end too go back:");
                     if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
@@ -219,7 +219,7 @@ public class ManagerMenu extends Menu {
         String input = "";
         System.out.println("Enter your command :");
         do {
-            showCommands();
+            show();
             System.out.println("Enter Number :");
             if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                 continue;
@@ -260,7 +260,7 @@ public class ManagerMenu extends Menu {
 //                    nextMenu.showCommands();
 //                    nextMenu.execute();
                 case "8":
-                    showCommands();
+                    show();
                     break;
                 case "9":
                     return;

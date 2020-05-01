@@ -17,7 +17,7 @@ public class MainMenu extends Menu {
 
     }
 
-    private static void goToNahieKarbari() {
+    private static void goToUserSection() {
         if (Customer.class.equals(Controller.getLoggedInAccount().getClass())) {
             CustomerMenu.getCustomerMenu().execute();
         } else if (Manager.class.equals(Controller.getLoggedInAccount().getClass())) {
@@ -32,7 +32,7 @@ public class MainMenu extends Menu {
     public void execute() {
         String input;
         do {
-            showCommands();
+            show();
             System.out.println("Enter Number :");
             if(!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()){
                 continue;
@@ -47,12 +47,12 @@ public class MainMenu extends Menu {
                     break;
                 case "3":
                     LoginMenu.getLoginMenu().execute();
-                    showCommands();
+                    show();
                     break;
                 case "4":
-                    goToNahieKarbari();
+                    goToUserSection();
                 case "5":
-                    showCommands();
+                    show();
                     break;
                 case "6":
                     return;

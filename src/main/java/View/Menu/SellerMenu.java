@@ -27,13 +27,35 @@ public class SellerMenu extends Menu {
         String input = "";
         System.out.println("Enter your command :");
         do {
-            showCommands();
+            show();
             System.out.println("Enter Number :");
             if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
                 continue;
             }
             switch (input.trim()) {
                 case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    break;
+                case "6":
+                    break;
+                case "7":
+                    break;
+                case "8":
+                    break;
+                case "9":
+                    show();
+                    break;
+                case "10":
+                    return;
+                case "11":
+                    LoginMenu.logout();
                     break;
             }
         }while(!input.equalsIgnoreCase("end"));

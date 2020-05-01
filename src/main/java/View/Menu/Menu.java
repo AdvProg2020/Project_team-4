@@ -57,10 +57,10 @@ public abstract class Menu {
         return scanner;
     }
 
-    protected void showCommands() {
+    protected void show() {
         int number = 0;
         for (String option : options) {
-            System.out.println(++number + " " + option);
+            System.out.printf("%2d. %s\n", ++number , option);
         }
     }
 
