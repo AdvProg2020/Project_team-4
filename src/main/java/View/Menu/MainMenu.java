@@ -3,6 +3,8 @@ package View.Menu;
 import Control.Controller;
 import Model.Account;
 import Model.Customer;
+import Model.Manager;
+import Model.Seller;
 
 public class MainMenu extends Menu {
 
@@ -22,7 +24,13 @@ public class MainMenu extends Menu {
 
     private static void goToNahieKarbari() {
         if (Customer.class.equals(Controller.getLoggedInAccount().getClass())) {
+            ManagerMenu.getManagerMenu().execute();
+        } else if (Manager.class.equals(Controller.getLoggedInAccount().getClass())) {
 
+        } else if (Seller.class.equals(Controller.getLoggedInAccount().getClass())) {
+
+        } else {
+            System.out.println("No user is logged in.");
         }
     }
 

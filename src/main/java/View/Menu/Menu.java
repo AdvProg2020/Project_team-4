@@ -29,4 +29,6 @@ public abstract class Menu {
         }
     }
 
+    protected void execute() {}
+
 }

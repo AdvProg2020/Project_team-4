@@ -1,14 +1,20 @@
 package Control;
 
 import Model.*;
+import View.CommandsSource;
+import View.Menu.Menu;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class Controller {
 
     private final static Controller ourController = new Controller();
+
+    private final Scanner scanner = Menu.getScanner();
 
     private static Account loggedInAccount = null;
 
@@ -57,8 +63,9 @@ public class Controller {
         return 2;
     }
 
-    public Account controllerShowUser(String username) {
-        return Account.getAccountWithName(username);
+    public void controllerShowUser() {
+        Matcher input = CommandsSource.getField("please write in this format: view [username]", "view\\s(\\S+)");
+        System.out.println(Account.getAccountWithName(input.group(1)));
     }
 
     public void controllerDeleteAnUser(String username) {
@@ -180,8 +187,30 @@ public class Controller {
     }
 
 
-    public static boolean editField(String field) {
-        return true;
+    public static int editField(String field) {
+        System.out.println("Enter your new wanted amount for the field you chose");
+        Matcher newAmount = CommandsSource.getField("Please enter a valid string", "(\\S+)");
+        switch (field) {
+            case "firstName":
+                loggedInAccount.setFirstName(newAmount.group(1));
+                return 1;
+            case "lastName":
+                loggedInAccount.setLastName(newAmount.group(1));
+                return 1;
+            case "credit" :
+                loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
+                return 1;
+            case "phoneNumber" :
+                loggedInAccount.setPhoneNumber(newAmount.group(1));
+                return 1;
+            case "email" :
+                loggedInAccount.setEmail(newAmount.group(1));
+                return 1;
+            case "passWord" :
+                loggedInAccount.setPassWord(newAmount.group(1));
+                return 1;
+        }
+        return 2;
     }
 
 
