@@ -6,10 +6,12 @@ import Control.Controller;
 import Model.*;
 import java.util.regex.Matcher;
 
+import static Control.Controller.editField;
+
 
 public class ManagerMenu extends Menu {
 
-    private static Menu managerMenu = new ManagerMenu();
+    private static final Menu managerMenu = new ManagerMenu();
 
 
     private ManagerMenu() {
@@ -32,8 +34,8 @@ public class ManagerMenu extends Menu {
         return new Menu() {
             @Override
             public void execute() {
-                String input = "";
-                System.out.println("Enter your command :");
+                String input;
+                Matcher matcher;
                 do {
                     show();
                     System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end too go back:");
@@ -42,12 +44,14 @@ public class ManagerMenu extends Menu {
                     }
                     switch (input.trim()) {
                         case "1" :
-                            Controller.getOurController().controllerShowUser();
+                            matcher = getField("please write in this format: view [username]", "view\\s(\\S+)");
+                            Controller.getOurController().controllerShowUser(matcher.group(1));
                             break;
-//                        case "2" :
-//                            Controller.getOurController().controllerDeleteAnUser(splitInput[2]);
-//                            break;
-//                        case "3" :
+                        case "2" :
+                            matcher = getField("Please write in this format: delete [username]", "delete\\s+(\\S+)");
+                            Controller.getOurController().controllerDeleteAnUser(matcher.group(1));
+                            break;
+                        case "3" :
 //                            System.out.println("Please enter a userName:");
 //                            input = scanner.nextLine();
 //                            System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
@@ -55,8 +59,8 @@ public class ManagerMenu extends Menu {
 //                            String[] splitInput = input.split("\\s");
 //
 //                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1]));
-//                            break;
-//                        default:
+                            break;
+                        default:
 //                            System.out.println("Enter a valid command please.");
                     }
                 } while (!input.equalsIgnoreCase("end"));
@@ -179,11 +183,11 @@ public class ManagerMenu extends Menu {
 //    }
 
 
-    private static Menu getViewAndEditPersonalInfo() {
+    private static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
                 Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
-                switch (Controller.getOurController().editField(matcher.group(1))) {
+                switch (editField(matcher.group(1))) {
                     case 1:
                         SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount());
                         System.out.println("Changed well");
@@ -216,8 +220,7 @@ public class ManagerMenu extends Menu {
 
     @Override
     public void execute() {
-        String input = "";
-        System.out.println("Enter your command :");
+        String input;
         do {
             show();
             System.out.println("Enter Number :");
@@ -226,7 +229,7 @@ public class ManagerMenu extends Menu {
             }
             switch (input.trim()) {
                 case "1":
-                    getViewAndEditPersonalInfo().execute();
+                    viewAndEditPersonalInfo().execute();
                     break;
 
                 case "2":

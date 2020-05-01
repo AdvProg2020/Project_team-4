@@ -50,8 +50,6 @@ public abstract class Account extends SaveAble {
         }
     }
 
-
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -67,24 +65,31 @@ public abstract class Account extends SaveAble {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
+
     public String getUserName() {
         return userName;
     }
+
     public String getFirstName() {
         return firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
     public String getPassWord() {
         return passWord;
     }
@@ -103,9 +108,6 @@ public abstract class Account extends SaveAble {
     public void setCredit(double credit) {
         this.credit = credit;
     }
-
-
-
 
     @Override
     protected String getName() {

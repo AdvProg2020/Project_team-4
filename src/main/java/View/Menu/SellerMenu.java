@@ -3,7 +3,7 @@ package View.Menu;
 
 public class SellerMenu extends Menu {
 
-    private static Menu sellerMenu = new SellerMenu();
+    private static final Menu sellerMenu = new SellerMenu();
 
     public SellerMenu() {
         options.add("view company information");
@@ -24,7 +24,7 @@ public class SellerMenu extends Menu {
     }
 
     public void execute() {
-        String input = "";
+        String input;
         System.out.println("Enter your command :");
         do {
             show();

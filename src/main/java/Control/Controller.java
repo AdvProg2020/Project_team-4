@@ -64,9 +64,8 @@ public class Controller {
         return 2;
     }
 
-    public void controllerShowUser() {
-        Matcher input = getField("please write in this format: view [username]", "view\\s(\\S+)");
-        System.out.println(Account.getAccountWithName(input.group(1)));
+    public void controllerShowUser(String username) {
+        System.out.println(Account.getAccountWithName(username));
     }
 
     public void controllerDeleteAnUser(String username) {
@@ -169,7 +168,6 @@ public class Controller {
         return false;
     }
 
-    /////////////////////////////////////////////////////////////////chi kar mikone
     public void removeDiscount(String offName) {
         Manager.removeDiscount(offName);
     }
@@ -187,9 +185,8 @@ public class Controller {
         return loggedInAccount;
     }
 
-
     public static int editField(String field) {
-        System.out.println("Enter your new wanted amount for the field you chose");
+        System.out.println("Enter your new amount for the field you choose");
         Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
         switch (field) {
             case "firstName":
@@ -213,7 +210,6 @@ public class Controller {
         }
         return 2;
     }
-
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
         return 0;

@@ -1,8 +1,15 @@
 package View.Menu;
 
+import Control.Controller;
+import Model.SaveAndLoad;
+
+import java.util.regex.Matcher;
+
+import static Control.Controller.editField;
+
 public class CustomerMenu extends Menu {
 
-    private static Menu customerMenu = new CustomerMenu();
+    private static final Menu customerMenu = new CustomerMenu();
 
     public CustomerMenu() {
         options.add("view personal info");
@@ -26,9 +33,44 @@ public class CustomerMenu extends Menu {
         return customerMenu;
     }
 
+    private static Menu viewAndEditPersonalInfo() {
+        return new Menu() {
+            private void personalInfo() {
+                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
+                switch (editField(matcher.group(2))) {
+                    case 1:
+                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount());
+                        System.out.println("Changed well");
+                        break;
+                    case 2:
+                        System.out.println("Sth went wrong in changing");
+
+                }
+            }
+            @Override
+            protected void execute() {
+                System.out.println(Controller.getLoggedInAccount());
+                String input;
+                do {
+                    System.out.println("Enter 1 for edit a field and 2 for back:");
+                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+                        continue;
+                    }
+                    switch (input) {
+                        case "1":
+                            personalInfo();
+                            break;
+                        case "2":
+                            return;
+                    }
+                }while (!input.equalsIgnoreCase("end"));
+            }
+        };
+    }
+
+    @Override
     public void execute() {
-        String input = "";
-        System.out.println("Enter your command :");
+        String input;
         do {
             show();
             System.out.println("Enter Number :");
@@ -37,6 +79,7 @@ public class CustomerMenu extends Menu {
             }
             switch (input.trim()) {
                 case "1":
+                    viewAndEditPersonalInfo().execute();
                     break;
                 case "2":
                     break;
