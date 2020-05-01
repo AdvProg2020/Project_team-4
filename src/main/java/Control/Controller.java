@@ -1,14 +1,21 @@
 package Control;
 
 import Model.*;
+import View.Menu.Menu;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+
+import static View.Menu.Menu.getField;
 
 public class Controller {
 
     private final static Controller ourController = new Controller();
+
+    private final Scanner scanner = Menu.getScanner();
 
     private static Account loggedInAccount = null;
 
@@ -57,8 +64,8 @@ public class Controller {
         return 2;
     }
 
-    public Account controllerShowUser(String username) {
-        return Account.getAccountWithName(username);
+    public void controllerShowUser(String username) {
+        System.out.println(Account.getAccountWithName(username));
     }
 
     public void controllerDeleteAnUser(String username) {
@@ -161,7 +168,6 @@ public class Controller {
         return false;
     }
 
-    /////////////////////////////////////////////////////////////////chi kar mikone
     public void removeDiscount(String offName) {
         Manager.removeDiscount(offName);
     }
@@ -179,11 +185,31 @@ public class Controller {
         return loggedInAccount;
     }
 
-
-    public static boolean editField(String field) {
-        return true;
+    public static int editField(String field) {
+        System.out.println("Enter your new amount for the field you choose");
+        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
+        switch (field) {
+            case "firstName":
+                loggedInAccount.setFirstName(newAmount.group(1));
+                return 1;
+            case "lastName":
+                loggedInAccount.setLastName(newAmount.group(1));
+                return 1;
+            case "credit" :
+                loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
+                return 1;
+            case "phoneNumber" :
+                loggedInAccount.setPhoneNumber(newAmount.group(1));
+                return 1;
+            case "email" :
+                loggedInAccount.setEmail(newAmount.group(1));
+                return 1;
+            case "passWord" :
+                loggedInAccount.setPassWord(newAmount.group(1));
+                return 1;
+        }
+        return 2;
     }
-
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
         return 0;
