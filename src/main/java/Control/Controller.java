@@ -188,23 +188,23 @@ public class Controller {
     public int editField(String field) {
         System.out.println("Enter your new amount for the field you choose");
         Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
-        switch (field) {
-            case "firstName":
+        switch (field.toLowerCase()) {
+            case "firstname":
                 loggedInAccount.setFirstName(newAmount.group(1));
                 return 1;
-            case "lastName":
+            case "lastname":
                 loggedInAccount.setLastName(newAmount.group(1));
                 return 1;
             case "credit" :
                 loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
                 return 1;
-            case "phoneNumber" :
+            case "phonenumber" :
                 loggedInAccount.setPhoneNumber(newAmount.group(1));
                 return 1;
             case "email" :
                 loggedInAccount.setEmail(newAmount.group(1));
                 return 1;
-            case "passWord" :
+            case "password" :
                 loggedInAccount.setPassWord(newAmount.group(1));
                 return 1;
         }

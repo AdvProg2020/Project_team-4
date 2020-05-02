@@ -37,7 +37,10 @@ public class LoginMenu extends Menu {
                     createAccount();
                     break;
                 case "2":
-                    login();
+                    if(login()){
+                        return;
+                    }
+                    System.out.println("lkdjfs");
                     break;
                 case "3":
                     logout();
@@ -70,11 +73,10 @@ public class LoginMenu extends Menu {
                 matchPassword.group(1)));
     }
 
-    private void login() {
+    private boolean login() {
 
         if(Controller.getOurController().getLoggedInAccount() != null){
-            printLoginResult(4);
-            return;
+            return printLoginResult(4);
         }
 
         String error = "please Enter username \n" + "" +
@@ -82,13 +84,13 @@ public class LoginMenu extends Menu {
                 "for back write \"break\"";
         Matcher matcher1 = getField(error, "login\\s(\\S+)");
         if (matcher1 == null) {
-            return;
+            return false;
         }
         Matcher matcher2 = getField("Enter a valid password", "(\\S+)");
         if (matcher2 == null) {
-            return;
+            return false;
         }
-        printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
+        return printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
     }
 
     public static void logout() {

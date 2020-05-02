@@ -40,6 +40,7 @@ public class Outputs {
                 return false;
             case 4:
                 System.out.println("one account is now logged in please logout first");
+                return false;
         }
         return false;
     }
