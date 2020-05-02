@@ -4,6 +4,8 @@ package View.Menu;
 
 import Control.Controller;
 import Model.*;
+import View.Outputs;
+
 import java.util.regex.Matcher;
 
 import static Control.Controller.editField;
@@ -38,7 +40,7 @@ public class ManagerMenu extends Menu {
                 Matcher matcher;
                 do {
                     show();
-                    System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end too go back:");
+                    System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end to go back:");
                     if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
                     }
@@ -52,13 +54,8 @@ public class ManagerMenu extends Menu {
                             Controller.getOurController().controllerDeleteAnUser(matcher.group(1));
                             break;
                         case "3" :
-//                            System.out.println("Please enter a userName:");
-//                            input = scanner.nextLine();
-//                            System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
-//                            input = scanner.nextLine();
-//                            String[] splitInput = input.split("\\s");
-//
-//                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1]));
+                            Matcher matcher1 = Menu.getField("Please enter a userName and pass in this format: [userName] [password]", "(\\S+)\\s(\\S+)");
+                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(matcher1.group(1), matcher1.group(2)));
                             break;
                         default:
 //                            System.out.println("Enter a valid command please.");
