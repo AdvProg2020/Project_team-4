@@ -4,9 +4,10 @@ package View.Menu;
 
 import Control.Controller;
 import Model.*;
+import View.Outputs;
+
 import java.util.regex.Matcher;
 
-import static Control.Controller.editField;
 
 
 public class ManagerMenu extends Menu {
@@ -15,19 +16,46 @@ public class ManagerMenu extends Menu {
 
 
     private ManagerMenu() {
-        options.add("view personal info");
-        options.add("manage users");
-        options.add("manage all products");
-        options.add("create discount code");
-        options.add("view discount codes");
-        options.add("manage requests");
-        options.add("manage categories");
+        options.add("view personal info ");
+        options.add("manage users #");
+        options.add("manage all products #");
+        options.add("create discount code #");
+        options.add("view discount codes #");
+        options.add("manage requests #");
+        options.add("manage categories #");
         options.add("help");
         options.add("back");
     }
 
     public static Menu getManagerMenu() {
         return managerMenu;
+    }
+
+    private Menu manageAllProducts(){
+        options.add("remove a product");
+        options.add("back");
+        return new Menu() {
+            @Override
+            protected void execute() {
+                String input;
+                Matcher matcher;
+                do {
+                    show();
+                    System.out.println("Enter number:");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch(input.trim()){
+                        case "remove a product":
+                            matcher = getField("please write in this format: remove [productId]", "view\\s(\\S+)");
+                            Controller.getOurController().controllerRemoveProduct(matcher.group(1));
+                            break;
+                        case "back":
+                            return;
+                    }
+                } while(true);
+            }
+        };
     }
 
     private Menu getManageUsersMenu() {
@@ -38,7 +66,7 @@ public class ManagerMenu extends Menu {
                 Matcher matcher;
                 do {
                     show();
-                    System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end too go back:");
+                    System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end to go back:");
                     if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
                     }
@@ -52,18 +80,13 @@ public class ManagerMenu extends Menu {
                             Controller.getOurController().controllerDeleteAnUser(matcher.group(1));
                             break;
                         case "3" :
-//                            System.out.println("Please enter a userName:");
-//                            input = scanner.nextLine();
-//                            System.out.println("Enter firstName: lastName: email: phoneNumber passWord:");
-//                            input = scanner.nextLine();
-//                            String[] splitInput = input.split("\\s");
-//
-//                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(splitInput[0], splitInput[1]));
+                            Matcher matcher1 = Menu.getField("Please enter a userName and pass in this format: [userName] [password]", "(\\S+)\\s(\\S+)");
+                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(matcher1.group(1), matcher1.group(2)));
                             break;
                         default:
 //                            System.out.println("Enter a valid command please.");
                     }
-                } while (!input.equalsIgnoreCase("end"));
+                } while (true);
             }
         };
     }
@@ -186,10 +209,13 @@ public class ManagerMenu extends Menu {
     private static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
-                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
-                switch (editField(matcher.group(1))) {
+                Matcher matcher = getField("Enter in this format: edit [field] for back write back", "edit\\s(\\S+)");
+                if(matcher == null){
+                    return;
+                }
+                switch (Controller.getOurController().editField(matcher.group(1))) {
                     case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount());
+                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
                         System.out.println("Changed well");
                         break;
                     case 2:
@@ -199,7 +225,7 @@ public class ManagerMenu extends Menu {
             }
             @Override
             protected void execute() {
-                System.out.println(Controller.getLoggedInAccount());
+                System.out.println(Controller.getOurController().getLoggedInAccount());
                 String input;
                 do {
                     System.out.println("Enter 1 for edit a field and 2 for back:");
@@ -235,16 +261,9 @@ public class ManagerMenu extends Menu {
                 case "2":
                     getManageUsersMenu().execute();
                     break;
-//                case "3":
-//                    while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
-//                        System.out.println("remove a product:");
-//                        //input = scanner.nextLine();
-//                        if (CommandsSource.isThisRegexMatch("remove\\s(\\w+)", input)) {
-//                            String[] splitInput = input.split("\\s");
-//                            Controller.getOurController().controllerRemoveProduct(splitInput[1]);
-//                        }
-//                    }
-//                    break;
+                case "3":
+
+                    break;
 //                case "4":
 //                    creatDiscountCode();
 //                    break;
