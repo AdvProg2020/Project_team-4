@@ -13,11 +13,11 @@ public class Off extends SaveAble {
         MAKING, EDITING, APPROVED
     }
 
-    private Date startDate;
-    private Date endDate;
-    private double offAmount;
+    private String startDate;
+    private String endDate;
+    private String offAmount;
 
-    public Off(String offBarcode, Date startDate, Date endDate, double offAmount) {
+    public Off(String offBarcode, String startDate, String endDate, String offAmount) {
         this.offBarcode = offBarcode;
         this.products = new ArrayList<Product>();
         this.startDate = startDate;
@@ -30,15 +30,15 @@ public class Off extends SaveAble {
         return offBarcode;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public double getOffAmount() {
+    public String getOffAmount() {
         return offAmount;
     }
 

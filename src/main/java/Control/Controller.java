@@ -76,8 +76,8 @@ public class Controller {
         return Product.removeProduct(Product.getProductWithName(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, Date startingTime, Date endingTime, double offAmount, int usageTimes, String containingCustomers) {
-        new Off(barcode, startingTime, endingTime, offAmount);
+    public void controllerCreateOffCode(String barcode, String startDate, String expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList containingCustomers) {
+        new Off(barcode, startDate, expireDate, maximumOffAmount);
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {

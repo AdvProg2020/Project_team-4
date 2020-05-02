@@ -5,8 +5,11 @@ import Control.Controller;
 import Model.*;
 import View.Outputs;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 
+import static Model.Customer.getCustomerByName;
 import static View.Outputs.printRemoveProductResult;
 
 
@@ -60,7 +63,7 @@ public class ManagerMenu extends Menu {
         };
     }
 
-    private Menu getManageUsersMenu() {
+    private Menu manageUsersMenu() {
         return new Menu() {
             @Override
             public void execute() {
@@ -92,19 +95,48 @@ public class ManagerMenu extends Menu {
             }
         };
     }
-//
-//    private static void creatDiscountCode() {
-//        String input = "";
-//        ArrayList<Customer> usersToContain = new ArrayList<>();
-//        System.out.println("Enter barcode:\nstartingTime:\nendingTime:\noffAmount:\nusageTimes:\nusersToContain");
-//        Matcher barcode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");
-//        Matcher startingTime = CommandsSource.getField("Please enter a valid starTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
-//        Matcher endingTime = CommandsSource.getField("Please enter a valid endingTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
-//        double offAmount = Double.parseDouble(CommandsSource.getField("Please enter a valid offAmount", "(\\d+)"));
-//        int usageTimes = Integer.parseInt(CommandsSource.getField("Please enter a valid usageTime", "(\\d+)"));
-//        String containingCustomers = scanner.nextLine().trim();
-//        Controller.getOurController().controllerCreateOffCode(barcode, startingTime, endingTime, offAmount, usageTimes, containingCustomers);
-//    }
+
+    private static void creatDiscountCode() {
+        String input = "";
+        ArrayList<Customer> containingCustomers = new ArrayList<>();
+        Matcher matcher;
+        String barcode = "";
+        String expireDate = "";
+        String startDate = "";
+        String maximumOffAmount = "";
+        String percentOfOff = "";
+        String usageTime = "";
+        do{
+
+            System.out.println("Enter requested field or type \"back\" to back:");
+            matcher = getField("Enter barcode:", "\\w+");
+            if (matcher != null) {
+                barcode = matcher.toString();
+            }
+            matcher = getField("Please enter a valid start date\nlike: 1399:1:7", "(\\d\\d\\d\\d):([1-12]):([1-31])");
+            if (matcher != null) {
+                startDate = matcher.toString();
+            }
+            matcher = getField("Please enter a valid expire date\nlike: 1400:6:14", "(\\d\\d\\d\\d):([1-12]):([1-31])");
+            if (matcher != null) {
+                expireDate = matcher.toString();
+            }
+            matcher = getField("Please enter a valid maximum off amount and percent of off\nlike: 10000 , 20%", "(\\d+) , ([1-100]%)");
+            if (matcher != null) {
+                maximumOffAmount = matcher.group(1);
+                percentOfOff = matcher.group(2);
+            }
+            matcher = getField("Please enter a valid usage time", "(\\d+)");
+            if (matcher != null) {
+                usageTime = matcher.group(1);
+            }
+            System.out.println("Enter username of account do you want contain off code like \"ali\" or \"end\" to end");
+            while(!((input = scanner.nextLine()).equalsIgnoreCase("end"))){
+                containingCustomers.add(getCustomerByName(input.trim()));
+            }
+        }while(!(input = scanner.nextLine()).equalsIgnoreCase("back"));
+        Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers);
+    }
 //
 //    private static Menu getDiscountCodeMenu() {
 //        return new Menu() {
@@ -259,16 +291,15 @@ public class ManagerMenu extends Menu {
                 case "1":
                     viewAndEditPersonalInfo().execute();
                     break;
-
                 case "2":
-                    getManageUsersMenu().execute();
+                    manageUsersMenu().execute();
                     break;
                 case "3":
-
+                    manageAllProducts().execute();
                     break;
-//                case "4":
-//                    creatDiscountCode();
-//                    break;
+                case "4":
+                    creatDiscountCode();
+                    break;
 //                case "5":
 //                    nextMenu = getDiscountCodeMenu();
 //                    getDiscountCodeMenu.showCommands();

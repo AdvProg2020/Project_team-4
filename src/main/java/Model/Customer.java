@@ -3,19 +3,21 @@ package Model;
 import java.util.ArrayList;
 
 public class Customer extends Account {
-    //private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
+    private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private ArrayList<Product> cart;
     //private ArrayList<BuyLog> buyingHistory;
     //private ArrayList<CodedOff> offCodes;
     protected ArrayList<History> history;
     protected ArrayList<CodedOff> offCodes;
 
-    public Customer(){}
+    public Customer() {
+    }
 
     public Customer(String userName, String passWord) {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
         this.history = new ArrayList<>();
+        allCustomers.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSONAccount(this, Customer.class.toString());
     }
 
@@ -34,7 +36,6 @@ public class Customer extends Account {
 //    public ArrayList<BuyLog> getBoughtProducts() {
 //        return buyingHistory;
 //    }
-
 
 
     public ArrayList<CodedOff> getOffCodes() {
@@ -91,4 +92,14 @@ public class Customer extends Account {
                 ", credit=" + credit +
                 '}';
     }
+
+    public static Customer getCustomerByName(String name) {
+        for (Customer customer : allCustomers) {
+            if(name.equals(customer.getName())){
+                return customer;
+            }
+        }
+        return null;
+    }
+
 }
