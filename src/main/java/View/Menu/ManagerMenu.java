@@ -15,13 +15,13 @@ public class ManagerMenu extends Menu {
 
 
     private ManagerMenu() {
-        options.add("view personal info");
-        options.add("manage users");
-        options.add("manage all products");
-        options.add("create discount code");
-        options.add("view discount codes");
-        options.add("manage requests");
-        options.add("manage categories");
+        options.add("view personal info #");
+        options.add("manage users #");
+        options.add("manage all products #");
+        options.add("create discount code #");
+        options.add("view discount codes #");
+        options.add("manage requests #");
+        options.add("manage categories #");
         options.add("help");
         options.add("back");
     }

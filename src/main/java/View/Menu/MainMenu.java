@@ -8,10 +8,10 @@ import Model.Seller;
 public class MainMenu extends Menu {
 
     public MainMenu() {
-        options.add("products");
-        options.add("offs");
+        options.add("products #");
+        options.add("offs #");
         options.add("login menu");
-        options.add("Account-Based orders");
+        options.add("Account-Based orders #");
         options.add("help");
         options.add("back");
 
@@ -47,7 +47,6 @@ public class MainMenu extends Menu {
                     break;
                 case "3":
                     LoginMenu.getLoginMenu().execute();
-                    show();
                     break;
                 case "4":
                     goToUserSection();
