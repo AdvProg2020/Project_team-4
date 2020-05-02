@@ -15,7 +15,7 @@ public class ManagerMenu extends Menu {
 
 
     private ManagerMenu() {
-        options.add("view personal info #");
+        options.add("view personal info ");
         options.add("manage users #");
         options.add("manage all products #");
         options.add("create discount code #");
@@ -189,7 +189,7 @@ public class ManagerMenu extends Menu {
                 Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
                 switch (editField(matcher.group(1))) {
                     case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount());
+                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount(), Controller.getLoggedInAccount().getClass().toString());
                         System.out.println("Changed well");
                         break;
                     case 2:
@@ -208,6 +208,7 @@ public class ManagerMenu extends Menu {
                     }
                     switch (input) {
                         case "1":
+                            System.out.println("dsifjfd");
                             personalInfo();
                             break;
                         case "2":

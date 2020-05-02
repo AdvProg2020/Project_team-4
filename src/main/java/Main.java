@@ -6,8 +6,12 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        File file = new File(String.valueOf(Account.class));
+        File file = new File(String.valueOf(Customer.class));
         file.mkdir();
+        File file6 = new File(String.valueOf(Seller.class));
+        file6.mkdir();
+        File file7 = new File(String.valueOf(Manager.class));
+        file7.mkdir();
         File file1 = new File(Product.class + "");
         file1.mkdir();
         File file2 = new File(Off.class + "");

@@ -14,8 +14,8 @@ public class LoginMenu extends Menu {
 
     private LoginMenu() {
         options.add("create account");
-        options.add("login #");
-        options.add("logout #");
+        options.add("login");
+        options.add("logout");
         options.add("help");
         options.add("back");
     }

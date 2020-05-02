@@ -16,7 +16,7 @@ public class Customer extends Account {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
         this.history = new ArrayList<>();
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this);
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this, Customer.class.toString());
     }
 
     public static void newCustomer(String username, String password) {

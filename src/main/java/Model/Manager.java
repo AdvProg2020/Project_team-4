@@ -23,7 +23,7 @@ public class Manager extends Account {
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this);
+        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this, Manager.class.toString());
     }
 
     public static void removeDiscount(String offName) {

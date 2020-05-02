@@ -30,11 +30,11 @@ public class SaveAndLoad {
         }
     }
 
-    public void writeJSONAccount(Account saveAble){
+    public void writeJSONAccount(Account saveAble, String accountType){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(  Account.class + "\\" + saveAble.getName()));
+            FileWriter writer = new FileWriter(String.valueOf(  accountType + "\\" + saveAble.getName()));
             writer.write(gson.toJson(saveAble));
             writer.close();
         }catch (IOException e){
@@ -58,7 +58,7 @@ public class SaveAndLoad {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(name));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(className + "\\" + name));
             return gson.fromJson(bufferedReader, className);
         } catch (FileNotFoundException e) {
             return null;

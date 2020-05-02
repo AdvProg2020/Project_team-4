@@ -25,21 +25,22 @@ public abstract class Account extends SaveAble {
 
     public static Account getAccountWithName(String name){
         Account account;
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name, Customer.class);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(name, Manager.class);
         if(account != null){
             return account;
         }
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name, Manager.class);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(name, Customer.class);
         if(account != null){
             return account;
         }
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name, Seller.class);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(name, Seller.class);
         return account;
     }
 
     public static void deleteAccount(Account account) {
-        File file = new File(Account.class + "\\" + account.getUserName());
-
+        System.out.println(account.getClass());
+        File file = new File(account.getClass() + "\\" + account.getUserName());
+        System.out.println(file.getName());
         if(file.delete())
         {
             System.out.println("File deleted successfully");
