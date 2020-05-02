@@ -1,0 +1,67 @@
+Index: src/main/java/Model/SaveAndLoad.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.GsonBuilder;\r\n\r\nimport java.io.*;\r\nimport java.util.ArrayList;\r\n\r\npublic class SaveAndLoad {\r\n\r\n    private static SaveAndLoad saveAndLoad = new SaveAndLoad();\r\n\r\n    private SaveAndLoad() {\r\n\r\n    }\r\n\r\n    public static SaveAndLoad getSaveAndLoad() {\r\n        return saveAndLoad;\r\n    }\r\n\r\n    public void writeJSONAccount(SaveAble saveAble){\r\n        try {\r\n            GsonBuilder builder = new GsonBuilder();\r\n            Gson gson = builder.create();\r\n            FileWriter writer = new FileWriter(saveAble.getClass() + \"\\\\\" + saveAble.getName());\r\n            writer.write(gson.toJson(saveAble));\r\n            writer.close();\r\n        }catch (IOException e){\r\n            System.out.println(e);\r\n        }\r\n    }\r\n\r\n    public void writeJSONAccount(ArrayList<SaveAble> saveAble){\r\n        try {\r\n            GsonBuilder builder = new GsonBuilder();\r\n            Gson gson = builder.create();\r\n            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + \"\\\\\" + saveAble.getClass()));\r\n            writer.write(gson.toJson(saveAble));\r\n            writer.close();\r\n        }catch (IOException e){\r\n            System.out.println(e);\r\n        }\r\n    }\r\n\r\n    public SaveAble readJSONAccount(String name) {\r\n        try {\r\n            GsonBuilder builder = new GsonBuilder();\r\n            Gson gson = builder.create();\r\n            BufferedReader bufferedReader = new BufferedReader(\r\n                    new FileReader(name));\r\n\r\n            return gson.fromJson(bufferedReader, SaveAble.class);\r\n        } catch (FileNotFoundException e) {\r\n            return null;\r\n        }\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/Model/SaveAndLoad.java	(revision e1dc15f59e28c8e069904721c6c39b3161cabbf3)
++++ src/main/java/Model/SaveAndLoad.java	(date 1588076564699)
+@@ -34,7 +34,7 @@
+         try {
+             GsonBuilder builder = new GsonBuilder();
+             Gson gson = builder.create();
+-            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + "\\" + saveAble.getClass()));
++            FileWriter writer = new FileWriter(String.valueOf(saveAble.getClass() + "\\" + saveAble.getClass()));
+             writer.write(gson.toJson(saveAble));
+             writer.close();
+         }catch (IOException e){
+@@ -48,7 +48,6 @@
+             Gson gson = builder.create();
+             BufferedReader bufferedReader = new BufferedReader(
+                     new FileReader(name));
+-
+             return gson.fromJson(bufferedReader, SaveAble.class);
+         } catch (FileNotFoundException e) {
+             return null;
+Index: src/main/java/Model/Account.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\nimport java.io.File;\r\n\r\npublic abstract class Account extends SaveAble {\r\n\r\n    //protected static ArrayList allAccounts = new ArrayList();\r\n    protected String userName;\r\n    protected String firstName;\r\n    protected String lastName;\r\n    protected String email;\r\n    protected String phoneNumber;\r\n    protected String passWord ;\r\n\r\n    protected double credit;\r\n    //protected ArrayList buyOrSellLogs;\r\n\r\n    public Account(String userName, String passWord) {\r\n        this.userName = userName;\r\n        this.passWord = passWord;\r\n        //this.offCodes = new ArrayList();\r\n        //this.buyOrSellLogs = new ArrayList();\r\n    }\r\n\r\n    public static Account getAccountWithName(String name){\r\n        Account account;\r\n        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + \"\\\\\" +name);\r\n        return account;\r\n    }\r\n\r\n    public static void deleteAccount(Account account) {\r\n        File file = new File(Account.class + \"\\\\\" + account.getUserName());\r\n\r\n        if(file.delete())\r\n        {\r\n            System.out.println(\"File deleted successfully\");\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"Failed to delete the file\");\r\n        }\r\n    }\r\n\r\n\r\n\r\n    public void setFirstName(String firstName) {\r\n        this.firstName = firstName;\r\n    }\r\n\r\n    public void setLastName(String lastName) {\r\n        this.lastName = lastName;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public void setPhoneNumber(String phoneNumber) {\r\n        this.phoneNumber = phoneNumber;\r\n    }\r\n    public void setPassWord(String passWord) {\r\n        this.passWord = passWord;\r\n    }\r\n    public String getUserName() {\r\n        return userName;\r\n    }\r\n    public String getFirstName() {\r\n        return firstName;\r\n    }\r\n    public String getLastName() {\r\n        return lastName;\r\n    }\r\n    public String getEmail() {\r\n        return email;\r\n    }\r\n    public String getPhoneNumber() {\r\n        return phoneNumber;\r\n    }\r\n    public String getPassWord() {\r\n        return passWord;\r\n    }\r\n//    public ArrayList getOffCodes() {\r\n//        return offCodes;\r\n//    }\r\n    public double getCredit() {\r\n        return credit;\r\n    }\r\n//    public ArrayList getHistory() {\r\n//        return history;\r\n//    }\r\n//    public ArrayList getBuyOrSellLogs() {\r\n//        return buyOrSellLogs;\r\n//    }\r\n    public void setCredit(double credit) {\r\n        this.credit = credit;\r\n    }\r\n\r\n\r\n\r\n\r\n    @Override\r\n    protected String getName() {\r\n        return userName;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/Model/Account.java	(revision e1dc15f59e28c8e069904721c6c39b3161cabbf3)
++++ src/main/java/Model/Account.java	(date 1588076973474)
+@@ -21,9 +21,9 @@
+         //this.buyOrSellLogs = new ArrayList();
+     }
+ 
+-    public static Account getAccountWithName(String name){
++    public static Account getAccountWithName(String name) {
+         Account account;
+-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" +name);
++        account = SaveAndLoad.getSaveAndLoad().readJSONAccount(Account.class + "\\" + name);
+         return account;
+     }
+ 
+Index: src/Main.java
+===================================================================
+--- src/Main.java	(revision e1dc15f59e28c8e069904721c6c39b3161cabbf3)
++++ src/Main.java	(revision e1dc15f59e28c8e069904721c6c39b3161cabbf3)
+@@ -1,15 +0,0 @@
+-public class Main {
+-
+-    public static void fun1(){
+-        try {
+-            System.out.println(1 / 0);
+-        }
+-        catch (Exception e){
+-            System.out.println(e);
+-        }
+-    }
+-
+-    public static void main(String[] args) {
+-	fun1();
+-    }
+-}
