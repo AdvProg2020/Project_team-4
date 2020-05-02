@@ -81,5 +81,12 @@ public class Outputs {
             case 2:
         }
     }
+
+    public static void printRemoveProductResult(boolean result){
+        if(true)
+            System.out.println("Successfully removed.");
+        else
+            System.err.println("Something went wrong!");
+    }
 }
 

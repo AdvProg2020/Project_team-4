@@ -1,6 +1,5 @@
 package View.Menu;
 
-//import View.Manager;
 
 import Control.Controller;
 import Model.*;
@@ -8,6 +7,7 @@ import View.Outputs;
 
 import java.util.regex.Matcher;
 
+import static View.Outputs.printRemoveProductResult;
 
 
 public class ManagerMenu extends Menu {
@@ -47,8 +47,10 @@ public class ManagerMenu extends Menu {
                     }
                     switch(input.trim()){
                         case "remove a product":
-                            matcher = getField("please write in this format: remove [productId]", "view\\s(\\S+)");
-                            Controller.getOurController().controllerRemoveProduct(matcher.group(1));
+                            matcher = getField("please write in this format: remove [product name]", "view\\s(\\S+)");
+                            //in this may a product has two section name
+                            //should edit regex
+                            printRemoveProductResult(Controller.getOurController().controllerRemoveProduct(matcher.group(1)));
                             break;
                         case "back":
                             return;

@@ -39,13 +39,13 @@ public abstract class Menu {
         return matcher.matches();
     }
 
-    public static Matcher getField(String errorToPrint, String regex) {
+    public static Matcher getField(String error, String regex) {
         String input = "";
         do{
             if (input.equalsIgnoreCase("back")) {
                 return null;
             }
-            System.out.println(errorToPrint);
+            System.out.println(error);
         }
         while (!isThisRegexMatch(regex, input = scanner.nextLine().trim()));
         Matcher matcher = Pattern.compile(regex).matcher(input);

@@ -72,8 +72,8 @@ public class Controller {
         Account.deleteAccount((Account) Account.getAccountWithName(username));
     }
 
-    public void controllerRemoveProduct(String productName) {
-        Manager.remove(Product.getProductWithName(productName));
+    public boolean controllerRemoveProduct(String productName) {
+        return Product.removeProduct(Product.getProductWithName(productName));
     }
 
     public void controllerCreateOffCode(String barcode, Date startingTime, Date endingTime, double offAmount, int usageTimes, String containingCustomers) {

@@ -5,7 +5,7 @@ package Model;
 import java.util.ArrayList;
 
 public class Product extends SaveAble {
-    private static ArrayList<Product> allProducts;
+    private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
     private static ArrayList<Customer> byers = new ArrayList<>();
     //private static HashMap<String, Product> products;
@@ -13,17 +13,17 @@ public class Product extends SaveAble {
         MAKING, EDITING, APPROVED
     }
     private String name;
-    private ArrayList<String> categoryTags;
-    private String company;
-    private double cost;
-    private ArrayList<Seller> sellers;
-    private boolean existsOrNot;
-    private Category category;
-    private String description;
-    private ArrayList<Comment> comments;
-    private int averageScore;
-    private int amountOfExist;
-    private ArrayList<String> tags;
+    private final ArrayList<String> categoryTags;
+    private final String company;
+    private final double cost;
+    private final ArrayList<Seller> sellers;
+    private final boolean existsOrNot;
+    private final Category category;
+    private final String description;
+    private final ArrayList<Comment> comments;
+    private final int averageScore;
+    private final int amountOfExist;
+    private final ArrayList<String> tags;
 
     public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
         this.productBarcode = productBarcode;
@@ -166,9 +166,10 @@ public class Product extends SaveAble {
         return cost;
     }
 
-    public static boolean removeProduct(Product product) {
+    public static boolean removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
         if (allProducts.contains(product)) {
             allProducts.remove(product);
+            SaveAndLoad.getSaveAndLoad().writeJSONArrayProducts(allProducts);
             return true;
         }
         return false;
