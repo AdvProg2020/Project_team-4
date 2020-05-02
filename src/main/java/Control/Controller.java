@@ -17,7 +17,7 @@ public class Controller {
 
     private final Scanner scanner = Menu.getScanner();
 
-    private static Account loggedInAccount = null;
+    private Account loggedInAccount = null;
 
     public static Controller getOurController() {
         return ourController;
@@ -181,14 +181,13 @@ public class Controller {
         return null;
     }
 
-    public static Account getLoggedInAccount() {
+    public Account getLoggedInAccount() {
         return loggedInAccount;
     }
 
-    public static int editField(String field) {
+    public int editField(String field) {
         System.out.println("Enter your new amount for the field you choose");
         Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
-        System.out.println("kdsfkjsdf");
         switch (field) {
             case "firstName":
                 loggedInAccount.setFirstName(newAmount.group(1));

@@ -38,6 +38,8 @@ public class Outputs {
             case 3:
                 System.out.println("invalid password! please try again!");
                 return false;
+            case 4:
+                System.out.println("one account is now logged in please logout first");
         }
         return false;
     }

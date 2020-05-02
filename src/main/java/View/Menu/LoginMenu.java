@@ -1,8 +1,12 @@
 package View.Menu;
 
 import Control.Controller;
+
+import javax.naming.ldap.Control;
+import java.awt.*;
 import java.util.regex.Matcher;
 import static View.Outputs.*;
+import static View.Outputs.printLoginResult;
 
 public class LoginMenu extends Menu {
 
@@ -67,6 +71,12 @@ public class LoginMenu extends Menu {
     }
 
     private void login() {
+
+        if(Controller.getOurController().getLoggedInAccount() != null){
+            printLoginResult(4);
+            return;
+        }
+
         String error = "please Enter username \n" + "" +
                 "sample : \t login ali\n" +
                 "for back write \"break\"";

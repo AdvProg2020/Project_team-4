@@ -5,7 +5,6 @@ import Model.SaveAndLoad;
 
 import java.util.regex.Matcher;
 
-import static Control.Controller.editField;
 
 public class CustomerMenu extends Menu {
 
@@ -37,9 +36,9 @@ public class CustomerMenu extends Menu {
         return new Menu() {
             private void personalInfo() {
                 Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
-                switch (editField(matcher.group(1))) {
+                switch (Controller.getOurController().editField(matcher.group(1))) {
                     case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount(), Controller.getLoggedInAccount().getClass().toString());
+                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
                         System.out.println("Changed well");
                         break;
                     case 2:
@@ -49,7 +48,7 @@ public class CustomerMenu extends Menu {
             }
             @Override
             protected void execute() {
-                System.out.println(Controller.getLoggedInAccount());
+                System.out.println(Controller.getOurController().getLoggedInAccount());
                 String input;
                 do {
                     System.out.println("Enter 1 for edit a field and 2 for back:");

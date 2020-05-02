@@ -18,11 +18,11 @@ public class MainMenu extends Menu {
     }
 
     private static void goToUserSection() {
-        if (Customer.class.equals(Controller.getLoggedInAccount().getClass())) {
+        if (Customer.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
             CustomerMenu.getCustomerMenu().execute();
-        } else if (Manager.class.equals(Controller.getLoggedInAccount().getClass())) {
+        } else if (Manager.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
             ManagerMenu.getManagerMenu().execute();
-        } else if (Seller.class.equals(Controller.getLoggedInAccount().getClass())) {
+        } else if (Seller.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
             SellerMenu.getSellerMenu().execute();
         } else {
             System.out.println("No user is logged in.");
@@ -50,6 +50,7 @@ public class MainMenu extends Menu {
                     break;
                 case "4":
                     goToUserSection();
+                    break;
                 case "5":
                     show();
                     break;
