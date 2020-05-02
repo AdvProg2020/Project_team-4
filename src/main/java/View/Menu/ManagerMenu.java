@@ -31,6 +31,33 @@ public class ManagerMenu extends Menu {
         return managerMenu;
     }
 
+    private Menu manageAllProducts(){
+        options.add("remove a product");
+        options.add("back");
+        return new Menu() {
+            @Override
+            protected void execute() {
+                String input;
+                Matcher matcher;
+                do {
+                    show();
+                    System.out.println("Enter number:");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch(input.trim()){
+                        case "remove a product":
+                            matcher = getField("please write in this format: remove [productId]", "view\\s(\\S+)");
+                            Controller.getOurController().controllerRemoveProduct(matcher.group(1));
+                            break;
+                        case "back":
+                            return;
+                    }
+                } while(true);
+            }
+        };
+    }
+
     private Menu getManageUsersMenu() {
         return new Menu() {
             @Override
@@ -59,7 +86,7 @@ public class ManagerMenu extends Menu {
                         default:
 //                            System.out.println("Enter a valid command please.");
                     }
-                } while (!input.equalsIgnoreCase("end"));
+                } while (true);
             }
         };
     }
@@ -234,16 +261,9 @@ public class ManagerMenu extends Menu {
                 case "2":
                     getManageUsersMenu().execute();
                     break;
-//                case "3":
-//                    while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
-//                        System.out.println("remove a product:");
-//                        //input = scanner.nextLine();
-//                        if (CommandsSource.isThisRegexMatch("remove\\s(\\w+)", input)) {
-//                            String[] splitInput = input.split("\\s");
-//                            Controller.getOurController().controllerRemoveProduct(splitInput[1]);
-//                        }
-//                    }
-//                    break;
+                case "3":
+
+                    break;
 //                case "4":
 //                    creatDiscountCode();
 //                    break;
