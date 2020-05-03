@@ -18,7 +18,7 @@ public class Customer extends Account {
         this.offCodes = new ArrayList<>();
         this.history = new ArrayList<>();
         allCustomers.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this, Customer.class.toString());
+        SaveAndLoad.getSaveAndLoad().writeJSON(this, Customer.class, userName);
     }
 
     public static void newCustomer(String username, String password) {

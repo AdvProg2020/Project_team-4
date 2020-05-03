@@ -1,3 +1,4 @@
+import Control.Controller;
 import Model.*;
 import View.Menu.MainMenu;
 
@@ -22,6 +23,11 @@ public class Main {
         file4.mkdir();
         File file5 = new File(String.valueOf(RequestANewSellerAccount.class));
         file5.mkdirs();
+        File file8 = new File(String.valueOf(CodedOff.class));
+        file8.mkdirs();
+        File file9 = new File(String.valueOf(String.class));
+        file9.mkdirs();
+        //Controller.readCodedOffsFromFile();
         MainMenu mainMenu = new MainMenu();
         mainMenu.execute();
     }

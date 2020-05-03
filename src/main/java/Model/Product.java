@@ -173,7 +173,7 @@ public class Product extends SaveAble {
     public static boolean removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
         if (allProducts.contains(product)) {
             allProducts.remove(product);
-            SaveAndLoad.getSaveAndLoad().writeJSONArrayProducts(allProducts);
+            //SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, Product.class, pro);
             return true;
         }
         return false;

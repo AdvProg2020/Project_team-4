@@ -38,7 +38,7 @@ public class CustomerMenu extends Menu {
                 Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
                 switch (Controller.getOurController().editField(matcher.group(1))) {
                     case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
+                        //SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
                         System.out.println("Changed well");
                         break;
                     case 2:

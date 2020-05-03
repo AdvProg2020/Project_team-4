@@ -1,5 +1,6 @@
 package Model;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,11 +14,11 @@ public class Off extends SaveAble {
         MAKING, EDITING, APPROVED
     }
 
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
     private String offAmount;
 
-    public Off(String offBarcode, String startDate, String endDate, String offAmount) {
+    public Off(String offBarcode, Date startDate, Date endDate, String offAmount) {
         this.offBarcode = offBarcode;
         this.products = new ArrayList<Product>();
         this.startDate = startDate;
@@ -30,11 +31,11 @@ public class Off extends SaveAble {
         return offBarcode;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 

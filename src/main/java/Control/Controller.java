@@ -3,10 +3,8 @@ package Control;
 import Model.*;
 import View.Menu.Menu;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 
 import static View.Menu.Menu.getField;
@@ -77,7 +75,10 @@ public class Controller {
     }
 
     public void controllerCreateOffCode(String barcode, String startDate, String expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList containingCustomers) {
-        new Off(barcode, startDate, expireDate, maximumOffAmount);
+        SimpleDateFormat start = new SimpleDateFormat();
+        //new Off(barcode, startDate, expireDate, maximumOffAmount);
+        CodedOff.getOffBarcodes().add(barcode);
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getOffBarcodes(), ArrayList.class, "codedOffBarcodes");
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {
@@ -164,8 +165,20 @@ public class Controller {
         Manager.declineRequest(request);
     }
 
-    public boolean getDiscount(String s) {
-        return false;
+    public static void readCodedOffsFromFile() {
+        CodedOff.getOffBarcodes().addAll(Arrays.asList(((String) (SaveAndLoad.getSaveAndLoad().readJSON("codedOffBarcodes", String.class))).split(" ")));
+        for (String barcode: CodedOff.getOffBarcodes()) {
+            CodedOff.getAllDiscounts().add((CodedOff) SaveAndLoad.getSaveAndLoad().readJSON(barcode, CodedOff.class));
+        }
+    }
+
+    public CodedOff getDiscount(String s) {
+        for (CodedOff discountCode: CodedOff.getAllDiscounts()) {
+            if (discountCode.getOffBarcode().equalsIgnoreCase(s)) {
+                return discountCode;
+            }
+        }
+        return null;
     }
 
     public void removeDiscount(String offName) {

@@ -1,9 +1,7 @@
 package Model;
 
 import java.io.File;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Manager extends Account {
 
@@ -13,17 +11,17 @@ public class Manager extends Account {
     private static ArrayList<Manager> managers;
 
     private static final ArrayList<SaveAble> registerSellerAccountRequests = new ArrayList<>();
-    private static final ArrayList<SaveAble> editProductsRequests = new ArrayList<>();;
-    private static final ArrayList<SaveAble> editOffRequests = new ArrayList<>();;
-    private static final ArrayList<SaveAble> allAccounts = new ArrayList<>();;
-    private static final ArrayList<SaveAble> categories = new ArrayList<>();;
+    private static final ArrayList<SaveAble> editProductsRequests = new ArrayList<>();
+    private static final ArrayList<SaveAble> editOffRequests = new ArrayList<>();
+    private static final ArrayList<SaveAble> allAccounts = new ArrayList<>();
+    private static final ArrayList<SaveAble> categories = new ArrayList<>();
 
     private static ArrayList<CodedOff> offCodes;
 
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this, Manager.class.toString());
+        SaveAndLoad.getSaveAndLoad().writeJSON(this, Manager.class, userName);
     }
 
     public static void removeDiscount(String offName) {
@@ -134,7 +132,7 @@ public class Manager extends Account {
 
     public static boolean addANewSellerRequest(String userName, String passWord) {
         registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
-        SaveAndLoad.getSaveAndLoad().writeJSONArray(registerSellerAccountRequests);
+        //SaveAndLoad.getSaveAndLoad().writeJSONArray(registerSellerAccountRequests);
         return true;
     }
 

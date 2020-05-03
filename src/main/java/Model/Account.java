@@ -25,15 +25,15 @@ public abstract class Account extends SaveAble {
 
     public static Account getAccountWithName(String name){
         Account account;
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(name, Manager.class);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSON(name, Manager.class);
         if(account != null){
             return account;
         }
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(name, Customer.class);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSON(name, Customer.class);
         if(account != null){
             return account;
         }
-        account = (Account) SaveAndLoad.getSaveAndLoad().readJSONAccount(name, Seller.class);
+        account = (Account) SaveAndLoad.getSaveAndLoad().readJSON(name, Seller.class);
         return account;
     }
 

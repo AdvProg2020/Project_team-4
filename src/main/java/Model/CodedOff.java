@@ -1,22 +1,24 @@
 package Model;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class CodedOff extends SaveAble {
-    private static ArrayList<CodedOff> allOfCodes;
+    private static ArrayList<CodedOff> allOfCodes = new ArrayList<>();
     private String offBarcode;
-    private Date startTime;
-    private Date endTime;
+    private SimpleDateFormat startTime;
+    private SimpleDateFormat endTime;
     private double offAmount;
     private int usageTime;
     private HashMap<Account, Integer> numberOfUsageForEachAccount;
     private ArrayList<Account> discountIsForTheseAccounts;
     private ArrayList<Customer> containingCustomers;
+    private static ArrayList<String> offBarcodes = new ArrayList<>();
 
-    public CodedOff(String offBarcode, Date startTime, Date endTime, double offAmount, int usageTime, ArrayList<Customer> containingCustomers) {
+    public CodedOff(String offBarcode, SimpleDateFormat startTime, SimpleDateFormat endTime, double offAmount, int usageTime, ArrayList<Customer> containingCustomers) {
         this.offBarcode = offBarcode;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -40,6 +42,10 @@ public class CodedOff extends SaveAble {
             System.out.println("Failed to delete the file");
         }
         allOfCodes.remove(offCode);
+    }
+
+    public static ArrayList<String> getOffBarcodes() {
+        return offBarcodes;
     }
 
     public String getOffBarcode() {

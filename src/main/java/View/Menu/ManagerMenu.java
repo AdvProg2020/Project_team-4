@@ -6,7 +6,6 @@ import Model.*;
 import View.Outputs;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Matcher;
 
 import static Model.Customer.getCustomerByName;
@@ -107,21 +106,22 @@ public class ManagerMenu extends Menu {
         String percentOfOff = "";
         String usageTime = "";
         do{
-
             System.out.println("Enter requested field or type \"back\" to back:");
             matcher = getField("Enter barcode:", "\\w+");
-            if (matcher != null) {
+            if (!matcher.toString().equalsIgnoreCase("back")) {
                 barcode = matcher.toString();
+            } else {
+                return;
             }
-            matcher = getField("Please enter a valid start date\nlike: 1399:1:7", "(\\d\\d\\d\\d):([1-12]):([1-31])");
+            matcher = getField("Please enter a valid start date\nlike: 1399:01:07", "(\\d\\d\\d\\d):([0-2]\\d):([0-2]\\d)");
             if (matcher != null) {
                 startDate = matcher.toString();
             }
-            matcher = getField("Please enter a valid expire date\nlike: 1400:6:14", "(\\d\\d\\d\\d):([1-12]):([1-31])");
+            matcher = getField("Please enter a valid expire date\nlike: 1400:06:14", "(\\d\\d\\d\\d):([0-2]\\d):([0-2]\\d)");
             if (matcher != null) {
                 expireDate = matcher.toString();
             }
-            matcher = getField("Please enter a valid maximum off amount and percent of off\nlike: 10000 , 20%", "(\\d+) , ([1-100]%)");
+            matcher = getField("Please enter a valid maximum off amount and percent of off\nlike: 10000, 20%", "(\\d+), (\\d+%)");
             if (matcher != null) {
                 maximumOffAmount = matcher.group(1);
                 percentOfOff = matcher.group(2);
@@ -130,43 +130,45 @@ public class ManagerMenu extends Menu {
             if (matcher != null) {
                 usageTime = matcher.group(1);
             }
-            System.out.println("Enter username of account do you want contain off code like \"ali\" or \"end\" to end");
+            System.out.println("Enter username of account you want contain off code like \"ali\" or \"end\" to end");
             while(!((input = scanner.nextLine()).equalsIgnoreCase("end"))){
                 containingCustomers.add(getCustomerByName(input.trim()));
             }
-        }while(!(input = scanner.nextLine()).equalsIgnoreCase("back"));
-        Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers);
+            Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers);
+        }while(true);
     }
 //
-//    private static Menu getDiscountCodeMenu() {
-//        return new Menu() {
-//            @Override
-//            protected void showCommands() {
-//
-//            }
-//
-//            @Override
-//            public void execute() {
-//                String input = "";
-//                System.out.println(Controller.getOurController().getAllDiscounts());
-//                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-//                    String[] splitInput = input.split("\\s");
-//                    switch (findEnum(commands.getAllRegex(), input)) {
-//                        case "VIEW_DISCOUNT_CODE" :
-//                            System.out.println(Controller.getOurController().getDiscount(splitInput[3]));
-//                            break;
-//                        case "EDIT_DISCOUNT_CODE" :
-//                            Controller.getOurController().removeDiscount(splitInput[3]);
-//                            creatDiscountCode();
-//                        case "REMOVE_DISCOUNT_CODE" :
-//                            Controller.getOurController().removeDiscount(splitInput[3]);
-//                            break;
-//                    }
-//                }
-//            }
-//        };
-////        System.out.println(Controller.getOurController().showAllDiscountCodes());
-//    }
+    private static Menu getDiscountCodeMenu() {
+        return new Menu() {
+            @Override
+            public void execute() {
+                String input;
+                Matcher matcher;
+                System.out.println(Controller.getOurController().showAllDiscountCodes());
+                do {
+                    System.out.println("Enter Number 1 for show a discount code 2 for edit a discount code 3 for delete a discount code and end to go back:");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            matcher = Menu.getField("please enter in this format: view [code]", "view\\s(\\S+)");
+                            System.out.println(Controller.getOurController().getDiscount(matcher.group(1)));
+                            break;
+                        case "2" :
+                            matcher = Menu.getField("please enter in this format: edit [code]", "edit\\s(\\S+)");
+                            Controller.getOurController().removeDiscount(matcher.group(1));
+                            creatDiscountCode();
+                        case "3" :
+                            matcher = Menu.getField("please enter in this format: delete [code]", "delete\\s(\\S+)");
+                            Controller.getOurController().removeDiscount(matcher.group(1));
+                            break;
+
+                    }
+                }while (true);
+            }
+        };
+    }
 //
 //    private static Menu getManageRequestMenu() {
 //        return new Menu() {
@@ -249,7 +251,7 @@ public class ManagerMenu extends Menu {
                 }
                 switch (Controller.getOurController().editField(matcher.group(1))) {
                     case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
+                        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
                         System.out.println("Changed well");
                         break;
                     case 2:
@@ -300,11 +302,9 @@ public class ManagerMenu extends Menu {
                 case "4":
                     creatDiscountCode();
                     break;
-//                case "5":
-//                    nextMenu = getDiscountCodeMenu();
-//                    getDiscountCodeMenu.showCommands();
-//                    nextMenu.execute();
-//                    break;
+                case "5":
+                    getDiscountCodeMenu().execute();
+                    break;
 //                case "6":
 //                    nextMenu = getManageRequestMenu();
 //                    nextMenu.showCommands();

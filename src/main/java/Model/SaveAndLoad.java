@@ -18,55 +18,44 @@ public class SaveAndLoad {
         return saveAndLoad;
     }
 
-    public void writeJSON(SaveAble saveAble){
+
+    public void writeJSON(Object object, Class classType, String name){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(saveAble.getClass() + "\\" + saveAble.getName());
-            writer.write(gson.toJson(saveAble));
+            FileWriter writer = new FileWriter(String.valueOf(  classType + "\\" + name));
+            writer.write(gson.toJson(object));
             writer.close();
         }catch (IOException e){
             System.out.println(e);
         }
     }
 
-    public void writeJSONAccount(Account saveAble, String accountType){
-        try {
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(  accountType + "\\" + saveAble.getName()));
-            writer.write(gson.toJson(saveAble));
-            writer.close();
-        }catch (IOException e){
-            System.out.println(e);
-        }
-    }
+//    public void writeJSONArray(ArrayList<SaveAble> saveAble){
+//        try {
+//            GsonBuilder builder = new GsonBuilder();
+//            Gson gson = builder.create();
+//            FileWriter writer = new FileWriter(String.valueOf(saveAble.getClass() + "\\" + saveAble));
+//            writer.write(gson.toJson(saveAble));
+//            writer.close();
+//        }catch (IOException e){
+//            System.out.println(e);
+//        }
+//    }
+//
+//    public void writeJSONArrayProducts(ArrayList<Product> products){
+//        try {
+//            GsonBuilder builder = new GsonBuilder();
+//            Gson gson = builder.create();
+//            FileWriter writer = new FileWriter(String.valueOf(products.getClass() + "\\" + products));
+//            writer.write(gson.toJson(products));
+//            writer.close();
+//        }catch (IOException e){
+//            System.out.println(e);
+//        }
+//    }
 
-    public void writeJSONArray(ArrayList<SaveAble> saveAble){
-        try {
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(saveAble.getClass() + "\\" + saveAble));
-            writer.write(gson.toJson(saveAble));
-            writer.close();
-        }catch (IOException e){
-            System.out.println(e);
-        }
-    }
-
-    public void writeJSONArrayProducts(ArrayList<Product> products){
-        try {
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(products.getClass() + "\\" + products));
-            writer.write(gson.toJson(products));
-            writer.close();
-        }catch (IOException e){
-            System.out.println(e);
-        }
-    }
-
-    public Object readJSONAccount(String name, Class className) {
+    public Object readJSON(String name, Class className) {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
