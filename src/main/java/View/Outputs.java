@@ -38,6 +38,9 @@ public class Outputs {
             case 3:
                 System.out.println("invalid password! please try again!");
                 return false;
+            case 4:
+                System.out.println("one account is now logged in please logout first");
+                return false;
         }
         return false;
     }
@@ -77,6 +80,13 @@ public class Outputs {
             case 1:
             case 2:
         }
+    }
+
+    public static void printRemoveProductResult(boolean result){
+        if(true)
+            System.out.println("Successfully removed.");
+        else
+            System.err.println("Something went wrong!");
     }
 }
 

@@ -17,7 +17,7 @@ public class Controller {
 
     private final Scanner scanner = Menu.getScanner();
 
-    private static Account loggedInAccount = null;
+    private Account loggedInAccount = null;
 
     public static Controller getOurController() {
         return ourController;
@@ -72,12 +72,12 @@ public class Controller {
         Account.deleteAccount((Account) Account.getAccountWithName(username));
     }
 
-    public void controllerRemoveProduct(String productName) {
-        Manager.remove(Product.getProductWithName(productName));
+    public boolean controllerRemoveProduct(String productName) {
+        return Product.removeProduct(Product.getProductWithName(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, Date startingTime, Date endingTime, double offAmount, int usageTimes, String containingCustomers) {
-        new Off(barcode, startingTime, endingTime, offAmount);
+    public void controllerCreateOffCode(String barcode, String startDate, String expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList containingCustomers) {
+        new Off(barcode, startDate, expireDate, maximumOffAmount);
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {
@@ -181,31 +181,30 @@ public class Controller {
         return null;
     }
 
-    public static Account getLoggedInAccount() {
+    public Account getLoggedInAccount() {
         return loggedInAccount;
     }
 
-    public static int editField(String field) {
+    public int editField(String field) {
         System.out.println("Enter your new amount for the field you choose");
         Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
-        System.out.println("kdsfkjsdf");
-        switch (field) {
-            case "firstName":
+        switch (field.toLowerCase()) {
+            case "firstname":
                 loggedInAccount.setFirstName(newAmount.group(1));
                 return 1;
-            case "lastName":
+            case "lastname":
                 loggedInAccount.setLastName(newAmount.group(1));
                 return 1;
             case "credit" :
                 loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
                 return 1;
-            case "phoneNumber" :
+            case "phonenumber" :
                 loggedInAccount.setPhoneNumber(newAmount.group(1));
                 return 1;
             case "email" :
                 loggedInAccount.setEmail(newAmount.group(1));
                 return 1;
-            case "passWord" :
+            case "password" :
                 loggedInAccount.setPassWord(newAmount.group(1));
                 return 1;
         }

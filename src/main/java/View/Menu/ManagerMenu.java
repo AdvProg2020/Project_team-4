@@ -1,14 +1,16 @@
 package View.Menu;
 
-//import View.Manager;
 
 import Control.Controller;
 import Model.*;
 import View.Outputs;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 
-import static Control.Controller.editField;
+import static Model.Customer.getCustomerByName;
+import static View.Outputs.printRemoveProductResult;
 
 
 public class ManagerMenu extends Menu {
@@ -32,7 +34,36 @@ public class ManagerMenu extends Menu {
         return managerMenu;
     }
 
-    private Menu getManageUsersMenu() {
+    private Menu manageAllProducts(){
+        options.add("remove a product");
+        options.add("back");
+        return new Menu() {
+            @Override
+            protected void execute() {
+                String input;
+                Matcher matcher;
+                do {
+                    show();
+                    System.out.println("Enter number:");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch(input.trim()){
+                        case "remove a product":
+                            matcher = getField("please write in this format: remove [product name]", "view\\s(\\S+)");
+                            //in this may a product has two section name
+                            //should edit regex
+                            printRemoveProductResult(Controller.getOurController().controllerRemoveProduct(matcher.group(1)));
+                            break;
+                        case "back":
+                            return;
+                    }
+                } while(true);
+            }
+        };
+    }
+
+    private Menu manageUsersMenu() {
         return new Menu() {
             @Override
             public void execute() {
@@ -60,23 +91,52 @@ public class ManagerMenu extends Menu {
                         default:
 //                            System.out.println("Enter a valid command please.");
                     }
-                } while (!input.equalsIgnoreCase("end"));
+                } while (true);
             }
         };
     }
-//
-//    private static void creatDiscountCode() {
-//        String input = "";
-//        ArrayList<Customer> usersToContain = new ArrayList<>();
-//        System.out.println("Enter barcode:\nstartingTime:\nendingTime:\noffAmount:\nusageTimes:\nusersToContain");
-//        Matcher barcode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");
-//        Matcher startingTime = CommandsSource.getField("Please enter a valid starTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
-//        Matcher endingTime = CommandsSource.getField("Please enter a valid endingTime", "(\\d\\d):(\\d\\d):(\\d\\d)");
-//        double offAmount = Double.parseDouble(CommandsSource.getField("Please enter a valid offAmount", "(\\d+)"));
-//        int usageTimes = Integer.parseInt(CommandsSource.getField("Please enter a valid usageTime", "(\\d+)"));
-//        String containingCustomers = scanner.nextLine().trim();
-//        Controller.getOurController().controllerCreateOffCode(barcode, startingTime, endingTime, offAmount, usageTimes, containingCustomers);
-//    }
+
+    private static void creatDiscountCode() {
+        String input = "";
+        ArrayList<Customer> containingCustomers = new ArrayList<>();
+        Matcher matcher;
+        String barcode = "";
+        String expireDate = "";
+        String startDate = "";
+        String maximumOffAmount = "";
+        String percentOfOff = "";
+        String usageTime = "";
+        do{
+
+            System.out.println("Enter requested field or type \"back\" to back:");
+            matcher = getField("Enter barcode:", "\\w+");
+            if (matcher != null) {
+                barcode = matcher.toString();
+            }
+            matcher = getField("Please enter a valid start date\nlike: 1399:1:7", "(\\d\\d\\d\\d):([1-12]):([1-31])");
+            if (matcher != null) {
+                startDate = matcher.toString();
+            }
+            matcher = getField("Please enter a valid expire date\nlike: 1400:6:14", "(\\d\\d\\d\\d):([1-12]):([1-31])");
+            if (matcher != null) {
+                expireDate = matcher.toString();
+            }
+            matcher = getField("Please enter a valid maximum off amount and percent of off\nlike: 10000 , 20%", "(\\d+) , ([1-100]%)");
+            if (matcher != null) {
+                maximumOffAmount = matcher.group(1);
+                percentOfOff = matcher.group(2);
+            }
+            matcher = getField("Please enter a valid usage time", "(\\d+)");
+            if (matcher != null) {
+                usageTime = matcher.group(1);
+            }
+            System.out.println("Enter username of account do you want contain off code like \"ali\" or \"end\" to end");
+            while(!((input = scanner.nextLine()).equalsIgnoreCase("end"))){
+                containingCustomers.add(getCustomerByName(input.trim()));
+            }
+        }while(!(input = scanner.nextLine()).equalsIgnoreCase("back"));
+        Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers);
+    }
 //
 //    private static Menu getDiscountCodeMenu() {
 //        return new Menu() {
@@ -183,10 +243,13 @@ public class ManagerMenu extends Menu {
     private static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
-                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
-                switch (editField(matcher.group(1))) {
+                Matcher matcher = getField("Enter in this format: edit [field] for back write back", "edit\\s(\\S+)");
+                if(matcher == null){
+                    return;
+                }
+                switch (Controller.getOurController().editField(matcher.group(1))) {
                     case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getLoggedInAccount(), Controller.getLoggedInAccount().getClass().toString());
+                        SaveAndLoad.getSaveAndLoad().writeJSONAccount(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
                         System.out.println("Changed well");
                         break;
                     case 2:
@@ -196,7 +259,7 @@ public class ManagerMenu extends Menu {
             }
             @Override
             protected void execute() {
-                System.out.println(Controller.getLoggedInAccount());
+                System.out.println(Controller.getOurController().getLoggedInAccount());
                 String input;
                 do {
                     System.out.println("Enter 1 for edit a field and 2 for back:");
@@ -205,7 +268,6 @@ public class ManagerMenu extends Menu {
                     }
                     switch (input) {
                         case "1":
-                            System.out.println("dsifjfd");
                             personalInfo();
                             break;
                         case "2":
@@ -229,23 +291,15 @@ public class ManagerMenu extends Menu {
                 case "1":
                     viewAndEditPersonalInfo().execute();
                     break;
-
                 case "2":
-                    getManageUsersMenu().execute();
+                    manageUsersMenu().execute();
                     break;
                 case "3":
-                    while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
-                        System.out.println("remove a product:");
-                        //input = scanner.nextLine();
-                        if (CommandsSource.isThisRegexMatch("remove\\s(\\w+)", input)) {
-                            String[] splitInput = input.split("\\s");
-                            Controller.getOurController().controllerRemoveProduct(splitInput[1]);
-                        }
-                    }
+                    manageAllProducts().execute();
                     break;
-//                case "4":
-//                    creatDiscountCode();
-//                    break;
+                case "4":
+                    creatDiscountCode();
+                    break;
 //                case "5":
 //                    nextMenu = getDiscountCodeMenu();
 //                    getDiscountCodeMenu.showCommands();

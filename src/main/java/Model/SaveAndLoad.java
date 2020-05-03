@@ -46,8 +46,20 @@ public class SaveAndLoad {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + "\\" + saveAble));
+            FileWriter writer = new FileWriter(String.valueOf(saveAble.getClass() + "\\" + saveAble));
             writer.write(gson.toJson(saveAble));
+            writer.close();
+        }catch (IOException e){
+            System.out.println(e);
+        }
+    }
+
+    public void writeJSONArrayProducts(ArrayList<Product> products){
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            FileWriter writer = new FileWriter(String.valueOf(products.getClass() + "\\" + products));
+            writer.write(gson.toJson(products));
             writer.close();
         }catch (IOException e){
             System.out.println(e);

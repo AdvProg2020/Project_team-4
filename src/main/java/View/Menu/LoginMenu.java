@@ -1,8 +1,12 @@
 package View.Menu;
 
 import Control.Controller;
+
+import javax.naming.ldap.Control;
+import java.awt.*;
 import java.util.regex.Matcher;
 import static View.Outputs.*;
+import static View.Outputs.printLoginResult;
 
 public class LoginMenu extends Menu {
 
@@ -33,7 +37,10 @@ public class LoginMenu extends Menu {
                     createAccount();
                     break;
                 case "2":
-                    login();
+                    if(login()){
+                        return;
+                    }
+                    System.out.println("lkdjfs");
                     break;
                 case "3":
                     logout();
@@ -66,19 +73,24 @@ public class LoginMenu extends Menu {
                 matchPassword.group(1)));
     }
 
-    private void login() {
+    private boolean login() {
+
+        if(Controller.getOurController().getLoggedInAccount() != null){
+            return printLoginResult(4);
+        }
+
         String error = "please Enter username \n" + "" +
                 "sample : \t login ali\n" +
                 "for back write \"break\"";
         Matcher matcher1 = getField(error, "login\\s(\\S+)");
         if (matcher1 == null) {
-            return;
+            return false;
         }
         Matcher matcher2 = getField("Enter a valid password", "(\\S+)");
         if (matcher2 == null) {
-            return;
+            return false;
         }
-        printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
+        return printLoginResult(Controller.getOurController().controllerLogin(matcher1.group(1), matcher2.group(1)));
     }
 
     public static void logout() {

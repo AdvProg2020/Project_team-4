@@ -12,11 +12,11 @@ public class Manager extends Account {
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
 
-    private static ArrayList<SaveAble> registerSellerAccountRequests = new ArrayList<>();
-    private static ArrayList<SaveAble> editProductsRequests = new ArrayList<>();;
-    private static ArrayList<SaveAble> editOffRequests = new ArrayList<>();;
-    private static ArrayList<SaveAble> allAccounts = new ArrayList<>();;
-    private static ArrayList<SaveAble> categories = new ArrayList<>();;
+    private static final ArrayList<SaveAble> registerSellerAccountRequests = new ArrayList<>();
+    private static final ArrayList<SaveAble> editProductsRequests = new ArrayList<>();;
+    private static final ArrayList<SaveAble> editOffRequests = new ArrayList<>();;
+    private static final ArrayList<SaveAble> allAccounts = new ArrayList<>();;
+    private static final ArrayList<SaveAble> categories = new ArrayList<>();;
 
     private static ArrayList<CodedOff> offCodes;
 
@@ -54,10 +54,6 @@ public class Manager extends Account {
     }
 
     public void addOffCode() {
-
-    }
-
-    public static void remove(Product productWithName) {
 
     }
 
