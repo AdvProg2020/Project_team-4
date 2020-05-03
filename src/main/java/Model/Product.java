@@ -24,6 +24,8 @@ public class Product extends SaveAble {
     private final int averageScore;
     private final int amountOfExist;
     private final ArrayList<String> tags;
+    private int productId;
+    private static int giveId;
 
     public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
         this.productBarcode = productBarcode;
@@ -39,6 +41,8 @@ public class Product extends SaveAble {
         this.averageScore = averageScore;
         this.tags = tags;
         this.amountOfExist = amountOfExist;
+        this.productId = giveId;
+        giveId++;
         allProducts.add(this);
     }
 
