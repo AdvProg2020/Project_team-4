@@ -233,16 +233,16 @@ public class ManagerMenu extends Menu {
                 case "2":
                     getManageUsersMenu().execute();
                     break;
-//                case "3":
-//                    while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
-//                        System.out.println("remove a product:");
-//                        //input = scanner.nextLine();
-//                        if (CommandsSource.isThisRegexMatch("remove\\s(\\w+)", input)) {
-//                            String[] splitInput = input.split("\\s");
-//                            Controller.getOurController().controllerRemoveProduct(splitInput[1]);
-//                        }
-//                    }
-//                    break;
+                case "3":
+                    while (!(input = scanner.nextLine()).equalsIgnoreCase("back")) {
+                        System.out.println("remove a product:");
+                        //input = scanner.nextLine();
+                        if (CommandsSource.isThisRegexMatch("remove\\s(\\w+)", input)) {
+                            String[] splitInput = input.split("\\s");
+                            Controller.getOurController().controllerRemoveProduct(splitInput[1]);
+                        }
+                    }
+                    break;
 //                case "4":
 //                    creatDiscountCode();
 //                    break;
