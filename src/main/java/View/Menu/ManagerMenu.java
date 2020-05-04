@@ -180,37 +180,41 @@ public class ManagerMenu extends Menu {
             }
         };
     }
-//
-//    private static Menu getManageRequestMenu() {
-//        return new Menu() {
-//            @Override
-//            protected void showCommands() {
-//
-//            }
-//
-//            @Override
-//            public void execute() {
-//                String input = "";
-//                System.out.println(Controller.getOurController().showAllRequests());
-//                Request request = null;
-//                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-//                    String[] splitInput = input.split("\\s");
-//                    switch (findEnum(commands.getAllRegex(), input)) {
-//                        case "DETAILS_REQUEST" :
-//                            request = Request.getRequestByName(splitInput[1]);
-//                            System.out.println(request);
-//                            break;
-//                        case "ACCEPT_REQUEST" :
-//                            Controller.getOurController().acceptRequest(request);
-//                            break;
-//                        case "DECLINE_REQUEST" :
-//                            Controller.getOurController().declineRequest(request);
-//                            break;
-//                    }
-//                }
-//            }
-//        };
-//    }
+
+    private static Menu getManageRequestMenu() {
+        return new Menu() {
+            @Override
+            public void execute() {
+                String input;
+                Matcher matcher;
+                System.out.println(Controller.getOurController().showAllRequests());
+                Request request = null;
+                do {
+                    System.out.println("Enter Number 1 for DETAILS_REQUEST 2 for ACCEPT_REQUEST 3 for DECLINE_REQUEST and end to go back:");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            matcher = getField("like this: [requestId]", "(\\S+)");
+                            request = Manager.getRequestByName(matcher.group(1));
+                            System.out.println(request);
+                            break;
+                        case "2":
+                            matcher = getField("like this: [requestId]", "(\\S+)");
+                            request = Manager.getRequestByName(matcher.group(1));
+                            Controller.getOurController().acceptRequest(request);
+                            break;
+                        case "3":
+                            matcher = getField("like this: [requestId]", "(\\S+)");
+                            request = Manager.getRequestByName(matcher.group(1));
+                            Controller.getOurController().declineRequest(request);
+                            break;
+                    }
+                } while (true);
+            }
+        };
+    }
 //
 //    private static Menu getManageCategoriesMenu() {
 //        return new Menu() {
@@ -316,11 +320,9 @@ public class ManagerMenu extends Menu {
                 case "5":
                     getDiscountCodeMenu().execute();
                     break;
-//                case "6":
-//                    nextMenu = getManageRequestMenu();
-//                    nextMenu.showCommands();
-//                    nextMenu.execute();
-//                    break;
+                case "6":
+                    getManageRequestMenu().execute();
+                    break;
 //                case "7":
 //                    nextMenu = getManageCategoriesMenu();
 //                    nextMenu.showCommands();

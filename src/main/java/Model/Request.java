@@ -29,14 +29,6 @@ public class Request extends SaveAble {
         return requestId;
     }
 
-    public static Request getRequestByName(String name) {
-        for (Request request : allRequest) {
-            if (request.getRequestId().equalsIgnoreCase(name)) {
-                return request;
-            }
-        }
-        return null;
-    }
 
     @Override
     protected String getName() {
