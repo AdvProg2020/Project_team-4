@@ -1,15 +1,19 @@
+import Control.Controller;
 import Model.*;
 import View.Menu.MainMenu;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-        File file = new File(Manager.class + "");
+        File file = new File(String.valueOf(Customer.class));
         file.mkdir();
-        File file0 = new File(Customer.class + "");
-        file0.mkdir();
+        File file6 = new File(String.valueOf(Seller.class));
+        file6.mkdir();
+        File file7 = new File(String.valueOf(Manager.class));
+        file7.mkdir();
         File file1 = new File(Product.class + "");
         file1.mkdir();
         File file2 = new File(Off.class + "");
@@ -20,6 +24,13 @@ public class Main {
         file4.mkdir();
         File file5 = new File(String.valueOf(RequestANewSellerAccount.class));
         file5.mkdirs();
+        File file8 = new File(String.valueOf(CodedOff.class));
+        file8.mkdirs();
+        File file9 = new File(String.valueOf(String.class));
+        file9.mkdirs();
+        File file10 = new File(String.valueOf(ArrayList.class));
+        file10.mkdirs();
+        Controller.readOffCodesFromFile();
         MainMenu mainMenu = new MainMenu();
         mainMenu.execute();
     }

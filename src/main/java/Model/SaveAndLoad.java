@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class SaveAndLoad {
@@ -50,6 +51,17 @@ public class SaveAndLoad {
                     new FileReader(name));
 
             return gson.fromJson(bufferedReader, SaveAble.class);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    public Object readJSONByType(String name, Type classType) {
+        try {
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(ArrayList.class + "\\" + name));
+            return gson.fromJson(bufferedReader, classType);
         } catch (FileNotFoundException e) {
             return null;
         }
