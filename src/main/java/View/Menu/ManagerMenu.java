@@ -8,6 +8,7 @@ import View.Outputs;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
+import static Model.Account.getAccountWithName;
 import static Model.Customer.getCustomerByName;
 import static View.Outputs.printRemoveProductResult;
 
@@ -107,11 +108,11 @@ public class ManagerMenu extends Menu {
         String usageTime = "";
         do{
             System.out.println("Enter requested field or type \"back\" to back:");
-            matcher = getField("Enter barcode:", "\\w+");
+            matcher = getField("Enter barcode:", "(\\w+)");
             if (matcher == null) {
                 return;
             }
-            barcode = matcher.toString();
+            barcode = matcher.group(1);
             matcher = getField("Please enter a valid start date\nlike: 0000, 00, 00, 00, 00", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
             if (matcher == null) {
                 return;
@@ -135,12 +136,16 @@ public class ManagerMenu extends Menu {
             usageTime = matcher.group(1);
             System.out.println("Enter username of account you want contain off code like \"ali\" or \"end\" to end");
             while(!((input = scanner.nextLine()).equalsIgnoreCase("end"))){
-                Customer customer = getCustomerByName(input.trim());
+                Customer customer = (Customer) getAccountWithName(input.trim());
+                System.out.println(customer);
                 if (customer != null) {
-                    containingCustomers.add(getCustomerByName(input.trim()));
+                    containingCustomers.add(customer);
+                    System.out.println(containingCustomers);
+                    System.out.println("ajdnkff");
                 }
             }
-            Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers);
+            System.out.println(containingCustomers);
+            Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, new ArrayList<Customer>(containingCustomers));
         }while(true);
     }
 //

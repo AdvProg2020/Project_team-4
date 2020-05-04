@@ -1,5 +1,7 @@
 package Model;
 
+
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -25,6 +27,10 @@ public class Manager extends Account {
     }
 
     public static void removeDiscount(String offName) {
+        if (CodedOff.getAllDiscounts().contains(CodedOff.getOffCodeWithName(offName))) {
+            CodedOff.getAllDiscounts().remove(CodedOff.getOffCodeWithName(offName));
+        }
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "offCodes");
     }
 
     public void editOffCode(CodedOff offCode) {

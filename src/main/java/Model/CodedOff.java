@@ -18,7 +18,6 @@ public class CodedOff extends SaveAble {
     private HashMap<Account, Integer> numberOfUsageForEachAccount;
     private ArrayList<Account> discountIsForTheseAccounts;
     private ArrayList<Customer> containingCustomers;
-   // private static ArrayList<String> offBarcodes = new ArrayList<>();
 
     public CodedOff(String offBarcode, LocalDateTime startTime, LocalDateTime endTime, double offAmount, int percent, int usageTime, ArrayList<Customer> containingCustomers) {
         this.offBarcode = offBarcode;
@@ -27,12 +26,12 @@ public class CodedOff extends SaveAble {
         this.offAmount = offAmount;
         this.percent = percent;
         this.usageTime = usageTime;
-        this.containingCustomers = containingCustomers;
+        System.out.println(containingCustomers);
+        this.containingCustomers = new ArrayList<>(containingCustomers);
+        System.out.println(this.containingCustomers);
         this.numberOfUsageForEachAccount = new HashMap<Account, Integer>();
         this.discountIsForTheseAccounts = new ArrayList<Account>();
-        System.err.println(allOfCodes);
         allOfCodes.add(this);
-        System.err.println(allOfCodes);
         SaveAndLoad.getSaveAndLoad().writeJSON(allOfCodes, ArrayList.class, "offCodes");
     }
 
@@ -65,6 +64,7 @@ public class CodedOff extends SaveAble {
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", offAmount=" + offAmount +
+                ", containing users" + containingCustomers +
                 ", numberOfUsageForEachAccount=" + numberOfUsageForEachAccount +
                 ", discountIsForTheseAccounts=" + discountIsForTheseAccounts +
                 '}';
@@ -82,7 +82,9 @@ public class CodedOff extends SaveAble {
 
     public static CodedOff getOffCodeWithName(String name) {
         for (CodedOff offCode : allOfCodes) {
-            return offCode;
+            if (offCode.getOffBarcode().equalsIgnoreCase(name)) {
+                return offCode;
+            }
         }
         return null;
     }

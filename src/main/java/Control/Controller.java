@@ -82,9 +82,8 @@ public class Controller {
     public void controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
         LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
         LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
-        new CodedOff(barcode,start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
-        //CodedOff.getOffBarcodes().add(barcode);
-        //SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getOffBarcodes(), ArrayList.class, "codedOffBarcodes");
+        System.out.println(containingCustomers);
+        new CodedOff(barcode,start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {
