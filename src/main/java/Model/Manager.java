@@ -1,9 +1,9 @@
 package Model;
 
+
+
 import java.io.File;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Manager extends Account {
 
@@ -12,36 +12,41 @@ public class Manager extends Account {
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
 
-    private static ArrayList<SaveAble> registerSellerAccountRequests = new ArrayList<>();
-    private static ArrayList<SaveAble> editProductsRequests = new ArrayList<>();;
-    private static ArrayList<SaveAble> editOffRequests = new ArrayList<>();;
-    private static ArrayList<SaveAble> allAccounts = new ArrayList<>();;
-    private static ArrayList<SaveAble> categories = new ArrayList<>();;
+    private static final ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
+    private static final ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
+    private static final ArrayList<RequestOff> editOffRequests = new ArrayList<>();
+    private static final ArrayList<SaveAble> allAccounts = new ArrayList<>();
+    private static final ArrayList<SaveAble> categories = new ArrayList<>();
 
     private static ArrayList<CodedOff> offCodes;
 
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(this, Manager.class, userName);
     }
 
     public static void removeDiscount(String offName) {
+        if (CodedOff.getAllDiscounts().contains(CodedOff.getOffCodeWithName(offName))) {
+            CodedOff.getAllDiscounts().remove(CodedOff.getOffCodeWithName(offName));
+        }
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "offCodes");
     }
 
     public void editOffCode(CodedOff offCode) {
         //offCodes.get(offCode)
     }
 
-    public static ArrayList<SaveAble> getRegisterSellerAccountRequests() {
+    public static ArrayList<RequestANewSellerAccount> getRegisterSellerAccountRequests() {
         return registerSellerAccountRequests;
     }
 
-    public static ArrayList<SaveAble> getEditProductsRequest() {
+    public static ArrayList<RequestProduct> getEditProductsRequests() {
         return editProductsRequests;
     }
 
-    public static ArrayList<SaveAble> getEditOffRequests() {
+
+    public static ArrayList<RequestOff> getEditOffRequests() {
         return editOffRequests;
     }
 
@@ -54,10 +59,6 @@ public class Manager extends Account {
     }
 
     public void addOffCode() {
-
-    }
-
-    public static void remove(Product productWithName) {
 
     }
 
@@ -131,6 +132,8 @@ public class Manager extends Account {
     private static boolean accountRequestAccept(RequestANewSellerAccount request) {
         if (registerSellerAccountRequests.contains(request)) {
             new Seller(request.getUserName(), request.getPassWord());
+            registerSellerAccountRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
             return true;
         }
         return false;
@@ -138,14 +141,19 @@ public class Manager extends Account {
 
     public static boolean addANewSellerRequest(String userName, String passWord) {
         registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
-        SaveAndLoad.getSaveAndLoad().writeJSONAccount(registerSellerAccountRequests);
+        SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
         return true;
     }
 
     private static boolean editProduct(RequestProduct request) {
         if (editProductsRequests.contains(request)) {
+            Product product = Product.getProductWithName(request.getProductName());
+            if (Product.getAllProducts().contains(product)) {
+                Product.getAllProducts().remove(product);
+            }
             new Product(request.getProduct());
             editProductsRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
             return true;
         }
         return false;
@@ -153,8 +161,13 @@ public class Manager extends Account {
 
     private static boolean editOff(RequestOff request) {
         if (editOffRequests.contains(request)) {
+            Off off = Off.getOffByName(request.getOffName());
+            if (Off.getAllOffs().contains(off)) {
+                Off.getAllOffs().remove(off);
+            }
             new Off(request.getOff().getOffBarcode(), request.getOff().getStartDate(), request.getOff().getEndDate(), request.getOff().getOffAmount());
             editOffRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
             return true;
         }
         return false;
@@ -185,6 +198,27 @@ public class Manager extends Account {
     public static void setEditOffRequests(Request editOffRequests) {
         Manager.editOffRequests.add((RequestOff) editOffRequests);
     }
+
+    public static Request getRequestByName(String id) {
+        for (Request request : registerSellerAccountRequests) {
+            if (request.getRequestId().equalsIgnoreCase(id)) {
+                return request;
+            }
+        }
+        for (Request request : editOffRequests) {
+            if (request.getRequestId().equalsIgnoreCase(id)) {
+                return request;
+            }
+        }
+        for (Request request : editProductsRequests) {
+            if (request.getRequestId().equalsIgnoreCase(id)) {
+                return request;
+            }
+        }
+        return null;
+    }
+
+
 
     @Override
     public String toString() {

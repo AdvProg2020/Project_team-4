@@ -19,4 +19,13 @@ public class RequestANewSellerAccount extends Request {
     public String getPassWord() {
         return passWord;
     }
+
+    @Override
+    public String toString() {
+        return "RequestANewSellerAccount{" +
+                "userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", requestId=" + requestId +
+                '}';
+    }
 }
