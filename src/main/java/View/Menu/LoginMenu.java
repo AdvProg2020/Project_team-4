@@ -40,7 +40,6 @@ public class LoginMenu extends Menu {
                     if(login()){
                         return;
                     }
-                    System.out.println("lkdjfs");
                     break;
                 case "3":
                     logout();

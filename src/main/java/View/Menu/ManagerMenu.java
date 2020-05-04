@@ -6,6 +6,7 @@ import Model.*;
 import View.Outputs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 import static Model.Account.getAccountWithName;
@@ -70,30 +71,48 @@ public class ManagerMenu extends Menu {
                 String input;
                 Matcher matcher;
                 do {
-                    show();
-                    System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and end to go back:");
+                    showallusers();
+                    System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and 4 to go back:");
                     if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
                     }
                     switch (input.trim()) {
                         case "1" :
-                            matcher = getField("please write in this format: view [username]", "view\\s(\\S+)");
+                            matcher = getField("please write in this format: view [username] write back for back", "view\\s(\\S+)");
+                            if(matcher == null){
+                                continue;
+                            }
                             Controller.getOurController().controllerShowUser(matcher.group(1));
                             break;
                         case "2" :
-                            matcher = getField("Please write in this format: delete [username]", "delete\\s+(\\S+)");
-                            Controller.getOurController().controllerDeleteAnUser(matcher.group(1));
+                            matcher = getField("Please write in this format: delete [username] write back for back", "delete\\s+(\\S+)");
+                            if(matcher == null){
+                                continue;
+                            }
+                            Outputs.printDeletingAccountResult(Controller.getOurController().controllerDeleteAnUser(matcher.group(1)));
                             break;
                         case "3" :
-                            Matcher matcher1 = Menu.getField("Please enter a userName and pass in this format: [userName] [password]", "(\\S+)\\s(\\S+)");
-                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(matcher1.group(1), matcher1.group(2)));
+                            matcher = Menu.getField("Please enter a userName and pass in this format: [userName] [password]  write back for back", "(\\S+)\\s(\\S+)");
+                            if(matcher == null){
+                                continue;
+                            }
+                            Outputs.printCreateAccountResult(Controller.getOurController().controllerCreateNewManagerAccountFromManager(matcher.group(1), matcher.group(2)));
                             break;
-                        default:
-//                            System.out.println("Enter a valid command please.");
-                    }
+                        case "4":
+                            return;
+                     }
                 } while (true);
             }
         };
+    }
+
+    private void showallusers() {
+        System.out.println("Customers :");
+        System.out.println(Arrays.toString(Controller.getOurController().getusers(Customer.class)));
+        System.out.println("Sellers :");
+        System.out.println(Arrays.toString(Controller.getOurController().getusers(Seller.class)));
+        System.out.println("Managers :");
+        System.out.println(Arrays.toString(Controller.getOurController().getusers(Manager.class)));
     }
 
     private static void creatDiscountCode() {

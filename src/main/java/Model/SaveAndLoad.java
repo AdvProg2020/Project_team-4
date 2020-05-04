@@ -61,8 +61,10 @@ public class SaveAndLoad {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(className + "\\" + name));
-            return gson.fromJson(bufferedReader, className);
-        } catch (FileNotFoundException e) {
+            Object object = gson.fromJson(bufferedReader, className);
+            bufferedReader.close();
+            return object;
+        } catch (IOException e) {
             return null;
         }
     }
@@ -72,7 +74,8 @@ public class SaveAndLoad {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(ArrayList.class + "\\" + name));
-            return gson.fromJson(bufferedReader, classType);
+            Object object = gson.fromJson(bufferedReader, classType);
+            return object;
         } catch (FileNotFoundException e) {
             return null;
         }

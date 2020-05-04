@@ -88,5 +88,13 @@ public class Outputs {
         else
             System.err.println("Something went wrong!");
     }
+
+    public static void printDeletingAccountResult(int controllerDeleteAnUserResult) {
+        if(controllerDeleteAnUserResult == 1){
+            System.out.println("account removed successfully");
+        }else{
+            System.out.println("no account found with this name");
+        }
+    }
 }
 

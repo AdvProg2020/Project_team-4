@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
+import java.io.File;
 import java.lang.reflect.Type;
 
 import java.time.LocalDateTime;
@@ -71,8 +72,13 @@ public class Controller {
         System.out.println(Account.getAccountWithName(username));
     }
 
-    public void controllerDeleteAnUser(String username) {
-        Account.deleteAccount((Account) Account.getAccountWithName(username));
+    public int controllerDeleteAnUser(String username) {
+        Account account = (Account) Account.getAccountWithName(username);
+        if(account == null){
+            return 2;
+        }
+        Account.deleteAccount(account);
+        return 1;
     }
 
     public boolean controllerRemoveProduct(String productName) {
@@ -148,7 +154,7 @@ public class Controller {
 
     public int controllerCreateNewManagerAccountFromManager(String username, String password) {
         if(Account.getAccountWithName(username) != null){
-            return 2;
+            return 4;
         }
         Manager.addANewManager(username, password, true);
         return 1;
@@ -263,6 +269,11 @@ public class Controller {
 
     public Customer requestLoggedInUser() {
         return null;
+    }
+
+    public String[] getusers(Class className) {
+        File f = new File(String.valueOf(className));
+        return f.list();
     }
 }
 

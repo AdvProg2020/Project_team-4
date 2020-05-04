@@ -38,17 +38,17 @@ public abstract class Account extends SaveAble {
     }
 
     public static void deleteAccount(Account account) {
-        System.out.println(account.getClass());
         File file = new File(account.getClass() + "\\" + account.getUserName());
         System.out.println(file.getName());
-        if(file.delete())
-        {
-            System.out.println("File deleted successfully");
-        }
-        else
-        {
-            System.out.println("Failed to delete the file");
-        }
+        file.delete();
+//        if(file.delete())
+//        {
+//            System.out.println("File deleted successfully");
+//        }
+//        else
+//        {
+//            System.out.println("Failed to delete the file");
+//        }
     }
 
     public void setFirstName(String firstName) {
