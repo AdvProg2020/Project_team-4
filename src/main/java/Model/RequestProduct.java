@@ -11,4 +11,8 @@ public class RequestProduct extends Request {
     public Product getProduct() {
         return product;
     }
+
+    public String getProductName() {
+        return product.getName();
+    }
 }

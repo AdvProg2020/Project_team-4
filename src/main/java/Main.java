@@ -31,6 +31,9 @@ public class Main {
         File file10 = new File(String.valueOf(ArrayList.class));
         file10.mkdirs();
         Controller.readOffCodesFromFile();
+        Controller.readRequestsFromFile();
+        Controller.readOffsFromFile();
+        Controller.readProductsFromFile();
         MainMenu mainMenu = new MainMenu();
         mainMenu.execute();
     }

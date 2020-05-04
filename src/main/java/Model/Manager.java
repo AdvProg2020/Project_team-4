@@ -41,9 +41,10 @@ public class Manager extends Account {
         return registerSellerAccountRequests;
     }
 
-    public static ArrayList<RequestProduct> getEditProductsRequest() {
+    public static ArrayList<RequestProduct> getEditProductsRequests() {
         return editProductsRequests;
     }
+
 
     public static ArrayList<RequestOff> getEditOffRequests() {
         return editOffRequests;
@@ -131,6 +132,8 @@ public class Manager extends Account {
     private static boolean accountRequestAccept(RequestANewSellerAccount request) {
         if (registerSellerAccountRequests.contains(request)) {
             new Seller(request.getUserName(), request.getPassWord());
+            registerSellerAccountRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
             return true;
         }
         return false;
@@ -144,8 +147,13 @@ public class Manager extends Account {
 
     private static boolean editProduct(RequestProduct request) {
         if (editProductsRequests.contains(request)) {
+            Product product = Product.getProductWithName(request.getProductName());
+            if (Product.getAllProducts().contains(product)) {
+                Product.getAllProducts().remove(product);
+            }
             new Product(request.getProduct());
             editProductsRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
             return true;
         }
         return false;
@@ -153,8 +161,13 @@ public class Manager extends Account {
 
     private static boolean editOff(RequestOff request) {
         if (editOffRequests.contains(request)) {
+            Off off = Off.getOffByName(request.getOffName());
+            if (Off.getAllOffs().contains(off)) {
+                Off.getAllOffs().remove(off);
+            }
             new Off(request.getOff().getOffBarcode(), request.getOff().getStartDate(), request.getOff().getEndDate(), request.getOff().getOffAmount());
             editOffRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
             return true;
         }
         return false;
@@ -204,6 +217,8 @@ public class Manager extends Account {
         }
         return null;
     }
+
+
 
     @Override
     public String toString() {

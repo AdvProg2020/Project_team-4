@@ -7,6 +7,10 @@ public class RequestOff extends Request {
         this.off = off;
     }
 
+    public String getOffName() {
+        return off.getName();
+    }
+
     public Off getOff() {
         return off;
     }
