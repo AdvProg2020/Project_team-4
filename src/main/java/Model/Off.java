@@ -62,4 +62,17 @@ public class Off extends SaveAble {
     public ArrayList<Product> getProducts() {
         return products;
     }
+
+    public static Off getOffByName(String name) {
+        for (Off off: allOffs) {
+            if (off.getName().equalsIgnoreCase(name)) {
+                return off;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Off> getAllOffs() {
+        return allOffs;
+    }
 }

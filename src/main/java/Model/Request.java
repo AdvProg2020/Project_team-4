@@ -1,11 +1,12 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Request extends SaveAble {
-    private static ArrayList<Request> allRequest;
     private RequestType requestType;
-    private String requestId;
+    protected String requestId;
+    Random rand = new Random();
 
     public Request(String requestType) {
         if(requestType.equalsIgnoreCase(String.valueOf(RequestType.ACCOUNT))) {
@@ -20,7 +21,7 @@ public class Request extends SaveAble {
         } else {
             return;
         }
-        allRequest.add(this);
+        this.requestId = rand.nextInt()+"";
     }
 
 
@@ -29,18 +30,10 @@ public class Request extends SaveAble {
         return requestId;
     }
 
-    public static Request getRequestByName(String name) {
-        for (Request request : allRequest) {
-            if (request.getRequestId().equalsIgnoreCase(name)) {
-                return request;
-            }
-        }
-        return null;
-    }
 
     @Override
     protected String getName() {
-        return requestId;
+        return requestId + "";
     }
 
     public RequestType getRequestType() {

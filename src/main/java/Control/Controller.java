@@ -177,18 +177,64 @@ public class Controller {
     }
 
     public static void readOffCodesFromFile() {
-//        CodedOff.getOffBarcodes().addAll(Arrays.asList(((String) (SaveAndLoad.getSaveAndLoad().readJSON("codedOffBarcodes", String.class))).split(" ")));
-//        for (String barcode: CodedOff.getOffBarcodes()) {
-//            CodedOff.getAllDiscounts().add((CodedOff) SaveAndLoad.getSaveAndLoad().readJSON(barcode, CodedOff.class));
-//        }
         Type offCodesListType = new TypeToken<ArrayList<CodedOff>>(){}.getType();
-        Gson gson = new Gson();
         try {
             CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
         } catch (Exception e) {
             System.out.println("Didn't read the array of all offCodes");
         }
+        //readArrayFromFile(CodedOff.getAllDiscounts(), "offCodes");
     }
+
+    public static void readRequestsFromFile() {
+        /////////////felan faghat baraye requestANewSellerAccoun kar mikone
+        Type sellerAccountRequestListType = new TypeToken<ArrayList<RequestANewSellerAccount>>(){}.getType();
+        try {
+            Manager.getRegisterSellerAccountRequests().addAll((Collection<? extends RequestANewSellerAccount>) SaveAndLoad.getSaveAndLoad().readJSONByType("registerSellerAccountRequests", sellerAccountRequestListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offCodes");
+        }
+        Type offRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
+        try {
+            Manager.getEditOffRequests().addAll((Collection<? extends RequestOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("editOffRequests", offRequestListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offCodes");
+        }
+        Type productRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
+        try {
+            Manager.getEditProductsRequests().addAll((Collection<? extends RequestProduct>) SaveAndLoad.getSaveAndLoad().readJSONByType("editProductsRequests", productRequestListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offCodes");
+        }
+
+    }
+
+    public static void readOffsFromFile() {
+        Type offListType = new TypeToken<ArrayList<Off>>(){}.getType();
+        try {
+            Off.getAllOffs().addAll((Collection<? extends Off>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffs", offListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offCodes");
+        }
+    }
+
+    public static void readProductsFromFile() {
+        Type productListType = new TypeToken<ArrayList<Product>>(){}.getType();
+        try {
+            Product.getAllProducts().addAll((Collection<? extends Product>) SaveAndLoad.getSaveAndLoad().readJSONByType("allProducts", productListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offCodes");
+        }
+    }
+
+//    public static void readArrayFromFile(Collection<?> array, String name) {
+//        Type type = new TypeToken<ArrayList<SaveAble>>(){}.getType();
+//        try {
+//            array.addAll((Collection<?>) SaveAndLoad.getSaveAndLoad().readJSONByType(name, type));
+//        } catch (Exception e) {
+//            System.out.println("Didn't read the array of all offCodes");
+//        }
+//    }
     
 
     public CodedOff getDiscount(String s) {
