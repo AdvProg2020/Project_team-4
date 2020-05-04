@@ -3,6 +3,7 @@ import Model.*;
 import View.Menu.MainMenu;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -27,7 +28,9 @@ public class Main {
         file8.mkdirs();
         File file9 = new File(String.valueOf(String.class));
         file9.mkdirs();
-        //Controller.readCodedOffsFromFile();
+        File file10 = new File(String.valueOf(ArrayList.class));
+        file10.mkdirs();
+        Controller.readOffCodesFromFile();
         MainMenu mainMenu = new MainMenu();
         mainMenu.execute();
     }

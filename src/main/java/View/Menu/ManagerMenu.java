@@ -100,39 +100,45 @@ public class ManagerMenu extends Menu {
         ArrayList<Customer> containingCustomers = new ArrayList<>();
         Matcher matcher;
         String barcode = "";
-        String expireDate = "";
-        String startDate = "";
+        Matcher expireDate;
+        Matcher startDate;
         String maximumOffAmount = "";
         String percentOfOff = "";
         String usageTime = "";
         do{
             System.out.println("Enter requested field or type \"back\" to back:");
             matcher = getField("Enter barcode:", "\\w+");
-            if (!matcher.toString().equalsIgnoreCase("back")) {
-                barcode = matcher.toString();
-            } else {
+            if (matcher == null) {
                 return;
             }
-            matcher = getField("Please enter a valid start date\nlike: 1399:01:07", "(\\d\\d\\d\\d):([0-2]\\d):([0-2]\\d)");
-            if (matcher != null) {
-                startDate = matcher.toString();
+            barcode = matcher.toString();
+            matcher = getField("Please enter a valid start date\nlike: 0000, 00, 00, 00, 00", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
+            if (matcher == null) {
+                return;
             }
-            matcher = getField("Please enter a valid expire date\nlike: 1400:06:14", "(\\d\\d\\d\\d):([0-2]\\d):([0-2]\\d)");
-            if (matcher != null) {
-                expireDate = matcher.toString();
+            startDate = matcher;
+            matcher = getField("Please enter a valid expire date\nlike: 0000, 00, 00, 00, 00", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
+            if (matcher == null) {
+                return;
             }
-            matcher = getField("Please enter a valid maximum off amount and percent of off\nlike: 10000, 20%", "(\\d+), (\\d+%)");
-            if (matcher != null) {
-                maximumOffAmount = matcher.group(1);
-                percentOfOff = matcher.group(2);
+            expireDate = matcher;
+            matcher = getField("Please enter a valid maximum off amount and percent of off\nlike: 10000, 20", "(\\d+), (\\d+)");
+            if (matcher == null) {
+                return;
             }
+            maximumOffAmount = matcher.group(1);
+            percentOfOff = matcher.group(2);
             matcher = getField("Please enter a valid usage time", "(\\d+)");
-            if (matcher != null) {
-                usageTime = matcher.group(1);
+            if (matcher == null) {
+                return;
             }
+            usageTime = matcher.group(1);
             System.out.println("Enter username of account you want contain off code like \"ali\" or \"end\" to end");
             while(!((input = scanner.nextLine()).equalsIgnoreCase("end"))){
-                containingCustomers.add(getCustomerByName(input.trim()));
+                Customer customer = getCustomerByName(input.trim());
+                if (customer != null) {
+                    containingCustomers.add(getCustomerByName(input.trim()));
+                }
             }
             Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers);
         }while(true);

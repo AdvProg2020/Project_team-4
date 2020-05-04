@@ -2,8 +2,13 @@ package Control;
 
 import Model.*;
 import View.Menu.Menu;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.text.SimpleDateFormat;
+
+import java.lang.reflect.Type;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -74,11 +79,12 @@ public class Controller {
         return Product.removeProduct(Product.getProductWithName(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, String startDate, String expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList containingCustomers) {
-        SimpleDateFormat start = new SimpleDateFormat();
-        //new Off(barcode, startDate, expireDate, maximumOffAmount);
-        CodedOff.getOffBarcodes().add(barcode);
-        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getOffBarcodes(), ArrayList.class, "codedOffBarcodes");
+    public void controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
+        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
+        LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
+        new CodedOff(barcode,start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
+        //CodedOff.getOffBarcodes().add(barcode);
+        //SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getOffBarcodes(), ArrayList.class, "codedOffBarcodes");
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {
@@ -165,12 +171,20 @@ public class Controller {
         Manager.declineRequest(request);
     }
 
-    public static void readCodedOffsFromFile() {
-        CodedOff.getOffBarcodes().addAll(Arrays.asList(((String) (SaveAndLoad.getSaveAndLoad().readJSON("codedOffBarcodes", String.class))).split(" ")));
-        for (String barcode: CodedOff.getOffBarcodes()) {
-            CodedOff.getAllDiscounts().add((CodedOff) SaveAndLoad.getSaveAndLoad().readJSON(barcode, CodedOff.class));
+    public static void readOffCodesFromFile() {
+//        CodedOff.getOffBarcodes().addAll(Arrays.asList(((String) (SaveAndLoad.getSaveAndLoad().readJSON("codedOffBarcodes", String.class))).split(" ")));
+//        for (String barcode: CodedOff.getOffBarcodes()) {
+//            CodedOff.getAllDiscounts().add((CodedOff) SaveAndLoad.getSaveAndLoad().readJSON(barcode, CodedOff.class));
+//        }
+        Type offCodesListType = new TypeToken<ArrayList<CodedOff>>(){}.getType();
+        Gson gson = new Gson();
+        try {
+            CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offCodes");
         }
     }
+    
 
     public CodedOff getDiscount(String s) {
         for (CodedOff discountCode: CodedOff.getAllDiscounts()) {
