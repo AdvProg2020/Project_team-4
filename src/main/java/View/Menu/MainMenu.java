@@ -25,7 +25,7 @@ public class MainMenu extends Menu {
         if (Customer.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
             CustomerMenu.getCustomerMenu().execute();
         } else if (Manager.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
-            ManagerMenu.getManagerMenu().execute();
+            ManagerMenu.managerMenu().execute();
         } else if (Seller.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
             SellerMenu.getSellerMenu().execute();
         }

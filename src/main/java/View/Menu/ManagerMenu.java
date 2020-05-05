@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 
 import static Model.Account.getAccountWithName;
-import static Model.Customer.getCustomerByName;
 import static View.Outputs.printRemoveProductResult;
 
 
@@ -31,8 +30,46 @@ public class ManagerMenu extends Menu {
         options.add("back");
     }
 
-    public static Menu getManagerMenu() {
+    public static Menu managerMenu() {
         return managerMenu;
+    }
+
+    private static Menu viewAndEditPersonalInfo() {
+        return new Menu() {
+            private void personalInfo() {
+                Matcher matcher = getField("Enter in this format: edit [field] for back write back", "edit\\s(\\S+)");
+                if(matcher == null){
+                    return;
+                }
+                switch (Controller.getOurController().editField(matcher.group(1))) {
+                    case 1:
+                        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
+                        System.out.println("Changed well");
+                        break;
+                    case 2:
+                        System.out.println("Sth went wrong in changing");
+
+                }
+            }
+            @Override
+            protected void execute() {
+                System.out.println(Controller.getOurController().getLoggedInAccount());
+                String input;
+                do {
+                    System.out.println("Enter 1 for edit a field and 2 for back:");
+                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+                        continue;
+                    }
+                    switch (input) {
+                        case "1":
+                            personalInfo();
+                            break;
+                        case "2":
+                            return;
+                    }
+                }while (!input.equalsIgnoreCase("end"));
+            }
+        };
     }
 
     private Menu manageAllProducts(){
@@ -71,7 +108,7 @@ public class ManagerMenu extends Menu {
                 String input;
                 Matcher matcher;
                 do {
-                    showallusers();
+                    showA‌llUsers();
                     System.out.println("Enter Number 1 for show a user 2 for delete a user 3 for making a manager profile and 4 to go back:");
                     if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                         continue;
@@ -106,7 +143,7 @@ public class ManagerMenu extends Menu {
         };
     }
 
-    private void showallusers() {
+    private void showA‌llUsers() {
         System.out.println("Customers :");
         System.out.println(Arrays.toString(Controller.getOurController().getusers(Customer.class)));
         System.out.println("Sellers :");
@@ -167,8 +204,8 @@ public class ManagerMenu extends Menu {
             Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, new ArrayList<Customer>(containingCustomers));
         }while(true);
     }
-//
-    private static Menu getDiscountCodeMenu() {
+
+    private static Menu discountCodeMenu() {
         return new Menu() {
             @Override
             public void execute() {
@@ -200,7 +237,7 @@ public class ManagerMenu extends Menu {
         };
     }
 
-    private static Menu getManageRequestMenu() {
+    private static Menu manageRequestMenu() {
         return new Menu() {
             @Override
             public void execute() {
@@ -276,44 +313,6 @@ public class ManagerMenu extends Menu {
 //    }
 
 
-    private static Menu viewAndEditPersonalInfo() {
-        return new Menu() {
-            private void personalInfo() {
-                Matcher matcher = getField("Enter in this format: edit [field] for back write back", "edit\\s(\\S+)");
-                if(matcher == null){
-                    return;
-                }
-                switch (Controller.getOurController().editField(matcher.group(1))) {
-                    case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
-                        System.out.println("Changed well");
-                        break;
-                    case 2:
-                        System.out.println("Sth went wrong in changing");
-
-                }
-            }
-            @Override
-            protected void execute() {
-                System.out.println(Controller.getOurController().getLoggedInAccount());
-                String input;
-                do {
-                    System.out.println("Enter 1 for edit a field and 2 for back:");
-                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
-                        continue;
-                    }
-                    switch (input) {
-                        case "1":
-                            personalInfo();
-                            break;
-                        case "2":
-                            return;
-                    }
-                }while (!input.equalsIgnoreCase("end"));
-            }
-        };
-    }
-
     @Override
     public void execute() {
         String input;
@@ -337,10 +336,10 @@ public class ManagerMenu extends Menu {
                     creatDiscountCode();
                     break;
                 case "5":
-                    getDiscountCodeMenu().execute();
+                    discountCodeMenu().execute();
                     break;
                 case "6":
-                    getManageRequestMenu().execute();
+                    manageRequestMenu().execute();
                     break;
 //                case "7":
 //                    nextMenu = getManageCategoriesMenu();
