@@ -263,30 +263,28 @@ public class Controller {
         return loggedInAccount;
     }
 
-    public int editField(String field) {
+    public void editField(String field) {
         System.out.println("Enter your new amount for the field you choose");
         Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
         switch (field.toLowerCase()) {
             case "firstname":
                 loggedInAccount.setFirstName(newAmount.group(1));
-                return 1;
+                return;
             case "lastname":
                 loggedInAccount.setLastName(newAmount.group(1));
-                return 1;
+                return;
             case "credit" :
                 loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
-                return 1;
+                return;
             case "phonenumber" :
                 loggedInAccount.setPhoneNumber(newAmount.group(1));
-                return 1;
+                return;
             case "email" :
                 loggedInAccount.setEmail(newAmount.group(1));
-                return 1;
+                return;
             case "password" :
                 loggedInAccount.setPassWord(newAmount.group(1));
-                return 1;
         }
-        return 2;
     }
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {

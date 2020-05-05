@@ -37,19 +37,14 @@ public class ManagerMenu extends Menu {
     private static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
-                Matcher matcher = getField("Enter in this format: edit [field] for back write back", "edit\\s(\\S+)");
+                Matcher matcher = getField("Enter in this format: edit [field] for back write back\n" +
+                        "warning you can't change username!", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
                 if(matcher == null){
                     return;
                 }
-                switch (Controller.getOurController().editField(matcher.group(1))) {
-                    case 1:
-                        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
-                        System.out.println("Changed well");
-                        break;
-                    case 2:
-                        System.out.println("Sth went wrong in changing");
-
-                }
+                Controller.getOurController().editField(matcher.group(1));
+                SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
+                System.out.println("Changed well");
             }
             @Override
             protected void execute() {

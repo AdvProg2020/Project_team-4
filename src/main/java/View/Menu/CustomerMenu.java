@@ -35,16 +35,11 @@ public class CustomerMenu extends Menu {
     private static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
-                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(\\S+)");
-                switch (Controller.getOurController().editField(matcher.group(1))) {
-                    case 1:
-                        //SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString());
-                        System.out.println("Changed well");
-                        break;
-                    case 2:
-                        System.out.println("Sth went wrong in changing");
-
+                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
+                if(matcher == null){
+                    return;
                 }
+                Controller.getOurController().editField(matcher.group(1));
             }
             @Override
             protected void execute() {
