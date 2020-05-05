@@ -26,9 +26,7 @@ public class CodedOff extends SaveAble {
         this.offAmount = offAmount;
         this.percent = percent;
         this.usageTime = usageTime;
-        System.out.println(containingCustomers);
         this.containingCustomers = new ArrayList<>(containingCustomers);
-        System.out.println(this.containingCustomers);
         this.numberOfUsageForEachAccount = new HashMap<Account, Integer>();
         this.discountIsForTheseAccounts = new ArrayList<Account>();
         allOfCodes.add(this);

@@ -187,16 +187,23 @@ public class ManagerMenu extends Menu {
             usageTime = matcher.group(1);
             System.out.println("Enter username of account you want contain off code like \"ali\" or \"end\" to end");
             while(!((input = scanner.nextLine()).equalsIgnoreCase("end"))){
-                Customer customer = (Customer) getAccountWithName(input.trim());
-                System.out.println(customer);
-                if (customer != null) {
-                    containingCustomers.add(customer);
-                    System.out.println(containingCustomers);
-                    System.out.println("ajdnkff");
+                Account account = getAccountWithName(input.trim());
+                if(account == null){
+                    System.out.println("this username doesn't exist!");
+                    continue;
                 }
+                if(!account.getClass().equals(Customer.class)){
+                    System.out.println("please enter customer for using codedoff");
+                    continue;
+                }
+                Customer customer = (Customer) account;
+                if(containingCustomers.contains(account)){
+                    System.out.println("this name was added one time");
+                    continue;
+                }
+                containingCustomers.add(customer);
             }
-            System.out.println(containingCustomers);
-            Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, new ArrayList<Customer>(containingCustomers));
+            Outputs.printCreateCodedOffResult(Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, new ArrayList<Customer>(containingCustomers)));
         }while(true);
     }
 

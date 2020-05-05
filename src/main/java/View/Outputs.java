@@ -96,5 +96,24 @@ public class Outputs {
             System.out.println("no account found with this name");
         }
     }
+
+    public static void printRedingfileresult(String result){
+        System.out.println(result);
+    }
+
+    public static boolean printCreateCodedOffResult(int controllerCreateOffCode) {
+        switch (controllerCreateOffCode){
+            case 1:
+                System.out.println("codedoff create successfully");
+                return true;
+            case 2:
+                System.out.println("expire date should be after start date");
+                return false;
+            case 3:
+                System.out.println("please enter valid date");
+                return false;
+        }
+        return false;
+    }
 }
 

@@ -2,6 +2,7 @@ package Control;
 
 import Model.*;
 import View.Menu.Menu;
+import View.Outputs;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,6 +27,7 @@ public class Controller {
     public static Controller getOurController() {
         return ourController;
     }
+
 
     public int controllerNewAccount(String type, String username, String password) {
         if (Account.getAccountWithName(username) != null) {
@@ -85,11 +87,18 @@ public class Controller {
         return Product.removeProduct(Product.getProductWithName(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
-        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
-        LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
-        System.out.println(containingCustomers);
-        new CodedOff(barcode,start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
+    public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
+        try {
+            LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
+            LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
+            if (start.compareTo(end) < 0) {
+                return 2;
+            }
+            new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
+            return 1;
+        }catch (Exception e){
+            return 3;
+        }
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {
@@ -181,30 +190,29 @@ public class Controller {
         try {
             CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
         } catch (Exception e) {
-            System.out.println("Didn't read the array of all offCodes");
+            Outputs.printRedingfileresult("Didn't read the array of all offCodes");
         }
         //readArrayFromFile(CodedOff.getAllDiscounts(), "offCodes");
     }
 
     public static void readRequestsFromFile() {
-        /////////////felan faghat baraye requestANewSellerAccoun kar mikone
         Type sellerAccountRequestListType = new TypeToken<ArrayList<RequestANewSellerAccount>>(){}.getType();
         try {
             Manager.getRegisterSellerAccountRequests().addAll((Collection<? extends RequestANewSellerAccount>) SaveAndLoad.getSaveAndLoad().readJSONByType("registerSellerAccountRequests", sellerAccountRequestListType));
         } catch (Exception e) {
-            System.out.println("Didn't read the array of all offCodes");
+            Outputs.printRedingfileresult("Didn't read the array of all RequestANewSellerAccount");
         }
         Type offRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
         try {
             Manager.getEditOffRequests().addAll((Collection<? extends RequestOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("editOffRequests", offRequestListType));
         } catch (Exception e) {
-            System.out.println("Didn't read the array of all offCodes");
+            Outputs.printRedingfileresult("Didn't read the array of all RequestOff");
         }
-        Type productRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
+        Type productRequestListType = new TypeToken<ArrayList<RequestProduct>>(){}.getType();
         try {
             Manager.getEditProductsRequests().addAll((Collection<? extends RequestProduct>) SaveAndLoad.getSaveAndLoad().readJSONByType("editProductsRequests", productRequestListType));
         } catch (Exception e) {
-            System.out.println("Didn't read the array of all offCodes");
+            Outputs.printRedingfileresult("Didn't read the array of all RequestProduct");
         }
 
     }
