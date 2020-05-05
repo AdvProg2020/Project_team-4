@@ -40,7 +40,8 @@ public abstract class Menu {
     }
 
     public static Matcher getField(String error, String regex) {
-        String input = "";
+        System.out.println(error);
+        String input;
         while (!isThisRegexMatch(regex, input = scanner.nextLine().trim())){
             if (input.equalsIgnoreCase("back")) {
                 return null;
