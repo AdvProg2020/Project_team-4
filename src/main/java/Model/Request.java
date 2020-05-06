@@ -3,46 +3,29 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Request extends SaveAble {
+public abstract class Request extends SaveAble {
     private RequestType requestType;
-    protected String requestId;
-    Random rand = new Random();
+    //protected String requestId;
+    //Random rand = new Random();
 
-    public Request(String requestType) {
-        if(requestType.equalsIgnoreCase(String.valueOf(RequestType.ACCOUNT))) {
-            this.requestType = RequestType.ACCOUNT;
+    public Request(RequestType requestType) {
+        this.requestType = requestType ;
+        if(requestType == RequestType.ACCOUNT) {
             Manager.setRegisterSellerAccountRequest(this);
-        } else if(requestType.equalsIgnoreCase(String.valueOf(RequestType.OFF))) {
-            this.requestType = RequestType.OFF;
-            Manager.setEditOffRequests(this);
-        } else if(requestType.equalsIgnoreCase(String.valueOf(RequestType.PRODUCT))) {
-            this.requestType = RequestType.PRODUCT;
+        } else if(requestType == RequestType.PRODUCT) {
             Manager.setEditProductsRequest(this);
-        } else {
-            return;
+        } else if(requestType == RequestType.OFF) {
+            Manager.setEditOffRequests(this);
         }
-        this.requestId = rand.nextInt()+"";
+        //this.requestId = rand.nextInt()+"";
     }
 
 
 
-    public String getRequestId() {
-        return requestId;
-    }
+    //public String getRequestId() {
+    //    return requestId;
+    //}
 
-    public static Request getRequestByName(String name) {
-        for (Request request : allRequest) {
-            if (request.getRequestId().equalsIgnoreCase(name)) {
-                return request;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    protected String getName() {
-        return requestId + "";
-    }
 
     public RequestType getRequestType() {
         return requestType;
