@@ -118,12 +118,15 @@ public class Manager extends Account {
     public static boolean acceptRequest(Request request) {
         if (request.getRequestType() == RequestType.ACCOUNT) {
             accountRequestAccept((RequestANewSellerAccount) request);
+            declineRequest(request);
             return true;
         } else if (request.getRequestType() == RequestType.OFF) {
             editOff((RequestOff) request);
+            declineRequest(request);
             return true;
         } else if (request.getRequestType() == RequestType.PRODUCT){
             editProduct((RequestProduct) request);
+            declineRequest(request);
             return true;
         }
         return false;
@@ -140,7 +143,7 @@ public class Manager extends Account {
     }
 
     public static boolean addANewSellerRequest(String userName, String passWord) {
-        registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
+        registerSellerAccountRequests.add(new RequestANewSellerAccount(RequestType.ACCOUNT, userName, passWord));
         SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
         return true;
     }
@@ -176,12 +179,18 @@ public class Manager extends Account {
     public static boolean declineRequest(Request request) {
         if (editOffRequests.contains(request)) {
             editOffRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+
             return true;
         } else if (editProductsRequests.contains(request)) {
             editProductsRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editProductsRequests, ArrayList.class, "editProductsRequests");
+
             return true;
         } else if (registerSellerAccountRequests.contains(request)) {
             registerSellerAccountRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
+
             return true;
         }
         return false;
@@ -201,17 +210,17 @@ public class Manager extends Account {
 
     public static Request getRequestByName(String id) {
         for (Request request : registerSellerAccountRequests) {
-            if (request.getRequestId().equalsIgnoreCase(id)) {
+            if (request.getName().equalsIgnoreCase(id)) {
                 return request;
             }
         }
         for (Request request : editOffRequests) {
-            if (request.getRequestId().equalsIgnoreCase(id)) {
+            if (request.getName().equalsIgnoreCase(id)) {
                 return request;
             }
         }
         for (Request request : editProductsRequests) {
-            if (request.getRequestId().equalsIgnoreCase(id)) {
+            if (request.getName().equalsIgnoreCase(id)) {
                 return request;
             }
         }

@@ -6,7 +6,7 @@ public class RequestANewSellerAccount extends Request {
     private static ArrayList<RequestANewSellerAccount> allRequestANewSellerAccounts = new ArrayList<>();
     private String userName;
     private String passWord;
-    public RequestANewSellerAccount(String requestType, String userName, String passWord) {
+    public RequestANewSellerAccount(RequestType requestType, String userName, String passWord) {
         super(requestType);
         this.userName = userName;
         this.passWord = passWord;
@@ -25,7 +25,11 @@ public class RequestANewSellerAccount extends Request {
         return "RequestANewSellerAccount{" +
                 "userName='" + userName + '\'' +
                 ", passWord='" + passWord + '\'' +
-                ", requestId=" + requestId +
                 '}';
+    }
+
+    @Override
+    protected String getName() {
+        return userName;
     }
 }

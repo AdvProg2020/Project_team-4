@@ -1,11 +1,15 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class RequestProduct extends Request {
     private Product product;
 
-    public RequestProduct(String requestType, Product product) {
+    public RequestProduct(RequestType requestType, Product product) {
         super(requestType);
         this.product = product;
+        Product.getAllProducts().remove(product);
+        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
     }
 
     public Product getProduct() {
@@ -13,6 +17,11 @@ public class RequestProduct extends Request {
     }
 
     public String getProductName() {
+        return product.getName();
+    }
+
+    @Override
+    protected String getName() {
         return product.getName();
     }
 }

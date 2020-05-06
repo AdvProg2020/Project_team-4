@@ -272,6 +272,8 @@ public class ManagerMenu extends Menu {
                             request = Manager.getRequestByName(matcher.group(1));
                             Controller.getOurController().declineRequest(request);
                             break;
+                        case "4":
+                            return;
                     }
                 } while (true);
             }
