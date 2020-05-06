@@ -5,7 +5,7 @@ package Model;
 import java.util.ArrayList;
 
 public class Category extends SaveAble {
-    private static ArrayList<Category> allCategories;
+    private static ArrayList<Category> allCategories = new ArrayList<>();
     private String name;
     private ArrayList<String> tags;
     private ArrayList<Category> subCategories;
@@ -13,6 +13,9 @@ public class Category extends SaveAble {
 
     public Category(String name, ArrayList<String> tags, ArrayList<Product> products, ArrayList<Category> subCategories) {
         this.name = name;
+        if (allCategories.contains(getCategoryByName(name))) {
+            deleteCategoryAndProducts(name);
+        }
         this.tags = tags;
         this.subCategories = subCategories;
         this.products = products;
@@ -20,6 +23,20 @@ public class Category extends SaveAble {
             product.setCategoryTags(tags);
         }
         allCategories.add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
+    }
+
+    public static void deleteCategoryAndProducts(String name) {
+        Category categoryToDelete = getCategoryByName(name);
+        for (Product product: categoryToDelete.products) {
+            if (Product.getAllProducts().contains(product)) {
+                Product.getAllProducts().remove(product);
+            }
+        }
+        if (allCategories.contains(categoryToDelete)) {
+            allCategories.remove(categoryToDelete);
+        }
+        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
         SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
     }
 

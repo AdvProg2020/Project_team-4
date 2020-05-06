@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Manager extends Account {
 
-    private static boolean isFirstManagerCreatedOrNot = true;
+    private static boolean isFirstManagerCreatedOrNot = false;
 
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
@@ -63,7 +63,19 @@ public class Manager extends Account {
     }
 
     public static boolean addANewManager(String userName, String passWord, Boolean isRequestFromManger) {
-        if (isFirstManagerCreatedOrNot || isRequestFromManger){
+        File directory = new File(System.getProperty("user.dir") + "\\" + Manager.class);
+        if (directory.isDirectory()) {
+            String[] files = directory.list();
+            if (files.length > 0) {
+                System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
+                isFirstManagerCreatedOrNot = true;
+            }
+            else {
+                isFirstManagerCreatedOrNot = false;
+            }
+        }
+        if ((!isFirstManagerCreatedOrNot) || isRequestFromManger){
+            //System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
             new Manager(userName, passWord);
             isFirstManagerCreatedOrNot = false;
             return true;

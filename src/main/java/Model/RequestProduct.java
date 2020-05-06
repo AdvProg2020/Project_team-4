@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class RequestProduct extends Request {
     private Product product;
@@ -8,8 +9,9 @@ public class RequestProduct extends Request {
     public RequestProduct(RequestType requestType, Product product) {
         super(requestType);
         this.product = product;
-        Product.getAllProducts().remove(product);
-        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
+        Manager.getEditProductsRequests().add(this);
+        //Product.getAllProducts().remove(product);
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class, "editProductsRequests");
     }
 
     public Product getProduct() {
@@ -23,5 +25,12 @@ public class RequestProduct extends Request {
     @Override
     protected String getName() {
         return product.getName();
+    }
+
+    @Override
+    public String toString() {
+        return "RequestProduct{" +
+                "product=" + product +
+                '}';
     }
 }

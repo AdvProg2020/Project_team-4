@@ -17,36 +17,32 @@ public class Product extends SaveAble {
     }
     private String name;
     private ArrayList<String> categoryTags;
-    private final String company;
-    private final double cost;
-    private final ArrayList<Seller> sellers;
-    private final boolean existsOrNot;
-    private final Category category;
-    private final String description;
-    private final ArrayList<Comment> comments;
-    private final int averageScore;
-    private final int amountOfExist;
-    private final ArrayList<String> tags;
-    private int productId;
+    private String company;
+    private int cost;
+    private ArrayList<Seller> sellers;
+    private boolean existsOrNot;
+    private Category category;
+    private String description;
+    private ArrayList<Comment> comments;
+    private int averageScore;
+    private int amountOfExist;
+    private ArrayList<String> tags;
     private static int giveId;
 
-    public Product(String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
+    public Product(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
-        this.categoryTags = new ArrayList<String>();
+        this.categoryTags = new ArrayList<>();
         this.company = company;
         this.cost = cost;
-        this.sellers = new ArrayList<Seller>();
-        this.existsOrNot = existsOrNot;
+        this.sellers = new ArrayList<>();
         this.category = category;
         this.description = description;
-        this.comments = new ArrayList<Comment>();
-        this.averageScore = averageScore;
+        this.comments = new ArrayList<>();
         this.tags = tags;
+        this.sellers = sellers;
         this.amountOfExist = amountOfExist;
-        this.productId = giveId;
         giveId++;
-        allProducts.add(this);
     }
 
     public Product(Product product) {
@@ -84,7 +80,10 @@ public class Product extends SaveAble {
     }
 
     public boolean isExistsOrNot() {
-        return existsOrNot;
+        if (amountOfExist > 0) {
+            return true;
+        }
+        return false;
     }
 
     public Category getCategory() {
@@ -170,7 +169,7 @@ public class Product extends SaveAble {
         return productBarcode;
     }
 
-    public double getCost() {
+    public int getCost() {
         return cost;
     }
 
@@ -205,6 +204,31 @@ public class Product extends SaveAble {
 
     public void setCategoryTags(ArrayList<String> categoryTags) {
         this.categoryTags.addAll(categoryTags);
+    }
+
+
+    public static void createProduct(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
+        allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
+        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productBarcode='" + productBarcode + '\'' +
+                ", name='" + name + '\'' +
+                ", categoryTags=" + categoryTags +
+                ", company='" + company + '\'' +
+                ", cost=" + cost +
+                ", sellers=" + sellers +
+                ", existsOrNot=" + existsOrNot +
+                ", category=" + category +
+                ", description='" + description + '\'' +
+                ", comments=" + comments +
+                ", averageScore=" + averageScore +
+                ", amountOfExist=" + amountOfExist +
+                ", tags=" + tags +
+                '}';
     }
 
     @Override

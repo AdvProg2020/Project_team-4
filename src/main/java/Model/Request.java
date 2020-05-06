@@ -9,9 +9,8 @@ public abstract class Request extends SaveAble {
     //Random rand = new Random();
 
     public Request(RequestType requestType) {
-        this.requestType = requestType;
+        this.requestType = requestType ;
         if(requestType == RequestType.ACCOUNT) {
-            this.requestType = RequestType.ACCOUNT;
             Manager.setRegisterSellerAccountRequest(this);
         } else if(requestType == RequestType.PRODUCT) {
             Manager.setEditProductsRequest(this);

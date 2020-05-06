@@ -321,11 +321,7 @@ public class Controller {
     }
 
     public void removeCategory(String name) {
-        Category category;
-        if ((category = Category.getCategoryByName(name)) != null) {
-            Category.getAllCategories().remove(Category.getCategoryByName(name));
-            SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class, "allCategories");
-        }
+        Category.deleteCategoryAndProducts(name);
     }
 
     public ArrayList requestCompanyInfo() {
@@ -355,6 +351,17 @@ public class Controller {
     public String[] getusers(Class className) {
         File f = new File(String.valueOf(className));
         return f.list();
+    }
+
+    public static void createProductRequest(String name, String company, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellersNames) {
+        Category category = Category.getCategoryByName(categoryName);
+        ArrayList<Seller> sellers = new ArrayList<>();
+        for (String sellerName: sellersNames) {
+            if (Seller.getAccountWithName(sellerName) != null) {
+                sellers.add((Seller) Seller.getAccountWithName(sellerName));
+            }
+        }
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
     }
 }
 

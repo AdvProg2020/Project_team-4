@@ -23,4 +23,11 @@ public class RequestOff extends Request {
     protected String getName() {
         return off.getName();
     }
+
+    @Override
+    public String toString() {
+        return "RequestOff{" +
+                "off=" + off +
+                '}';
+    }
 }
