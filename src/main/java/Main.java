@@ -31,10 +31,13 @@ public class Main {
         file9.mkdirs();
         File file10 = new File(String.valueOf(ArrayList.class));
         file10.mkdirs();
+        File file11 = new File(String.valueOf(Category.class));
+        file11.mkdirs();
         Controller.readOffCodesFromFile();
         Controller.readRequestsFromFile();
         Controller.readOffsFromFile();
         Controller.readProductsFromFile();
+        Controller.readCategoriesFromFile();
         MainMenu mainMenu = new MainMenu();
         mainMenu.execute();
     }

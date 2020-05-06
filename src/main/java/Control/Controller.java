@@ -169,8 +169,20 @@ public class Controller {
         return 1;
     }
 
-    public void createCategory(String name, String subCategories, String tags, String productsList) {
-
+    public void createCategory(String name, ArrayList<String> subCategories, ArrayList<String> tags, ArrayList<String> productsList) {
+        ArrayList<Product> products = new ArrayList<>();
+        for (String product: productsList) {
+            if (Product.getProductWithName(product) != null) {
+                products.add(Product.getProductWithName(product));
+            }
+        }
+        ArrayList<Category> subCategory = new ArrayList<>();
+        for (String category: subCategories) {
+            if (Category.getCategoryByName(category) != null) {
+                subCategory.add(Category.getCategoryByName(category));
+            }
+        }
+        new Category(name, tags, products, subCategory);
     }
 
     public ArrayList<SaveAble> showAllRequests() {
@@ -222,7 +234,7 @@ public class Controller {
         try {
             Off.getAllOffs().addAll((Collection<? extends Off>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffs", offListType));
         } catch (Exception e) {
-            System.out.println("Didn't read the array of all offCodes");
+            System.out.println("Didn't read the array of all offs");
         }
     }
 
@@ -231,7 +243,16 @@ public class Controller {
         try {
             Product.getAllProducts().addAll((Collection<? extends Product>) SaveAndLoad.getSaveAndLoad().readJSONByType("allProducts", productListType));
         } catch (Exception e) {
-            System.out.println("Didn't read the array of all offCodes");
+            System.out.println("Didn't read the array of all products");
+        }
+    }
+
+    public static void readCategoriesFromFile() {
+        Type categoryListType = new TypeToken<ArrayList<Category>>(){}.getType();
+        try {
+            Category.getAllCategories().addAll((Collection<? extends Category>) SaveAndLoad.getSaveAndLoad().readJSONByType("allCategories", categoryListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all categories");
         }
     }
 
@@ -297,6 +318,14 @@ public class Controller {
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
         return 0;
+    }
+
+    public void removeCategory(String name) {
+        Category category;
+        if ((category = Category.getCategoryByName(name)) != null) {
+            Category.getAllCategories().remove(Category.getCategoryByName(name));
+            SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class, "allCategories");
+        }
     }
 
     public ArrayList requestCompanyInfo() {

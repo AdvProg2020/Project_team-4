@@ -11,12 +11,13 @@ public class Category extends SaveAble {
     private ArrayList<Category> subCategories;
     private ArrayList<Product> products;
 
-    public Category(String name) {
+    public Category(String name, ArrayList<String> tags, ArrayList<Product> products, ArrayList<Category> subCategories) {
         this.name = name;
-        this.tags = new ArrayList<String>();
-        this.subCategories = new ArrayList<Category>();
-        this.products = new ArrayList<Product>();
+        this.tags = tags;
+        this.subCategories = subCategories;
+        this.products = products;
         allCategories.add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
     }
 
     public static ArrayList<Product> searchInCategories() {

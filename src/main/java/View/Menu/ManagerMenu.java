@@ -280,45 +280,71 @@ public class ManagerMenu extends Menu {
         };
     }
 //
-//    private static Menu getManageCategoriesMenu() {
-//        return new Menu() {
-//            @Override
-//            protected void showCommands() {
-//
-//            }
-//
-//            @Override
-//            public void execute() {
-//                String input = "";
-//                System.out.println(Category.getAllCategories());
-//                Request request = null;
-//                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-//                    String[] splitInput = input.split("\\s");
-//                    switch (findEnum(commands.getAllRegex(), input)) {
-//                        case "EDIT_CATEGORY" :
-//                            request = Request.getRequestByName(splitInput[1]);
-//                            System.out.println(request);
-//                            break;
-//                        case "ADD_CATEGORY" :
-//                        case "REMOVE_CATEGORY" :
-//                            addCategory();
-//                            break;
-//                    }
-//                }
-//            }
-//        };
-//    }
-//
-//    private static void addCategory() {
-//        String input = "";
-//        ArrayList<Customer> usersToContain = new ArrayList<>();
-//        System.out.println("Enter name:\nsubCategorie:\ntags:\nproductsList:");
-//        String name = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");;
-//        String subCategories = scanner.nextLine().trim();
-//        String tags = scanner.nextLine().trim();
-//        String productsList = scanner.nextLine().trim();
-//        Controller.getOurController().createCategory(name, subCategories, tags, productsList);
-//    }
+    private static Menu getManageCategoriesMenu() {
+        return new Menu() {
+            @Override
+            public void execute() {
+                options.add("EDIT_CATEGORY");
+                options.add("ADD_CATEGORY");
+                options.add("REMOVE_CATEGORY");
+                options.add("back");
+                String input = "";
+                System.out.println(Category.getAllCategories());
+                Request request = null;
+                do {
+                    show();
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            addCategory();
+                            break;
+                        case "2":
+                            addCategory();
+                            break;
+                        case "3":
+                            String name = getField("Please enter a valid name: [name]", "(\\S+)").group(1);
+                            Controller.getOurController().removeCategory(name);
+                            break;
+                        case "4":
+                    }
+                }while (true);
+            }
+        };
+    }
+
+    private static void addCategory() {
+        String input = "";
+        ArrayList<String> subCategories = new ArrayList<>();
+        ArrayList<String> tags = new ArrayList<>();
+        ArrayList<String> productsList = new ArrayList<>();
+        System.out.println("Enter subCategorie:\ntags:\nproductsList:");
+        String nameToAdd;
+        String name = getField("Please enter a valid name", "(\\S+)").group(1);
+        while (true) {
+            nameToAdd = getField("enter subCategories like this: categoryNo1 and end to end", "(\\S+)").group(1);
+            if (nameToAdd.equalsIgnoreCase("end")) {
+                break;
+            }
+            subCategories.add(nameToAdd);
+        }
+        while (true) {
+            nameToAdd = getField("enter tag like this: tag and end to end", "(\\S+)").group(1);
+            if (nameToAdd.equalsIgnoreCase("end")) {
+                break;
+            }
+            tags.add(nameToAdd);
+        }
+        while (true) {
+            nameToAdd = getField("enter product like this: product and end to end", "(\\S+)").group(1);
+            if (nameToAdd.equalsIgnoreCase("end")) {
+                break;
+            }
+            productsList.add(nameToAdd);
+        }
+        Controller.getOurController().createCategory(name, subCategories, tags, productsList);
+    }
 
 
     @Override
@@ -349,10 +375,8 @@ public class ManagerMenu extends Menu {
                 case "6":
                     manageRequestMenu().execute();
                     break;
-//                case "7":
-//                    nextMenu = getManageCategoriesMenu();
-//                    nextMenu.showCommands();
-//                    nextMenu.execute();
+                case "7":
+                    getManageCategoriesMenu().execute();
                 case "8":
                     show();
                     break;

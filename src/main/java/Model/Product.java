@@ -3,6 +3,7 @@ package Model;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -184,4 +185,16 @@ public class Product extends SaveAble {
         return allProducts;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return productBarcode.equalsIgnoreCase(product.productBarcode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productBarcode)+8;
+    }
 }
