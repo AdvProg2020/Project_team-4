@@ -2,8 +2,10 @@ package Model;
 
 
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -14,7 +16,7 @@ public class Product extends SaveAble {
         MAKING, EDITING, APPROVED
     }
     private String name;
-    private final ArrayList<String> categoryTags;
+    private ArrayList<String> categoryTags;
     private final String company;
     private final double cost;
     private final ArrayList<Seller> sellers;
@@ -28,8 +30,8 @@ public class Product extends SaveAble {
     private int productId;
     private static int giveId;
 
-    public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
-        this.productBarcode = productBarcode;
+    public Product(String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
+        this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
         this.categoryTags = new ArrayList<String>();
         this.company = company;
@@ -183,6 +185,26 @@ public class Product extends SaveAble {
 
     public static ArrayList<Product> showAllProducts() {
         return allProducts;
+    }
+
+    public String givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect() {
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+
+        return generatedString;
+    }
+
+    public void setCategoryTags(ArrayList<String> categoryTags) {
+        this.categoryTags.addAll(categoryTags);
     }
 
     @Override

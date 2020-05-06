@@ -19,6 +19,12 @@ public class SellerMenu extends Menu {
         options.add("logout #");
     }
 
+    private static void addProduct() {
+        String name = getField("Enter a valid name", "(\\S+)").group(1);
+        String companyName = getField("enter companyname: ", "(\\S+)").group(1);
+        int cost = Integer.parseInt(getField("Enter cost: ", "(\\d+)").group(1));
+    }
+
     public static Menu getSellerMenu() {
         return sellerMenu;
     }

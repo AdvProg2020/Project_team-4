@@ -16,6 +16,9 @@ public class Category extends SaveAble {
         this.tags = tags;
         this.subCategories = subCategories;
         this.products = products;
+        for (Product product: products) {
+            product.setCategoryTags(tags);
+        }
         allCategories.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
     }
