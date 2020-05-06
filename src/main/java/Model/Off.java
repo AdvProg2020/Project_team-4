@@ -25,6 +25,7 @@ public class Off extends SaveAble {
         this.endDate = endDate;
         this.offAmount = offAmount;
         allOffs.add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(allOffs, ArrayList.class, "allOffs");
     }
 
     public String getOffBarcode() {

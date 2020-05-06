@@ -82,13 +82,13 @@ public class ManagerMenu extends Menu {
                         continue;
                     }
                     switch(input.trim()){
-                        case "remove a product":
-                            matcher = getField("please write in this format: remove [product name]", "view\\s(\\S+)");
+                        case "1":
+                            matcher = getField("please write in this format: remove [product name]", "remove\\s(\\S+)");
                             //in this may a product has two section name
                             //should edit regex
                             printRemoveProductResult(Controller.getOurController().controllerRemoveProduct(matcher.group(1)));
                             break;
-                        case "back":
+                        case "2":
                             return;
                     }
                 } while(true);
@@ -247,8 +247,12 @@ public class ManagerMenu extends Menu {
                 Matcher matcher;
                 System.out.println(Controller.getOurController().showAllRequests());
                 Request request = null;
+                options.add("DETAILS_REQUEST");
+                options.add("ACCEPT_REQUEST");
+                options.add("DECLINE_REQUEST");
+                options.add("end");
                 do {
-                    System.out.println("Enter Number 1 for DETAILS_REQUEST 2 for ACCEPT_REQUEST 3 for DECLINE_REQUEST and end to go back:");
+                    show();
                     if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
                         continue;
                     }

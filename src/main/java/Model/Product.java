@@ -61,6 +61,7 @@ public class Product extends SaveAble {
         this.tags = product.getTags();
         this.amountOfExist = product.getAmountOfExist();
         allProducts.add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
     }
 
     public String getProductBarcode() {
