@@ -121,8 +121,18 @@ public class Controller {
     }
 
 
-    public ArrayList<Product> showCart() {
-        return (((Customer)loggedInAccount).getCart());
+    public String showCart() {
+        return (((Customer)loggedInAccount).getCart()).toString();
+    }
+
+    public void increaseOrDecreaseProductNo(String productId, int n) {
+        if (Product.getProductWithName(productId).isExistsOrNot()) {
+            Product.getProductWithName(productId).setAmountOfExist(-n);
+        } else {
+            System.out.println("this product in not availAble any more");
+            return;
+        }
+        ((Customer)loggedInAccount).setNumberOfProductInCart(Product.getProductWithName(productId), n);
     }
 
     public ArrayList<Product> showProducts() {
@@ -282,6 +292,10 @@ public class Controller {
     public int requestAddProductToCart(String productId) {
         ((Customer)loggedInAccount).addProductToCart(Product.getProductWithName(productId));
         return 1;
+    }
+
+    public int calculateCartCost() {
+        return ((Customer)loggedInAccount).getCartMoney();
     }
 
     public Collection<? extends Seller> requestProductSeller(String productId) {

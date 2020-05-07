@@ -32,14 +32,46 @@ public class CustomerMenu extends Menu {
         return customerMenu;
     }
 
+//    private static Menu viewAndEditPersonalInfo() {
+//        return new Menu() {
+//            private void personalInfo() {
+//                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
+//                if(matcher == null){
+//                    return;
+//                }
+//                Controller.getOurController().editField(matcher.group(1));
+//            }
+//            @Override
+//            protected void execute() {
+//                System.out.println(Controller.getOurController().getLoggedInAccount());
+//                String input;
+//                do {
+//                    System.out.println("Enter 1 for edit a field and 2 for back:");
+//                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+//                        continue;
+//                    }
+//                    switch (input) {
+//                        case "1":
+//                            personalInfo();
+//                            break;
+//                        case "2":
+//                            return;
+//                    }
+//                }while (!input.equalsIgnoreCase("end"));
+//            }
+//        };
+//    }
     private static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
-                Matcher matcher = getField("Enter in this format: edit [field]", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
+                Matcher matcher = getField("Enter in this format: edit [field] for back write back\n" +
+                        "warning you can't change username!", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
                 if(matcher == null){
                     return;
                 }
                 Controller.getOurController().editField(matcher.group(1));
+                SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
+                System.out.println("Changed well");
             }
             @Override
             protected void execute() {
@@ -62,6 +94,54 @@ public class CustomerMenu extends Menu {
         };
     }
 
+    private static Menu getCartMenu() {
+        return new Menu() {
+            @Override
+            protected void execute() {
+                options.add("show products");
+                options.add("view [productId]");
+                options.add("increase [productId]");
+                options.add("decrease [productId]");
+                options.add(" show total price");
+                options.add(" purchase");
+                options.add("end");
+                String input = "";
+                do {
+                    show();
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            System.out.println(Controller.getOurController().showCart());
+                            break;
+                        case "2":
+                            //TODO : voorood be safe mahsool
+                            break;
+                        case "3":
+                            String productIdToIncrease = getField("Enter productId to increase: ", "(\\S+)").group(1);
+                            Controller.getOurController().increaseOrDecreaseProductNo(productIdToIncrease, +1);
+                            break;
+                        case "4":
+                            String productIdToDecrease = getField("Enter productId to decrease: ", "(\\S+)").group(1);
+                            Controller.getOurController().increaseOrDecreaseProductNo(productIdToDecrease, -1);
+                            break;
+                        case "5":
+                            System.out.println(Controller.getOurController().calculateCartCost());
+                            break;
+                        case "6":
+                            //TODO: purchase
+                            break;
+                        case "7":
+                            return;
+                    }
+                }while (true);
+            }
+        };
+    }
+
+    
+
     @Override
     public void execute() {
         String input;
@@ -76,6 +156,7 @@ public class CustomerMenu extends Menu {
                     viewAndEditPersonalInfo().execute();
                     break;
                 case "2":
+                    getCartMenu().execute();
                     break;
                 case "3":
                     break;

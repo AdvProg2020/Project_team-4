@@ -212,6 +212,10 @@ public class Product extends SaveAble {
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
     }
 
+    public void setAmountOfExist(int amountOfExist) {
+        this.amountOfExist += amountOfExist;
+    }
+
     @Override
     public String toString() {
         return "Product{" +

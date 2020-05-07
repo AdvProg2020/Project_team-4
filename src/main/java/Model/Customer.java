@@ -1,10 +1,11 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Customer extends Account {
     private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
-    private ArrayList<Product> cart;
+    private HashMap<Product, Integer> cart;
     //private ArrayList<BuyLog> buyingHistory;
     //private ArrayList<CodedOff> offCodes;
     protected ArrayList<History> history;
@@ -17,6 +18,7 @@ public class Customer extends Account {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
         this.history = new ArrayList<>();
+        this.cart = new HashMap<>();
         allCustomers.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(this, Customer.class, userName);
     }
@@ -25,7 +27,7 @@ public class Customer extends Account {
         new Customer(username, password);
     }
 
-    public ArrayList<Product> getCart() {
+    public HashMap<Product, Integer> getCart() {
         return cart;
     }
 
@@ -71,8 +73,8 @@ public class Customer extends Account {
     public int getCartMoney() {
         int cartCost = 0;
         if (this.cart.size() != 0) {
-            for (Product product : cart) {
-                cartCost += product.getCost();
+            for (Product product : cart.keySet()) {
+                cartCost += product.getCost() * cart.get(product);
             }
         }
         return cartCost;
@@ -100,6 +102,18 @@ public class Customer extends Account {
             }
         }
         return null;
+    }
+
+    public void setNumberOfProductInCart(Product productInCart, int n) {
+        if (cart.keySet().contains(productInCart)) {
+            cart.replace(productInCart, cart.get(productInCart) +n);
+            if (cart.get(productInCart) == 0) {
+                cart.remove(productInCart);
+            }
+        } else {
+            System.out.println("This barcode is none of your selected products in cart");
+        }
+
     }
 
 }
