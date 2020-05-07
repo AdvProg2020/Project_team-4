@@ -3,6 +3,7 @@ package View.Menu;
 import Control.Controller;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class SellerMenu extends Menu {
 
@@ -53,6 +54,66 @@ public class SellerMenu extends Menu {
         return sellerMenu;
     }
 
+    public static Menu getViewOffsMenu () {
+        return new Menu() {
+            @Override
+            protected void execute() {
+                options.add("view [offId]");
+                options.add("edit [offId]");
+                options.add("add off");
+                options.add("end");
+                System.out.println(Controller.getOurController().getAllOffsOfSeller());
+                String input = "";
+                do {
+                    show();
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            String nameOfOff = getField("Enter an off your offs barcode: ", "(\\S+)").group(1);
+                            viewOff(nameOfOff);
+                            break;
+                        case "2":
+                            String nameOfOffToEdit = getField("Enter on off your offs barcode: ", "(\\S+)").group(1);
+                            editOff(nameOfOffToEdit);
+                            break;
+                        case "3":
+                            createOff();
+                            break;
+                        case "4":
+                            return;
+
+                    }
+                }while (true);
+            }
+
+            private void viewOff(String name) {
+                Controller.getOurController().getOffByName(name);
+            }
+
+            private void createOff() {
+                ArrayList<String> productsToDeleteOrAdd = new ArrayList<>();
+                String nameToAdd = "";
+                while (true) {
+                    nameToAdd = getField("enter productBarcode like this to add if not exists and remove if does: productBarcode1 and end to end", "(\\S+)").group(1);
+                    if (nameToAdd.equalsIgnoreCase("end")) {
+                        break;
+                    }
+                    productsToDeleteOrAdd.add(nameToAdd);
+                }
+                Matcher startDate = getField("Enter start to change", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
+                Matcher endDate = getField("Enter endDate to change", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
+                int offAmount = Integer.parseInt(getField("Enter max Of offAmount", "(\\S+)").group(1));
+                Controller.getOurController().createOrEditOffRequest(productsToDeleteOrAdd, startDate, endDate, offAmount);
+            }
+            private void editOff(String name) {
+                createOff();
+                Controller.getOurController().removeOff(name);
+            }
+        };
+    }
+
     public void execute() {
         String input;
         System.out.println("Enter your command :");
@@ -77,6 +138,7 @@ public class SellerMenu extends Menu {
                 case "6":
                     break;
                 case "7":
+                    getViewOffsMenu().execute();
                     break;
                 case "8":
                     break;

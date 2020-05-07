@@ -363,5 +363,48 @@ public class Controller {
         }
         Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
     }
+
+
+
+    public ArrayList<Off> getAllOffsOfSeller() {
+        ArrayList<Off> sellersOff = new ArrayList<>();
+        for (Off off: Off.getAllOffs()) {
+            if (((Seller)loggedInAccount).getOffs().contains(off)) {
+                sellersOff.add(off);
+            }
+        }
+        return sellersOff;
+    }
+
+    public Off getOffByName(String name) {
+        ArrayList<Off> sellersOff = getAllOffsOfSeller();
+        for (Off off: sellersOff) {
+            if (off.getOffBarcode().equalsIgnoreCase(name)) {
+                return off;
+            }
+        }
+        return null;
+    }
+
+    public void createOrEditOffRequest(ArrayList<String> products, Matcher startDate, Matcher endDate, int offAmount) {
+        ArrayList<Product> productsToAddTO = new ArrayList<>();
+        for (String productBarcode: products) {
+            if (Product.getAllProducts().contains(Product.getProductWithName(productBarcode))) {
+                productsToAddTO.add(Product.getProductWithName(productBarcode));
+            }
+        }
+        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
+        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
+        Off off = new Off(start, productsToAddTO, end, offAmount);
+        Off.getAllOffs().remove(off);
+        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
+        new RequestOff(RequestType.OFF, off);
+    }
+
+    public void removeOff(String name) {
+        if (Off.getAllOffs().contains(Off.getOffByBarcode(name))) {
+            Off.getAllOffs().remove(Off.getOffByBarcode(name));
+        }
+    }
 }
 

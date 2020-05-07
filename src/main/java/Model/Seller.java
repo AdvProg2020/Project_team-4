@@ -56,6 +56,10 @@ public class Seller extends Account {
         //Manager.receiveEditOffRequest();
     }
 
+    public ArrayList<Off> getOffs() {
+        return offs;
+    }
+
     @Override
     public String toString() {
         return "Seller{" +

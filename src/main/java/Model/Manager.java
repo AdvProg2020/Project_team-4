@@ -176,11 +176,11 @@ public class Manager extends Account {
 
     private static boolean editOff(RequestOff request) {
         if (editOffRequests.contains(request)) {
-            Off off = Off.getOffByName(request.getOffName());
+            Off off = Off.getOffByBarcode(request.getOffName());
             if (Off.getAllOffs().contains(off)) {
                 Off.getAllOffs().remove(off);
             }
-            new Off(request.getOff().getOffBarcode(), request.getOff().getStartDate(), request.getOff().getEndDate(), request.getOff().getOffAmount());
+            new Off(request.getOff().getStartDate(), request.getOff().getProducts(), request.getOff().getEndDate(), request.getOff().getOffAmount());
             editOffRequests.remove(request);
             SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
             return true;

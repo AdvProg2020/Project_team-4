@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class RequestOff extends Request {
@@ -7,8 +8,21 @@ public class RequestOff extends Request {
     public RequestOff(RequestType requestType, Off off) {
         super(requestType);
         this.off = off;
-        Off.getAllOffs().remove(off);
-        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
+        //Off.getAllOffs().remove(off);
+        Manager.getEditOffRequests().add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class, "editOffRequests");
+    }
+    public LocalDateTime getStartDate() {
+        return off.getStartDate();
+    }
+    public LocalDateTime getEndDate() {
+        return off.getEndDate();
+    }
+    public ArrayList<Product> getProducts() {
+        return off.getProducts();
+    }
+    public int getOffAmount() {
+        return off.getOffAmount();
     }
 
     public String getOffName() {
