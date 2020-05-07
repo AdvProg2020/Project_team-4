@@ -26,6 +26,7 @@ public class Product extends SaveAble {
     private ArrayList<Comment> comments;
     private int averageScore;
     private int amountOfExist;
+    private boolean isInOffOrNot;
     private ArrayList<String> tags;
     private static int giveId;
 
@@ -214,6 +215,18 @@ public class Product extends SaveAble {
 
     public void setAmountOfExist(int amountOfExist) {
         this.amountOfExist += amountOfExist;
+    }
+
+    public void offTheCost(int off) {
+        this.cost -= off;
+    }
+
+    public boolean isInOffOrNot() {
+        return isInOffOrNot;
+    }
+
+    public void setInOffOrNot(boolean inOffOrNot) {
+        isInOffOrNot = inOffOrNot;
     }
 
     @Override

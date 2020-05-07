@@ -406,8 +406,9 @@ public class Controller {
     public void createOrEditOffRequest(ArrayList<String> products, Matcher startDate, Matcher endDate, int offAmount) {
         ArrayList<Product> productsToAddTO = new ArrayList<>();
         for (String productBarcode: products) {
-            if (Product.getAllProducts().contains(Product.getProductWithName(productBarcode))) {
+            if (Product.getAllProducts().contains(Product.getProductWithName(productBarcode)) && !Product.getProductWithName(productBarcode).isInOffOrNot()) {
                 productsToAddTO.add(Product.getProductWithName(productBarcode));
+                Product.getProductWithName(productBarcode).setInOffOrNot(true);
             }
         }
         LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
@@ -421,6 +422,10 @@ public class Controller {
     public void removeOff(String name) {
         if (Off.getAllOffs().contains(Off.getOffByBarcode(name))) {
             Off.getAllOffs().remove(Off.getOffByBarcode(name));
+            for (Product product: Off.getOffByBarcode(name).getProducts()) {
+                product.setInOffOrNot(false);
+                product.offTheCost((-product.getCost() * 100 /(100 - Off.getOffByBarcode(name).getOffAmount())) * Off.getOffByBarcode(name).getOffAmount());
+            }
         }
     }
 
