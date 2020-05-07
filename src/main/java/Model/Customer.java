@@ -6,10 +6,12 @@ import java.util.HashMap;
 public class Customer extends Account {
     private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private HashMap<Product, Integer> cart;
+    private ArrayList<Seller> sellersOfProductsOfTheCart;
     //private ArrayList<BuyLog> buyingHistory;
     //private ArrayList<CodedOff> offCodes;
     protected ArrayList<History> history;
     protected ArrayList<CodedOff> offCodes;
+    private String address = "";
 
     public Customer() {
     }
@@ -19,12 +21,17 @@ public class Customer extends Account {
         this.offCodes = new ArrayList<>();
         this.history = new ArrayList<>();
         this.cart = new HashMap<>();
+        this.sellersOfProductsOfTheCart = new ArrayList<>();
         allCustomers.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(this, Customer.class, userName);
     }
 
     public static void newCustomer(String username, String password) {
         new Customer(username, password);
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public HashMap<Product, Integer> getCart() {
@@ -60,12 +67,27 @@ public class Customer extends Account {
         //check if exiits or not and kam kon azash
     }
 
-    public boolean pay() {
-        //check if money is enough
-        if (this.getCredit() < getCartMoney()) {
+    public boolean pay(String offCode) {
+        //age chizi be Off ezafe shod bayad costesh hamoon ja kam beshe haaaaaa in ja off mohasebe nemishe va faghat codedOff ha tasir daran
+        //too saef mahsool bayad darj beshe ke kodoom seller dare ino mofrooshe va too customer ye arrayList hast ke be tartbie product haye hashMap product haye cart seller haye har product rpo ham zakhire mikone
+        int finalCost = getCartMoney();
+        if (CodedOff.getOffCodeWithName(offCode) != null) {
+            if ((getCartMoney() * CodedOff.getOffCodeWithName(offCode).getPercent() / 100) > CodedOff.getOffCodeWithName(offCode).getOffAmount()) {
+                finalCost -= CodedOff.getOffCodeWithName(offCode).getOffAmount();
+            } else {
+                finalCost -= (getCartMoney() * CodedOff.getOffCodeWithName(offCode).getPercent() / 100);
+            }
+        }
+        if (this.getCredit() < finalCost) {
             return false;
         } else {
-            this.credit -= getCartMoney();
+            this.credit -= finalCost;
+            ArrayList<Product> products = (ArrayList<Product>) cart.keySet();
+            int i = 0;
+            for (Seller seller: sellersOfProductsOfTheCart) {
+                seller.setCredit(products.get(i).getCost() * cart.get(products.get(i)));
+                i++;
+            }
             return true;
         }
     }

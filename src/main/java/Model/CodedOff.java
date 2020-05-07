@@ -73,6 +73,13 @@ public class CodedOff extends SaveAble {
         return offBarcode;
     }
 
+    public int getPercent() {
+        return percent;
+    }
+
+    public double getOffAmount() {
+        return offAmount;
+    }
 
     public static ArrayList<CodedOff> getAllDiscounts() {
         return allOfCodes;

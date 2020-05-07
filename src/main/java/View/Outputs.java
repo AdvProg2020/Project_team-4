@@ -115,5 +115,13 @@ public class Outputs {
         }
         return false;
     }
+
+    public static void printPayResult(boolean payedOrNot){
+        if (payedOrNot) {
+            System.out.println("Payed successfully");
+        } else {
+            System.out.println("sth went wrong in paying.");
+        }
+    }
 }
 

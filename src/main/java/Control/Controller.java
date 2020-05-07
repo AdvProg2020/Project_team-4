@@ -159,8 +159,11 @@ public class Controller {
 
     }
 
-    public void pay() {
-        ((Customer)loggedInAccount).pay();
+    public boolean pay(String offCode) {
+        if (((Customer)loggedInAccount).pay(offCode)) {
+            return true;
+        }
+        return false;
     }
 
     public void showCustomerBalance() {
@@ -419,6 +422,18 @@ public class Controller {
         if (Off.getAllOffs().contains(Off.getOffByBarcode(name))) {
             Off.getAllOffs().remove(Off.getOffByBarcode(name));
         }
+    }
+
+    public void setCustomersField(String firstName, String lastName, String phoneNumber, String email) {
+        Customer loggedInCustomer = (Customer) loggedInAccount;
+        loggedInCustomer.setFirstName(firstName);
+        loggedInCustomer.setLastName(lastName);
+        loggedInCustomer.setPhoneNumber(phoneNumber);
+        loggedInCustomer.setEmail(email);
+    }
+
+    public void setCustomerAddress(String address) {
+        ((Customer) loggedInAccount).setAddress(address);
     }
 }
 

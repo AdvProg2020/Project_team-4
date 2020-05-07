@@ -2,6 +2,7 @@ package View.Menu;
 
 import Control.Controller;
 import Model.SaveAndLoad;
+import View.Outputs;
 
 import java.util.regex.Matcher;
 
@@ -130,7 +131,7 @@ public class CustomerMenu extends Menu {
                             System.out.println(Controller.getOurController().calculateCartCost());
                             break;
                         case "6":
-                            //TODO: purchase
+                            purchase();
                             break;
                         case "7":
                             return;
@@ -140,7 +141,14 @@ public class CustomerMenu extends Menu {
         };
     }
 
-    
+    private static void purchase() {
+        Matcher info = getField("Enter info like this: firstName, lastName, phoneNumber, email", "(\\S+),\\s(\\S+),\\s(\\S+),\\s(\\S+)");
+        Controller.getOurController().setCustomersField(info.group(1), info.group(2), info.group(3), info.group(4));
+        String address = getField("Enter your address for deliver the products: ()", "(.+)").group(1);
+        Controller.getOurController().setCustomerAddress(address);
+        String offCode = getField("If you have offCode type it here:", "(\\S+)").group(1);
+        Outputs.printPayResult(Controller.getOurController().pay(offCode));
+    }
 
     @Override
     public void execute() {
