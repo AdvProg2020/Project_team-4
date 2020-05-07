@@ -1,6 +1,5 @@
 package View.Menu;
 
-
 import Control.Controller;
 
 import java.util.ArrayList;
@@ -90,7 +89,7 @@ public class SellerMenu extends Menu {
                     LoginMenu.logout();
                     break;
             }
-        }while(!input.equalsIgnoreCase("end"));
+        } while (!input.equalsIgnoreCase("end"));
     }
 
 }

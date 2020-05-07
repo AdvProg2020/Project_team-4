@@ -346,7 +346,6 @@ public class ManagerMenu extends Menu {
         Controller.getOurController().createCategory(name, subCategories, tags, productsList);
     }
 
-
     @Override
     public void execute() {
         String input;
