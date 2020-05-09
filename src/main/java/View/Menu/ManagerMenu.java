@@ -75,6 +75,7 @@ public class ManagerMenu extends Menu {
             protected void execute() {
                 String input;
                 Matcher matcher;
+                System.out.println("here");
                 do {
                     show();
                     System.out.println("Enter number:");
@@ -222,14 +223,23 @@ public class ManagerMenu extends Menu {
                     switch (input.trim()) {
                         case "1":
                             matcher = Menu.getField("please enter in this format: view [code]", "view\\s(\\S+)");
+                            if(matcher == null){
+                                return;
+                            }
                             System.out.println(Controller.getOurController().getDiscount(matcher.group(1)));
                             break;
                         case "2" :
                             matcher = Menu.getField("please enter in this format: edit [code]", "edit\\s(\\S+)");
+                            if(matcher == null){
+                                return;
+                            }
                             Controller.getOurController().removeDiscount(matcher.group(1));
                             creatDiscountCode();
                         case "3" :
                             matcher = Menu.getField("please enter in this format: delete [code]", "delete\\s(\\S+)");
+                            if(matcher == null) {
+                                return;
+                            }
                             Controller.getOurController().removeDiscount(matcher.group(1));
                             break;
 
