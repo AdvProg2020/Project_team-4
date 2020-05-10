@@ -2,6 +2,7 @@ package View;
 
 import Model.Customer;
 
+import java.rmi.ServerError;
 import java.util.ArrayList;
 
 public class Outputs {
@@ -79,7 +80,7 @@ public class Outputs {
         if(result == 1)
             System.out.println("Succesfully added.");
         else
-            System.err.println("Something went wrong!")
+            System.err.println("Something went wrong!");
     }
 
     public static void printRemoveProductResult(boolean result){
@@ -97,7 +98,7 @@ public class Outputs {
         }
     }
 
-    public static void printRedingfileresult(String result){
+    public static void printReadFileResult(String result){
         System.out.println(result);
     }
 
@@ -122,6 +123,13 @@ public class Outputs {
         } else {
             System.out.println("sth went wrong in paying.");
         }
+    }
+
+    public static void printNewCommentResult(int result){
+        if(result == 1)
+            System.out.println("Successfully registered.");
+        else
+            System.err.println("Something went wrong!");
     }
 }
 

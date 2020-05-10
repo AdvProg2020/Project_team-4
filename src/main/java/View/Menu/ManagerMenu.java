@@ -17,7 +17,6 @@ public class ManagerMenu extends Menu {
 
     private static final Menu managerMenu = new ManagerMenu();
 
-
     private ManagerMenu() {
         options.add("view personal info ");
         options.add("manage users #");

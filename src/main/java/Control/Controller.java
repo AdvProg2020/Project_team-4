@@ -3,7 +3,6 @@ package Control;
 import Model.*;
 import View.Menu.Menu;
 import View.Outputs;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
@@ -14,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 
+import static Model.Product.getProductWithName;
 import static View.Menu.Menu.getField;
 
 public class Controller {
@@ -84,7 +84,7 @@ public class Controller {
     }
 
     public boolean controllerRemoveProduct(String productName) {
-        return Product.removeProduct(Product.getProductWithName(productName));
+        return Product.removeProduct(getProductWithName(productName));
     }
 
     public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
@@ -120,19 +120,22 @@ public class Controller {
         return CodedOff.getAllDiscounts();
     }
 
+    public int newComment(String comment){
+        return 0;
+    }
 
     public String showCart() {
         return (((Customer)loggedInAccount).getCart()).toString();
     }
 
     public void increaseOrDecreaseProductNo(String productId, int n) {
-        if (Product.getProductWithName(productId).isExistsOrNot()) {
-            Product.getProductWithName(productId).setAmountOfExist(-n);
+        if (getProductWithName(productId).isExistsOrNot()) {
+            getProductWithName(productId).setAmountOfExist(-n);
         } else {
             System.out.println("this product in not availAble any more");
             return;
         }
-        ((Customer)loggedInAccount).setNumberOfProductInCart(Product.getProductWithName(productId), n);
+        ((Customer)loggedInAccount).setNumberOfProductInCart(getProductWithName(productId), n);
     }
 
     public ArrayList<Product> showProducts() {
@@ -140,7 +143,7 @@ public class Controller {
     }
 
     public Product showProduct(String productName) {
-        return Product.getProductWithName(productName);
+        return getProductWithName(productName);
     }
 
     public void showOrder(String s) {
@@ -185,8 +188,8 @@ public class Controller {
     public void createCategory(String name, ArrayList<String> subCategories, ArrayList<String> tags, ArrayList<String> productsList) {
         ArrayList<Product> products = new ArrayList<>();
         for (String product: productsList) {
-            if (Product.getProductWithName(product) != null) {
-                products.add(Product.getProductWithName(product));
+            if (getProductWithName(product) != null) {
+                products.add(getProductWithName(product));
             }
         }
         ArrayList<Category> subCategory = new ArrayList<>();
@@ -215,7 +218,7 @@ public class Controller {
         try {
             CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
         } catch (Exception e) {
-            Outputs.printRedingfileresult("Didn't read the array of all offCodes");
+            Outputs.printReadFileResult("Didn't read the array of all offCodes");
         }
         //readArrayFromFile(CodedOff.getAllDiscounts(), "offCodes");
     }
@@ -225,19 +228,19 @@ public class Controller {
         try {
             Manager.getRegisterSellerAccountRequests().addAll((Collection<? extends RequestANewSellerAccount>) SaveAndLoad.getSaveAndLoad().readJSONByType("registerSellerAccountRequests", sellerAccountRequestListType));
         } catch (Exception e) {
-            Outputs.printRedingfileresult("Didn't read the array of all RequestANewSellerAccount");
+            Outputs.printReadFileResult("Didn't read the array of all RequestANewSellerAccount");
         }
         Type offRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
         try {
             Manager.getEditOffRequests().addAll((Collection<? extends RequestOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("editOffRequests", offRequestListType));
         } catch (Exception e) {
-            Outputs.printRedingfileresult("Didn't read the array of all RequestOff");
+            Outputs.printReadFileResult("Didn't read the array of all RequestOff");
         }
         Type productRequestListType = new TypeToken<ArrayList<RequestProduct>>(){}.getType();
         try {
             Manager.getEditProductsRequests().addAll((Collection<? extends RequestProduct>) SaveAndLoad.getSaveAndLoad().readJSONByType("editProductsRequests", productRequestListType));
         } catch (Exception e) {
-            Outputs.printRedingfileresult("Didn't read the array of all RequestProduct");
+            Outputs.printReadFileResult("Didn't read the array of all RequestProduct");
         }
 
     }
@@ -293,8 +296,11 @@ public class Controller {
     }
 
     public int requestAddProductToCart(String productId) {
-        ((Customer)loggedInAccount).addProductToCart(Product.getProductWithName(productId));
-        return 1;
+        Product product;
+        if((product = Product.getProductWithName(productId)) == null)
+            return 0;
+        return Customer.addProductToCart(product);
+
     }
 
     public int calculateCartCost() {
@@ -406,9 +412,9 @@ public class Controller {
     public void createOrEditOffRequest(ArrayList<String> products, Matcher startDate, Matcher endDate, int offAmount) {
         ArrayList<Product> productsToAddTO = new ArrayList<>();
         for (String productBarcode: products) {
-            if (Product.getAllProducts().contains(Product.getProductWithName(productBarcode)) && !Product.getProductWithName(productBarcode).isInOffOrNot()) {
-                productsToAddTO.add(Product.getProductWithName(productBarcode));
-                Product.getProductWithName(productBarcode).setInOffOrNot(true);
+            if (Product.getAllProducts().contains(getProductWithName(productBarcode)) && !getProductWithName(productBarcode).isInOffOrNot()) {
+                productsToAddTO.add(getProductWithName(productBarcode));
+                getProductWithName(productBarcode).setInOffOrNot(true);
             }
         }
         LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));

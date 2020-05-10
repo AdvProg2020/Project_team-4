@@ -117,10 +117,6 @@ public class Product extends SaveAble {
         return categoryTags;
     }
 
-    public void addAProductToCart(Product product) {
-
-    }
-
     public void buyTheCartItems() {
 
     }

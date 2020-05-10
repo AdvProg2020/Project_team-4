@@ -63,8 +63,15 @@ public class Customer extends Account {
 
     }
 
-    public static void addProductToCart(Product product) {
-        //check if exiits or not and kam kon azash
+    public int addProductToCart(Product product) {
+        if(product.isExistsOrNot()){
+            product.setAmountOfExist(product.getAmountOfExist() - 1);
+            cart.put(product, product.getCost()); // maybe need edition
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 
     public boolean pay(String offCode) {
