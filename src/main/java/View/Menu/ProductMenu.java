@@ -94,6 +94,7 @@ public class ProductMenu extends Menu {
             protected void show(){
                 options.add("Add new comment");
                 options.add("Back");
+                System.out.println(options);
             }
             @Override
             public void execute(){

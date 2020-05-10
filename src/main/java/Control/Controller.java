@@ -299,8 +299,13 @@ public class Controller {
         Product product;
         if((product = Product.getProductWithName(productId)) == null)
             return 0;
-        Customer account = (Customer) getLoggedInAccount();
-        return account.addProductToCart(product);
+
+        Account account = getLoggedInAccount();
+        if(!account.getClass().equals(Customer.class)){
+            return 2;
+        }
+        Customer customer = (Customer) account;
+        return customer.addProductToCart(product);
 
     }
 
@@ -447,5 +452,6 @@ public class Controller {
     public void setCustomerAddress(String address) {
         ((Customer) loggedInAccount).setAddress(address);
     }
+
 }
 

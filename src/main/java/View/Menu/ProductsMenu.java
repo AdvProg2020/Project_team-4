@@ -1,57 +1,89 @@
-//package View.Menu;
-//
-//import java.util.regex.Matcher;
-//
-//import static View.CommandsSource.findEnum;
-//
-//public class ProductsMenu extends Menu {
-//
-//    public ProductsMenu() {
-//        options.add("sorting");
-//        options.add("show products");
-//        options.add("show product");
-//        options.add("back");
-//        options.add("create account [manager|seller|customer] [username]");
-//        options.add("login [username]");
-//        options.add("logout");
-//        options.add("help");
-//    }
-//
-//    private static void sorting(){
-//
-//    }
-//
-//    private static void showProducts(){}
-//
-//    private static void showProduct(){
-//
-//    }
-//
-//    public void execute() {
-//        System.out.println("Enter your command :");
-//        Matcher matcher;
-//        while (true) {
-//            showCommands();
-//            String input = scanner.nextLine().trim();
-//            if(!getMatcher(input, "(\\d)").matches()){
-//                continue;
-//            }
-//            switch (input) {
-//                case "1":
-//                    sorting();
-//                    break;
-//                case "2":
-//                    showProducts();
-//                    break;
-//                case "3":
-//                    showProduct();
-//                    break;
-//                case "4":
-//                    return;
-//                default:
-//                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
-//            }
-//        }
-//    }
-//}
-//
+package View.Menu;
+
+import Control.Controller;
+import Model.Category;
+import Model.Product;
+
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.regex.Matcher;
+
+public class ProductsMenu extends Menu {
+
+    private ArrayList<Product> products = Product.getAllProducts();
+
+    public ProductsMenu() {
+        options.add("sorting");
+        options.add("show products");
+        options.add("show product");
+        options.add("show categories");
+        options.add("back");
+    }
+
+    private void sorting(){
+
+    }
+
+    private void showCategories() {
+        ArrayList<Category> allCategories = Category.getAllCategories();
+        for (Category allCategory : allCategories) {
+            System.out.println(allCategory.getName());
+        }
+    }
+
+    private void showProducts(){
+        for (Product product : products) {
+            System.out.print(product.getName() + "\t");
+            System.out.println("product cost:" + product.getCost() +
+                    " exist number: " + product.getAmountOfExist() +
+                   "productId :" + product.getName());
+        }
+    }
+
+    private void showProduct(){
+        String productId;
+        while(true) {
+            Matcher matcher = getField("please enter valid productId", "(\\S+)");
+            if (matcher == null) {
+                return;
+            }
+            if (checkProductId(matcher.group())) {
+                productId = matcher.group();
+                break;
+            }
+        }
+        ProductMenu productMenu = new ProductMenu();
+        productMenu.execute(productId);
+    }
+
+    private boolean checkProductId(String productId) {
+        return Product.getProductWithName(productId) != null;
+    }
+
+    public void execute() {
+        String input;
+        Matcher matcher;
+        do {
+            if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+                continue;
+            }
+            switch (input) {
+                case "1":
+                    sorting();
+                    break;
+                case "2":
+                    showProducts();
+                    break;
+                case "3":
+                    showProduct();
+                    break;
+                case "4":
+                    showCategories();
+                case "5":
+                    return;
+            }
+        }while(true);
+    }
+
+}
+

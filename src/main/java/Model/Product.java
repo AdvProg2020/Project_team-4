@@ -162,7 +162,7 @@ public class Product extends SaveAble {
     }
 
     @Override
-    protected String getName() {
+    public String getName() {
         return productBarcode;
     }
 
@@ -257,4 +257,5 @@ public class Product extends SaveAble {
     public int hashCode() {
         return Objects.hash(productBarcode)+8;
     }
+
 }
