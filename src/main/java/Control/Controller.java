@@ -91,7 +91,7 @@ public class Controller {
         try {
             LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
             LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
-            if (start.compareTo(end) < 0) {
+            if (start.compareTo(end) > 0) {
                 return 2;
             }
             new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
@@ -299,7 +299,8 @@ public class Controller {
         Product product;
         if((product = Product.getProductWithName(productId)) == null)
             return 0;
-        return Customer.addProductToCart(product);
+        Customer account = (Customer) getLoggedInAccount();
+        return account.addProductToCart(product);
 
     }
 

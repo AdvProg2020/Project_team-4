@@ -67,11 +67,11 @@ public class ManagerMenu extends Menu {
     }
 
     private Menu manageAllProducts(){
-        options.add("remove a product");
-        options.add("back");
         return new Menu() {
             @Override
             protected void execute() {
+                options.add("remove a product");
+                options.add("back");
                 String input;
                 Matcher matcher;
                 System.out.println("here");
