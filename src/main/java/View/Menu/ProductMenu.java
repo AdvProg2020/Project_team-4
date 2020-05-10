@@ -72,8 +72,12 @@ public class ProductMenu extends Menu {
         printAttributeResult(Product.getProductWithName(productId));
     }
 
-    private static void compare() {
-
+    private void compare() {
+        System.out.println("Please enter id of product that you want to compare to this:");
+        String productIdComparison = getScanner().nextLine();
+        printAttributeResult(Product.getProductWithName(productIdComparison));
+        System.out.println("-----------------------------------------------");
+        printAttributeResult(Product.getProductWithName(productId));
     }
 
     private static void addNewComment(){
