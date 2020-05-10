@@ -76,10 +76,10 @@ public class Outputs {
     }
 
     public static void printAddToCartResult(int result){
-        switch(result){
-            case 1:
-            case 2:
-        }
+        if(result == 1)
+            System.out.println("Succesfully added.");
+        else
+            System.err.println("Something went wrong!")
     }
 
     public static void printRemoveProductResult(boolean result){
