@@ -1,6 +1,7 @@
 package View;
 
 import Model.Customer;
+import Model.Product;
 
 import java.rmi.ServerError;
 import java.util.ArrayList;
@@ -130,6 +131,10 @@ public class Outputs {
             System.out.println("Successfully registered.");
         else
             System.err.println("Something went wrong!");
+    }
+
+    public static void printAttributeResult(Product product){
+        System.out.println(product);
     }
 }
 

@@ -1,11 +1,12 @@
 package View.Menu;
 
 import Control.Controller;
+import Model.Product;
 import Model.Seller;
 
 import java.util.ArrayList;
-import static View.Outputs.printAddToCartResult;
-import static View.Outputs.printNewCommentResult;
+
+import static View.Outputs.*;
 
 public class ProductMenu extends Menu {
 
@@ -67,8 +68,8 @@ public class ProductMenu extends Menu {
         };
     }
 
-    private static void attributes() {
-
+    private void attributes() {
+        printAttributeResult(Product.getProductWithName(productId));
     }
 
     private static void compare() {
