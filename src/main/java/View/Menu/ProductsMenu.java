@@ -1,11 +1,9 @@
 package View.Menu;
 
-import Control.Controller;
 import Model.Category;
 import Model.Product;
 
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.regex.Matcher;
 
 public class ProductsMenu extends Menu {
@@ -57,7 +55,7 @@ public class ProductsMenu extends Menu {
     }
 
     private boolean checkProductId(String productId) {
-        return Product.getProductWithName(productId) != null;
+        return Product.getProductWithBarcode(productId) != null;
     }
 
     public void execute() {

@@ -10,6 +10,7 @@ public class SellerMenu extends Menu {
     private static final Menu sellerMenu = new SellerMenu();
 
     public SellerMenu() {
+        options.add("view personal info");
         options.add("view company information #");
         options.add("view sales history #");
         options.add("manage products #");
@@ -131,23 +132,26 @@ public class SellerMenu extends Menu {
                 case "3":
                     break;
                 case "4":
-                    addProduct();
                     break;
                 case "5":
+                    addProduct();
                     break;
                 case "6":
                     break;
                 case "7":
-                    getViewOffsMenu().execute();
+
                     break;
                 case "8":
+                    getViewOffsMenu().execute();
                     break;
                 case "9":
-                    show();
                     break;
                 case "10":
+                    show();
                     return;
                 case "11":
+                    break;
+                case "12":
                     LoginMenu.logout();
                     break;
             }

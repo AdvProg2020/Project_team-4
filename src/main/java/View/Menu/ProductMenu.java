@@ -69,15 +69,15 @@ public class ProductMenu extends Menu {
     }
 
     private void attributes() {
-        printAttributeResult(Product.getProductWithName(productId));
+        printAttributeResult(Product.getProductWithBarcode(productId));
     }
 
     private void compare() {
         System.out.println("Please enter id of product that you want to compare to this:");
         String productIdComparison = getScanner().nextLine();
-        printAttributeResult(Product.getProductWithName(productIdComparison));
+        printAttributeResult(Product.getProductWithBarcode(productIdComparison));
         System.out.println("-----------------------------------------------");
-        printAttributeResult(Product.getProductWithName(productId));
+        printAttributeResult(Product.getProductWithBarcode(productId));
     }
 
     private static void addNewComment(){

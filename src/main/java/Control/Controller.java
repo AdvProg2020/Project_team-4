@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 
-import static Model.Product.getProductWithName;
+import static Model.Product.getProductWithBarcode;
 import static View.Menu.Menu.getField;
 
 public class Controller {
@@ -84,7 +84,7 @@ public class Controller {
     }
 
     public boolean controllerRemoveProduct(String productName) {
-        return Product.removeProduct(getProductWithName(productName));
+        return Product.removeProduct(getProductWithBarcode(productName));
     }
 
     public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
@@ -132,13 +132,13 @@ public class Controller {
     }
 
     public void increaseOrDecreaseProductNo(String productId, int n) {
-        if (getProductWithName(productId).isExistsOrNot()) {
-            getProductWithName(productId).setAmountOfExist(-n);
+        if (getProductWithBarcode(productId).isExistsOrNot()) {
+            getProductWithBarcode(productId).setAmountOfExist(-n);
         } else {
             System.out.println("this product in not availAble any more");
             return;
         }
-        ((Customer)loggedInAccount).setNumberOfProductInCart(getProductWithName(productId), n);
+        ((Customer)loggedInAccount).setNumberOfProductInCart(getProductWithBarcode(productId), n);
     }
 
     public ArrayList<Product> showProducts() {
@@ -146,7 +146,7 @@ public class Controller {
     }
 
     public Product showProduct(String productName) {
-        return getProductWithName(productName);
+        return getProductWithBarcode(productName);
     }
 
     public History showOrderInCustomerMenu(String s) {
@@ -154,7 +154,7 @@ public class Controller {
     }
 
     public void rateProduct(String productId, int rate) {
-        Product product = getProductWithName(productId);
+        Product product = getProductWithBarcode(productId);
         product.setAverageScore(rate);
     }
 
@@ -192,8 +192,8 @@ public class Controller {
     public void createCategory(String name, ArrayList<String> subCategories, ArrayList<String> tags, ArrayList<String> productsList) {
         ArrayList<Product> products = new ArrayList<>();
         for (String product: productsList) {
-            if (getProductWithName(product) != null) {
-                products.add(getProductWithName(product));
+            if (getProductWithBarcode(product) != null) {
+                products.add(getProductWithBarcode(product));
             }
         }
         ArrayList<Category> subCategory = new ArrayList<>();
@@ -301,7 +301,7 @@ public class Controller {
 
     public int requestAddProductToCart(String productId) {
         Product product;
-        if((product = Product.getProductWithName(productId)) == null)
+        if((product = Product.getProductWithBarcode(productId)) == null)
             return 0;
 
         Account account = getLoggedInAccount();
@@ -422,9 +422,9 @@ public class Controller {
     public void createOrEditOffRequest(ArrayList<String> products, Matcher startDate, Matcher endDate, int offAmount) {
         ArrayList<Product> productsToAddTO = new ArrayList<>();
         for (String productBarcode: products) {
-            if (Product.getAllProducts().contains(getProductWithName(productBarcode)) && !getProductWithName(productBarcode).isInOffOrNot()) {
-                productsToAddTO.add(getProductWithName(productBarcode));
-                getProductWithName(productBarcode).setInOffOrNot(true);
+            if (Product.getAllProducts().contains(getProductWithBarcode(productBarcode)) && !getProductWithBarcode(productBarcode).isInOffOrNot()) {
+                productsToAddTO.add(getProductWithBarcode(productBarcode));
+                getProductWithBarcode(productBarcode).setInOffOrNot(true);
             }
         }
         LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
@@ -465,7 +465,7 @@ public class Controller {
         return (int)loggedInAccount.getCredit();
     }
 
-    public ArrayList<CodedOff> getDiscountCodesOfCustomer() {
+    public ArrayList<CodedOff> getCustomerDiscountCodes() {
         return ((Customer)loggedInAccount).getOffCodes();
     }
 }

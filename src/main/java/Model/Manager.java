@@ -162,7 +162,7 @@ public class Manager extends Account {
 
     private static boolean editProduct(RequestProduct request) {
         if (editProductsRequests.contains(request)) {
-            Product product = Product.getProductWithName(request.getProductName());
+            Product product = Product.getProductWithBarcode(request.getProductName());
             if (Product.getAllProducts().contains(product)) {
                 Product.getAllProducts().remove(product);
             }

@@ -126,14 +126,16 @@ public class Product extends SaveAble {
         this.tags.addAll(tags);
     }
 
-    public static Product getProductWithName(String name) {
+    public static Product getProductWithBarcode(String name) {
         for (Product product : allProducts) {
-            if (product.getName().equalsIgnoreCase(name)) {
+            if (product.getProductBarcode().equalsIgnoreCase(name)) {
                 return product;
             }
         }
         return null;
     }
+
+
 
     public static ArrayList<Product> getProductsWithTags(String name, ArrayList<String> tags) {
         ArrayList<Product> products = new ArrayList();

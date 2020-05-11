@@ -116,7 +116,10 @@ public class CustomerMenu extends Menu {
                             System.out.println(Controller.getOurController().showCart());
                             break;
                         case "2":
-                            //TODO : voorood be safe mahsool
+                            ////////////////chie GHAZIASH?????????????
+                            String productId = getField("enter productId", "(\\S+)").group(1);
+                            ProductMenu productMenu = new ProductMenu();
+                            productMenu.execute(productId);
                             break;
                         case "3":
                             String productIdToIncrease = getField("Enter productId to increase: ", "(\\S+)").group(1);
@@ -206,7 +209,7 @@ public class CustomerMenu extends Menu {
                     System.out.println(Controller.getOurController().getCredit());
                     break;
                 case "5":
-                    System.out.println(Controller.getOurController().getDiscountCodesOfCustomer());
+                    System.out.println(Controller.getOurController().getCustomerDiscountCodes());
                     break;
                 case "6":
                     break;
