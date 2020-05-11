@@ -1,12 +1,15 @@
 package Model;
 
+import com.sun.tools.javac.jvm.Code;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Customer extends Account {
     private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private HashMap<Product, Integer> cart;
-    private ArrayList<Seller> sellersOfProductsOfTheCart;
+    private ArrayList<Account> sellersOfProductsOfTheCart;
     //private ArrayList<BuyLog> buyingHistory;
     //private ArrayList<CodedOff> offCodes;
     protected ArrayList<History> history;
@@ -66,7 +69,7 @@ public class Customer extends Account {
     public int addProductToCart(Product product) {
         if(product.isExistsOrNot()){
             product.setAmountOfExist(product.getAmountOfExist() - 1);
-            cart.put(product, product.getCost()); // maybe need edition
+            cart.put(product, cart.get(product) + 1); // maybe need edition
             return 1;
         }
         else{
@@ -88,13 +91,15 @@ public class Customer extends Account {
         if (this.getCredit() < finalCost) {
             return false;
         } else {
+            addHistory(finalCost);
             this.credit -= finalCost;
             ArrayList<Product> products = (ArrayList<Product>) cart.keySet();
             int i = 0;
-            for (Seller seller: sellersOfProductsOfTheCart) {
+            for (Account seller: sellersOfProductsOfTheCart) {
                 seller.setCredit(products.get(i).getCost() * cart.get(products.get(i)));
                 i++;
             }
+            cart = new HashMap<>();
             return true;
         }
     }
@@ -145,4 +150,24 @@ public class Customer extends Account {
 
     }
 
+    public History getHistoryById(String name) {
+        for (History history: history) {
+            if (history.getLogBarcode().equalsIgnoreCase(name)) {
+                return history;
+            }
+        }
+        return null;
+    }
+
+    public void addHistory(int finalCost) {
+        LocalDateTime dateTime = LocalDateTime.now();
+        int offCost = getCartMoney() - finalCost;
+        ArrayList<Product> products = new ArrayList<>(cart.keySet());
+        History historyOfPurchase = new History(dateTime, getCartMoney(), offCost, sellersOfProductsOfTheCart, products);
+        history.add(historyOfPurchase);
+    }
+
+    public void addOffCode(CodedOff offCode) {
+        this.offCodes.add(offCode);
+    }
 }

@@ -14,7 +14,6 @@ public class CustomerMenu extends Menu {
     public CustomerMenu() {
         options.add("view personal info #");
         options.add("view cart #");
-        options.add("purchase #");
         options.add("view orders #");
         options.add("view balance #");
         options.add("view discount codes #");
@@ -150,6 +149,40 @@ public class CustomerMenu extends Menu {
         Outputs.printPayResult(Controller.getOurController().pay(offCode));
     }
 
+    private static Menu getViewOrdersMenu() {
+        return new Menu() {
+            @Override
+            protected void execute() {
+                options.add("show order [orderId]");
+                options.add("rate [productId] [1-5]");
+                options.add("end");
+                show();
+                String input = "";
+                do {
+                    show();
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            String orderId = getField("Enter orderId", "(\\S+)").group(1);
+                            System.out.println(Controller.getOurController().showOrderInCustomerMenu(orderId));
+                            break;
+                        case "2":
+                            Matcher productIdAndRate = getField("Enter: [productId] [1-5]", "(\\S+)\\s([1, 5])");
+                            String productId = productIdAndRate.group(1);
+                            int rate = Integer.parseInt(productIdAndRate.group(2));
+                            Controller.getOurController().rateProduct(productId, rate);
+                            break;
+                        case "3":
+                            return;
+
+                    }
+                } while (true);
+            }
+        };
+    }
+
     @Override
     public void execute() {
         String input;
@@ -167,10 +200,13 @@ public class CustomerMenu extends Menu {
                     getCartMenu().execute();
                     break;
                 case "3":
+                    getViewOrdersMenu().execute();
                     break;
                 case "4":
+                    System.out.println(Controller.getOurController().getCredit());
                     break;
                 case "5":
+                    System.out.println(Controller.getOurController().getDiscountCodesOfCustomer());
                     break;
                 case "6":
                     break;

@@ -24,6 +24,7 @@ public class Product extends SaveAble {
     private Category category;
     private String description;
     private ArrayList<Comment> comments;
+    private int scoreNo;
     private int averageScore;
     private int amountOfExist;
     private boolean isInOffOrNot;
@@ -184,7 +185,7 @@ public class Product extends SaveAble {
         return allProducts;
     }
 
-    public String givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect() {
+    public static String givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 10;
@@ -224,6 +225,12 @@ public class Product extends SaveAble {
 
     public void setInOffOrNot(boolean inOffOrNot) {
         isInOffOrNot = inOffOrNot;
+    }
+
+    public void setAverageScore(int newScore) {
+        int lastAverage = this.averageScore;
+        this.averageScore = (lastAverage*scoreNo + newScore)/(scoreNo + 1);
+        this.scoreNo += 1;
     }
 
     @Override

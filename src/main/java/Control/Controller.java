@@ -94,7 +94,10 @@ public class Controller {
             if (start.compareTo(end) > 0) {
                 return 2;
             }
-            new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
+            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
+            for (Customer customer: containingCustomers) {
+                customer.addOffCode(codedOff);
+            }
             return 1;
         }catch (Exception e){
             return 3;
@@ -146,12 +149,13 @@ public class Controller {
         return getProductWithName(productName);
     }
 
-    public void showOrder(String s) {
-
+    public History showOrderInCustomerMenu(String s) {
+        return ((Customer)loggedInAccount).getHistoryById(s);
     }
 
-    public void rateProduct() {
-
+    public void rateProduct(String productId, int rate) {
+        Product product = getProductWithName(productId);
+        product.setAverageScore(rate);
     }
 
     public void purchase(String address, String phoneNumber) {
@@ -453,5 +457,16 @@ public class Controller {
         ((Customer) loggedInAccount).setAddress(address);
     }
 
+    public void addOffCodeToCustomer() {
+
+    }
+
+    public int getCredit() {
+        return (int)loggedInAccount.getCredit();
+    }
+
+    public ArrayList<CodedOff> getDiscountCodesOfCustomer() {
+        return ((Customer)loggedInAccount).getOffCodes();
+    }
 }
 
