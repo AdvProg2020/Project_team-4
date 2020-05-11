@@ -361,8 +361,9 @@ public class Controller {
         return null;
     }
 
-    public ArrayList requestSalesHistoryInfo() {
-        return null;
+    public String requestSalesHistoryInfoInSeller() {
+        String info = ((Seller)loggedInAccount).getHistory().toString();
+        return info;
     }
 
     public ArrayList requestListOfProducts() {
@@ -462,11 +463,37 @@ public class Controller {
     }
 
     public int getCredit() {
-        return (int)loggedInAccount.getCredit();
+        return (int)(loggedInAccount.getCredit());
     }
 
     public ArrayList<CodedOff> getCustomerDiscountCodes() {
         return ((Customer)loggedInAccount).getOffCodes();
+    }
+
+    public String getCompanyNameInSeller() {
+        return ((Seller)loggedInAccount).getCompanyName();
+    }
+
+    public ArrayList<Customer> viewByers(String productId) {
+        Product product = getProductWithBarcode(productId);
+        return product.getByers();
+    }
+
+    public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags) {
+        Category category = Category.getCategoryByName(categoryName);
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product("productBarcode: " + barcode,companyName, cost, category, description, amountOfExist, tags, null));
+    }
+
+    public void removeProductFromSellerProducts(String productId) {
+        for (Product product: ((Seller) loggedInAccount).getProducts()) {
+            if (product.getProductBarcode().equalsIgnoreCase(productId)) {
+                ((Seller) loggedInAccount).getProducts().remove(product);
+            }
+        }
+    }
+
+    public ArrayList<Category> showCategories() {
+        return Category.getAllCategories();
     }
 }
 

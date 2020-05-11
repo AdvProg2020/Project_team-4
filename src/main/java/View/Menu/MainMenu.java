@@ -41,7 +41,7 @@ public class MainMenu extends Menu {
             }
             switch (input.trim()) {
                 case "1":
-//                    productsMenu.execute();
+                    ProductsMenu.getProductsMenu().execute();
                     break;
                 case "2":
                     //off menu

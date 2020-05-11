@@ -162,14 +162,25 @@ public class Manager extends Account {
 
     private static boolean editProduct(RequestProduct request) {
         if (editProductsRequests.contains(request)) {
-            Product product = Product.getProductWithBarcode(request.getProductName());
-            if (Product.getAllProducts().contains(product)) {
-                Product.getAllProducts().remove(product);
+            if (request.getProductName().startsWith("productBarcode: ")) {
+                Product product = Product.getProductWithBarcode(request.getProductName().substring(17));
+                product.setAmountOfExist(request.getProductAmountOfExist());
+                product.setCategoryTags(request.getProductCategoryTags());
+                product.setCategory(request.getProductCategory());
+                product.setCompany(request.getProductCompany());
+                product.setCost(request.getProductCost());
+                product.setDescription(request.getProductDescription());
+                product.setTags(request.getProductTags());
+            } else {
+                Product product = Product.getProductWithBarcode(request.getProductName());
+                if (Product.getAllProducts().contains(product)) {
+                    Product.getAllProducts().remove(product);
+                }
+                new Product(request.getProduct());
+                editProductsRequests.remove(request);
+                SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
+                return true;
             }
-            new Product(request.getProduct());
-            editProductsRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
-            return true;
         }
         return false;
     }

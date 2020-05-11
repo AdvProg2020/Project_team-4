@@ -61,7 +61,7 @@ public class CustomerMenu extends Menu {
 //            }
 //        };
 //    }
-    private static Menu viewAndEditPersonalInfo() {
+    public static Menu viewAndEditPersonalInfo() {
         return new Menu() {
             private void personalInfo() {
                 Matcher matcher = getField("Enter in this format: edit [field] for back write back\n" +

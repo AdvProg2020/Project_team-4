@@ -60,6 +60,18 @@ public class Seller extends Account {
         return offs;
     }
 
+    public ArrayList<History> getHistory() {
+        return history;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
     @Override
     public String toString() {
         return "Seller{" +

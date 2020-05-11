@@ -10,7 +10,7 @@ import java.util.Random;
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
-    private static ArrayList<Customer> byers = new ArrayList<>();
+    private  ArrayList<Customer> byers = new ArrayList<>();
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
@@ -69,7 +69,7 @@ public class Product extends SaveAble {
         return productBarcode;
     }
 
-    public static ArrayList<Customer> getByers() {
+    public ArrayList<Customer> getByers() {
         return byers;
     }
 
@@ -234,6 +234,33 @@ public class Product extends SaveAble {
         this.averageScore = (lastAverage*scoreNo + newScore)/(scoreNo + 1);
         this.scoreNo += 1;
     }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
 
     @Override
     public String toString() {
