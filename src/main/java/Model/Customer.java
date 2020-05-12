@@ -1,5 +1,6 @@
 package Model;
 
+import Control.Controller;
 import com.sun.tools.javac.jvm.Code;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Customer extends Account {
     //private ArrayList<CodedOff> offCodes;
     protected ArrayList<History> history;
     protected ArrayList<CodedOff> offCodes;
+    protected ArrayList<Integer> usageOfOffCodes = new ArrayList<>();
     private String address = "";
 
     public Customer() {
@@ -27,6 +29,9 @@ public class Customer extends Account {
         this.sellersOfProductsOfTheCart = new ArrayList<>();
         allCustomers.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(this, Customer.class, userName);
+        for (CodedOff offCode: offCodes) {
+            usageOfOffCodes.add(0);
+        }
     }
 
     public static void newCustomer(String username, String password) {
@@ -81,12 +86,13 @@ public class Customer extends Account {
         //age chizi be Off ezafe shod bayad costesh hamoon ja kam beshe haaaaaa in ja off mohasebe nemishe va faghat codedOff ha tasir daran
         //too saef mahsool bayad darj beshe ke kodoom seller dare ino mofrooshe va too customer ye arrayList hast ke be tartbie product haye hashMap product haye cart seller haye har product rpo ham zakhire mikone
         int finalCost = getCartMoney();
-        if (CodedOff.getOffCodeWithName(offCode) != null) {
+        if (CodedOff.getOffCodeWithName(offCode) != null && this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode))  < CodedOff.getOffCodeWithName(offCode).getUsageTime()) {
             if ((getCartMoney() * CodedOff.getOffCodeWithName(offCode).getPercent() / 100) > CodedOff.getOffCodeWithName(offCode).getOffAmount()) {
                 finalCost -= CodedOff.getOffCodeWithName(offCode).getOffAmount();
             } else {
                 finalCost -= (getCartMoney() * CodedOff.getOffCodeWithName(offCode).getPercent() / 100);
             }
+            this.usageOfOffCodes.set(getOffCodeIndexForUsageTimeAddingByName(offCode), this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode)) + 1);
         }
         if (this.getCredit() < finalCost) {
             return false;
@@ -97,9 +103,11 @@ public class Customer extends Account {
             int i = 0;
             for (Account seller: sellersOfProductsOfTheCart) {
                 seller.setCredit(products.get(i).getCost() * cart.get(products.get(i)));
+//                SaveAndLoad.getSaveAndLoad().writeJSON(seller, seller.getClass(), seller.getUserName());
                 i++;
             }
             cart = new HashMap<>();
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
             return true;
         }
     }
@@ -112,6 +120,15 @@ public class Customer extends Account {
             }
         }
         return cartCost;
+    }
+
+    public int getOffCodeIndexForUsageTimeAddingByName(String name) {
+        for (int i=0; i<offCodes.size(); i++) {
+            if (offCodes.get(i).getOffBarcode().equalsIgnoreCase(name)){
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
