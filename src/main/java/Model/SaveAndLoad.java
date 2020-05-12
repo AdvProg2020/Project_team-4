@@ -1,5 +1,6 @@
 package Model;
 
+import Control.Controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -65,6 +66,29 @@ public class SaveAndLoad {
         } catch (FileNotFoundException e) {
             return null;
         }
+    }
+
+
+    public void saveGenerally() {
+        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
+        SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class, "allCategories");
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "allOfCodes");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class, "editOffRequests");
+
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class, "editProductsRequests");
+
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getRegisterSellerAccountRequests(), ArrayList.class, "registerSellerAccountRequests");
+
+
+        final File folder = new File("\\class Model.Seller");
+        System.out.println(folder.getName());
+        for (String nameOfFolder: folder.list()) {
+
+        }
+
+
     }
 
 }

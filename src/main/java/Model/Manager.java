@@ -12,10 +12,10 @@ public class Manager extends Account {
     private static ArrayList<Manager> allManagers;
     private static ArrayList<Manager> managers;
 
-    private static final ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
-    private static final ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
-    private static final ArrayList<RequestOff> editOffRequests = new ArrayList<>();
-    private static final ArrayList<SaveAble> allAccounts = new ArrayList<>();
+    private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
+    private static ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
+    private static ArrayList<RequestOff> editOffRequests = new ArrayList<>();
+    private static ArrayList<SaveAble> allAccounts = new ArrayList<>();
     private static final ArrayList<SaveAble> categories = new ArrayList<>();
 
     private static ArrayList<CodedOff> offCodes;

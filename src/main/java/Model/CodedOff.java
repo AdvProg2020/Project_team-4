@@ -76,6 +76,10 @@ public class CodedOff extends SaveAble {
     }
 
 
+    public int getUsageTime() {
+        return usageTime;
+    }
+
     public static ArrayList<CodedOff> getAllDiscounts() {
         return allOfCodes;
     }

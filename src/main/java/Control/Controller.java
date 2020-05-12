@@ -94,7 +94,8 @@ public class Controller {
             if (start.compareTo(end) > 0) {
                 return 2;
             }
-            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
+            ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
+            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
             for (Customer customer: containingCustomers) {
                 customer.addOffCode(codedOff);
             }
@@ -139,6 +140,7 @@ public class Controller {
             return;
         }
         ((Customer)loggedInAccount).setNumberOfProductInCart(getProductWithBarcode(productId), n);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public ArrayList<Product> showProducts() {
@@ -347,6 +349,7 @@ public class Controller {
             case "password" :
                 loggedInAccount.setPassWord(newAmount.group(1));
         }
+        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
     }
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
