@@ -495,5 +495,14 @@ public class Controller {
     public ArrayList<Category> showCategories() {
         return Category.getAllCategories();
     }
+
+    public ArrayList<Product> requestOffsList() {
+        ArrayList<Off> offs = Off.getAllOffs();
+        ArrayList<Product> offProducts = new ArrayList<>();
+        for (Off off: offs) {
+            offProducts.addAll(off.getProducts());
+        }
+        return offProducts;
+    }
 }
 
