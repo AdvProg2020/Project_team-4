@@ -42,7 +42,7 @@ public class CodedOff extends SaveAble {
         {
             System.out.println("Failed to delete the file");
         }
-        allOfCodes.remove(offCode);
+        allOfCodes.remove(CodedOff.getOffCodeWithName(offCode));
     }
 
     public String getOffBarcode() {

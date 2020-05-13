@@ -37,7 +37,7 @@ public class ManagerMenu extends Menu {
         return new Menu() {
             private void personalInfo() {
                 Matcher matcher = getField("Enter in this format: edit [field] for back write back\n" +
-                        "warning you can't change username!", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
+                        "warning you can't change username!", "edit\\s(firstName|lastName|credit|phoneNumber|email|password)");
                 if(matcher == null){
                     return;
                 }

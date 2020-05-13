@@ -185,7 +185,7 @@ public class Manager extends Account {
     }
 
     public static void setRegisterSellerAccountRequest(Request registerSellerAccountRequests) {
-        Manager.registerSellerAccountRequests.add((RequestANewSellerAccount) registerSellerAccountRequests);
+        //Manager.registerSellerAccountRequests.add((RequestANewSellerAccount) registerSellerAccountRequests);
     }
 
     public static void setEditProductsRequest(Request editProductsRequests) {

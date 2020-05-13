@@ -3,9 +3,7 @@ package Model;
 
 
 import java.nio.charset.Charset;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
@@ -17,8 +15,6 @@ public class Product extends SaveAble {
     private enum  productStatus {
         MAKING, EDITING, APPROVED
     }
-    private int seen;
-    private LocalDateTime localDateTime;
     private String name;
     private ArrayList<String> categoryTags;
     private String company;
@@ -49,8 +45,6 @@ public class Product extends SaveAble {
         this.sellers = sellers;
         this.amountOfExist = amountOfExist;
         giveId++;
-        this.seen = 0;
-        localDateTime = LocalDateTime.now();
     }
 
     public Product(Product product) {
@@ -69,10 +63,6 @@ public class Product extends SaveAble {
         this.amountOfExist = product.getAmountOfExist();
         allProducts.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
-    }
-
-    public void plusSeenNumber(){
-        seen++;
     }
 
     public String getProductBarcode() {
@@ -147,8 +137,8 @@ public class Product extends SaveAble {
 
 
 
-    public static ArrayList<Product> getProductsWithTagsAndName(String name, ArrayList<String> tags) {
-        ArrayList<Product> products = new ArrayList();
+    public static ArrayList<Product> getProductsWithTags(String name, ArrayList<String> tags) {
+        ArrayList<Product> products = new ArrayList<>();
         for (Product product : allProducts) {
             if (product.getName().equalsIgnoreCase(name)) {
                 products.add(product);
@@ -168,24 +158,6 @@ public class Product extends SaveAble {
             }
             return products;
         }
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public static ArrayList<Product> getProductWithTag(ArrayList<String> tags){
-        ArrayList<Product> products = new ArrayList<>();
-        products.addAll(allProducts);
-        for (Product product : products) {
-            for (String tag : tags) {
-                if (!product.getTags().contains(tag)) {
-                    products.remove(product);
-                    break;
-                }
-            }
-        }
-        return products;
     }
 
     public ArrayList<String> getTags() {
