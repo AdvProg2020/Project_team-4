@@ -138,7 +138,7 @@ public class Product extends SaveAble {
 
 
     public static ArrayList<Product> getProductsWithTags(String name, ArrayList<String> tags) {
-        ArrayList<Product> products = new ArrayList();
+        ArrayList<Product> products = new ArrayList<>();
         for (Product product : allProducts) {
             if (product.getName().equalsIgnoreCase(name)) {
                 products.add(product);

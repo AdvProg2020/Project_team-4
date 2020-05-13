@@ -1,7 +1,6 @@
 package Control;
 
 import Model.*;
-import View.Menu.Menu;
 import View.Outputs;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,8 +18,6 @@ import static View.Menu.Menu.getField;
 public class Controller {
 
     private final static Controller ourController = new Controller();
-
-    private final Scanner scanner = Menu.getScanner();
 
     private Account loggedInAccount = null;
 
@@ -75,7 +72,7 @@ public class Controller {
     }
 
     public int controllerDeleteAnUser(String username) {
-        Account account = (Account) Account.getAccountWithName(username);
+        Account account = Account.getAccountWithName(username);
         if(account == null){
             return 2;
         }
@@ -133,7 +130,7 @@ public class Controller {
     }
 
     public void increaseOrDecreaseProductNo(String productId, int n) {
-        if (getProductWithBarcode(productId).isExistsOrNot()) {
+        if (getProductWithBarcode(productId)!=null && getProductWithBarcode(productId).isExistsOrNot()) {
             getProductWithBarcode(productId).setAmountOfExist(-n);
         } else {
             System.out.println("this product in not availAble any more");
@@ -406,7 +403,7 @@ public class Controller {
     public ArrayList<Off> getAllOffsOfSeller() {
         ArrayList<Off> sellersOff = new ArrayList<>();
         for (Off off: Off.getAllOffs()) {
-            if (((Seller)loggedInAccount).getOffs().contains(off)) {
+            if (((Seller)loggedInAccount).getOffs().contains(off.getOffBarcode())) {
                 sellersOff.add(off);
             }
         }

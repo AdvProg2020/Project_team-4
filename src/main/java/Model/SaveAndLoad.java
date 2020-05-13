@@ -96,12 +96,6 @@ public class SaveAndLoad {
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getRegisterSellerAccountRequests(), ArrayList.class, "registerSellerAccountRequests");
 
 
-        final File folder = new File("\\class Model.Seller");
-        System.out.println(folder.getName());
-        for (String nameOfFolder: folder.list()) {
-
-        }
-
 
     }
 

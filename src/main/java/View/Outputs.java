@@ -3,7 +3,7 @@ package View;
 import Model.Customer;
 import Model.Product;
 
-import java.rmi.ServerError;
+
 import java.util.ArrayList;
 
 public class Outputs {
