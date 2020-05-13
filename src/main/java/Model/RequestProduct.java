@@ -19,7 +19,40 @@ public class RequestProduct extends Request {
     }
 
     public String getProductName() {
-        return product.getName();
+        return product.getProductBarcode();
+    }
+
+    public String getProductBarcode() {
+        return product.getProductBarcode();
+    }
+
+    public ArrayList<String> getProductCategoryTags() {
+        return product.getCategoryTags();
+    }
+
+
+    public String getProductCompany() {
+        return product.getCompany();
+    }
+
+    public int getProductCost() {
+        return product.getCost();
+    }
+
+    public String getProductCategory() {
+        return product.getCategory();
+    }
+
+    public String getProductDescription() {
+        return product.getDescription();
+    }
+
+    public int getProductAmountOfExist() {
+        return product.getAmountOfExist();
+    }
+
+    public ArrayList<String> getProductTags() {
+        return product.getTags();
     }
 
     @Override

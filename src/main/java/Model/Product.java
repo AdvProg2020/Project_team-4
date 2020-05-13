@@ -3,33 +3,39 @@ package Model;
 
 
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
-    private static ArrayList<Customer> byers = new ArrayList<>();
+    private  ArrayList<String> byers = new ArrayList<>();
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
     }
+    private int seen;
+    private LocalDateTime localDateTime;
     private String name;
     private ArrayList<String> categoryTags;
     private String company;
     private int cost;
-    private ArrayList<Seller> sellers;
+    private ArrayList<String> sellers;
     private boolean existsOrNot;
-    private Category category;
+    private String category;
     private String description;
     private ArrayList<Comment> comments;
+    private int scoreNo;
     private int averageScore;
     private int amountOfExist;
+    private boolean isInOffOrNot;
     private ArrayList<String> tags;
     private static int giveId;
 
-    public Product(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
+    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
         this.categoryTags = new ArrayList<>();
@@ -43,6 +49,8 @@ public class Product extends SaveAble {
         this.sellers = sellers;
         this.amountOfExist = amountOfExist;
         giveId++;
+        this.seen = 0;
+        localDateTime = LocalDateTime.now();
     }
 
     public Product(Product product) {
@@ -63,11 +71,15 @@ public class Product extends SaveAble {
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
     }
 
+    public void plusSeenNumber(){
+        seen++;
+    }
+
     public String getProductBarcode() {
         return productBarcode;
     }
 
-    public static ArrayList<Customer> getByers() {
+    public ArrayList<String> getByers() {
         return byers;
     }
 
@@ -75,7 +87,7 @@ public class Product extends SaveAble {
         return company;
     }
 
-    public ArrayList<Seller> getSellers() {
+    public ArrayList<String> getSellers() {
         return sellers;
     }
 
@@ -86,7 +98,7 @@ public class Product extends SaveAble {
         return false;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -116,10 +128,6 @@ public class Product extends SaveAble {
         return categoryTags;
     }
 
-    public void addAProductToCart(Product product) {
-
-    }
-
     public void buyTheCartItems() {
 
     }
@@ -128,16 +136,18 @@ public class Product extends SaveAble {
         this.tags.addAll(tags);
     }
 
-    public static Product getProductWithName(String name) {
+    public static Product getProductWithBarcode(String name) {
         for (Product product : allProducts) {
-            if (product.getName().equalsIgnoreCase(name)) {
+            if (product.getProductBarcode().equalsIgnoreCase(name)) {
                 return product;
             }
         }
         return null;
     }
 
-    public static ArrayList<Product> getProductsWithTags(String name, ArrayList<String> tags) {
+
+
+    public static ArrayList<Product> getProductsWithTagsAndName(String name, ArrayList<String> tags) {
         ArrayList<Product> products = new ArrayList();
         for (Product product : allProducts) {
             if (product.getName().equalsIgnoreCase(name)) {
@@ -160,12 +170,30 @@ public class Product extends SaveAble {
         }
     }
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public static ArrayList<Product> getProductWithTag(ArrayList<String> tags){
+        ArrayList<Product> products = new ArrayList<>();
+        products.addAll(allProducts);
+        for (Product product : products) {
+            for (String tag : tags) {
+                if (!product.getTags().contains(tag)) {
+                    products.remove(product);
+                    break;
+                }
+            }
+        }
+        return products;
+    }
+
     public ArrayList<String> getTags() {
         return tags;
     }
 
     @Override
-    protected String getName() {
+    public String getName() {
         return productBarcode;
     }
 
@@ -173,7 +201,8 @@ public class Product extends SaveAble {
         return cost;
     }
 
-    public static boolean removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
+    public static boolean
+    removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
         if (allProducts.contains(product)) {
             allProducts.remove(product);
             //SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, Product.class, pro);
@@ -186,7 +215,7 @@ public class Product extends SaveAble {
         return allProducts;
     }
 
-    public String givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect() {
+    public static String givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 10;
@@ -207,10 +236,59 @@ public class Product extends SaveAble {
     }
 
 
-    public static void createProduct(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
+    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
     }
+
+    public void setAmountOfExist(int amountOfExist) {
+        this.amountOfExist += amountOfExist;
+    }
+
+    public void offTheCost(int off) {
+        this.cost -= off;
+    }
+
+    public boolean isInOffOrNot() {
+        return isInOffOrNot;
+    }
+
+    public void setInOffOrNot(boolean inOffOrNot) {
+        isInOffOrNot = inOffOrNot;
+    }
+
+    public void setAverageScore(int newScore) {
+        int lastAverage = this.averageScore;
+        this.averageScore = (lastAverage*scoreNo + newScore)/(scoreNo + 1);
+        this.scoreNo += 1;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
 
     @Override
     public String toString() {
@@ -243,4 +321,5 @@ public class Product extends SaveAble {
     public int hashCode() {
         return Objects.hash(productBarcode)+8;
     }
+
 }

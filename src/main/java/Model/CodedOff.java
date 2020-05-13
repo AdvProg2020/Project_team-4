@@ -1,10 +1,8 @@
 package Model;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class CodedOff extends SaveAble {
@@ -15,29 +13,26 @@ public class CodedOff extends SaveAble {
     private double offAmount;
     private int usageTime;
     private int percent;
-    private HashMap<Account, Integer> numberOfUsageForEachAccount;
-    private ArrayList<Account> discountIsForTheseAccounts;
-    private ArrayList<Customer> containingCustomers;
-   // private static ArrayList<String> offBarcodes = new ArrayList<>();
+    private HashMap<String, Integer> numberOfUsageForEachUserName;
+    private ArrayList<String> discountIsForTheseUserNames;
+    private ArrayList<String> containingUserNames;
 
-    public CodedOff(String offBarcode, LocalDateTime startTime, LocalDateTime endTime, double offAmount, int percent, int usageTime, ArrayList<Customer> containingCustomers) {
+    public CodedOff(String offBarcode, LocalDateTime startTime, LocalDateTime endTime, double offAmount, int percent, int usageTime, ArrayList<String> containingCustomers) {
         this.offBarcode = offBarcode;
         this.startTime = startTime;
         this.endTime = endTime;
         this.offAmount = offAmount;
         this.percent = percent;
         this.usageTime = usageTime;
-        this.containingCustomers = containingCustomers;
-        this.numberOfUsageForEachAccount = new HashMap<Account, Integer>();
-        this.discountIsForTheseAccounts = new ArrayList<Account>();
-        System.err.println(allOfCodes);
+        this.containingUserNames = new ArrayList<>(containingCustomers);
+        this.numberOfUsageForEachUserName = new HashMap<String, Integer>();
+        this.discountIsForTheseUserNames = new ArrayList<String>();
         allOfCodes.add(this);
-        System.err.println(allOfCodes);
         SaveAndLoad.getSaveAndLoad().writeJSON(allOfCodes, ArrayList.class, "offCodes");
     }
 
-    public static void removeOffCode(CodedOff offCode) {
-        File file = new File(offCode.getName());
+    public static void removeOffCode(String offCode) {
+        File file = new File(CodedOff.getOffCodeWithName(offCode).getName());
 
         if(file.delete())
         {
@@ -50,10 +45,6 @@ public class CodedOff extends SaveAble {
         allOfCodes.remove(offCode);
     }
 
-    ///public static ArrayList<String> getOffBarcodes() {
-       // return offBarcodes;
-    //}
-
     public String getOffBarcode() {
         return offBarcode;
     }
@@ -65,8 +56,9 @@ public class CodedOff extends SaveAble {
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", offAmount=" + offAmount +
-                ", numberOfUsageForEachAccount=" + numberOfUsageForEachAccount +
-                ", discountIsForTheseAccounts=" + discountIsForTheseAccounts +
+                ", containing users" + containingUserNames +
+                ", numberOfUsageForEachAccount=" + numberOfUsageForEachUserName +
+                ", discountIsForTheseAccounts=" + discountIsForTheseUserNames +
                 '}';
     }
 
@@ -75,6 +67,13 @@ public class CodedOff extends SaveAble {
         return offBarcode;
     }
 
+    public int getPercent() {
+        return percent;
+    }
+
+    public double getOffAmount() {
+        return offAmount;
+    }
 
     public int getUsageTime() {
         return usageTime;
@@ -86,7 +85,9 @@ public class CodedOff extends SaveAble {
 
     public static CodedOff getOffCodeWithName(String name) {
         for (CodedOff offCode : allOfCodes) {
-            return offCode;
+            if (offCode.getOffBarcode().equalsIgnoreCase(name)) {
+                return offCode;
+            }
         }
         return null;
     }

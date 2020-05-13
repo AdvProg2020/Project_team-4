@@ -52,8 +52,8 @@ public class Outputs {
         }
     }
 
-    public static void printOffsListResult(ArrayList<Product> resultOff) {
-        for (Product product : resultOff) {
+    public static void printOffsListResult(ArrayList<String> resultOff) {
+        for (String product : resultOff) {
             System.out.println(product);
         }
     }
