@@ -9,8 +9,6 @@ public class Manager extends Account {
 
     private static boolean isFirstManagerCreatedOrNot = false;
 
-    private static ArrayList<Manager> allManagers;
-    private static ArrayList<Manager> managers;
 
     private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
     private static ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
@@ -18,7 +16,7 @@ public class Manager extends Account {
     private static ArrayList<SaveAble> allAccounts = new ArrayList<>();
     private static final ArrayList<SaveAble> categories = new ArrayList<>();
 
-    private static ArrayList<CodedOff> offCodes;
+
 
 
     public Manager(String userName, String passWord) {
@@ -109,19 +107,6 @@ public class Manager extends Account {
 
     }
 
-    public static void removeProduct(Product product) {
-        File file = new File(product.getName());
-
-        if(file.delete())
-        {
-            System.out.println("File deleted successfully");
-        }
-        else
-        {
-            System.out.println("Failed to delete the file");
-        }
-        Product.removeProduct(product);
-    }
 
     public static void AnswerRequest(Request request, boolean acceptOrDecline) {
 

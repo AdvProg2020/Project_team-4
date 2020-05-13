@@ -39,7 +39,7 @@ public class RequestProduct extends Request {
         return product.getCost();
     }
 
-    public Category getProductCategory() {
+    public String getProductCategory() {
         return product.getCategory();
     }
 

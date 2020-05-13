@@ -6,18 +6,18 @@ public class Seller extends Account {
 
     //private static ArrayList<Seller> allSellers = new ArrayList<Seller>();
     protected ArrayList<History> history;
-    private ArrayList<Product> products;
+    private ArrayList<String> products;
     protected String companyName;
 
     private ArrayList<History> sellHistory;
-    private ArrayList<Product> sellingProducts;
-    private ArrayList<Off> offs;
+    private ArrayList<String> sellingProducts;
+    private ArrayList<String> offs;
 
     public Seller(String userName, String passWord) {
         super(userName, passWord);
         this.sellHistory = new ArrayList<History>();
-        this.sellingProducts = new ArrayList<Product>();
-        this.offs = new ArrayList<Off>();
+        this.sellingProducts = new ArrayList<>();
+        this.offs = new ArrayList<>();
         this.history = new ArrayList<>();
         this.products = new ArrayList<>();
         SaveAndLoad.getSaveAndLoad().writeJSON(this, Seller.class, userName);
@@ -32,7 +32,7 @@ public class Seller extends Account {
         this.sellHistory.add(soldProduct);
     }
 
-    public void setSellingProducts(ArrayList<Product> sellingProducts) {
+    public void setSellingProducts(ArrayList<String> sellingProducts) {
         this.sellingProducts = sellingProducts;
     }
 
@@ -56,7 +56,7 @@ public class Seller extends Account {
         //Manager.receiveEditOffRequest();
     }
 
-    public ArrayList<Off> getOffs() {
+    public ArrayList<String> getOffs() {
         return offs;
     }
 
@@ -64,7 +64,7 @@ public class Seller extends Account {
         return history;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<String> getProducts() {
         return products;
     }
 

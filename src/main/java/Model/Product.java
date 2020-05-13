@@ -10,7 +10,7 @@ import java.util.Random;
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
-    private  ArrayList<Customer> byers = new ArrayList<>();
+    private  ArrayList<String> byers = new ArrayList<>();
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
@@ -19,9 +19,9 @@ public class Product extends SaveAble {
     private ArrayList<String> categoryTags;
     private String company;
     private int cost;
-    private ArrayList<Seller> sellers;
+    private ArrayList<String> sellers;
     private boolean existsOrNot;
-    private Category category;
+    private String category;
     private String description;
     private ArrayList<Comment> comments;
     private int scoreNo;
@@ -31,7 +31,7 @@ public class Product extends SaveAble {
     private ArrayList<String> tags;
     private static int giveId;
 
-    public Product(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
+    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
         this.categoryTags = new ArrayList<>();
@@ -69,7 +69,7 @@ public class Product extends SaveAble {
         return productBarcode;
     }
 
-    public ArrayList<Customer> getByers() {
+    public ArrayList<String> getByers() {
         return byers;
     }
 
@@ -77,7 +77,7 @@ public class Product extends SaveAble {
         return company;
     }
 
-    public ArrayList<Seller> getSellers() {
+    public ArrayList<String> getSellers() {
         return sellers;
     }
 
@@ -88,7 +88,7 @@ public class Product extends SaveAble {
         return false;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -208,7 +208,7 @@ public class Product extends SaveAble {
     }
 
 
-    public static void createProduct(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
+    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
     }
@@ -249,7 +249,7 @@ public class Product extends SaveAble {
     }
 
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

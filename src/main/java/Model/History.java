@@ -11,11 +11,11 @@ public class History {
     private LocalDateTime date;
     private double cost;
     private double offSCost;
-    private ArrayList<Product> products;
-    private ArrayList<Account> name;
+    private ArrayList<String> products;
+    private ArrayList<String> name;
     private boolean deliveredOrNot;
 
-    public History(LocalDateTime date, double paidCost, double offSCost, ArrayList<Account> sellerName, ArrayList<Product> products) {
+    public History(LocalDateTime date, double paidCost, double offSCost, ArrayList<String> sellerName, ArrayList<String> products) {
         this.logBarcode = Product.givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.date = date;
         this.cost = paidCost;
