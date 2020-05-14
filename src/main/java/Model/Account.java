@@ -3,7 +3,6 @@ import java.io.File;
 
 public abstract class Account extends SaveAble {
 
-    //protected static ArrayList allAccounts = new ArrayList();
     protected String userName;
     protected String firstName;
     protected String lastName;
@@ -12,15 +11,11 @@ public abstract class Account extends SaveAble {
     protected String passWord ;
 
     protected double credit;
-    //protected ArrayList buyOrSellLogs;
 
-    public Account (){}
 
     public Account(String userName, String passWord) {
         this.userName = userName;
         this.passWord = passWord;
-        //this.offCodes = new ArrayList();
-        //this.buyOrSellLogs = new ArrayList();
     }
 
     public static Account getAccountWithName(String name){
@@ -41,14 +36,6 @@ public abstract class Account extends SaveAble {
         File file = new File(account.getClass() + "\\" + account.getUserName());
         System.out.println(file.getName());
         file.delete();
-//        if(file.delete())
-//        {
-//            System.out.println("File deleted successfully");
-//        }
-//        else
-//        {
-//            System.out.println("Failed to delete the file");
-//        }
     }
 
     public void setFirstName(String firstName) {
@@ -94,18 +81,11 @@ public abstract class Account extends SaveAble {
     public String getPassWord() {
         return passWord;
     }
-//    public ArrayList getOffCodes() {
-//        return offCodes;
-//    }
+
     public double getCredit() {
         return credit;
     }
-//    public ArrayList getHistory() {
-//        return history;
-//    }
-//    public ArrayList getBuyOrSellLogs() {
-//        return buyOrSellLogs;
-//    }
+
     public void setCredit(double credit) {
         this.credit = credit;
     }

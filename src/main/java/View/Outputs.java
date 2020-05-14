@@ -3,7 +3,7 @@ package View;
 import Model.Customer;
 import Model.Product;
 
-import java.rmi.ServerError;
+
 import java.util.ArrayList;
 
 public class Outputs {
@@ -57,9 +57,9 @@ public class Outputs {
         }
     }
 
-    public static void printOffsListResult(ArrayList resultOff) {
-        for (Object off : resultOff) {
-            System.out.println(off);
+    public static void printOffsListResult(ArrayList<String> resultOff) {
+        for (String product : resultOff) {
+            System.out.println(product);
         }
     }
 

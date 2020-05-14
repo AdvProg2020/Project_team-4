@@ -9,16 +9,14 @@ public class Manager extends Account {
 
     private static boolean isFirstManagerCreatedOrNot = false;
 
-    private static ArrayList<Manager> allManagers;
-    private static ArrayList<Manager> managers;
 
-    private static final ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
-    private static final ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
-    private static final ArrayList<RequestOff> editOffRequests = new ArrayList<>();
-    private static final ArrayList<SaveAble> allAccounts = new ArrayList<>();
+    private static ArrayList<RequestANewSellerAccount> registerSellerAccountRequests = new ArrayList<>();
+    private static ArrayList<RequestProduct> editProductsRequests = new ArrayList<>();
+    private static ArrayList<RequestOff> editOffRequests = new ArrayList<>();
+    private static ArrayList<SaveAble> allAccounts = new ArrayList<>();
     private static final ArrayList<SaveAble> categories = new ArrayList<>();
 
-    private static ArrayList<CodedOff> offCodes;
+
 
 
     public Manager(String userName, String passWord) {
@@ -109,19 +107,6 @@ public class Manager extends Account {
 
     }
 
-    public static void removeProduct(Product product) {
-        File file = new File(product.getName());
-
-        if(file.delete())
-        {
-            System.out.println("File deleted successfully");
-        }
-        else
-        {
-            System.out.println("Failed to delete the file");
-        }
-        Product.removeProduct(product);
-    }
 
     public static void AnswerRequest(Request request, boolean acceptOrDecline) {
 
@@ -220,7 +205,7 @@ public class Manager extends Account {
     }
 
     public static void setRegisterSellerAccountRequest(Request registerSellerAccountRequests) {
-        Manager.registerSellerAccountRequests.add((RequestANewSellerAccount) registerSellerAccountRequests);
+        //Manager.registerSellerAccountRequests.add((RequestANewSellerAccount) registerSellerAccountRequests);
     }
 
     public static void setEditProductsRequest(Request editProductsRequests) {

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Score {
     private static ArrayList<Score> allScores;
-    private Account account;
+    private String account;
     private double score;
-    private Product product;
+    private String product;
 
-    public Score(Account account, double score, Product product) {
+    public Score(String account, double score, String product) {
         this.account = account;
         this.score = score;
         this.product = product;

@@ -37,7 +37,7 @@ public class ManagerMenu extends Menu {
         return new Menu() {
             private void personalInfo() {
                 Matcher matcher = getField("Enter in this format: edit [field] for back write back\n" +
-                        "warning you can't change username!", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
+                        "warning you can't change username!", "edit\\s(firstName|lastName|credit|phoneNumber|email|password)");
                 if(matcher == null){
                     return;
                 }
@@ -149,7 +149,7 @@ public class ManagerMenu extends Menu {
 
     private static void creatDiscountCode() {
         String input = "";
-        ArrayList<Customer> containingCustomers = new ArrayList<>();
+        ArrayList<String> containingCustomers = new ArrayList<>();
         Matcher matcher;
         String barcode = "";
         Matcher expireDate;
@@ -201,9 +201,9 @@ public class ManagerMenu extends Menu {
                     System.out.println("this name was added one time");
                     continue;
                 }
-                containingCustomers.add(customer);
+                containingCustomers.add(input.trim());
             }
-            Outputs.printCreateCodedOffResult(Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, new ArrayList<Customer>(containingCustomers)));
+            Outputs.printCreateCodedOffResult(Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers));
         }while(true);
     }
 

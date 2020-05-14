@@ -18,7 +18,7 @@ public class RequestOff extends Request {
     public LocalDateTime getEndDate() {
         return off.getEndDate();
     }
-    public ArrayList<Product> getProducts() {
+    public ArrayList<String> getProducts() {
         return off.getProducts();
     }
     public int getOffAmount() {
