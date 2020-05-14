@@ -11,6 +11,10 @@ public class Category extends SaveAble {
     private ArrayList<Category> subCategories;
     private ArrayList<Product> products;
 
+    public ArrayList<Product> getProducts(){
+        return products;
+    }
+
     public Category(String name, ArrayList<String> tags, ArrayList<Product> products, ArrayList<Category> subCategories) {
         this.name = name;
         if (allCategories.contains(getCategoryByName(name))) {

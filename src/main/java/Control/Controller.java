@@ -495,5 +495,10 @@ public class Controller {
     public ArrayList<Category> showCategories() {
         return Category.getAllCategories();
     }
+
+    public void plusSeen(String id) {
+        Product.getProductWithBarcode(id).plusSeenNumber();
+    }
+
 }
 
