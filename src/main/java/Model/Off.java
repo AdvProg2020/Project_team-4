@@ -7,7 +7,7 @@ import java.util.*;
 public class Off extends SaveAble {
     private static ArrayList<Off> allOffs = new ArrayList<>();
     private String offBarcode;
-    private ArrayList<String> products;
+    private ArrayList<Product> products;
     private enum offStatus {
         MAKING, EDITING, APPROVED
     }
@@ -16,14 +16,16 @@ public class Off extends SaveAble {
     private LocalDateTime endDate;
     private int offAmount;
 
-    public Off(LocalDateTime startDate, ArrayList<String> products, LocalDateTime endDate, int offAmount) {
+    public Off(LocalDateTime startDate, ArrayList<Product> products, LocalDateTime endDate, int offAmount) {
         this.offBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
-        this.products = products;
+        for (Product product : products) {
+            this.products.add(product);
+        }
         this.startDate = startDate;
         this.endDate = endDate;
         this.offAmount = offAmount;
-        for (String product: products) {
-            Product.getProductWithBarcode(product).offTheCost(Product.getProductWithBarcode(product).getCost() * offAmount / 100);
+        for (Product product: products) {
+            product.offTheCost(product.getCost() * offAmount / 100);
         }
         allOffs.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(allOffs, ArrayList.class, "allOffs");
@@ -61,7 +63,7 @@ public class Off extends SaveAble {
         return offBarcode;
     }
 
-    public ArrayList<String> getProducts() {
+    public ArrayList<Product> getProducts() {
         return products;
     }
 

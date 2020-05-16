@@ -16,8 +16,6 @@ public class Customer extends Account {
     protected ArrayList<CodedOff> offCodes;
     private String address = "";
 
-    public Customer() {
-    }
 
     public Customer(String userName, String passWord) {
         super(userName, passWord);

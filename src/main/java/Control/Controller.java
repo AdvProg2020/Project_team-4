@@ -87,16 +87,16 @@ public class Controller {
         return Product.removeProduct(getProductWithBarcode(productName));
     }
 
-    public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<Customer> containingCustomers) {
+    public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
         try {
             LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
             LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
             if (start.compareTo(end) > 0) {
                 return 2;
             }
-            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<Customer>(containingCustomers));
-            for (Customer customer: containingCustomers) {
-                customer.addOffCode(codedOff);
+            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), new ArrayList<String>(containingCustomers));
+            for (String customer: containingCustomers) {
+                Customer.getCustomerByName(customer).addOffCode(codedOff);
             }
             return 1;
         }catch (Exception e){
@@ -485,11 +485,12 @@ public class Controller {
     }
 
     public void removeProductFromSellerProducts(String productId) {
-        for (Product product: ((Seller) loggedInAccount).getProducts()) {
-            if (product.getProductBarcode().equalsIgnoreCase(productId)) {
-                ((Seller) loggedInAccount).getProducts().remove(product);
-            }
-        }
+//        for (Product product: ((Seller) loggedInAccount).getProducts()) {
+//            if (product.getProductBarcode().equalsIgnoreCase(productId)) {
+//                ((Seller) loggedInAccount).getProducts().remove(product);
+//            }
+//        }
+        ((Seller) loggedInAccount).getProducts().removeIf(product -> product.getProductBarcode().equalsIgnoreCase(productId));
     }
 
     public ArrayList<Category> showCategories() {
