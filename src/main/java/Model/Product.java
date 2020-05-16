@@ -35,6 +35,14 @@ public class Product extends SaveAble {
     private ArrayList<String> tags;
     private static int giveId;
 
+    public int getScoreNo() {
+        return scoreNo;
+    }
+
+    public int getSeen() {
+        return seen;
+    }
+
     public Product(String name, String company, int cost, Category category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<Seller> sellers) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;

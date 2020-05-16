@@ -1,0 +1,31 @@
+Index: .idea/Project_team-4.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/Project_team-4.iml	(date 1589267710113)
++++ .idea/Project_team-4.iml	(date 1589267710113)
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4" />
+\ No newline at end of file
+Index: class Model.Manager/ali
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- class Model.Manager/ali	(date 1589018165445)
++++ class Model.Manager/ali	(date 1589018165445)
+@@ -0,0 +1,1 @@
++{"userName":"ali","passWord":"123","credit":0.0,"saveAndLoad":{}}
+\ No newline at end of file
+Index: class java.util.ArrayList/offCodes
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- class java.util.ArrayList/offCodes	(date 1589018292418)
++++ class java.util.ArrayList/offCodes	(date 1589018292418)
+@@ -0,0 +1,1 @@
++[]
+\ No newline at end of file

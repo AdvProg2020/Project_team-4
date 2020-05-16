@@ -9,10 +9,10 @@ import java.util.regex.Matcher;
 public class ProductsMenu extends Menu {
     private static ProductsMenu productsMenu = new ProductsMenu();
 
-    public static ProductsMenu getProductsMenu() {
+    private static ProductsMenu getProductsMenu() {
         return productsMenu;
     }
-
+    private static String currentSort = "name (default sort)";
     private static ArrayList<Product> products = new ArrayList<>();
     private static ArrayList<String> categoryTags = new ArrayList<>();
     private static ArrayList<String> productTags = new ArrayList<>();
@@ -26,22 +26,86 @@ public class ProductsMenu extends Menu {
         options.add("back");
     }
 
-    private void sorting() {
-        while (true) {
-            System.out.println("for sorting by date press 1 and sorting with name press 2");
-            String input = scanner.nextLine();
-            if (input.equals("1")) {
-                Arrays.sort(products.toArray());
-                System.out.println("sorted");
-                break;
-            } else if (input.equals("2")) {
-                Collections.sort(products, Comparator.comparing(Product::getLocalDateTime));
-                System.out.println("sorted");
-            } else {
-                System.out.println("please enter 1 or 2");
+    private Menu sortingMenu() {
+        return new Menu() {
+            @Override
+            protected void execute() {
+                options.add("show available sort");
+                options.add("to sort");
+                options.add("current sort");
+                options.add("disable sort");
+                options.add("end");
+                String input = "";
+                do {
+                    show();
+                    System.out.println("Enter Number :");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            System.out.println("you can sort with time , name, score, seen time");
+                            break;
+                        case "2":
+                            sortingMetod();
+                            break;
+                        case "3":
+                            showCurrentSort();
+                            break;
+                        case "4":
+                            disableSort();
+                            break;
+                        case "5":
+                            return;
+                    }
+                } while (true);
             }
-        }
 
+            private void disableSort() {
+                products.sort(Comparator.comparing(Product::getName));
+                currentSort = "name (default sort)";
+                System.out.println("sorted with defalut sort (name)");
+            }
+
+            private void showCurrentSort() {
+                System.out.println("sorted with " + currentSort + "!");
+            }
+
+            private void sortingMetod() {
+                while (true) {
+                    System.out.println("for sorting by name press 1  with date 2" +
+                            "with score 3 and with seen time 4 for back press 5");
+                    String input2 = scanner.nextLine();
+                    switch (input2) {
+                        case "1":
+                            products.sort(Comparator.comparing(Product::getName));
+                            System.out.println("sorted");
+                            currentSort = "name";
+                            return;
+                        case "2":
+                            products.sort(Comparator.comparing(Product::getLocalDateTime));
+                            System.out.println("sorted");
+                            currentSort = "date";
+                            break;
+                        case "3":
+                            products.sort(Comparator.comparing(Product::getScoreNo));
+                            System.out.println("sorted");
+                            currentSort = "score";
+                            break;
+                        case "4":
+                            products.sort(Comparator.comparing(Product::getSeen));
+                            System.out.println("sorted");
+                            currentSort = "seen";
+                            break;
+                        case "5":
+                            return;
+                        default:
+                            System.out.println("please enter number 1 to 5");
+                            break;
+                    }
+                }
+            }
+        };
     }
 
 
@@ -99,17 +163,20 @@ public class ProductsMenu extends Menu {
                             break;
                         case "2":
                             getTagForFilter();
+                            break;
                         case "3":
                             showCurrentFilters();
+                            break;
                         case "4":
                             disableFilter();
+                            break;
                         case "5":
                             lastFilter();
+                            return;
                     }
                 } while (true);
 
             }
-
 
             private HashSet showAvailableFilters() {
                 HashSet template = new HashSet<String>();
@@ -144,7 +211,7 @@ public class ProductsMenu extends Menu {
             }
             switch (input) {
                 case "1":
-                    sorting();
+                    sortingMenu().execute();
                     break;
                 case "2":
                     showProducts();
@@ -174,7 +241,6 @@ public class ProductsMenu extends Menu {
             for (Category allCategory : Category.getAllCategories()) {
                 if (allCategory.getName().equals(tag)) {
                     categoryTags.add(tag);
-                    addCategoryproducts();
                     found = true;
                     break;
                 }
@@ -198,9 +264,6 @@ public class ProductsMenu extends Menu {
                 System.out.println("tag added successfully!");
             } else System.out.println("tag not found");
         }
-    }
-
-    private static void addCategoryproducts() {
     }
 
     private static void showCurrentFilters() {
