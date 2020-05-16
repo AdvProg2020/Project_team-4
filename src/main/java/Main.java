@@ -1,7 +1,6 @@
 import Control.Controller;
 import Model.*;
 import View.Menu.MainMenu;
-import View.Outputs;
 
 import java.io.File;
 import java.util.ArrayList;

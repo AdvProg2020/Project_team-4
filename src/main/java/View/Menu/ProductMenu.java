@@ -120,7 +120,6 @@ public class ProductMenu extends Menu {
 
     public void execute(String productId) {
         setProductId(productId);
-        Controller.getOurController().plusSeen(productId);
         System.out.println("Enter Number :");
         String input;
         do {
