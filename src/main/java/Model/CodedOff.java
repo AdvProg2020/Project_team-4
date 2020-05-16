@@ -31,8 +31,8 @@ public class CodedOff extends SaveAble {
         SaveAndLoad.getSaveAndLoad().writeJSON(allOfCodes, ArrayList.class, "offCodes");
     }
 
-    public static void removeOffCode(CodedOff offCode) {
-        File file = new File(offCode.getName());
+    public static void removeOffCode(String offCode) {
+        File file = new File(CodedOff.getOffCodeWithName(offCode).getName());
 
         if(file.delete())
         {
@@ -42,7 +42,7 @@ public class CodedOff extends SaveAble {
         {
             System.out.println("Failed to delete the file");
         }
-        allOfCodes.remove(offCode);
+        allOfCodes.remove(CodedOff.getOffCodeWithName(offCode));
     }
 
     public String getOffBarcode() {

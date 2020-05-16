@@ -6,7 +6,7 @@ public class Seller extends Account {
 
     //private static ArrayList<Seller> allSellers = new ArrayList<Seller>();
     protected ArrayList<History> history;
-    private ArrayList<Product> products;
+    private ArrayList<String> products;
     protected String companyName;
 
     private ArrayList<History> sellHistory;
@@ -64,7 +64,7 @@ public class Seller extends Account {
         return history;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<String> getProducts() {
         return products;
     }
 
