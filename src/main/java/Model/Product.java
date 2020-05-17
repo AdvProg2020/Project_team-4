@@ -3,6 +3,7 @@ package Model;
 
 
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -16,6 +17,8 @@ public class Product extends SaveAble {
         MAKING, EDITING, APPROVED
     }
     private String name;
+    private int seen;
+    private LocalDateTime localDateTime;
     private ArrayList<String> categoryTags;
     private String company;
     private int cost;
@@ -30,6 +33,22 @@ public class Product extends SaveAble {
     private boolean isInOffOrNot;
     private ArrayList<String> tags;
     private static int giveId;
+
+    public int getScoreNo() {
+        return scoreNo;
+    }
+
+    public static int getGiveId() {
+        return giveId;
+    }
+
+    public int getSeen() {
+        return seen;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
 
     public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
@@ -292,6 +311,20 @@ public class Product extends SaveAble {
     @Override
     public int hashCode() {
         return Objects.hash(productBarcode)+8;
+    }
+
+    public static ArrayList<Product> getProductWithTag(ArrayList<String> tags){
+        ArrayList<Product> products = new ArrayList<>();
+        products.addAll(allProducts);
+        for (Product product : products) {
+            for (String tag : tags) {
+                if (!product.getTags().contains(tag)) {
+                    products.remove(product);
+                    break;
+                }
+            }
+        }
+        return products;
     }
 
 }
