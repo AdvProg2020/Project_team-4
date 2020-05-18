@@ -78,7 +78,7 @@ public class ProductsMenu extends Menu {
                     String input2 = scanner.nextLine();
                     switch (input2) {
                         case "1":
-                            products.sort(Comparator.comparing(Product::getName));
+                            products.sort(Comparator.comparing(Product::getNameOfProductNotBarcode));
                             System.out.println("sorted");
                             currentSort = "name";
                             return;
@@ -118,10 +118,10 @@ public class ProductsMenu extends Menu {
 
     private void showProducts() {
         for (Product product : products) {
-            System.out.print(product.getName() + "\t");
-            System.out.println("product cost:" + product.getCost() +
-                    " exist number: " + product.getAmountOfExist() +
-                    "productId :" + product.getName());
+            System.out.print(product.getNameOfProductNotBarcode() + "\t");
+            System.out.println("product cost : " + product.getCost() +
+                    " exist number : " + product.getAmountOfExist() +
+                    " productId :" + product.getProductBarcode());
         }
     }
 

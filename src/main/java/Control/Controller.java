@@ -67,9 +67,6 @@ public class Controller {
         return 2;
     }
 
-    public void controllerShowUser(String username) {
-        System.out.println(Account.getAccountWithName(username));
-    }
 
     public int controllerDeleteAnUser(String username) {
         Account account = Account.getAccountWithName(username);
@@ -81,9 +78,13 @@ public class Controller {
     }
 
     public boolean controllerRemoveProduct(String productName) {
-        boolean result = Product.removeProduct(getProductWithBarcode(productName));
+        Product product = getProductWithBarcode(productName);
+        if(product == null){
+            return false;
+        }
+        Product.removeProduct(product);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
-        return result;
+        return true;
     }
 
     public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
@@ -308,7 +309,7 @@ public class Controller {
             return 0;
 
         Account account = getLoggedInAccount();
-        if(!account.getClass().equals(Customer.class)){
+        if(account == null || !account.getClass().equals(Customer.class)){
             return 2;
         }
         Customer customer = (Customer) account;

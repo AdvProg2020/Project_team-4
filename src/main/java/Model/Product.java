@@ -2,7 +2,6 @@ package Model;
 
 
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -74,7 +73,10 @@ public class Product extends SaveAble {
         this.sellers = sellers;
         this.amountOfExist = amountOfExist;
         giveId++;
+        this.localDateTime = localDateTime.now();
     }
+
+
 
     public Product(Product product) {
         this.productBarcode = product.getProductBarcode();
@@ -206,13 +208,8 @@ public class Product extends SaveAble {
         return cost;
     }
 
-    public static boolean
-    removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
-        if (allProducts.contains(product)) {
-            allProducts.remove(product);
-            return true;
-        }
-        return false;
+    public static void removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
+        allProducts.remove(product);
     }
 
     public static ArrayList<Product> showAllProducts() {
