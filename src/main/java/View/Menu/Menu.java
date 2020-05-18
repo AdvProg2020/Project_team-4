@@ -40,14 +40,14 @@ public abstract class Menu {
     }
 
     public static Matcher getField(String error, String regex) {
-        System.out.println(error);
         String input;
-        while (!isThisRegexMatch(regex, input = scanner.nextLine().trim())){
+        do {
+            System.out.println(error);
+            input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("back")) {
                 return null;
             }
-            System.out.println(error);
-        }
+        }while (!isThisRegexMatch(regex, input));
         Matcher matcher = Pattern.compile(regex).matcher(input);
         matcher.matches();
         return matcher;

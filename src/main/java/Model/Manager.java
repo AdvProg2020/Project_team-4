@@ -64,16 +64,9 @@ public class Manager extends Account {
         File directory = new File(System.getProperty("user.dir") + "\\" + Manager.class);
         if (directory.isDirectory()) {
             String[] files = directory.list();
-            if (files.length > 0) {
-                System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
-                isFirstManagerCreatedOrNot = true;
-            }
-            else {
-                isFirstManagerCreatedOrNot = false;
-            }
+            isFirstManagerCreatedOrNot = files.length > 0;
         }
         if ((!isFirstManagerCreatedOrNot) || isRequestFromManger){
-            //System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
             new Manager(userName, passWord);
             isFirstManagerCreatedOrNot = false;
             return true;

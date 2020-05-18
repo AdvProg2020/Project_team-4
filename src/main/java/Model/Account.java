@@ -34,7 +34,6 @@ public abstract class Account extends SaveAble {
 
     public static void deleteAccount(Account account) {
         File file = new File(account.getClass() + "\\" + account.getUserName());
-        System.out.println(file.getName());
         file.delete();
     }
 

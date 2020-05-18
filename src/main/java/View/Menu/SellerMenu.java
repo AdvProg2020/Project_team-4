@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 
 public class SellerMenu extends Menu {
 
-    private static final Menu sellerMenu = new SellerMenu();
+    private static Menu sellerMenu = new SellerMenu();
 
     public SellerMenu() {
         options.add("view personal info");
@@ -173,11 +173,10 @@ public class SellerMenu extends Menu {
 
     public void execute() {
         String input;
-        System.out.println("Enter your command :");
         do {
             show();
             System.out.println("Enter Number :");
-            if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+            if (!isThisRegexMatch("(\\d+)", input = scanner.nextLine())) {
                 continue;
             }
             switch (input.trim()) {
@@ -212,7 +211,7 @@ public class SellerMenu extends Menu {
                     break;
                 case "10":
                     show();
-                    return;
+                    break;
                 case "11":
                     return;
             }

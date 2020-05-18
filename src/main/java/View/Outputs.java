@@ -85,10 +85,10 @@ public class Outputs {
     }
 
     public static void printRemoveProductResult(boolean result){
-        if(true)
+        if(result)
             System.out.println("Successfully removed.");
         else
-            System.err.println("Something went wrong!");
+            System.err.println("Product not found!");
     }
 
     public static void printDeletingAccountResult(int controllerDeleteAnUserResult) {
