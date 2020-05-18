@@ -96,10 +96,13 @@ public class Controller {
             }
             ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
             CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
-            for (String customer: containingCustomers) {
-                ((Customer)Customer.getAccountWithName(customer)).addOffCode(codedOff.getOffBarcode());
-                SaveAndLoad.getSaveAndLoad().saveGenerally();
-            }
+                for (String customer: containingCustomers) {
+                    Customer customer1 = (Customer)Customer.getAccountWithName(customer);
+                    customer1.addOffCode(codedOff.getOffBarcode());
+                    System.out.println(customer1);
+                    SaveAndLoad.getSaveAndLoad().writeJSON(customer1, Customer.class, customer1.getUserName());
+                    SaveAndLoad.getSaveAndLoad().saveGenerally();
+                }
             return 1;
         }catch (Exception e){
             return 3;
@@ -170,10 +173,7 @@ public class Controller {
     }
 
     public boolean pay(String offCode) {
-        if (((Customer)loggedInAccount).pay(offCode)) {
-            return true;
-        }
-        return false;
+        return ((Customer) loggedInAccount).pay(offCode);
     }
 
     public void showCustomerBalance() {
@@ -209,15 +209,15 @@ public class Controller {
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public ArrayList<SaveAble> showAllRequests() {
+    public ArrayList<Request> showAllRequests() {
         return Manager.getAllRequests();
     }
 
-    public void acceptRequest(Request request) {
+    public void acceptRequest(String request) {
         Manager.acceptRequest(request);
     }
 
-    public void declineRequest(Request request) {
+    public void declineRequest(String request) {
         Manager.declineRequest(request);
     }
 

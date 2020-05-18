@@ -48,8 +48,8 @@ public class Manager extends Account {
         return editOffRequests;
     }
 
-    public static ArrayList<SaveAble> getAllRequests() {
-        ArrayList<SaveAble> allRequests = new ArrayList<>();
+    public static ArrayList<Request> getAllRequests() {
+        ArrayList<Request> allRequests = new ArrayList<>();
         allRequests.addAll(registerSellerAccountRequests);
         allRequests.addAll(editOffRequests);
         allRequests.addAll(editProductsRequests);
@@ -105,18 +105,16 @@ public class Manager extends Account {
 
     }
 
-    public static boolean acceptRequest(Request request) {
+    public static boolean acceptRequest(String request1) {
+        Request request = getRequestByName(request1);
         if (request.getRequestType() == RequestType.ACCOUNT) {
             accountRequestAccept((RequestANewSellerAccount) request);
-            declineRequest(request);
             return true;
         } else if (request.getRequestType() == RequestType.OFF) {
             editOff((RequestOff) request);
-            declineRequest(request);
             return true;
         } else if (request.getRequestType() == RequestType.PRODUCT){
             editProduct((RequestProduct) request);
-            declineRequest(request);
             return true;
         }
         return false;
@@ -179,7 +177,8 @@ public class Manager extends Account {
         return false;
     }
 
-    public static boolean declineRequest(Request request) {
+    public static boolean declineRequest(String request1) {
+        Request request = getRequestByName(request1);
         if (editOffRequests.contains(request)) {
             editOffRequests.remove(request);
             SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");

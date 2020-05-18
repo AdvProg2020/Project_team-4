@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RequestANewSellerAccount extends Request {
     private static ArrayList<RequestANewSellerAccount> allRequestANewSellerAccounts = new ArrayList<>();
@@ -11,6 +12,19 @@ public class RequestANewSellerAccount extends Request {
         this.userName = userName;
         this.passWord = passWord;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        RequestANewSellerAccount that = (RequestANewSellerAccount) o;
+//        return userName.equals(that.userName);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(userName);
+//    }
 
     public String getUserName() {
         return userName;

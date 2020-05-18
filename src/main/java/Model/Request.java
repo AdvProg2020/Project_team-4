@@ -18,8 +18,6 @@ public abstract class Request extends SaveAble {
         } else if(requestType == RequestType.OFF) {
             Manager.setEditOffRequests(this);
         }
-
-
         //this.requestId = rand.nextInt()+"";
     }
 

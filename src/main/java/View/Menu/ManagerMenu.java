@@ -280,7 +280,9 @@ public class ManagerMenu extends Menu {
                 options.add("DECLINE_REQUEST");
                 options.add("end");
                 do {
-                    System.out.println(Controller.getOurController().showAllRequests());
+                    for (SaveAble showAllRequest : Controller.getOurController().showAllRequests()) {
+                        System.out.println(showAllRequest);
+                    }
                     show();
                     System.out.println("requestid = productbarcod or seller name!");
                     if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
@@ -300,16 +302,14 @@ public class ManagerMenu extends Menu {
                             if(matcher == null){
                                 continue;
                             }
-                            request = Manager.getRequestByName(matcher.group(1));
-                            Controller.getOurController().acceptRequest(request);
+                            Controller.getOurController().acceptRequest(matcher.group(1));
                             break;
                         case "3":
                             matcher = getField("like this: [requestId]", "(\\S+)");
                             if(matcher == null){
                                 continue;
                             }
-                            request = Manager.getRequestByName(matcher.group(1));
-                            Controller.getOurController().declineRequest(request);
+                            Controller.getOurController().declineRequest(matcher.group(1));
                             break;
                         case "4":
                             return;
@@ -328,9 +328,11 @@ public class ManagerMenu extends Menu {
                 options.add("REMOVE_CATEGORY");
                 options.add("back");
                 String input = "";
-                System.out.println(Category.getAllCategories());
                 Request request = null;
                 do {
+                    for (Category allCategory : Category.getAllCategories()) {
+                        System.out.println(allCategory);
+                    }
                     show();
                     if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
                         continue;
@@ -348,6 +350,10 @@ public class ManagerMenu extends Menu {
                                 return;
                             }
                             String name = matcher.group(1);
+                            if(Category.getCategoryByName(name) == null){
+                                System.out.println("category not found");
+                                continue;
+                            }
                             Controller.getOurController().removeCategory(name);
                             break;
                         case "4":
@@ -363,7 +369,6 @@ public class ManagerMenu extends Menu {
         ArrayList<String> subCategories = new ArrayList<>();
         ArrayList<String> tags = new ArrayList<>();
         ArrayList<String> productsList = new ArrayList<>();
-        System.out.println("Enter subCategorie:\ntags:\nproductsList:");
         String nameToAdd;
         Matcher matcher= getField("Please enter a valid name", "(\\S+)");
         if(matcher == null){
@@ -371,6 +376,9 @@ public class ManagerMenu extends Menu {
         }
         String name = matcher.group(1);
         while (true) {
+            for (Category allCategory : Category.getAllCategories()) {
+                System.out.println(allCategory);
+            }
             Matcher matcher1 = getField("enter subCategories like this: categoryNo1 and end to end", "(\\S+)");
             if(matcher1 == null){
                 return;
@@ -378,6 +386,10 @@ public class ManagerMenu extends Menu {
             nameToAdd = matcher.group(1);
             if (nameToAdd.equalsIgnoreCase("end")) {
                 break;
+            }
+            if(Category.getCategoryByName(nameToAdd) == null){
+                System.out.println("category not found");
+                continue;
             }
             subCategories.add(nameToAdd);
         }
@@ -393,6 +405,9 @@ public class ManagerMenu extends Menu {
             tags.add(nameToAdd);
         }
         while (true) {
+            for (Product allProduct : Product.getAllProducts()) {
+                System.out.println(allProduct.getNameOfProductNotBarcode() + " --->" + allProduct.getName());
+            }
             Matcher matcher1 = getField("enter product like this: product and end to end", "(\\S+)");
             if(matcher1 == null){
                 return;
@@ -400,6 +415,10 @@ public class ManagerMenu extends Menu {
             nameToAdd = matcher.group(1);
             if (nameToAdd.equalsIgnoreCase("end")) {
                 break;
+            }
+            if(Product.getAllProducts().contains(Product.getProductWithBarcode(nameToAdd))){
+                System.out.println("Product not found");
+                continue;
             }
             productsList.add(nameToAdd);
         }

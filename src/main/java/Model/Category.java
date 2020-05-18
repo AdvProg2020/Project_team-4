@@ -33,11 +33,7 @@ public class Category extends SaveAble {
                 Product.getAllProducts().remove(Product.getProductWithBarcode(product));
             }
         }
-        if (allCategories.contains(categoryToDelete)) {
-            allCategories.remove(categoryToDelete);
-        }
-//        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
-//        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
+        allCategories.remove(categoryToDelete);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
