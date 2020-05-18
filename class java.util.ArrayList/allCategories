@@ -1,0 +1,1 @@
+[{"name":"cat1","tags":["tag1ForCat1","tag2ForCat1","tag3ForCat1"],"subCategories":[],"products":[],"saveAndLoad":{}},{"name":"cat2","tags":["tag1ForCAt2","tag2ForCat2","tag3ForCat2"],"subCategories":["cat1"],"products":[],"saveAndLoad":{}}]

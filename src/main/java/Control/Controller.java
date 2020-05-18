@@ -97,6 +97,7 @@ public class Controller {
             CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
             for (String customer: containingCustomers) {
                 ((Customer)Customer.getAccountWithName(customer)).addOffCode(codedOff.getOffBarcode());
+                SaveAndLoad.getSaveAndLoad().saveGenerally();
             }
             return 1;
         }catch (Exception e){
@@ -222,7 +223,7 @@ public class Controller {
     public static void readOffCodesFromFile() {
         Type offCodesListType = new TypeToken<ArrayList<CodedOff>>(){}.getType();
         try {
-            CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
+            CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffCodes", offCodesListType));
         } catch (Exception e) {
             Outputs.printReadFileResult("Didn't read the array of all offCodes");
         }
@@ -483,8 +484,8 @@ public class Controller {
 
     }
 
-    public int getCredit() {
-        return (int)(loggedInAccount.getCredit());
+    public double getCredit() {
+        return (loggedInAccount.getCredit());
     }
 
     public ArrayList<String> getCustomerDiscountCodes() {

@@ -205,6 +205,7 @@ public class ProductsMenu extends Menu {
         String input;
         Matcher matcher;
         do {
+            show();
             updateProducts();
             if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
                 continue;

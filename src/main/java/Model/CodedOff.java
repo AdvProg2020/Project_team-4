@@ -28,7 +28,7 @@ public class CodedOff extends SaveAble {
         this.numberOfUsageForEachUserName = new HashMap<String, Integer>();
         this.discountIsForTheseUserNames = new ArrayList<String>();
         allOfCodes.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(allOfCodes, ArrayList.class, "offCodes");
+        SaveAndLoad.getSaveAndLoad().writeJSON(allOfCodes, ArrayList.class, "allOffCodes");
     }
 
     public static void removeOffCode(String offCode) {

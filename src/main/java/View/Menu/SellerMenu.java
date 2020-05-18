@@ -21,7 +21,6 @@ public class SellerMenu extends Menu {
         options.add("view balance #");
         options.add("help");
         options.add("back");
-        options.add("logout #");
     }
 
     private static void addProduct() {
@@ -209,16 +208,13 @@ public class SellerMenu extends Menu {
                     getViewOffsMenu().execute();
                     break;
                 case "9":
-                    Controller.getOurController().getCredit();
+                    System.out.println(Controller.getOurController().getCredit());
                     break;
                 case "10":
                     show();
                     return;
                 case "11":
-                    break;
-                case "12":
-                    LoginMenu.logout();
-                    break;
+                    return;
             }
         } while (!input.equalsIgnoreCase("end"));
     }

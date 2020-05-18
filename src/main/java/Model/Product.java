@@ -12,6 +12,16 @@ public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
     private  ArrayList<String> byers = new ArrayList<>();
+
+    public static Product getProductWithName(String product) {
+        for (Product product1: allProducts) {
+            if (product1.getNameOfProductNotBarcode().equalsIgnoreCase(product)) {
+                return product1;
+            }
+        }
+        return null;
+    }
+
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
@@ -68,7 +78,7 @@ public class Product extends SaveAble {
 
     public Product(Product product) {
         this.productBarcode = product.getProductBarcode();
-        this.name = product.getName();
+        this.name = product.getNameOfProductNotBarcode();
         this.categoryTags = product.getCategoryTags();
         this.company = product.getCompany();
         this.cost = product.getCost();
@@ -186,6 +196,10 @@ public class Product extends SaveAble {
     @Override
     public String getName() {
         return productBarcode;
+    }
+
+    public String getNameOfProductNotBarcode() {
+        return name;
     }
 
     public int getCost() {

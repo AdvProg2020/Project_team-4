@@ -314,6 +314,7 @@ public class ManagerMenu extends Menu {
                             Controller.getOurController().removeCategory(name);
                             break;
                         case "4":
+                            return;
                     }
                 }while (true);
             }
