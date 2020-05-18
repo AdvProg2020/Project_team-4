@@ -163,7 +163,8 @@ public class Manager extends Account {
                 }
                 new Product(request.getProduct());
                 editProductsRequests.remove(request);
-                SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
+//                SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
+                SaveAndLoad.getSaveAndLoad().saveGenerally();
                 return true;
             }
         }
@@ -178,7 +179,8 @@ public class Manager extends Account {
             }
             new Off(request.getOff().getStartDate(), request.getOff().getProducts(), request.getOff().getEndDate(), request.getOff().getOffAmount());
             editOffRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+//            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
             return true;
         }
         return false;

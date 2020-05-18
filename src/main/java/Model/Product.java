@@ -196,7 +196,6 @@ public class Product extends SaveAble {
     removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
         if (allProducts.contains(product)) {
             allProducts.remove(product);
-            //SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, Product.class, pro);
             return true;
         }
         return false;

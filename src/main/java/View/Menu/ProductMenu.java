@@ -26,13 +26,10 @@ public class ProductMenu extends Menu {
     }
 
     private void selectSeller() {
-        ArrayList<Seller> sellers = new ArrayList<>();
+        ArrayList<String> sellers = new ArrayList<>();
         sellers.addAll(Controller.getOurController().requestProductSeller(this.getProductId()));
-        for (Seller seller : sellers) {
-            System.out.println(seller);
-        }
-        System.out.println("Enter the name of seller to select.");
-        scanner.nextLine();
+        String sellerName = getField("Enter the name of seller to select.", "(\\S+)").group(1);
+        Controller.getOurController().setNameOfSellerOfProductAddedToCart(sellerName);
     }
 
     private Menu digestMenu() {

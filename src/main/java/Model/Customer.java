@@ -72,6 +72,7 @@ public class Customer extends Account {
         if(Product.getProductWithBarcode(product).isExistsOrNot()){
             Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
             cart.put(product, cart.get(product) + 1); // maybe need edition
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
             return 1;
         }
         else{
@@ -172,6 +173,10 @@ public class Customer extends Account {
         ArrayList<String> products = new ArrayList<>(cart.keySet());
         History historyOfPurchase = new History(dateTime, getCartMoney(), offCost, sellersOfProductsOfTheCart, products);
         history.add(historyOfPurchase);
+    }
+
+    public void setSellerName(String name) {
+        sellersOfProductsOfTheCart.add(name);
     }
 
     public void addOffCode(String offCode) {

@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 public class ProductsMenu extends Menu {
     private static ProductsMenu productsMenu = new ProductsMenu();
 
-    private static ProductsMenu getProductsMenu() {
+    static ProductsMenu getProductsMenu() {
         return productsMenu;
     }
     private static String currentSort = "name (default sort)";

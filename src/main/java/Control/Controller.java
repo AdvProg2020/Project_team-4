@@ -81,7 +81,9 @@ public class Controller {
     }
 
     public boolean controllerRemoveProduct(String productName) {
-        return Product.removeProduct(getProductWithBarcode(productName));
+        boolean result = Product.removeProduct(getProductWithBarcode(productName));
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        return result;
     }
 
     public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
@@ -202,6 +204,7 @@ public class Controller {
             }
         }
         new Category(name, tags, products, subCategory);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public ArrayList<SaveAble> showAllRequests() {
@@ -316,8 +319,26 @@ public class Controller {
         return ((Customer)loggedInAccount).getCartMoney();
     }
 
-    public Collection<? extends Seller> requestProductSeller(String productId) {
-        return null;
+    public ArrayList<String> requestProductSeller(String productId) {
+        ArrayList<String> sellersOfProduct = new ArrayList<>();
+        String[] pathnames;
+
+        // Creates a new File instance by converting the given pathname string
+        // into an abstract pathname
+        File f = new File(Seller.class.toString());
+
+        // Populates the array with names of files and directories
+        pathnames = f.list();
+
+        // For each pathname in the pathnames array
+        for (String pathname : pathnames) {
+            // Print the names of files and directories
+            Seller seller = (Seller) SaveAndLoad.getSaveAndLoad().readJSON(pathname, Seller.class);
+            if (seller.getProducts().contains(Product.getProductWithBarcode(productId))) {
+                sellersOfProduct.add(pathname);
+            }
+        }
+        return sellersOfProduct;
     }
 
     public Account getLoggedInAccount() {
@@ -485,11 +506,13 @@ public class Controller {
     }
 
     public void removeProductFromSellerProducts(String productId) {
-        for (String product: ((Seller) loggedInAccount).getProducts()) {
+        ArrayList<String> products = ((Seller) loggedInAccount).getProducts();
+        for (String product: products) {
             if (product.equalsIgnoreCase(productId)) {
                 ((Seller) loggedInAccount).getProducts().remove(product);
             }
         }
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public ArrayList<Category> showCategories() {
@@ -503,6 +526,11 @@ public class Controller {
             offProducts.addAll(off.getProducts());
         }
         return offProducts;
+    }
+
+    public void setNameOfSellerOfProductAddedToCart(String sellerName) {
+        Customer customer = (Customer) getLoggedInAccount();
+        customer.setSellerName(sellerName);
     }
 }
 

@@ -32,17 +32,8 @@ public class CodedOff extends SaveAble {
     }
 
     public static void removeOffCode(String offCode) {
-        File file = new File(CodedOff.getOffCodeWithName(offCode).getName());
-
-        if(file.delete())
-        {
-            System.out.println("File deleted successfully");
-        }
-        else
-        {
-            System.out.println("Failed to delete the file");
-        }
         allOfCodes.remove(CodedOff.getOffCodeWithName(offCode));
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public String getOffBarcode() {

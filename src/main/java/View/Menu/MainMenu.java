@@ -44,8 +44,7 @@ public class MainMenu extends Menu {
                     ProductsMenu.getProductsMenu().execute();
                     break;
                 case "2":
-                    //off menu
-//                    offMenu.execute();
+                    OffsMenu.getOffsMenu().execute();
                     break;
                 case "3":
                     LoginMenu.getLoginMenu().execute();
