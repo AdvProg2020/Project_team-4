@@ -383,7 +383,7 @@ public class ManagerMenu extends Menu {
             if(matcher1 == null){
                 return;
             }
-            nameToAdd = matcher.group(1);
+            nameToAdd = matcher1.group(1);
             if (nameToAdd.equalsIgnoreCase("end")) {
                 break;
             }
@@ -398,7 +398,7 @@ public class ManagerMenu extends Menu {
             if(matcher1 == null){
                 return;
             }
-            nameToAdd = matcher.group(1);
+            nameToAdd = matcher1.group(1);
             if (nameToAdd.equalsIgnoreCase("end")) {
                 break;
             }
@@ -412,7 +412,7 @@ public class ManagerMenu extends Menu {
             if(matcher1 == null){
                 return;
             }
-            nameToAdd = matcher.group(1);
+            nameToAdd = matcher1    .group(1);
             if (nameToAdd.equalsIgnoreCase("end")) {
                 break;
             }

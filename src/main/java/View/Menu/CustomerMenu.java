@@ -76,7 +76,11 @@ public class CustomerMenu extends Menu {
                     }
                     switch (input.trim()) {
                         case "1":
-                            System.out.println(Controller.getOurController().showCart());
+                            if(Controller.getOurController().showCart().isEmpty()){
+                                System.out.println("no product added to cart!");
+                            }else {
+                                System.out.println(Controller.getOurController().showCart());
+                            }
                             break;
                         case "2":
                             String productId = getField("enter productId", "(\\S+)").group(1);
@@ -85,7 +89,7 @@ public class CustomerMenu extends Menu {
                             break;
                         case "3":
                             String productIdToIncrease = getField("Enter productId to increase: ", "(\\S+)").group(1);
-                            Controller.getOurController().increaseOrDecreaseProductNo(productIdToIncrease, +1);
+                            Outputs.printIncreaseOrDecreaseResult(Controller.getOurController().increaseOrDecreaseProductNo(productIdToIncrease, 1));
                             break;
                         case "4":
                             String productIdToDecrease = getField("Enter productId to decrease: ", "(\\S+)").group(1);
@@ -107,10 +111,21 @@ public class CustomerMenu extends Menu {
 
     private static void purchase() {
         Matcher info = getField("Enter info like this: firstName, lastName, phoneNumber, email", "(\\S+),\\s(\\S+),\\s(\\S+),\\s(\\S+)");
+        if(info == null){
+            return;
+        }
         Controller.getOurController().setCustomersField(info.group(1), info.group(2), info.group(3), info.group(4));
-        String address = getField("Enter your address for deliver the products: ()", "(.+)").group(1);
+        Matcher matcher= getField("Enter your address for deliver the products: ()", "(.+)");
+        if(matcher == null){
+            return;
+        }
+        String address = matcher.group(1);
         Controller.getOurController().setCustomerAddress(address);
-        String offCode = getField("If you have offCode type it here:", "(\\S+)").group(1);
+        matcher = getField("If you have offCode type it here:", "(\\S+)");
+        if(matcher == null){
+            return;
+        }
+        String offCode = matcher.group(1);
         Outputs.printPayResult(Controller.getOurController().pay(offCode));
     }
 

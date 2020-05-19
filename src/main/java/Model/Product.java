@@ -310,22 +310,21 @@ public class Product extends SaveAble {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return productBarcode.equalsIgnoreCase(product.productBarcode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(productBarcode)+8;
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Product product = (Product) o;
+//        return productBarcode.equalsIgnoreCase(product.productBarcode);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(productBarcode)+8;
+//    }
 
     public static ArrayList<Product> getProductWithTag(ArrayList<String> tags){
-        ArrayList<Product> products = new ArrayList<>();
-        products.addAll(allProducts);
+        ArrayList<Product> products = new ArrayList<>(allProducts);
         for (Product product : products) {
             for (String tag : tags) {
                 if (!product.getTags().contains(tag)) {

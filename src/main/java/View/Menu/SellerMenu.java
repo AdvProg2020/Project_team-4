@@ -1,8 +1,13 @@
 package View.Menu;
 
 import Control.Controller;
+import Model.Account;
+import Model.Category;
+import Model.Customer;
+import Model.Seller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 public class SellerMenu extends Menu {
@@ -24,21 +29,54 @@ public class SellerMenu extends Menu {
     }
 
     private static void addProduct() {
+        //null matcher check for all this function
         String name = getField("Enter a valid name", "(\\S+)").group(1);
         String companyName = getField("enter companyname: ", "(\\S+)").group(1);
         int cost = Integer.parseInt(getField("Enter cost: ", "(\\d+)").group(1));
         String nameToAdd = "";
         ArrayList<String> sellersNames = new ArrayList<>();
         while (true) {
+            System.out.println("Sellers :");
+            System.out.println(Arrays.toString(Controller.getOurController().getusers(Seller.class)));
             nameToAdd = getField("enter seller to add to sellers of this product and end to end: ", "(\\S+)").group(1);
             if (nameToAdd.equalsIgnoreCase("end")) {
                 break;
             }
-            sellersNames.add(nameToAdd);
+            boolean validname = false;
+            for (String getuser : Controller.getOurController().getusers(Seller.class)) {
+                if (nameToAdd.equals(getuser)) {
+                    validname = true;
+                    break;
+                }
+            }
+            if(validname) {
+                sellersNames.add(nameToAdd);
+            }else{
+                System.out.println("no seller found!");
+            }
         }
         int amountOfExist = Integer.parseInt(getField("enter how many of this product exists: ", "(\\S+)").group(1));
-        String categoryName = getField("Enter category to add this product to that and end to end", "(\\S+)").group(1);
-        String description = getField("enter dscription", "(\\S+)").group(1);
+        for (Category allCategory : Category.getAllCategories()) {
+            System.out.println(allCategory);
+        }
+        String categoryName;
+        while (true) {
+            boolean validname = false;
+            categoryName = getField("Enter category to add this product to that and end to end", "(\\S+)").group(1);
+            //null matcher check:(
+            for (Category allCategory : Category.getAllCategories()) {
+                if (categoryName.equals(allCategory.getName())) {
+                    validname = true;
+                    break;
+                }
+            }
+            if (validname) {
+                break;
+            }else{
+                System.out.println("please enter valid category name");
+            }
+        }
+        String description = getField("enter dscription", "(.+)").group(1);
         ArrayList<String> tags = new ArrayList<>();
         while (true) {
             nameToAdd = getField("enter tag to add to tags of this product and end to end: ", "(\\S+)").group(1);

@@ -5,6 +5,7 @@ import Model.Product;
 import Model.Seller;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 import static View.Outputs.*;
 
@@ -25,26 +26,32 @@ public class ProductMenu extends Menu {
         printAddToCartResult(Controller.getOurController().requestAddProductToCart(this.getProductId()));
     }
 
-    private void selectSeller() {
+    private boolean selectSeller() {
         ArrayList<String> sellers = new ArrayList<>();
         sellers.addAll(Controller.getOurController().requestProductSeller(this.getProductId()));
-        String sellerName = getField("Enter the name of seller to select.", "(\\S+)").group(1);
+        for (String seller : sellers) {
+            System.out.println(seller);
+        }
+        Matcher matcher= getField("Enter the name of seller to select.", "(\\S+)");
+        if(matcher == null){
+            return false;
+        }
+        String sellerName = matcher.group(1);
         Controller.getOurController().setNameOfSellerOfProductAddedToCart(sellerName);
+        return true;
     }
 
     private Menu digestMenu() {
         return new Menu() {
-            @Override
-            protected void show() {
-                options.add("add to cart");
-                options.add("select seller [seller_username]");
-                options.add("back");
-            }
 
             @Override
             public void execute() {
-                System.out.println("Enter your choice:");
+                options.add("add to cart");
+                options.add("select seller [seller_username]");
+                options.add("back");
+                boolean sellerSelected = false;
                 do {
+                    System.out.println("Enter your choice:");
                     show();
                     String input;
                     if (!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()) {
@@ -52,10 +59,24 @@ public class ProductMenu extends Menu {
                     }
                     switch (input.trim()) {
                         case "1":
+                            if(sellerSelected){
+                                System.out.println("please sellect seller first!");
+                                continue;
+                            }
+                            if(Controller.getOurController().getLoggedInAccount() == null){
+                                System.out.println("please login first!");
+                                LoginMenu.getLoginMenu().execute();
+                                continue;
+                            }
                             addToCart();
                             break;
                         case "2":
-                            selectSeller();
+                            if(Controller.getOurController().getLoggedInAccount() == null){
+                                System.out.println("please login first!");
+                                LoginMenu.getLoginMenu().execute();
+                                continue;
+                            }
+                            sellerSelected = selectSeller();
                             break;
                         case "3":
                             return;

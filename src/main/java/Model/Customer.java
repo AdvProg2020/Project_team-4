@@ -76,7 +76,7 @@ public class Customer extends Account {
             return 1;
         }
         else{
-            return 0;
+            return 5;
         }
     }
 
@@ -146,14 +146,16 @@ public class Customer extends Account {
     }
 
 
-    public void setNumberOfProductInCart(String productInCart, int n) {
-        if (cart.keySet().contains(productInCart)) {
+    public int setNumberOfProductInCart(String productInCart, int n) {
+        if (cart.containsKey(productInCart)) {
             cart.replace(productInCart, cart.get(productInCart) +n);
             if (cart.get(productInCart) == 0) {
                 cart.remove(productInCart);
+                return 2;
             }
+            return 1;
         } else {
-            System.out.println("This barcode is none of your selected products in cart");
+            return 3;
         }
 
     }

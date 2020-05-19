@@ -11,13 +11,6 @@ public abstract class Request extends SaveAble {
 
     public Request(RequestType requestType) {
         this.requestType = requestType ;
-        if(requestType == RequestType.ACCOUNT) {
-            Manager.setRegisterSellerAccountRequest(this);
-        } else if(requestType == RequestType.PRODUCT) {
-            Manager.setEditProductsRequest(this);
-        } else if(requestType == RequestType.OFF) {
-            Manager.setEditOffRequests(this);
-        }
         //this.requestId = rand.nextInt()+"";
     }
 

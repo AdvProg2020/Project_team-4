@@ -32,8 +32,8 @@ public class Seller extends Account {
         this.sellHistory.add(soldProduct);
     }
 
-    public void setSellingProducts(ArrayList<String> sellingProducts) {
-        this.sellingProducts = sellingProducts;
+    public void setSellingProducts(String sellingProduct) {
+        this.sellingProducts.add(sellingProduct);
     }
 
     public void sendEditProductRequest() {

@@ -90,6 +90,8 @@ public class Category extends SaveAble {
     }
 
 
-
+    public void setProducts(String products) {
+        this.products.add(products);
+    }
 
 }

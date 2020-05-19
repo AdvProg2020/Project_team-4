@@ -78,10 +78,15 @@ public class Outputs {
     }
 
     public static void printAddToCartResult(int result){
-        if(result == 1)
-            System.out.println("Succesfully added.");
-        else
-            System.err.println("Something went wrong!");
+        if(result == 0){
+            System.out.println("product not found!");
+        }else if(result == 1) {
+            System.out.println("Successfully added.");
+        }else if(result == 2){
+            System.out.println("just customers can buy product!");
+        }else if(result == 5){
+            System.out.println("Oops product doesn't exist now!");
+        }
     }
 
     public static void printRemoveProductResult(boolean result){
@@ -135,6 +140,18 @@ public class Outputs {
 
     public static void printAttributeResult(Product product){
         System.out.println(product);
+    }
+
+    public static void printIncreaseOrDecreaseResult(int increaseOrDecreaseProductNo) {
+        if(increaseOrDecreaseProductNo == 1){
+            System.out.println("well done!");
+        }else if(increaseOrDecreaseProductNo == 2){
+            System.out.println("product removed successfully!");
+        }else if(increaseOrDecreaseProductNo == 3){
+            System.out.println("This barcode is none of your selected products in cart");
+        }else if(increaseOrDecreaseProductNo == 4){
+            System.out.println("this product in not availAble any more");
+        }
     }
 }
 

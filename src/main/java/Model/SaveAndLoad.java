@@ -90,13 +90,8 @@ public class SaveAndLoad {
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
         SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class, "editOffRequests");
-
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class, "editProductsRequests");
-
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getRegisterSellerAccountRequests(), ArrayList.class, "registerSellerAccountRequests");
-
-
-
     }
 
 }

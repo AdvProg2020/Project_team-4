@@ -147,12 +147,33 @@ public class Manager extends Account {
                 product.setCost(request.getProductCost());
                 product.setDescription(request.getProductDescription());
                 product.setTags(request.getProductTags());
+                for (String seller: product.getSellers()) {
+                    if (Seller.getAccountWithName(seller) != null) {
+                        Seller seller1 = ((Seller)Seller.getAccountWithName(seller));
+                        seller1.setSellingProducts(product.getProductBarcode());
+                        SaveAndLoad.getSaveAndLoad().writeJSON(seller1, Seller.class, seller1.getName());
+                    }
+                }
+                String category = product.getCategory();
+                Category.getCategoryByName(category).setProducts(product.getProductBarcode());
+                editProductsRequests.remove(request);
+                SaveAndLoad.getSaveAndLoad().saveGenerally();
+                return true;
             } else {
                 Product product = Product.getProductWithBarcode(request.getProductName());
                 if (Product.getAllProducts().contains(product)) {
                     Product.getAllProducts().remove(product);
                 }
-                new Product(request.getProduct());
+                Product product1 = new Product(request.getProduct());
+                for (String seller: product1.getSellers()) {
+                    if (Seller.getAccountWithName(seller) != null) {
+                        Seller seller1 = ((Seller)Seller.getAccountWithName(seller));
+                        seller1.setSellingProducts(product1.getProductBarcode());
+                        SaveAndLoad.getSaveAndLoad().writeJSON(seller1, Seller.class, seller1.getName());
+                    }
+                }
+                String category = product1.getCategory();
+                Category.getCategoryByName(category).setProducts(product1.getProductBarcode());
                 editProductsRequests.remove(request);
 //                SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
                 SaveAndLoad.getSaveAndLoad().saveGenerally();

@@ -136,15 +136,15 @@ public class Controller {
         return (((Customer)loggedInAccount).getCart()).toString();
     }
 
-    public void increaseOrDecreaseProductNo(String productId, int n) {
+    public int increaseOrDecreaseProductNo(String productId, int n) {
         if (getProductWithBarcode(productId)!=null && getProductWithBarcode(productId).isExistsOrNot()) {
             getProductWithBarcode(productId).setAmountOfExist(-n);
         } else {
-            System.out.println("this product in not availAble any more");
-            return;
+            return 4;
         }
-        ((Customer)loggedInAccount).setNumberOfProductInCart(productId, n);
+        int n2 = ((Customer)loggedInAccount).setNumberOfProductInCart(productId, n);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+        return n2;
     }
 
     public ArrayList<Product> showProducts() {
@@ -305,11 +305,11 @@ public class Controller {
 
     public int requestAddProductToCart(String productId) {
         Product product;
-        if((product = Product.getProductWithBarcode(productId)) == null)
+        if((product = Product.getProductWithBarcode(productId)) == null) {
             return 0;
-
+        }
         Account account = getLoggedInAccount();
-        if(account == null || !account.getClass().equals(Customer.class)){
+        if(!account.getClass().equals(Customer.class)){
             return 2;
         }
         Customer customer = (Customer) account;
