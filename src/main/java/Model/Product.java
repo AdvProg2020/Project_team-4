@@ -2,12 +2,15 @@ package Model;
 
 
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 
 public class Product extends SaveAble {
-    private static ArrayList<Product> allProducts;
+    private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
-    private static ArrayList<Customer> byers = new ArrayList<>();
+    private  ArrayList<String> byers = new ArrayList<>();
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
@@ -15,31 +18,33 @@ public class Product extends SaveAble {
     private String name;
     private ArrayList<String> categoryTags;
     private String company;
-    private double cost;
-    private ArrayList<Seller> sellers;
+    private int cost;
+    private ArrayList<String> sellers;
     private boolean existsOrNot;
-    private Category category;
+    private String category;
     private String description;
     private ArrayList<Comment> comments;
+    private int scoreNo;
     private int averageScore;
     private int amountOfExist;
+    private boolean isInOffOrNot;
     private ArrayList<String> tags;
+    private static int giveId;
 
-    public Product(String productBarcode, String name, String company, double cost, boolean existsOrNot, Category category, String description, int averageScore, int amountOfExist, ArrayList<String> tags) {
-        this.productBarcode = productBarcode;
+    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
+        this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
-        this.categoryTags = new ArrayList<String>();
+        this.categoryTags = new ArrayList<>();
         this.company = company;
         this.cost = cost;
-        this.sellers = new ArrayList<Seller>();
-        this.existsOrNot = existsOrNot;
+        this.sellers = new ArrayList<>();
         this.category = category;
         this.description = description;
-        this.comments = new ArrayList<Comment>();
-        this.averageScore = averageScore;
+        this.comments = new ArrayList<>();
         this.tags = tags;
+        this.sellers = sellers;
         this.amountOfExist = amountOfExist;
-        allProducts.add(this);
+        giveId++;
     }
 
     public Product(Product product) {
@@ -57,13 +62,14 @@ public class Product extends SaveAble {
         this.tags = product.getTags();
         this.amountOfExist = product.getAmountOfExist();
         allProducts.add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
     }
 
     public String getProductBarcode() {
         return productBarcode;
     }
 
-    public static ArrayList<Customer> getByers() {
+    public ArrayList<String> getByers() {
         return byers;
     }
 
@@ -71,15 +77,18 @@ public class Product extends SaveAble {
         return company;
     }
 
-    public ArrayList<Seller> getSellers() {
+    public ArrayList<String> getSellers() {
         return sellers;
     }
 
     public boolean isExistsOrNot() {
-        return existsOrNot;
+        if (amountOfExist > 0) {
+            return true;
+        }
+        return false;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -109,10 +118,6 @@ public class Product extends SaveAble {
         return categoryTags;
     }
 
-    public void addAProductToCart(Product product) {
-
-    }
-
     public void buyTheCartItems() {
 
     }
@@ -121,17 +126,19 @@ public class Product extends SaveAble {
         this.tags.addAll(tags);
     }
 
-    public static Product getProductWithName(String name) {
+    public static Product getProductWithBarcode(String name) {
         for (Product product : allProducts) {
-            if (product.getName().equalsIgnoreCase(name)) {
+            if (product.getProductBarcode().equalsIgnoreCase(name)) {
                 return product;
             }
         }
         return null;
     }
 
+
+
     public static ArrayList<Product> getProductsWithTags(String name, ArrayList<String> tags) {
-        ArrayList<Product> products = new ArrayList();
+        ArrayList<Product> products = new ArrayList<>();
         for (Product product : allProducts) {
             if (product.getName().equalsIgnoreCase(name)) {
                 products.add(product);
@@ -158,17 +165,19 @@ public class Product extends SaveAble {
     }
 
     @Override
-    protected String getName() {
+    public String getName() {
         return productBarcode;
     }
 
-    public double getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public static boolean removeProduct(Product product) {
+    public static boolean
+    removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
         if (allProducts.contains(product)) {
             allProducts.remove(product);
+            //SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, Product.class, pro);
             return true;
         }
         return false;
@@ -176,6 +185,113 @@ public class Product extends SaveAble {
 
     public static ArrayList<Product> showAllProducts() {
         return allProducts;
+    }
+
+    public static String givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect() {
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+
+        return generatedString;
+    }
+
+    public void setCategoryTags(ArrayList<String> categoryTags) {
+        this.categoryTags.addAll(categoryTags);
+    }
+
+
+    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
+        allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
+        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
+    }
+
+    public void setAmountOfExist(int amountOfExist) {
+        this.amountOfExist += amountOfExist;
+    }
+
+    public void offTheCost(int off) {
+        this.cost -= off;
+    }
+
+    public boolean isInOffOrNot() {
+        return isInOffOrNot;
+    }
+
+    public void setInOffOrNot(boolean inOffOrNot) {
+        isInOffOrNot = inOffOrNot;
+    }
+
+    public void setAverageScore(int newScore) {
+        int lastAverage = this.averageScore;
+        this.averageScore = (lastAverage*scoreNo + newScore)/(scoreNo + 1);
+        this.scoreNo += 1;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productBarcode='" + productBarcode + '\'' +
+                ", name='" + name + '\'' +
+                ", categoryTags=" + categoryTags +
+                ", company='" + company + '\'' +
+                ", cost=" + cost +
+                ", sellers=" + sellers +
+                ", existsOrNot=" + existsOrNot +
+                ", category=" + category +
+                ", description='" + description + '\'' +
+                ", comments=" + comments +
+                ", averageScore=" + averageScore +
+                ", amountOfExist=" + amountOfExist +
+                ", tags=" + tags +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return productBarcode.equalsIgnoreCase(product.productBarcode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productBarcode)+8;
     }
 
 }

@@ -1,128 +1,184 @@
 package View.Menu;
 
 import Control.Controller;
-import Model.Customer;
-import View.CommandsSource;
-//import View.Manager;
+import Model.SaveAndLoad;
+import View.Outputs;
 
-import java.util.ArrayList;
+import java.util.regex.Matcher;
 
-import static View.CommandsSource.findEnum;
-//import static View.Manager.*;
 
 public class CustomerMenu extends Menu {
 
-    private Menu nextMenu = null;
+    private static final Menu customerMenu = new CustomerMenu();
 
     public CustomerMenu() {
-        options.add("view personal info");
-        options.add("view cart");
-        options.add("purchase");
-        options.add("view orders");
-        options.add("view balance");
-        options.add("view discount codes");
-        options.add("products");
-        options.add("view categories");
-        options.add("filtering");
-        options.add("sorting");
-        options.add("show products");
-        options.add("show product [productId]");
+        options.add("view personal info #");
+        options.add("view cart #");
+        options.add("view orders #");
+        options.add("view balance #");
+        options.add("view discount codes #");
         options.add("help");
         options.add("back");
     }
 
-//    public static Menu getFinalPurchaseMenu() {
-//        return new Menu() {
-//            @Override
-//            public void execute(String input) {
-//                super.execute(input);
-//            }
-//        };
-//    }
+    public static Menu getCustomerMenu() {
+        return customerMenu;
+    }
+
+    public static Menu viewAndEditPersonalInfo() {
+        return new Menu() {
+            private void personalInfo() {
+                Matcher matcher = getField("Enter in this format: edit [field] for back write back\n" +
+                        "warning you can't change username!", "edit\\s(firstname|lastname|credit|phonenumber|email|password)");
+                if(matcher == null){
+                    return;
+                }
+                Controller.getOurController().editField(matcher.group(1));
+                System.out.println("Changed well");
+            }
+            @Override
+            protected void execute() {
+                System.out.println(Controller.getOurController().getLoggedInAccount());
+                String input;
+                do {
+                    System.out.println("Enter 1 for edit a field and 2 for back:");
+                    if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
+                        continue;
+                    }
+                    switch (input) {
+                        case "1":
+                            personalInfo();
+                            break;
+                        case "2":
+                            return;
+                    }
+                }while (!input.equalsIgnoreCase("end"));
+            }
+        };
+    }
 
     private static Menu getCartMenu() {
         return new Menu() {
             @Override
-            public void execute() {
+            protected void execute() {
+                options.add("show products");
+                options.add("view [productId]");
+                options.add("increase [productId]");
+                options.add("decrease [productId]");
+                options.add(" show total price");
+                options.add(" purchase");
+                options.add("end");
                 String input = "";
-                Controller.getOurController().showCart();
-                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-                    String[] splitInput = input.split("\\s");
-                    switch (findEnum(commands.getAllRegex(), input)) {
-                        case "SHOW_PRODUCTS" :
-                            Controller.getOurController().showProducts();
-                            break;
-                        case "View" :
-                            Controller.getOurController().showProduct();
-                            break;
-                            //case ""
+                do {
+                    show();
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
                     }
-                }
+                    switch (input.trim()) {
+                        case "1":
+                            System.out.println(Controller.getOurController().showCart());
+                            break;
+                        case "2":
+                            String productId = getField("enter productId", "(\\S+)").group(1);
+                            ProductMenu productMenu = new ProductMenu();
+                            productMenu.execute(productId);
+                            break;
+                        case "3":
+                            String productIdToIncrease = getField("Enter productId to increase: ", "(\\S+)").group(1);
+                            Controller.getOurController().increaseOrDecreaseProductNo(productIdToIncrease, +1);
+                            break;
+                        case "4":
+                            String productIdToDecrease = getField("Enter productId to decrease: ", "(\\S+)").group(1);
+                            Controller.getOurController().increaseOrDecreaseProductNo(productIdToDecrease, -1);
+                            break;
+                        case "5":
+                            System.out.println(Controller.getOurController().calculateCartCost());
+                            break;
+                        case "6":
+                            purchase();
+                            break;
+                        case "7":
+                            return;
+                    }
+                }while (true);
             }
         };
+    }
+
+    private static void purchase() {
+        Matcher info = getField("Enter info like this: firstName, lastName, phoneNumber, email", "(\\S+),\\s(\\S+),\\s(\\S+),\\s(\\S+)");
+        Controller.getOurController().setCustomersField(info.group(1), info.group(2), info.group(3), info.group(4));
+        String address = getField("Enter your address for deliver the products: ()", "(.+)").group(1);
+        Controller.getOurController().setCustomerAddress(address);
+        String offCode = getField("If you have offCode type it here:", "(\\S+)").group(1);
+        Outputs.printPayResult(Controller.getOurController().pay(offCode));
     }
 
     private static Menu getViewOrdersMenu() {
         return new Menu() {
             @Override
-            public void execute() {
+            protected void execute() {
+                options.add("show order [orderId]");
+                options.add("rate [productId] [1-5]");
+                options.add("end");
+                show();
                 String input = "";
-                while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-                    String[] splitInput = input.split("\\s");
-                    switch (findEnum(commands.getAllRegex(), input)) {
-                        case "SHOW_ORDER" :
-                            Controller.getOurController().showOrder(splitInput[2]);
-                            break;
-                        case "RATE_PRODUCT" :
-                            Controller.getOurController().rateProduct();
+                do {
+                    show();
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
                     }
-                }
+                    switch (input.trim()) {
+                        case "1":
+                            String orderId = getField("Enter orderId", "(\\S+)").group(1);
+                            System.out.println(Controller.getOurController().showOrderInCustomerMenu(orderId));
+                            break;
+                        case "2":
+                            Matcher productIdAndRate = getField("Enter: [productId] [1-5]", "(\\S+)\\s([1, 5])");
+                            String productId = productIdAndRate.group(1);
+                            int rate = Integer.parseInt(productIdAndRate.group(2));
+                            Controller.getOurController().rateProduct(productId, rate);
+                            break;
+                        case "3":
+                            return;
+
+                    }
+                } while (true);
             }
         };
     }
 
-    private static void receiveInformation() {
-        String input = "";
-        System.out.println("Enter address:\nphoneNumber:");
-        String address = scanner.nextLine().trim();
-        String phoneNumber = CommandsSource.getField("Please enter a valid barcode", "(\\d+)");
-        Controller.getOurController().purchase(address, phoneNumber);
-    }
-
-    private static void offCodeCheck() {
-        String input = "";
-        System.out.println("Enter your offCode");
-        String offCode = CommandsSource.getField("Please enter a valid barcode", "(\\S+)");
-        Controller.getOurController().checkOffCodeAndSet(offCode);
-    }
-
-    private static void pay() {
-        Controller.getOurController().pay();
-    }
-
+    @Override
     public void execute() {
-        String input = "";
-        System.out.println("Enter your command :");
-        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
-            String[] splitInput = input.split("\\s");
-            switch (findEnum(commands.getAllRegex(), input)) {
-                case "VIEW_CART":
-                    nextMenu = getCartMenu();
-                    nextMenu.showCommands();
-                    nextMenu.execute();
-                case "PURCHASE":
-                    receiveInformation();
-                    offCodeCheck();
-                    pay();
-                case "VIEW_ORDERS":
-                    nextMenu = getViewOrdersMenu();
-                    nextMenu.showCommands();
-                    nextMenu.execute();
-                case "VIEW_BALANCE":
-                    Controller.getOurController().showCustomerBalance();
-                case "VIEW_DISCOUNT_CODES":
-                    Controller.getOurController().showCustomerDiscountCodes();
+        String input;
+        do {
+            show();
+            System.out.println("Enter Number :");
+            if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                continue;
             }
-        }
+            switch (input.trim()) {
+                case "1":
+                    viewAndEditPersonalInfo().execute();
+                    break;
+                case "2":
+                    getCartMenu().execute();
+                    break;
+                case "3":
+                    getViewOrdersMenu().execute();
+                    break;
+                case "4":
+                    System.out.println(Controller.getOurController().getCredit());
+                    break;
+                case "5":
+                    System.out.println(Controller.getOurController().getCustomerDiscountCodes());
+                    break;
+                case "6":
+                    show();
+                    break;
+                case "7":
+                    return;
+            }
+        } while (!input.equalsIgnoreCase("end"));
     }
 }

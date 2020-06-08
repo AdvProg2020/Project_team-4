@@ -1,13 +1,12 @@
 package View.Menu;
 
 import Control.Controller;
+import Model.Product;
 import Model.Seller;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
-import static View.CommandsSource.findEnum;
-import static View.Outputs.printAddToCartResult;
+import static View.Outputs.*;
 
 public class ProductMenu extends Menu {
 
@@ -18,16 +17,15 @@ public class ProductMenu extends Menu {
         options.add("attributes");
         options.add("compare");
         options.add("comments");
+        options.add("help");
         options.add("back");
-        options.add("");
-        options.add("");
     }
 
-    private static void addToCart() {
+    private void addToCart() {
         printAddToCartResult(Controller.getOurController().requestAddProductToCart(this.getProductId()));
     }
 
-    private static void selectSeller() {
+    private void selectSeller() {
         ArrayList<Seller> sellers = new ArrayList<>();
         sellers.addAll(Controller.getOurController().requestProductSeller(this.getProductId()));
         for (Seller seller : sellers) {
@@ -37,28 +35,25 @@ public class ProductMenu extends Menu {
         scanner.nextLine();
     }
 
-    private static Menu digestMenu() {
+    private Menu digestMenu() {
         return new Menu() {
             @Override
-            protected void showCommands() {
+            protected void show() {
                 options.add("add to cart");
                 options.add("select seller [seller_username]");
                 options.add("back");
-                for (String option : options) {
-                    System.out.println("---> " + option);
-                }
             }
 
             @Override
             public void execute() {
-                System.out.println("Enter your command :");
+                System.out.println("Enter your choice:");
                 do {
-                    showCommands();
+                    show();
                     String input;
                     if (!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()) {
                         continue;
                     }
-                    switch (input) {
+                    switch (input.trim()) {
                         case "1":
                             addToCart();
                             break;
@@ -67,35 +62,72 @@ public class ProductMenu extends Menu {
                             break;
                         case "3":
                             return;
-                        default:
-                            DefaultMenu.getInstance().execute(Integer.parseInt(input) - 2);
                     }
                 } while (true);
             }
         };
     }
 
-    private static void digest() {
-        System.out.println("in digest");
+    private void attributes() {
+        printAttributeResult(Product.getProductWithBarcode(productId));
     }
 
-    private static void attributes() {
+    private void compare() {
+        System.out.println("Please enter id of product that you want to compare to this:");
+        String productIdComparison = getScanner().nextLine();
+        printAttributeResult(Product.getProductWithBarcode(productIdComparison));
+        System.out.println("-----------------------------------------------");
+        printAttributeResult(Product.getProductWithBarcode(productId));
     }
 
-    private static void compare() {
+    private static void addNewComment(){
+        System.out.println("Enter your comment or enter \"back\" to back to previous menu");
+        String input;
+        while(!(input = getScanner().nextLine()).equalsIgnoreCase("back")){
+            printNewCommentResult(Controller.getOurController().newComment(input));
+        }
     }
 
-    private static void comments() {
+    private Menu commentsMenu() {
+        return new Menu() {
+            @Override
+            protected void show(){
+                options.add("Add new comment");
+                options.add("Back");
+                System.out.println(options);
+            }
+            @Override
+            public void execute(){
+                System.out.println("Enter your choice:");
+                do{
+                    show();
+                    String input;
+                    if (!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()) {
+                        continue;
+                    }
+                    switch (input.trim()){
+                        case "1":
+                            addNewComment();
+                        case "2":
+                            return;
+                    }
+
+                } while(true);
+            }
+
+        };
     }
 
-    public void execute() {
+    public void execute(String productId) {
+        setProductId(productId);
         System.out.println("Enter Number :");
         String input;
-        while (true) {
+        do {
+            show();
             if (!getMatcher(input = scanner.nextLine().trim(), "(\\d)").matches()) {
                 continue;
             }
-            switch (findEnum(commands.getAllRegex(), input)) {
+            switch (input.trim()) {
                 case "1":
                     digestMenu().execute();
                     break;
@@ -106,14 +138,14 @@ public class ProductMenu extends Menu {
                     compare();
                     break;
                 case "4":
-                    comments();
+                    commentsMenu().execute();
                     break;
                 case "5":
+                    show();
+                case "6":
                     return;
-                default:
-                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }
+        } while(true);
     }
 
     public String getProductId() {

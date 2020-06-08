@@ -1,39 +1,100 @@
 package View.Menu;
 
+import Model.Category;
+import Model.Product;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import static View.CommandsSource.findEnum;
-
 public class ProductsMenu extends Menu {
+    private static ProductsMenu productsMenu = new ProductsMenu();
 
-    public ProductsMenu() {
+    public static ProductsMenu getProductsMenu() {
+        return productsMenu;
+    }
+
+    private ArrayList<Product> products = Product.getAllProducts();
+
+    private ProductsMenu() {
         options.add("sorting");
         options.add("show products");
         options.add("show product");
+        options.add("view categories");
+        options.add("filter");
         options.add("back");
-        options.add("create account [manager|seller|customer] [username]");
-        options.add("login [username]");
-        options.add("logout");
-        options.add("help");
     }
 
-    private static void sorting(){
+    private void sorting(){
 
     }
 
-    private static void showProducts(){}
+    private void showCategories() {
+        ArrayList<Category> allCategories = Category.getAllCategories();
+        for (Category allCategory : allCategories) {
+            System.out.println(allCategory.getName());
+        }
+    }
 
-    private static void showProduct(){
+    private void showProducts(){
+        for (Product product : products) {
+            System.out.print(product.getName() + "\t");
+            System.out.println("product cost:" + product.getCost() +
+                    " exist number: " + product.getAmountOfExist() +
+                   "productId :" + product.getName());
+        }
+    }
 
+    private void showProduct(){
+        String productId;
+        while(true) {
+            Matcher matcher = getField("please enter valid productId", "(\\S+)");
+            if (matcher == null) {
+                return;
+            }
+            if (checkProductId(matcher.group())) {
+                productId = matcher.group();
+                break;
+            }
+        }
+        ProductMenu productMenu = new ProductMenu();
+        productMenu.execute(productId);
+    }
+
+    private static Menu getFilterMenu() {
+        return new Menu() {
+            @Override
+            protected void execute() {
+                options.add("show available filters");
+                options.add("filter [an available filter]");
+                options.add("current filters");
+                options.add("disable filter [a selected filter]");
+                options.add("end");
+                String input = "";
+                do {
+                    show();
+                    System.out.println("Enter Number :");
+                    if (!isThisRegexMatch("(\\d)", input = scanner.nextLine())) {
+                        continue;
+                    }
+                    switch (input.trim()) {
+                        case "1":
+                            System.out.println("enter filter mode: 1:");
+                    }
+                }while (true);
+
+            }
+        };
+    }
+
+    private boolean checkProductId(String productId) {
+        return Product.getProductWithBarcode(productId) != null;
     }
 
     public void execute() {
-        System.out.println("Enter your command :");
+        String input;
         Matcher matcher;
-        while (true) {
-            showCommands();
-            String input = scanner.nextLine().trim();
-            if(!getMatcher(input, "(\\d)").matches()){
+        do {
+            if(!isThisRegexMatch("(\\d)", input = scanner.nextLine())){
                 continue;
             }
             switch (input) {
@@ -47,11 +108,14 @@ public class ProductsMenu extends Menu {
                     showProduct();
                     break;
                 case "4":
+                    showCategories();
+                case "5":
+                    getFilterMenu().execute();
+                case "6":
                     return;
-                default:
-                    DefaultMenu.getInstance().execute(Integer.parseInt(input) - options.size() + 3);
             }
-        }
+        }while(true);
     }
+
 }
 

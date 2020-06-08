@@ -5,21 +5,42 @@ package Model;
 import java.util.ArrayList;
 
 public class Category extends SaveAble {
-    private static ArrayList<Category> allCategories;
+    private static ArrayList<Category> allCategories = new ArrayList<>();
     private String name;
     private ArrayList<String> tags;
-    private ArrayList<Category> subCategories;
-    private ArrayList<Product> products;
+    private ArrayList<String> subCategories;
+    private ArrayList<String> products;
 
-    public Category(String name) {
+    public Category(String name, ArrayList<String> tags, ArrayList<String> products, ArrayList<String> subCategories) {
         this.name = name;
-        this.tags = new ArrayList<String>();
-        this.subCategories = new ArrayList<Category>();
-        this.products = new ArrayList<Product>();
+        if (allCategories.contains(getCategoryByName(name))) {
+            deleteCategoryAndProducts(name);
+        }
+        this.tags = tags;
+        this.subCategories = subCategories;
+        this.products = products;
+        for (String product: products) {
+            Product.getProductWithBarcode(product).setCategoryTags(tags);
+        }
         allCategories.add(this);
+        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
     }
 
-    public static ArrayList<Product> searchInCategories() {
+    public static void deleteCategoryAndProducts(String name) {
+        Category categoryToDelete = getCategoryByName(name);
+        for (String product: categoryToDelete.products) {
+            if (Product.getAllProducts().contains(Product.getProductWithBarcode(product))) {
+                Product.getAllProducts().remove(Product.getProductWithBarcode(product));
+            }
+        }
+        if (allCategories.contains(categoryToDelete)) {
+            allCategories.remove(categoryToDelete);
+        }
+        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
+        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
+    }
+
+    public static ArrayList<String> searchInCategories() {
         return null;
     }
 
@@ -30,15 +51,15 @@ public class Category extends SaveAble {
     public static ArrayList<Product> getProductsOfACategory(String categoryName, ArrayList<String> filters) {
         ArrayList<Product> productsToShow = new ArrayList<Product>();
         if (getCategoryByName(categoryName).products.size() != 0) {
-            for (Product product : getCategoryByName(categoryName).products) {
-                if (filters.size() == 0 || product.getCategoryTags().contains(filters)) {
-                    productsToShow.add(product);
+            for (String product : getCategoryByName(categoryName).products) {
+                if (filters.size() == 0 || Product.getProductWithBarcode(product).getCategoryTags().contains(filters)) {
+                    productsToShow.add(Product.getProductWithBarcode(product));
                 }
             }
         }
-        for (Category subCategory : getCategoryByName(categoryName).subCategories) {
-            if (subCategory.products != null) {
-                subCategory.getProductsOfACategory(subCategory.getName(), filters);
+        for (String subCategory : getCategoryByName(categoryName).subCategories) {
+            if (Category.getCategoryByName(subCategory).products != null) {
+                Category.getCategoryByName(subCategory).getProductsOfACategory(Category.getCategoryByName(subCategory).getName(), filters);
             }
         }
         return productsToShow;
@@ -57,7 +78,7 @@ public class Category extends SaveAble {
         return allCategories;
     }
 
-    public static String compareBetweenTwoProduct(Category category, Product product1, Product product2) {
+    public static String compareBetweenTwoProduct(String category, String product1, String product2) {
         return null;
     }
 

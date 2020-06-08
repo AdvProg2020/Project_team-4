@@ -1,20 +1,30 @@
 package Control;
 
 import Model.*;
+import View.Outputs;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+
+import java.io.File;
+import java.lang.reflect.Type;
+
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.regex.Matcher;
+
+import static Model.Product.getProductWithBarcode;
+import static View.Menu.Menu.getField;
 
 public class Controller {
 
     private final static Controller ourController = new Controller();
 
-    private static Account loggedInAccount = null;
+    private Account loggedInAccount = null;
 
     public static Controller getOurController() {
         return ourController;
     }
+
 
     public int controllerNewAccount(String type, String username, String password) {
         if (Account.getAccountWithName(username) != null) {
@@ -25,7 +35,7 @@ public class Controller {
                 Customer.newCustomer(username, password);
                 return 1;
             case "seller":
-                Seller.addANewSeller("kljsadfk", username, password);
+                Manager.addANewSellerRequest(username, password);
                 return 2;
             case "manager":
                 if (!Manager.addANewManager(username, password, false)) {
@@ -57,20 +67,39 @@ public class Controller {
         return 2;
     }
 
-    public Account controllerShowUser(String username) {
-        return Account.getAccountWithName(username);
+    public void controllerShowUser(String username) {
+        System.out.println(Account.getAccountWithName(username));
     }
 
-    public void controllerDeleteAnUser(String username) {
-        Account.deleteAccount((Account) Account.getAccountWithName(username));
+    public int controllerDeleteAnUser(String username) {
+        Account account = Account.getAccountWithName(username);
+        if(account == null){
+            return 2;
+        }
+        Account.deleteAccount(account);
+        return 1;
     }
 
-    public void controllerRemoveProduct(String productName) {
-        Manager.remove(Product.getProductWithName(productName));
+    public boolean controllerRemoveProduct(String productName) {
+        return Product.removeProduct(getProductWithBarcode(productName));
     }
 
-    public void controllerCreateOffCode(String barcode, Date startingTime, Date endingTime, double offAmount, int usageTimes, String containingCustomers) {
-        new Off(barcode, startingTime, endingTime, offAmount);
+    public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
+        try {
+            LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
+            LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
+            if (start.compareTo(end) > 0) {
+                return 2;
+            }
+            ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
+            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
+            for (String customer: containingCustomers) {
+                ((Customer)Customer.getAccountWithName(customer)).addOffCode(codedOff.getOffBarcode());
+            }
+            return 1;
+        }catch (Exception e){
+            return 3;
+        }
     }
 
     public ArrayList<CodedOff> getAllCodedOff() {
@@ -85,16 +114,30 @@ public class Controller {
         if (CodedOff.getOffCodeWithName(offCodeName) == null) {
             return;
         }
-        CodedOff.removeOffCode(CodedOff.getOffCodeWithName(offCodeName));
+        CodedOff.removeOffCode(offCodeName);
     }
 
     public ArrayList<CodedOff> showAllDiscountCodes() {
         return CodedOff.getAllDiscounts();
     }
 
+    public int newComment(String comment){
+        return 0;
+    }
 
-    public ArrayList<Product> showCart() {
-        return (((Customer)loggedInAccount).getCart());
+    public String showCart() {
+        return (((Customer)loggedInAccount).getCart()).toString();
+    }
+
+    public void increaseOrDecreaseProductNo(String productId, int n) {
+        if (getProductWithBarcode(productId)!=null && getProductWithBarcode(productId).isExistsOrNot()) {
+            getProductWithBarcode(productId).setAmountOfExist(-n);
+        } else {
+            System.out.println("this product in not availAble any more");
+            return;
+        }
+        ((Customer)loggedInAccount).setNumberOfProductInCart(productId, n);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public ArrayList<Product> showProducts() {
@@ -102,15 +145,16 @@ public class Controller {
     }
 
     public Product showProduct(String productName) {
-        return Product.getProductWithName(productName);
+        return getProductWithBarcode(productName);
     }
 
-    public void showOrder(String s) {
-
+    public History showOrderInCustomerMenu(String s) {
+        return ((Customer)loggedInAccount).getHistoryById(s);
     }
 
-    public void rateProduct() {
-
+    public void rateProduct(String productId, int rate) {
+        Product product = getProductWithBarcode(productId);
+        product.setAverageScore(rate);
     }
 
     public void purchase(String address, String phoneNumber) {
@@ -121,8 +165,11 @@ public class Controller {
 
     }
 
-    public void pay() {
-        ((Customer)loggedInAccount).pay();
+    public boolean pay(String offCode) {
+        if (((Customer)loggedInAccount).pay(offCode)) {
+            return true;
+        }
+        return false;
     }
 
     public void showCustomerBalance() {
@@ -135,17 +182,29 @@ public class Controller {
 
     public int controllerCreateNewManagerAccountFromManager(String username, String password) {
         if(Account.getAccountWithName(username) != null){
-            return 2;
+            return 4;
         }
         Manager.addANewManager(username, password, true);
         return 1;
     }
 
-    public void createCategory(String name, String subCategories, String tags, String productsList) {
-
+    public void createCategory(String name, ArrayList<String> subCategories, ArrayList<String> tags, ArrayList<String> productsList) {
+        ArrayList<String> products = new ArrayList<>();
+        for (String product: productsList) {
+            if (getProductWithBarcode(product) != null) {
+                products.add(product);
+            }
+        }
+        ArrayList<String> subCategory = new ArrayList<>();
+        for (String category: subCategories) {
+            if (Category.getCategoryByName(category) != null) {
+                subCategory.add(category);
+            }
+        }
+        new Category(name, tags, products, subCategory);
     }
 
-    public ArrayList<Request> showAllRequests() {
+    public ArrayList<SaveAble> showAllRequests() {
         return Manager.getAllRequests();
     }
 
@@ -157,44 +216,154 @@ public class Controller {
         Manager.declineRequest(request);
     }
 
-    public boolean getDiscount(String s) {
-        return false;
+    public static void readOffCodesFromFile() {
+        Type offCodesListType = new TypeToken<ArrayList<CodedOff>>(){}.getType();
+        try {
+            CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
+        } catch (Exception e) {
+            Outputs.printReadFileResult("Didn't read the array of all offCodes");
+        }
+        //readArrayFromFile(CodedOff.getAllDiscounts(), "offCodes");
     }
 
-    /////////////////////////////////////////////////////////////////chi kar mikone
+    public static void readRequestsFromFile() {
+        Type sellerAccountRequestListType = new TypeToken<ArrayList<RequestANewSellerAccount>>(){}.getType();
+        try {
+            Manager.getRegisterSellerAccountRequests().addAll((Collection<? extends RequestANewSellerAccount>) SaveAndLoad.getSaveAndLoad().readJSONByType("registerSellerAccountRequests", sellerAccountRequestListType));
+        } catch (Exception e) {
+            Outputs.printReadFileResult("Didn't read the array of all RequestANewSellerAccount");
+        }
+        Type offRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
+        try {
+            Manager.getEditOffRequests().addAll((Collection<? extends RequestOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("editOffRequests", offRequestListType));
+        } catch (Exception e) {
+            Outputs.printReadFileResult("Didn't read the array of all RequestOff");
+        }
+        Type productRequestListType = new TypeToken<ArrayList<RequestProduct>>(){}.getType();
+        try {
+            Manager.getEditProductsRequests().addAll((Collection<? extends RequestProduct>) SaveAndLoad.getSaveAndLoad().readJSONByType("editProductsRequests", productRequestListType));
+        } catch (Exception e) {
+            Outputs.printReadFileResult("Didn't read the array of all RequestProduct");
+        }
+
+    }
+
+    public static void readOffsFromFile() {
+        Type offListType = new TypeToken<ArrayList<Off>>(){}.getType();
+        try {
+            Off.getAllOffs().addAll((Collection<? extends Off>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffs", offListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all offs");
+        }
+    }
+
+    public static void readProductsFromFile() {
+        Type productListType = new TypeToken<ArrayList<Product>>(){}.getType();
+        try {
+            Product.getAllProducts().addAll((Collection<? extends Product>) SaveAndLoad.getSaveAndLoad().readJSONByType("allProducts", productListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all products");
+        }
+    }
+
+    public static void readCategoriesFromFile() {
+        Type categoryListType = new TypeToken<ArrayList<Category>>(){}.getType();
+        try {
+            Category.getAllCategories().addAll((Collection<? extends Category>) SaveAndLoad.getSaveAndLoad().readJSONByType("allCategories", categoryListType));
+        } catch (Exception e) {
+            System.out.println("Didn't read the array of all categories");
+        }
+    }
+
+//    public static void readArrayFromFile(Collection<?> array, String name) {
+//        Type type = new TypeToken<ArrayList<SaveAble>>(){}.getType();
+//        try {
+//            array.addAll((Collection<?>) SaveAndLoad.getSaveAndLoad().readJSONByType(name, type));
+//        } catch (Exception e) {
+//            System.out.println("Didn't read the array of all offCodes");
+//        }
+//    }
+    
+
+    public CodedOff getDiscount(String s) {
+        for (CodedOff discountCode: CodedOff.getAllDiscounts()) {
+            if (discountCode.getOffBarcode().equalsIgnoreCase(s)) {
+                return discountCode;
+            }
+        }
+        return null;
+    }
+
     public void removeDiscount(String offName) {
         Manager.removeDiscount(offName);
     }
 
     public int requestAddProductToCart(String productId) {
-        ((Customer)loggedInAccount).addProductToCart(Product.getProductWithName(productId));
-        return 1;
+        Product product;
+        if((product = Product.getProductWithBarcode(productId)) == null)
+            return 0;
+
+        Account account = getLoggedInAccount();
+        if(!account.getClass().equals(Customer.class)){
+            return 2;
+        }
+        Customer customer = (Customer) account;
+        return customer.addProductToCart(productId);
+
+    }
+
+    public int calculateCartCost() {
+        return ((Customer)loggedInAccount).getCartMoney();
     }
 
     public Collection<? extends Seller> requestProductSeller(String productId) {
         return null;
     }
 
-    public static Account getLoggedInAccount() {
+    public Account getLoggedInAccount() {
         return loggedInAccount;
     }
 
-
-    public static boolean editField(String field) {
-        return true;
+    public void editField(String field) {
+        System.out.println("Enter your new amount for the field you choose");
+        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
+        switch (field.toLowerCase()) {
+            case "firstname":
+                loggedInAccount.setFirstName(newAmount.group(1));
+                return;
+            case "lastname":
+                loggedInAccount.setLastName(newAmount.group(1));
+                return;
+            case "credit" :
+                loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
+                return;
+            case "phonenumber" :
+                loggedInAccount.setPhoneNumber(newAmount.group(1));
+                return;
+            case "email" :
+                loggedInAccount.setEmail(newAmount.group(1));
+                return;
+            case "password" :
+                loggedInAccount.setPassWord(newAmount.group(1));
+        }
+        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
     }
-
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
         return 0;
+    }
+
+    public void removeCategory(String name) {
+        Category.deleteCategoryAndProducts(name);
     }
 
     public ArrayList requestCompanyInfo() {
         return null;
     }
 
-    public ArrayList requestSalesHistoryInfo() {
-        return null;
+    public String requestSalesHistoryInfoInSeller() {
+        String info = ((Seller)loggedInAccount).getHistory().toString();
+        return info;
     }
 
     public ArrayList requestListOfProducts() {
@@ -211,6 +380,129 @@ public class Controller {
 
     public Customer requestLoggedInUser() {
         return null;
+    }
+
+    public String[] getusers(Class className) {
+        File f = new File(String.valueOf(className));
+        return f.list();
+    }
+
+    public static void createProductRequest(String name, String company, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellersNames) {
+        Category category = Category.getCategoryByName(categoryName);
+        ArrayList<Seller> sellers = new ArrayList<>();
+        for (String sellerName: sellersNames) {
+            if (Seller.getAccountWithName(sellerName) != null) {
+                sellers.add((Seller) Seller.getAccountWithName(sellerName));
+            }
+        }
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, categoryName, description, amountOfExist, tags, sellersNames));
+    }
+
+
+
+    public ArrayList<Off> getAllOffsOfSeller() {
+        ArrayList<Off> sellersOff = new ArrayList<>();
+        for (Off off: Off.getAllOffs()) {
+            if (((Seller)loggedInAccount).getOffs().contains(off.getOffBarcode())) {
+                sellersOff.add(off);
+            }
+        }
+        return sellersOff;
+    }
+
+    public Off getOffByName(String name) {
+        ArrayList<Off> sellersOff = getAllOffsOfSeller();
+        for (Off off: sellersOff) {
+            if (off.getOffBarcode().equalsIgnoreCase(name)) {
+                return off;
+            }
+        }
+        return null;
+    }
+
+    public void createOrEditOffRequest(ArrayList<String> products, Matcher startDate, Matcher endDate, int offAmount) {
+        ArrayList<Product> productsToAddTO = new ArrayList<>();
+        for (String productBarcode: products) {
+            if (Product.getAllProducts().contains(getProductWithBarcode(productBarcode)) && !getProductWithBarcode(productBarcode).isInOffOrNot()) {
+                productsToAddTO.add(getProductWithBarcode(productBarcode));
+                getProductWithBarcode(productBarcode).setInOffOrNot(true);
+            }
+        }
+        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
+        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
+        Off off = new Off(start, products, end, offAmount);
+        Off.getAllOffs().remove(off);
+        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
+        new RequestOff(RequestType.OFF, off);
+    }
+
+    public void removeOff(String name) {
+        if (Off.getAllOffs().contains(Off.getOffByBarcode(name))) {
+            Off.getAllOffs().remove(Off.getOffByBarcode(name));
+            for (String product: Off.getOffByBarcode(name).getProducts()) {
+                Product.getProductWithBarcode(product).setInOffOrNot(false);
+                Product.getProductWithBarcode(product).offTheCost((-Product.getProductWithBarcode(product).getCost() * 100 /(100 - Off.getOffByBarcode(name).getOffAmount())) * Off.getOffByBarcode(name).getOffAmount());
+            }
+        }
+    }
+
+    public void setCustomersField(String firstName, String lastName, String phoneNumber, String email) {
+        Customer loggedInCustomer = (Customer) loggedInAccount;
+        loggedInCustomer.setFirstName(firstName);
+        loggedInCustomer.setLastName(lastName);
+        loggedInCustomer.setPhoneNumber(phoneNumber);
+        loggedInCustomer.setEmail(email);
+    }
+
+    public void setCustomerAddress(String address) {
+        ((Customer) loggedInAccount).setAddress(address);
+    }
+
+    public void addOffCodeToCustomer() {
+
+    }
+
+    public int getCredit() {
+        return (int)(loggedInAccount.getCredit());
+    }
+
+    public ArrayList<String> getCustomerDiscountCodes() {
+        return ((Customer)loggedInAccount).getOffCodes();
+    }
+
+    public String getCompanyNameInSeller() {
+        return ((Seller)loggedInAccount).getCompanyName();
+    }
+
+    public ArrayList<String> viewByers(String productId) {
+        Product product = getProductWithBarcode(productId);
+        return product.getByers();
+    }
+
+    public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags) {
+        Category category = Category.getCategoryByName(categoryName);
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product("productBarcode: " + barcode,companyName, cost, categoryName, description, amountOfExist, tags, null));
+    }
+
+    public void removeProductFromSellerProducts(String productId) {
+        for (String product: ((Seller) loggedInAccount).getProducts()) {
+            if (product.equalsIgnoreCase(productId)) {
+                ((Seller) loggedInAccount).getProducts().remove(product);
+            }
+        }
+    }
+
+    public ArrayList<Category> showCategories() {
+        return Category.getAllCategories();
+    }
+
+    public ArrayList<String> requestOffsList() {
+        ArrayList<Off> offs = Off.getAllOffs();
+        ArrayList<String> offProducts = new ArrayList<>();
+        for (Off off: offs) {
+            offProducts.addAll(off.getProducts());
+        }
+        return offProducts;
     }
 }
 
