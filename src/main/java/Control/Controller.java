@@ -81,7 +81,9 @@ public class Controller {
     }
 
     public boolean controllerRemoveProduct(String productName) {
-        return Product.removeProduct(getProductWithBarcode(productName));
+        boolean result = Product.removeProduct(getProductWithBarcode(productName));
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        return result;
     }
 
     public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
@@ -95,6 +97,7 @@ public class Controller {
             CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
             for (String customer: containingCustomers) {
                 ((Customer)Customer.getAccountWithName(customer)).addOffCode(codedOff.getOffBarcode());
+                SaveAndLoad.getSaveAndLoad().saveGenerally();
             }
             return 1;
         }catch (Exception e){
@@ -202,6 +205,7 @@ public class Controller {
             }
         }
         new Category(name, tags, products, subCategory);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public ArrayList<SaveAble> showAllRequests() {
@@ -219,7 +223,7 @@ public class Controller {
     public static void readOffCodesFromFile() {
         Type offCodesListType = new TypeToken<ArrayList<CodedOff>>(){}.getType();
         try {
-            CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("offCodes", offCodesListType));
+            CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffCodes", offCodesListType));
         } catch (Exception e) {
             Outputs.printReadFileResult("Didn't read the array of all offCodes");
         }
@@ -316,8 +320,26 @@ public class Controller {
         return ((Customer)loggedInAccount).getCartMoney();
     }
 
-    public Collection<? extends Seller> requestProductSeller(String productId) {
-        return null;
+    public ArrayList<String> requestProductSeller(String productId) {
+        ArrayList<String> sellersOfProduct = new ArrayList<>();
+        String[] pathnames;
+
+        // Creates a new File instance by converting the given pathname string
+        // into an abstract pathname
+        File f = new File(Seller.class.toString());
+
+        // Populates the array with names of files and directories
+        pathnames = f.list();
+
+        // For each pathname in the pathnames array
+        for (String pathname : pathnames) {
+            // Print the names of files and directories
+            Seller seller = (Seller) SaveAndLoad.getSaveAndLoad().readJSON(pathname, Seller.class);
+            if (seller.getProducts().contains(Product.getProductWithBarcode(productId))) {
+                sellersOfProduct.add(pathname);
+            }
+        }
+        return sellersOfProduct;
     }
 
     public Account getLoggedInAccount() {
@@ -462,8 +484,8 @@ public class Controller {
 
     }
 
-    public int getCredit() {
-        return (int)(loggedInAccount.getCredit());
+    public double getCredit() {
+        return (loggedInAccount.getCredit());
     }
 
     public ArrayList<String> getCustomerDiscountCodes() {
@@ -485,11 +507,13 @@ public class Controller {
     }
 
     public void removeProductFromSellerProducts(String productId) {
-        for (String product: ((Seller) loggedInAccount).getProducts()) {
+        ArrayList<String> products = ((Seller) loggedInAccount).getProducts();
+        for (String product: products) {
             if (product.equalsIgnoreCase(productId)) {
                 ((Seller) loggedInAccount).getProducts().remove(product);
             }
         }
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public ArrayList<Category> showCategories() {
@@ -503,6 +527,11 @@ public class Controller {
             offProducts.addAll(off.getProducts());
         }
         return offProducts;
+    }
+
+    public void setNameOfSellerOfProductAddedToCart(String sellerName) {
+        Customer customer = (Customer) getLoggedInAccount();
+        customer.setSellerName(sellerName);
     }
 }
 

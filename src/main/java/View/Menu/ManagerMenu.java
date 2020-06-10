@@ -42,7 +42,6 @@ public class ManagerMenu extends Menu {
                     return;
                 }
                 Controller.getOurController().editField(matcher.group(1));
-                SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
                 System.out.println("Changed well");
             }
             @Override
@@ -84,8 +83,6 @@ public class ManagerMenu extends Menu {
                     switch(input.trim()){
                         case "1":
                             matcher = getField("please write in this format: remove [product name]", "remove\\s(\\S+)");
-                            //in this may a product has two section name
-                            //should edit regex
                             printRemoveProductResult(Controller.getOurController().controllerRemoveProduct(matcher.group(1)));
                             break;
                         case "2":
@@ -317,6 +314,7 @@ public class ManagerMenu extends Menu {
                             Controller.getOurController().removeCategory(name);
                             break;
                         case "4":
+                            return;
                     }
                 }while (true);
             }

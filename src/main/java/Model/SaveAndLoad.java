@@ -20,39 +20,52 @@ public class SaveAndLoad {
         return saveAndLoad;
     }
 
-    public void writeJSONAccount(SaveAble saveAble){
+
+    public void writeJSON(Object object, Class classType, String name){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(saveAble.getClass() + "\\" + saveAble.getName());
-            writer.write(gson.toJson(saveAble));
+            FileWriter writer = new FileWriter(String.valueOf(  classType + "\\" + name));
+            writer.write(gson.toJson(object));
             writer.close();
         }catch (IOException e){
             System.out.println(e);
         }
     }
 
-    public void writeJSONAccount(ArrayList<SaveAble> saveAble){
+//    public void writeJSONArray(ArrayList<SaveAble> saveAble){
+//        try {
+//            GsonBuilder builder = new GsonBuilder();
+//            Gson gson = builder.create();
+//            FileWriter writer = new FileWriter(String.valueOf(saveAble.getClass() + "\\" + saveAble));
+//            writer.write(gson.toJson(saveAble));
+//            writer.close();
+//        }catch (IOException e){
+//            System.out.println(e);
+//        }
+//    }
+//
+//    public void writeJSONArrayProducts(ArrayList<Product> products){
+//        try {
+//            GsonBuilder builder = new GsonBuilder();
+//            Gson gson = builder.create();
+//            FileWriter writer = new FileWriter(String.valueOf(products.getClass() + "\\" + products));
+//            writer.write(gson.toJson(products));
+//            writer.close();
+//        }catch (IOException e){
+//            System.out.println(e);
+//        }
+//    }
+
+    public Object readJSON(String name, Class className) {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(  saveAble.getClass() + "\\" + saveAble.getClass()));
-            writer.write(gson.toJson(saveAble));
-            writer.close();
-        }catch (IOException e){
-            System.out.println(e);
-        }
-    }
-
-    public SaveAble readJSONAccount(String name) {
-        try {
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(name));
-
-            return gson.fromJson(bufferedReader, SaveAble.class);
-        } catch (FileNotFoundException e) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(className + "\\" + name));
+            Object object = gson.fromJson(bufferedReader, className);
+            bufferedReader.close();
+            return object;
+        } catch (IOException e) {
             return null;
         }
     }
@@ -62,7 +75,8 @@ public class SaveAndLoad {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(ArrayList.class + "\\" + name));
-            return gson.fromJson(bufferedReader, classType);
+            Object object = gson.fromJson(bufferedReader, classType);
+            return object;
         } catch (FileNotFoundException e) {
             return null;
         }
@@ -72,7 +86,7 @@ public class SaveAndLoad {
     public void saveGenerally() {
         SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
         SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class, "allCategories");
-        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "allOfCodes");
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "allOffCodes");
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
         SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class, "editOffRequests");

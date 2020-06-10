@@ -23,7 +23,12 @@ public class Off extends SaveAble {
         this.endDate = endDate;
         this.offAmount = offAmount;
         for (String product: products) {
-            Product.getProductWithBarcode(product).offTheCost(Product.getProductWithBarcode(product).getCost() * offAmount / 100);
+            if (Product.getProductWithName(product) != null) {
+                Product.getProductWithName(product).offTheCost(Product.getProductWithBarcode(product).getCost() * offAmount / 100);
+            }
+            else {
+                System.err.println("null product");
+            }
         }
         allOffs.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(allOffs, ArrayList.class, "allOffs");

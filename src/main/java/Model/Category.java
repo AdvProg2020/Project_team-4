@@ -36,8 +36,9 @@ public class Category extends SaveAble {
         if (allCategories.contains(categoryToDelete)) {
             allCategories.remove(categoryToDelete);
         }
-        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
-        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
+//        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
+//        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public static ArrayList<String> searchInCategories() {

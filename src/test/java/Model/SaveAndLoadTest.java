@@ -14,6 +14,6 @@ public class SaveAndLoadTest {
         customer.setLastName("aliiii");
         customer.setPassWord("iuy7tr");
         customer.setPhoneNumber("00000000000000000000");
-        SaveAndLoad.writeJSONAccount(customer);
+//        SaveAndLoad.writeJSONAccount(customer);
     }
 }

@@ -3,6 +3,7 @@ package Model;
 
 
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -11,11 +12,23 @@ public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
     private  ArrayList<String> byers = new ArrayList<>();
+
+    public static Product getProductWithName(String product) {
+        for (Product product1: allProducts) {
+            if (product1.getNameOfProductNotBarcode().equalsIgnoreCase(product)) {
+                return product1;
+            }
+        }
+        return null;
+    }
+
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
     }
     private String name;
+    private int seen;
+    private LocalDateTime localDateTime;
     private ArrayList<String> categoryTags;
     private String company;
     private int cost;
@@ -30,6 +43,22 @@ public class Product extends SaveAble {
     private boolean isInOffOrNot;
     private ArrayList<String> tags;
     private static int giveId;
+
+    public int getScoreNo() {
+        return scoreNo;
+    }
+
+    public static int getGiveId() {
+        return giveId;
+    }
+
+    public int getSeen() {
+        return seen;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
 
     public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
@@ -49,7 +78,7 @@ public class Product extends SaveAble {
 
     public Product(Product product) {
         this.productBarcode = product.getProductBarcode();
-        this.name = product.getName();
+        this.name = product.getNameOfProductNotBarcode();
         this.categoryTags = product.getCategoryTags();
         this.company = product.getCompany();
         this.cost = product.getCost();
@@ -169,6 +198,10 @@ public class Product extends SaveAble {
         return productBarcode;
     }
 
+    public String getNameOfProductNotBarcode() {
+        return name;
+    }
+
     public int getCost() {
         return cost;
     }
@@ -177,7 +210,6 @@ public class Product extends SaveAble {
     removeProduct(Product product) {  //need to debug after implementation add product in sellerMenu.
         if (allProducts.contains(product)) {
             allProducts.remove(product);
-            //SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, Product.class, pro);
             return true;
         }
         return false;
@@ -292,6 +324,20 @@ public class Product extends SaveAble {
     @Override
     public int hashCode() {
         return Objects.hash(productBarcode)+8;
+    }
+
+    public static ArrayList<Product> getProductWithTag(ArrayList<String> tags){
+        ArrayList<Product> products = new ArrayList<>();
+        products.addAll(allProducts);
+        for (Product product : products) {
+            for (String tag : tags) {
+                if (!product.getTags().contains(tag)) {
+                    products.remove(product);
+                    break;
+                }
+            }
+        }
+        return products;
     }
 
 }

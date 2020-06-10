@@ -115,12 +115,15 @@ public class Manager extends Account {
     public static boolean acceptRequest(Request request) {
         if (request.getRequestType() == RequestType.ACCOUNT) {
             accountRequestAccept((RequestANewSellerAccount) request);
+            declineRequest(request);
             return true;
         } else if (request.getRequestType() == RequestType.OFF) {
             editOff((RequestOff) request);
+            declineRequest(request);
             return true;
         } else if (request.getRequestType() == RequestType.PRODUCT){
             editProduct((RequestProduct) request);
+            declineRequest(request);
             return true;
         }
         return false;
@@ -137,34 +140,47 @@ public class Manager extends Account {
     }
 
     public static boolean addANewSellerRequest(String userName, String passWord) {
-        registerSellerAccountRequests.add(new RequestANewSellerAccount("Create a seller account", userName, passWord));
+        registerSellerAccountRequests.add(new RequestANewSellerAccount(RequestType.ACCOUNT, userName, passWord));
         SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
         return true;
     }
 
     private static boolean editProduct(RequestProduct request) {
         if (editProductsRequests.contains(request)) {
-            Product product = Product.getProductWithName(request.getProductName());
-            if (Product.getAllProducts().contains(product)) {
-                Product.getAllProducts().remove(product);
+            if (request.getProductName().startsWith("productBarcode: ")) {
+                Product product = Product.getProductWithBarcode(request.getProductName().substring(17));
+                product.setAmountOfExist(request.getProductAmountOfExist());
+                product.setCategoryTags(request.getProductCategoryTags());
+                product.setCategory(request.getProductCategory());
+                product.setCompany(request.getProductCompany());
+                product.setCost(request.getProductCost());
+                product.setDescription(request.getProductDescription());
+                product.setTags(request.getProductTags());
+            } else {
+                Product product = Product.getProductWithBarcode(request.getProductName());
+                if (Product.getAllProducts().contains(product)) {
+                    Product.getAllProducts().remove(product);
+                }
+                new Product(request.getProduct());
+                editProductsRequests.remove(request);
+//                SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editProductRequests");
+                SaveAndLoad.getSaveAndLoad().saveGenerally();
+                return true;
             }
-            new Product(request.getProduct());
-            editProductsRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
-            return true;
         }
         return false;
     }
 
     private static boolean editOff(RequestOff request) {
         if (editOffRequests.contains(request)) {
-            Off off = Off.getOffByName(request.getOffName());
+            Off off = Off.getOffByBarcode(request.getOffName());
             if (Off.getAllOffs().contains(off)) {
                 Off.getAllOffs().remove(off);
             }
-            new Off(request.getOff().getOffBarcode(), request.getOff().getStartDate(), request.getOff().getEndDate(), request.getOff().getOffAmount());
+            new Off(request.getOff().getStartDate(), request.getOff().getProducts(), request.getOff().getEndDate(), request.getOff().getOffAmount());
             editOffRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+//            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
             return true;
         }
         return false;
@@ -173,12 +189,18 @@ public class Manager extends Account {
     public static boolean declineRequest(Request request) {
         if (editOffRequests.contains(request)) {
             editOffRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+
             return true;
         } else if (editProductsRequests.contains(request)) {
             editProductsRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(editProductsRequests, ArrayList.class, "editProductsRequests");
+
             return true;
         } else if (registerSellerAccountRequests.contains(request)) {
             registerSellerAccountRequests.remove(request);
+            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
+
             return true;
         }
         return false;
@@ -198,17 +220,17 @@ public class Manager extends Account {
 
     public static Request getRequestByName(String id) {
         for (Request request : registerSellerAccountRequests) {
-            if (request.getRequestId().equalsIgnoreCase(id)) {
+            if (request.getName().equalsIgnoreCase(id)) {
                 return request;
             }
         }
         for (Request request : editOffRequests) {
-            if (request.getRequestId().equalsIgnoreCase(id)) {
+            if (request.getName().equalsIgnoreCase(id)) {
                 return request;
             }
         }
         for (Request request : editProductsRequests) {
-            if (request.getRequestId().equalsIgnoreCase(id)) {
+            if (request.getName().equalsIgnoreCase(id)) {
                 return request;
             }
         }

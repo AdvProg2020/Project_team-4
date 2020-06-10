@@ -6,12 +6,17 @@ import static View.Outputs.*;
 
 public class OffsMenu extends Menu {
 
+    private static Menu offsMenu = new OffsMenu();
     private ProductMenu productMenu = new ProductMenu();
 
     public OffsMenu() {
         options.add("show product [productId]");
         options.add("help");
         options.add("back");
+    }
+
+    public static Menu getOffsMenu() {
+        return offsMenu;
     }
 
     public static void offsList() {
