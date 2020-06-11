@@ -19,13 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="ignore git">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Initialization.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/initialization.fxml" afterDir="false" />
+    <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="create init page">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class Model.Manager/man1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Initialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Initialization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/initialization.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/initialization.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +99,8 @@
       <workItem from="1591806880544" duration="6864000" />
       <workItem from="1591846723901" duration="646000" />
       <workItem from="1591865998121" duration="124000" />
-      <workItem from="1591866133330" duration="3342000" />
+      <workItem from="1591866133330" duration="3679000" />
+      <workItem from="1591885077793" duration="10964000" />
     </task>
     <task id="LOCAL-00001" summary="ignore git">
       <created>1591866561999</created>
@@ -109,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591866561999</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="create init page">
+      <created>1591871568347</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1591871568347</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,48 +132,50 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ignore git" />
-    <option name="LAST_COMMIT_MESSAGE" value="ignore git" />
+    <MESSAGE value="create init page" />
+    <option name="LAST_COMMIT_MESSAGE" value="create init page" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser" timestamp="1591868451387">
+    <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser" timestamp="1591891949341">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1591868451387" />
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1591867995072">
+    <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1591891949341" />
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1591895980805">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1591867995072" />
-    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1591867995072">
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1591895980805">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1591867995072" />
-    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1591867995071">
+    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
+    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1591895980804">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1591867995071" />
-    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1591867995072">
+    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1591895980804" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1591895980805">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1591867995072" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
     <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1591813150242">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="213" y="18" key="Maven.ArtifactSearchDialog/0.0.1366.728@0.0.1366.728" timestamp="1591813150242" />
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1591866686438">
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1591871595588">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1591866686438" />
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1591871595588" />
     <state x="499" y="141" key="chooseDestDirectoryDialog" timestamp="1591867258068">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="499" y="141" key="chooseDestDirectoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1591867258068" />
-    <state x="413" y="114" key="extract.method.dialog" timestamp="1591867709128">
+    <state x="413" y="114" key="extract.method.dialog" timestamp="1591893848481">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="114" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1591867709128" />
+    <state x="413" y="114" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1591893848481" />
     <state x="65" y="24" key="new project wizard" timestamp="1591812554447">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
