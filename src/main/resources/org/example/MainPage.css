@@ -1,0 +1,9 @@
+.GridPane{
+    -fx-background-image: url("../../Picture/MainPageBackground.jpg");
+    -fx-background-size: 100%;
+}
+
+.button{
+    -fx-background-color: black;
+    -fx-text-fill: azure;
+}

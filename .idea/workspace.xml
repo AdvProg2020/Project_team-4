@@ -1,15 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/LoginPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/MianPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Picture/MainPageBackground.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/LoginPage.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/MainPage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/MainPage.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/App.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="CSS File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -24,13 +57,25 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/org/example" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Asus\IdeaProjects\Project_team-4\src\main\resources\Picture" />
+      <recent name="C:\Users\Asus\IdeaProjects\Project_team-4\src\main\resources\org\example" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Code\untitled1\untitled1\src\main\java" />
     </key>
@@ -70,33 +115,66 @@
       <workItem from="1591846723901" duration="646000" />
       <workItem from="1591865998121" duration="124000" />
       <workItem from="1591866133330" duration="340000" />
+      <workItem from="1591866721712" duration="660000" />
+      <workItem from="1591870756263" duration="4697000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1591847371411">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="122" y="54" key="DiffContextDialog" timestamp="1591872071799">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state x="122" y="54" key="DiffContextDialog/0.0.1280.720@0.0.1280.720" timestamp="1591872071799" />
+    <state width="1227" height="117" key="GridCell.Tab.0.bottom" timestamp="1591877101883">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1227" height="117" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1591877101883" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1591847371411" />
-    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1591847371410">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="117" key="GridCell.Tab.0.center" timestamp="1591877101883">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="117" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1591877101882" />
     <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1591847371410" />
-    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1591847371410">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="117" key="GridCell.Tab.0.left" timestamp="1591877101882">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="117" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1591877101882" />
     <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1591847371410" />
-    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1591847371410">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="117" key="GridCell.Tab.0.right" timestamp="1591877101883">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="117" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1591877101883" />
     <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1591847371410" />
     <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1591813150242">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="213" y="18" key="Maven.ArtifactSearchDialog/0.0.1366.728@0.0.1366.728" timestamp="1591813150242" />
+    <state x="416" y="133" key="chooseDestDirectoryDialog" timestamp="1591873939902">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="416" y="133" key="chooseDestDirectoryDialog/0.0.1280.720@0.0.1280.720" timestamp="1591873939902" />
+    <state x="395" y="65" key="git4idea.branch.GitSmartOperationDialog" timestamp="1591872075382">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="395" y="65" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.720@0.0.1280.720" timestamp="1591872075382" />
+    <state x="302" y="134" key="git4idea.merge.GitPullDialog" timestamp="1591873033709">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="302" y="134" key="git4idea.merge.GitPullDialog/0.0.1280.720@0.0.1280.720" timestamp="1591873033709" />
     <state x="65" y="24" key="new project wizard" timestamp="1591812554447">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
