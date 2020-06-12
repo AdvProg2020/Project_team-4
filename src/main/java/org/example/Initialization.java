@@ -29,12 +29,12 @@ public class Initialization {
             System.out.println(userName);
             System.out.println(passWord);
             if (userName == null || userName.equalsIgnoreCase("")) {
-                checkEntrance(initButton, "username");
+                checkEntrance("username");
                 initButton.setOnAction(initButtonHandler);
                 return;
             }
             if (passWord == null || passWord.equalsIgnoreCase("")){
-                checkEntrance(initButton, "password");
+                checkEntrance("password");
                 initButton.setOnAction(initButtonHandler);
                 return;
             }
@@ -72,7 +72,7 @@ public class Initialization {
     public void init() throws IOException {
     }
 
-    private void checkEntrance(Button button, String error) {
+    public void checkEntrance(String error) {
         Alert a = new Alert(Alert.AlertType.NONE);
 
         // set alert type
