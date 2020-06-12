@@ -25,7 +25,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         handleData();
         if (checkInitializedOrNot()) {
-            scene = new Scene(loadFXML("primary"));
+            scene = new Scene(loadFXML("main"));
         } else {
             scene = new Scene(loadFXML("initialization"));
         }
@@ -34,11 +34,11 @@ public class App extends Application {
     }
 
     private boolean checkInitializedOrNot() {
-        File directory = new File(System.getProperty("user.dir") + "\\" + Manager.class);
+        File directory = new File(System.getProperty("user.dir") + "\\" + "class Model.Manager");
         if (directory.isDirectory()) {
             String[] files = directory.list();
             if (files.length > 0) {
-                System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
+//                System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
                 isFirstManagerCreatedOrNot = true;
             }
             else {
@@ -49,30 +49,14 @@ public class App extends Application {
     }
 
     private void handleData() {
-        File file = new File(String.valueOf(Customer.class));
-        file.mkdir();
-        File file6 = new File(String.valueOf(Seller.class));
-        file6.mkdir();
-        File file7 = new File(String.valueOf(Manager.class));
-        file7.mkdir();
-        File file1 = new File(Product.class + "");
+        File file1 = new File(String.valueOf("class Model.Customer"));
         file1.mkdir();
-        File file2 = new File(Off.class + "");
+        File file2 = new File("class Model.Manager");
         file2.mkdir();
-        File file3 = new File(CodedOff.class + "");
+        File file3 = new File("class Model.Seller");
         file3.mkdir();
-        File file4 = new File(Seller.class + "");
-        file4.mkdir();
-        File file5 = new File(String.valueOf(RequestANewSellerAccount.class));
-        file5.mkdirs();
-        File file8 = new File(String.valueOf(CodedOff.class));
-        file8.mkdirs();
-        File file9 = new File(String.valueOf(String.class));
-        file9.mkdirs();
-        File file10 = new File(String.valueOf(ArrayList.class));
-        file10.mkdirs();
-        File file11 = new File(String.valueOf(Category.class));
-        file11.mkdirs();
+        File file4 = new File("class java.util.ArrayList");
+        file4.mkdirs();
         Controller.readOffCodesFromFile();
         Controller.readRequestsFromFile();
         Controller.readOffsFromFile();
