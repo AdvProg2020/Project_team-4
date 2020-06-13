@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Customer {
@@ -51,8 +52,20 @@ public class Customer {
         credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
+        cartButton.setOnAction(cartButtonHandler);
 //        offCodes.setText(Controller.getOurController().getLoggedInAccount());
     }
+
+    EventHandler cartButtonHandler = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+            try {
+                App.setRoot("cart");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     EventHandler saveButtonHandler = new EventHandler() {
         @Override
