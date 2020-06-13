@@ -91,7 +91,7 @@ public class Product extends SaveAble {
         this.tags = product.getTags();
         this.amountOfExist = product.getAmountOfExist();
         allProducts.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
+        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class.toString(), "allProducts");
     }
 
     public String getProductBarcode() {
@@ -242,7 +242,7 @@ public class Product extends SaveAble {
 
     public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
         allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
-        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class, "allProducts");
+        SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class.toString(), "allProducts");
     }
 
     public void setAmountOfExist(int amountOfExist) {

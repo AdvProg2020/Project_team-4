@@ -13,7 +13,7 @@ public class Customer extends Account {
     private ArrayList<String> sellersOfProductsOfTheCart;
     //private ArrayList<BuyLog> buyingHistory;
     //private ArrayList<CodedOff> offCodes;
-    protected ArrayList<History> history;
+//    protected ArrayList<History> history;
     protected ArrayList<String> offCodes;
     protected ArrayList<Integer> usageOfOffCodes = new ArrayList<>();
     private String address = "";
@@ -21,11 +21,12 @@ public class Customer extends Account {
     public Customer(String userName, String passWord) {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
-        this.history = new ArrayList<>();
+//        this.history = new ArrayList<>();
         this.cart = new HashMap<>();
         this.sellersOfProductsOfTheCart = new ArrayList<>();
 //        allCustomers.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(this, Customer.class, userName);
+        System.out.println(this.getClass());
+        SaveAndLoad.getSaveAndLoad().writeJSON(this, this.getClass().toString(), userName);
         for (String offCode: offCodes) {
             usageOfOffCodes.add(0);
         }
@@ -102,7 +103,7 @@ public class Customer extends Account {
             for (String seller: sellersOfProductsOfTheCart) {
                 Seller sellerFromFile = (Seller) Seller.getAccountWithName(seller);
                 sellerFromFile.setCredit(Product.getProductWithBarcode(products.get(i)).getCost() * cart.get(products.get(i)));
-                SaveAndLoad.getSaveAndLoad().writeJSON(sellerFromFile, sellerFromFile.getClass(), sellerFromFile.getUserName());
+                SaveAndLoad.getSaveAndLoad().writeJSON(sellerFromFile, sellerFromFile.getClass().toString(), sellerFromFile.getUserName());
                 i++;
             }
             cart = new HashMap<>();
@@ -133,7 +134,7 @@ public class Customer extends Account {
     @Override
     public String toString() {
         return "Customer{" +
-                ", history=" + history +
+//                ", history=" + history +
                 ", offCodes=" + offCodes +
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
@@ -158,21 +159,21 @@ public class Customer extends Account {
 
     }
 
-    public History getHistoryById(String name) {
-        for (History history: history) {
-            if (history.getLogBarcode().equalsIgnoreCase(name)) {
-                return history;
-            }
-        }
-        return null;
-    }
+//    public History getHistoryById(String name) {
+//        for (History history: history) {
+//            if (history.getLogBarcode().equalsIgnoreCase(name)) {
+//                return history;
+//            }
+//        }
+//        return null;
+//    }
 
     public void addHistory(int finalCost) {
         LocalDateTime dateTime = LocalDateTime.now();
         int offCost = getCartMoney() - finalCost;
         ArrayList<String> products = new ArrayList<>(cart.keySet());
         History historyOfPurchase = new History(dateTime, getCartMoney(), offCost, sellersOfProductsOfTheCart, products);
-        history.add(historyOfPurchase);
+//        history.add(historyOfPurchase);
     }
 
     public void setSellerName(String name) {

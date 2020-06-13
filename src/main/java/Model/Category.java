@@ -23,7 +23,7 @@ public class Category extends SaveAble {
             Product.getProductWithBarcode(product).setCategoryTags(tags);
         }
         allCategories.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class, "allCategories");
+        SaveAndLoad.getSaveAndLoad().writeJSON(allCategories, ArrayList.class.toString(), "allCategories");
     }
 
     public static void deleteCategoryAndProducts(String name) {

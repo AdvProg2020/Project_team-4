@@ -20,7 +20,7 @@ public class Seller extends Account {
         this.offs = new ArrayList<>();
         this.history = new ArrayList<>();
         this.products = new ArrayList<>();
-        SaveAndLoad.getSaveAndLoad().writeJSON(this, Seller.class, userName);
+        SaveAndLoad.getSaveAndLoad().writeJSON(this, Seller.class.toString(), userName);
         //allSellers.add(this);
     }
 

@@ -11,7 +11,7 @@ public class RequestProduct extends Request {
         this.product = product;
         Manager.getEditProductsRequests().add(this);
         //Product.getAllProducts().remove(product);
-        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class, "editProductsRequests");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class.toString(), "editProductsRequests");
     }
 
     public Product getProduct() {

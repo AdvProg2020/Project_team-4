@@ -31,7 +31,7 @@ public class Off extends SaveAble {
             }
         }
         allOffs.add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(allOffs, ArrayList.class, "allOffs");
+        SaveAndLoad.getSaveAndLoad().writeJSON(allOffs, ArrayList.class.toString(), "allOffs");
     }
 
     public String getOffBarcode() {

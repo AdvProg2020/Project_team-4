@@ -40,7 +40,7 @@ public class Initialization {
             }
             Manager.addANewManager(initUserName.getText().trim(), initPassWord.getText().trim(), false);
             try {
-                App.setRoot("primary");
+                App.setRoot("main");
             } catch (IOException e) {
                 e.printStackTrace();
             }

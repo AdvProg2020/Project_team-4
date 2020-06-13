@@ -37,21 +37,21 @@ public class LoginCreate {
     EventHandler createButtonHandler = new EventHandler() {
         @Override
         public void handle(Event event) {
-            if (checkInfoEntrance(userSign, createButton, passSign)) return;
+            if (checkInfoEntrance(userSign, createButton, passSign, createButtonHandler)) return;
             int result = Controller.getOurController().controllerNewAccount("customer", userSign.getText(), passSign.getText());
             showResult(result, "registered");
         }
     };
 
-    private boolean checkInfoEntrance(TextField userSign, Button createButton, TextField passSign) {
+    private boolean checkInfoEntrance(TextField userSign, Button createButton, TextField passSign, EventHandler eventHandler) {
         if (userSign.getText() == null || userSign.getText().trim().equalsIgnoreCase("")) {
             checkEntrance("username");
-            createButton.setOnAction(createButtonHandler);
+            createButton.setOnAction(eventHandler);
             return true;
         }
         if (passSign.getText() == null || passSign.getText().trim().equalsIgnoreCase("")){
             checkEntrance("password");
-            createButton.setOnAction(createButtonHandler);
+            createButton.setOnAction(eventHandler);
             return true;
         }
         return false;
@@ -60,8 +60,8 @@ public class LoginCreate {
     EventHandler requestButtonHandler = new EventHandler() {
         @Override
         public void handle(Event event) {
-            if (checkInfoEntrance(userReq, reqButton, passReq)) return;
-            int result = Controller.getOurController().controllerNewAccount(Seller.class.toString(), userReq.getText(), passReq.getText());
+            if (checkInfoEntrance(userReq, reqButton, passReq, requestButtonHandler)) return;
+            int result = Controller.getOurController().controllerNewAccount("seller", userReq.getText(), passReq.getText());
             showResult(result, "request sent");
         }
     };
@@ -88,17 +88,17 @@ public class LoginCreate {
         }
     }
 
-    EventHandler createuttonHandler = new EventHandler() {
+    EventHandler loginHandler = new EventHandler() {
         @Override
         public void handle(Event event) {
-            if (userSign.getText() == null || userSign.getText().trim().equalsIgnoreCase("")) {
+            if (userLogin.getText() == null || userLogin.getText().trim().equalsIgnoreCase("")) {
                 checkEntrance("username");
-                createButton.setOnAction(createButtonHandler);
+                userLogin.setOnAction(loginHandler);
                 return;
             }
             if (passSign.getText() == null || passSign.getText().trim().equalsIgnoreCase("")){
                 checkEntrance("password");
-                createButton.setOnAction(createButtonHandler);
+                createButton.setOnAction(loginHandler);
                 return;
             }
             Controller.getOurController().controllerNewAccount(Customer.class.toString(), userSign.getText(), passSign.getText());

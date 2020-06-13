@@ -151,9 +151,9 @@ public class Controller {
         return getProductWithBarcode(productName);
     }
 
-    public History showOrderInCustomerMenu(String s) {
-        return ((Customer)loggedInAccount).getHistoryById(s);
-    }
+//    public History showOrderInCustomerMenu(String s) {
+//        return ((Customer)loggedInAccount).getHistoryById(s);
+//    }
 
     public void rateProduct(String productId, int rate) {
         Product product = getProductWithBarcode(productId);
@@ -368,7 +368,7 @@ public class Controller {
             case "password" :
                 loggedInAccount.setPassWord(newAmount.group(1));
         }
-        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
+        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString(), Controller.getOurController().getLoggedInAccount().getUserName());
     }
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
@@ -454,7 +454,7 @@ public class Controller {
         LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
         Off off = new Off(start, products, end, offAmount);
         Off.getAllOffs().remove(off);
-        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
         new RequestOff(RequestType.OFF, off);
     }
 

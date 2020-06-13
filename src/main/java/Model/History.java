@@ -27,5 +27,18 @@ public class History {
     public String getLogBarcode() {
         return logBarcode;
     }
+
+    @Override
+    public String toString() {
+        return "History{" +
+                "logBarcode='" + logBarcode + '\'' +
+                ", date=" + date +
+                ", cost=" + cost +
+                ", offSCost=" + offSCost +
+                ", products=" + products +
+                ", name=" + name +
+                ", deliveredOrNot=" + deliveredOrNot +
+                '}';
+    }
 }
 

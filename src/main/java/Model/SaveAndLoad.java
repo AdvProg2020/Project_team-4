@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
 
 public class SaveAndLoad {
 
@@ -22,7 +21,7 @@ public class SaveAndLoad {
     }
 
 
-    public void writeJSON(Object object, Class classType, String name){
+    public void writeJSON(Object object, String classType, String name){
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
@@ -85,16 +84,16 @@ public class SaveAndLoad {
 
 
     public void saveGenerally() {
-        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass(), Controller.getOurController().getLoggedInAccount().getUserName());
-        SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class, "allCategories");
-        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "allOffCodes");
-        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class, "allOffs");
-        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class, "allProducts");
-        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class, "editOffRequests");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString(), Controller.getOurController().getLoggedInAccount().getUserName());
+        SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class.toString(), "allCategories");
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class.toString(), "allOffCodes");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Product.getAllProducts(), ArrayList.class.toString(), "allProducts");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class.toString(), "editOffRequests");
 
-        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class, "editProductsRequests");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class.toString(), "editProductsRequests");
 
-        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getRegisterSellerAccountRequests(), ArrayList.class, "registerSellerAccountRequests");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getRegisterSellerAccountRequests(), ArrayList.class.toString(), "registerSellerAccountRequests");
 
 
 

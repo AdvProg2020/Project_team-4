@@ -10,7 +10,7 @@ public class RequestOff extends Request {
         this.off = off;
         //Off.getAllOffs().remove(off);
         Manager.getEditOffRequests().add(this);
-        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class, "editOffRequests");
+        SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class.toString(), "editOffRequests");
     }
     public LocalDateTime getStartDate() {
         return off.getStartDate();

@@ -131,7 +131,7 @@ public class CustomerMenu extends Menu {
                     switch (input.trim()) {
                         case "1":
                             String orderId = getField("Enter orderId", "(\\S+)").group(1);
-                            System.out.println(Controller.getOurController().showOrderInCustomerMenu(orderId));
+//                            System.out.println(Controller.getOurController().showOrderInCustomerMenu(orderId));
                             break;
                         case "2":
                             Matcher productIdAndRate = getField("Enter: [productId] [1-5]", "(\\S+)\\s([1, 5])");

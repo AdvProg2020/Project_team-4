@@ -21,14 +21,14 @@ public class Manager extends Account {
 
     public Manager(String userName, String passWord) {
         super(userName, passWord);
-        SaveAndLoad.getSaveAndLoad().writeJSON(this, Manager.class, userName);
+        SaveAndLoad.getSaveAndLoad().writeJSON(this, Manager.class.toString(), userName);
     }
 
     public static void removeDiscount(String offName) {
         if (CodedOff.getAllDiscounts().contains(CodedOff.getOffCodeWithName(offName))) {
             CodedOff.getAllDiscounts().remove(CodedOff.getOffCodeWithName(offName));
         }
-        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class, "offCodes");
+        SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class.toString(), "offCodes");
     }
 
     public void editOffCode(CodedOff offCode) {
@@ -133,7 +133,7 @@ public class Manager extends Account {
         if (registerSellerAccountRequests.contains(request)) {
             new Seller(request.getUserName(), request.getPassWord());
             registerSellerAccountRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
+            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class.toString(), "registerSellerAccountRequests");
             return true;
         }
         return false;
@@ -141,7 +141,7 @@ public class Manager extends Account {
 
     public static boolean addANewSellerRequest(String userName, String passWord) {
         registerSellerAccountRequests.add(new RequestANewSellerAccount(RequestType.ACCOUNT, userName, passWord));
-        SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
+        SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class.toString(), "registerSellerAccountRequests");
         return true;
     }
 
@@ -189,17 +189,17 @@ public class Manager extends Account {
     public static boolean declineRequest(Request request) {
         if (editOffRequests.contains(request)) {
             editOffRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
+            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class.toString(), "editOffRequests");
 
             return true;
         } else if (editProductsRequests.contains(request)) {
             editProductsRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(editProductsRequests, ArrayList.class, "editProductsRequests");
+            SaveAndLoad.getSaveAndLoad().writeJSON(editProductsRequests, ArrayList.class.toString(), "editProductsRequests");
 
             return true;
         } else if (registerSellerAccountRequests.contains(request)) {
             registerSellerAccountRequests.remove(request);
-            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class, "registerSellerAccountRequests");
+            SaveAndLoad.getSaveAndLoad().writeJSON(registerSellerAccountRequests, ArrayList.class.toString(), "registerSellerAccountRequests");
 
             return true;
         }
