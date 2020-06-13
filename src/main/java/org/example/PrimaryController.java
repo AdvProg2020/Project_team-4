@@ -10,6 +10,7 @@ public class PrimaryController {
     @FXML
     private void switchToAccountSection() throws IOException {
         if (Controller.getOurController().getLoggedInAccount() == null) {
+            LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {

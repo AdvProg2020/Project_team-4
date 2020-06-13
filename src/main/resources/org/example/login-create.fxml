@@ -7,11 +7,11 @@
 <BorderPane stylesheets="@LoginPage.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.LoginCreate">
    <center>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="268.0" spacing="10">
-         <Button disable="true" mnemonicParsing="false" text="logout" fx:id="loginButton"/>
+         <Button disable="true" mnemonicParsing="false" text="logout" fx:id="logout"/>
          <Label alignment="CENTER" prefHeight="17.0" prefWidth="325.0" text="Login" BorderPane.alignment="CENTER" />
-         <TextField fx:id="userLog" alignment="CENTER" prefHeight="25.0" prefWidth="3.0" promptText="username" />
-         <TextField fx:id="passLog" alignment="CENTER" prefHeight="30.0" prefWidth="3.0" promptText="pass" />
-         <Button mnemonicParsing="false" text="Login" />
+         <TextField fx:id="userLogin" alignment="CENTER" prefHeight="25.0" prefWidth="3.0" promptText="username" />
+         <TextField fx:id="passLogin" alignment="CENTER" prefHeight="30.0" prefWidth="3.0" promptText="pass" />
+         <Button mnemonicParsing="false" fx:id="loginButton" text="Login" />
       </VBox>
    </center>
    <left>

@@ -1,10 +1,6 @@
 package org.example;
 
 import Control.Controller;
-import Model.Manager;
-import Model.Seller;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +11,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class LoginCreate {
+    private static String beforeRoot;
     @FXML
     private TextField userSign;
     @FXML
@@ -33,6 +30,9 @@ public class LoginCreate {
     private TextField passLogin;
     @FXML
     private Button loginButton;
+    @FXML
+    private Button logout;
+
 
     EventHandler createButtonHandler = new EventHandler() {
         @Override
@@ -88,24 +88,27 @@ public class LoginCreate {
         }
     }
 
-    EventHandler loginHandler = new EventHandler() {
+    EventHandler loginButtonHandler = new EventHandler() {
         @Override
         public void handle(Event event) {
-            if (userLogin.getText() == null || userLogin.getText().trim().equalsIgnoreCase("")) {
-                checkEntrance("username");
-                userLogin.setOnAction(loginHandler);
+            if (checkInfoEntrance(userLogin, loginButton, passLogin, loginButtonHandler)) return;
+            int result = Controller.getOurController().controllerLogin(userLogin.getText().trim(), passLogin.getText().trim());
+            if (result == 2) {
+                Alert a = new Alert(Alert.AlertType.NONE);
+
+                // set alert type
+                a.setAlertType(Alert.AlertType.WARNING);
+
+                a.setContentText("username or passWord is wrong");
+                // show the dialog
+                a.show();
                 return;
-            }
-            if (passSign.getText() == null || passSign.getText().trim().equalsIgnoreCase("")){
-                checkEntrance("password");
-                createButton.setOnAction(loginHandler);
-                return;
-            }
-            Controller.getOurController().controllerNewAccount(Customer.class.toString(), userSign.getText(), passSign.getText());
-            try {
-                App.setRoot("primary");
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                try {
+                    App.setRoot(beforeRoot);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
@@ -113,6 +116,7 @@ public class LoginCreate {
     public void initialize(){
         createButton.setOnAction(createButtonHandler);
         reqButton.setOnAction(requestButtonHandler);
+        loginButton.setOnAction(loginButtonHandler);
     }
 
 
@@ -140,5 +144,9 @@ public class LoginCreate {
             alert.show();
             return;
         }
+    }
+
+    public static void setBeforeRoot(String root) {
+        beforeRoot = root;
     }
 }
