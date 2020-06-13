@@ -48,6 +48,8 @@ public class Controller {
     }
 
     public int controllerLogin(String username, String password) {
+        System.out.println(Account.getAccountWithName(username).getPassWord());
+        System.out.println(password);
         if (Account.getAccountWithName(username) == null) {
             return 2;
         }
@@ -532,6 +534,11 @@ public class Controller {
     public void setNameOfSellerOfProductAddedToCart(String sellerName) {
         Customer customer = (Customer) getLoggedInAccount();
         customer.setSellerName(sellerName);
+    }
+
+    public void setCustomerPassWordAndAddress(String passWord, String address) {
+        loggedInAccount.setPassWord(passWord);
+        ((Customer)loggedInAccount).setAddress(address);
     }
 }
 

@@ -31,7 +31,7 @@ public class LoginCreate {
     @FXML
     private Button loginButton;
     @FXML
-    private Button logout;
+    private Button logoutButton;
 
 
     EventHandler createButtonHandler = new EventHandler() {
@@ -93,7 +93,8 @@ public class LoginCreate {
         public void handle(Event event) {
             if (checkInfoEntrance(userLogin, loginButton, passLogin, loginButtonHandler)) return;
             int result = Controller.getOurController().controllerLogin(userLogin.getText().trim(), passLogin.getText().trim());
-            if (result == 2) {
+            System.out.println(result);
+            if (result == 2 || result == 3) {
                 Alert a = new Alert(Alert.AlertType.NONE);
 
                 // set alert type
@@ -103,8 +104,9 @@ public class LoginCreate {
                 // show the dialog
                 a.show();
                 return;
-            } else {
+            } else if (result == 1){
                 try {
+                    logoutButton.setDisable(false);
                     App.setRoot(beforeRoot);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -113,10 +115,37 @@ public class LoginCreate {
         }
     };
 
+    EventHandler logoutButtonHandler = new EventHandler() {
+        @Override
+        public void handle(Event event) {
+            int result = Controller.getOurController().logout();
+            if (result == 1) {
+                Alert a = new Alert(Alert.AlertType.NONE);
+
+                // set alert type
+                a.setAlertType(Alert.AlertType.WARNING);
+
+                a.setContentText("you're not logged in");
+                // show the dialog
+                a.show();
+            } else {
+                Alert a = new Alert(Alert.AlertType.NONE);
+
+                // set alert type
+                a.setAlertType(Alert.AlertType.WARNING);
+
+                a.setContentText("logged out successfully");
+                // show the dialog
+                a.show();
+            }
+        }
+    };
+
     public void initialize(){
         createButton.setOnAction(createButtonHandler);
         reqButton.setOnAction(requestButtonHandler);
         loginButton.setOnAction(loginButtonHandler);
+        logoutButton.setOnAction(logoutButtonHandler);
     }
 
 
@@ -130,6 +159,7 @@ public class LoginCreate {
         // show the dialog
         a.show();
     }
+
     @FXML
     public void createCustomer() {
         if (!(userSign.getText() == null) || userSign.getText().trim().equalsIgnoreCase("")) {
