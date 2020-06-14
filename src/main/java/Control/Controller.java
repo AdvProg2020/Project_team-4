@@ -478,6 +478,15 @@ public class Controller {
         loggedInCustomer.setEmail(email);
     }
 
+    public void setManagersField(String firstName, String lastName, String phoneNumber, String email, String passWord) {
+        Manager loggedInManager = (Manager) loggedInAccount;
+        loggedInManager.setFirstName(firstName);
+        loggedInManager.setLastName(lastName);
+        loggedInManager.setPhoneNumber(phoneNumber);
+        loggedInManager.setEmail(email);
+        loggedInManager.setPassWord(passWord);
+    }
+
     public void setCustomerAddress(String address) {
         ((Customer) loggedInAccount).setAddress(address);
     }

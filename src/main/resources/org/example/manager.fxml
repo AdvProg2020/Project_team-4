@@ -49,8 +49,6 @@
         <TextField fx:id="role" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
         <Label text="credit" GridPane.rowIndex="9" />
         <TextField fx:id="credit" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-        <Label text="offCodes" GridPane.rowIndex="10" />
-        <TextField fx:id="offCodes" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
         <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="8" GridPane.rowIndex="10" />
     </children>
 </GridPane>

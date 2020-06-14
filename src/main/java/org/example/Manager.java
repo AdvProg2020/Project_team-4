@@ -33,10 +33,6 @@ public class Manager {
     @FXML
     public TextField credit;
     @FXML
-    public TextField offCodes;
-    @FXML
-    public Button cartButton;
-    @FXML
     public Button saveButton;
 
     public void initialize() {
@@ -50,28 +46,14 @@ public class Manager {
         credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
-        cartButton.setOnAction(cartButtonHandler);
-//        offCodes.setText(Controller.getOurController().getLoggedInAccount());
     }
-
-    EventHandler cartButtonHandler = new EventHandler() {
-        @Override
-        public void handle(Event event) {
-            try {
-                App.setRoot("cart");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
     EventHandler saveButtonHandler = new EventHandler() {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
-            Controller.getOurController().setCustomersField(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim());
-            Controller.getOurController().setCustomerPassWordAndAddress(passWord.getText().trim(), address.getText().trim());
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Customer.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
+            Controller.getOurController().setManagersField(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
+            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Manager.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
             alert.show();
@@ -83,7 +65,6 @@ public class Manager {
         textFields.add(passWord);
         textFields.add(phoneNumber);
         textFields.add(mail);
-        textFields.add(address);
     }
 
     private boolean checkInfoEntrance() {
