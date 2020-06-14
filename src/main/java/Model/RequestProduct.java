@@ -5,13 +5,23 @@ import java.util.regex.Matcher;
 
 public class RequestProduct extends Request {
     private Product product;
+    private String productBarcode;
 
     public RequestProduct(RequestType requestType, Product product) {
         super(requestType);
         this.product = product;
+        this.productBarcode = product.getProductBarcode();
         Manager.getEditProductsRequests().add(this);
         //Product.getAllProducts().remove(product);
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class.toString(), "editProductsRequests");
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setProductBarcode(String productBarcode) {
+        this.productBarcode = productBarcode;
     }
 
     public Product getProduct() {

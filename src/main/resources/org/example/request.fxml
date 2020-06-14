@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Requests">
+   <children>
+      <TableView fx:id="sellerReq" layoutX="14.0" layoutY="14.0" prefHeight="330.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="sellerUserName" prefWidth="75.0" text="sellerUserName" />
+        </columns>
+      </TableView>
+      <TableView fx:id="productReq" layoutX="223.0" layoutY="14.0" prefHeight="330.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="productBarcode" prefWidth="75.0" text="Product barcode" />
+        </columns>
+      </TableView>
+      <TableView fx:id="offReq" layoutX="429.0" layoutY="14.0" prefHeight="330.0" prefWidth="188.0">
+        <columns>
+          <TableColumn fx:id="offBarcode" prefWidth="75.0" text="Off Barcode" />
+        </columns>
+      </TableView>
+      <Button fx:id="acceptSeller" onAction="#acceptSeller" layoutX="88.0" layoutY="361.0" mnemonicParsing="false" text="Accept" />
+      <Button fx:id="acceptProduct"  onAction="#acceptProduct" layoutX="297.0" layoutY="361.0" mnemonicParsing="false" text="Accept" />
+      <Button fx:id="acceptOff" onAction="#acceptOff" layoutX="497.0" layoutY="361.0" mnemonicParsing="false" text="Accept" />
+      <Button fx:id="declineSeller" onAction="#declineSeller" layoutX="148.0" layoutY="361.0" mnemonicParsing="false" text="Decline" />
+      <Button fx:id="declineProduct" onAction="#declineProduct" layoutX="371.0" layoutY="361.0" mnemonicParsing="false" text="Decline" />
+      <Button fx:id="declineOff" onAction="#declineOff" layoutX="565.0" layoutY="361.0" mnemonicParsing="false" text="Decline" />
+   </children>
+</AnchorPane>

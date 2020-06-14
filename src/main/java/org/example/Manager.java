@@ -2,6 +2,7 @@ package org.example;
 
 import Control.Controller;
 import Model.SaveAndLoad;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Manager {
+    @FXML
+    public Button request;
     ArrayList<TextField> textFields = new ArrayList<>();
     @FXML
     public TextField address;
@@ -90,7 +93,12 @@ public class Manager {
     }
 
 
-
-
+    public void goToRequestPage(ActionEvent actionEvent) {
+        try {
+            App.setRoot("request");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

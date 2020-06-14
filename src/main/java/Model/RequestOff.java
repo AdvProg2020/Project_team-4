@@ -5,17 +5,32 @@ import java.util.ArrayList;
 
 public class RequestOff extends Request {
     private Off off;
+    private String offBarcode;
     public RequestOff(RequestType requestType, Off off) {
         super(requestType);
         this.off = off;
+        this.offBarcode = off.getOffBarcode();
         //Off.getAllOffs().remove(off);
         Manager.getEditOffRequests().add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class.toString(), "editOffRequests");
     }
-    public LocalDateTime getStartDate() {
+
+    public void setOff(Off off) {
+        this.off = off;
+    }
+
+    public String getOffBarcode() {
+        return offBarcode;
+    }
+
+    public void setOffBarcode(String offBarcode) {
+        this.offBarcode = offBarcode;
+    }
+
+    public String getStartDate() {
         return off.getStartDate();
     }
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return off.getEndDate();
     }
     public ArrayList<String> getProducts() {

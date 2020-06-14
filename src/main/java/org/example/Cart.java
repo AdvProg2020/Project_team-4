@@ -50,6 +50,7 @@ public class Cart implements Initializable {
         ObservableList<CartItem> data = getInitialTableData();
         table.setItems(data);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        ////////////////////Pak NAKONI HA JOZVE CODE///////////////////////////
 //        //Listener for selection to go to product page
 //        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 //            if (newSelection != null) {

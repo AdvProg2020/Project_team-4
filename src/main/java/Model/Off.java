@@ -12,11 +12,11 @@ public class Off extends SaveAble {
         MAKING, EDITING, APPROVED
     }
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     private int offAmount;
 
-    public Off(LocalDateTime startDate, ArrayList<String> products, LocalDateTime endDate, int offAmount) {
+    public Off(String startDate, ArrayList<String> products, String endDate, int offAmount) {
         this.offBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.products = products;
         this.startDate = startDate;
@@ -38,11 +38,11 @@ public class Off extends SaveAble {
         return offBarcode;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
