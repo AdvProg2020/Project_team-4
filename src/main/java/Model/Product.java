@@ -28,7 +28,7 @@ public class Product extends SaveAble {
     }
     private String name;
     private int seen;
-    private LocalDateTime localDateTime;
+    private String localDateTime;
     private ArrayList<String> categoryTags;
     private String company;
     private int cost;
@@ -56,7 +56,7 @@ public class Product extends SaveAble {
         return seen;
     }
 
-    public LocalDateTime getLocalDateTime() {
+    public String getLocalDateTime() {
         return localDateTime;
     }
 

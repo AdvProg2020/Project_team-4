@@ -4,6 +4,7 @@ import Control.Controller;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ public class Customer extends Account {
     private ArrayList<String> sellersOfProductsOfTheCart;
     //private ArrayList<BuyLog> buyingHistory;
     //private ArrayList<CodedOff> offCodes;
-//    protected ArrayList<History> history;
+    protected ArrayList<History> history;
     protected ArrayList<String> offCodes;
     protected ArrayList<Integer> usageOfOffCodes = new ArrayList<>();
     private String address = "";
@@ -21,7 +22,7 @@ public class Customer extends Account {
     public Customer(String userName, String passWord) {
         super(userName, passWord);
         this.offCodes = new ArrayList<>();
-//        this.history = new ArrayList<>();
+        this.history = new ArrayList<>();
         this.cart = new HashMap<>();
         this.sellersOfProductsOfTheCart = new ArrayList<>();
 //        allCustomers.add(this);
@@ -134,7 +135,7 @@ public class Customer extends Account {
     @Override
     public String toString() {
         return "Customer{" +
-//                ", history=" + history +
+                ", history=" + history +
                 ", offCodes=" + offCodes +
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
@@ -159,21 +160,23 @@ public class Customer extends Account {
 
     }
 
-//    public History getHistoryById(String name) {
-//        for (History history: history) {
-//            if (history.getLogBarcode().equalsIgnoreCase(name)) {
-//                return history;
-//            }
-//        }
-//        return null;
-//    }
+    public History getHistoryById(String name) {
+        for (History history: history) {
+            if (history.getLogBarcode().equalsIgnoreCase(name)) {
+                return history;
+            }
+        }
+        return null;
+    }
 
     public void addHistory(int finalCost) {
         LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String time = dateTime.format(dateTimeFormatter);
         int offCost = getCartMoney() - finalCost;
         ArrayList<String> products = new ArrayList<>(cart.keySet());
-        History historyOfPurchase = new History(dateTime, getCartMoney(), offCost, sellersOfProductsOfTheCart, products);
-//        history.add(historyOfPurchase);
+        History historyOfPurchase = new History(time, getCartMoney(), offCost, sellersOfProductsOfTheCart, products);
+        history.add(historyOfPurchase);
     }
 
     public void setSellerName(String name) {
