@@ -20,11 +20,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="create init page">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Initialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Initialization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/initialization.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/initialization.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ProductsPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/ProductsPage.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Account.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/CodedOff.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Comment$commentStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Comment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Customer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Handler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/History.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Manager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Off$offStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Off.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Product$productStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Product.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Request.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestANewSellerAccount.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestOff.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestProduct.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/SaveAble.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/SaveAndLoad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Score.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Model/Seller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/LoginMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/MainMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/Menu$CommandsSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/Menu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/OffsMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductsMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductsMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductsMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/SellerMenu$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/SellerMenu$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/SellerMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/View/Outputs.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/PrimaryController.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +97,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1d8QmsLgOOwEynRP1OhcYNC3zQR" />
@@ -101,6 +163,7 @@
       <workItem from="1591865998121" duration="124000" />
       <workItem from="1591866133330" duration="3679000" />
       <workItem from="1591885077793" duration="10964000" />
+      <workItem from="1592210600632" duration="424000" />
     </task>
     <task id="LOCAL-00001" summary="ignore git">
       <created>1591866561999</created>
@@ -144,21 +207,25 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1591891949341" />
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1591895980805">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="127" key="GridCell.Tab.0.bottom" timestamp="1592210879774">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="127" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
-    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1591895980805">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="127" key="GridCell.Tab.0.center" timestamp="1592210879774">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="127" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
     <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
-    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1591895980804">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="127" key="GridCell.Tab.0.left" timestamp="1592210879774">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="127" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
     <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1591895980804" />
-    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1591895980805">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1227" height="127" key="GridCell.Tab.0.right" timestamp="1592210879774">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state width="1227" height="127" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
     <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
     <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1591813150242">
       <screen x="0" y="0" width="1366" height="728" />

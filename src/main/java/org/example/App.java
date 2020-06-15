@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.CharArrayReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         handleData();
-        if (checkInitializedOrNot()) {
-            scene = new Scene(loadFXML("main"));
+      if (checkInitializedOrNot()) {
+            scene = new Scene(loadFXML("ProductsPage"));
         } else {
             scene = new Scene(loadFXML("initialization"));
         }
