@@ -29,6 +29,7 @@ public class App extends Application {
         } else {
             scene = new Scene(loadFXML("initialization"));
         }
+        stage.setTitle("A D S store");
         stage.setScene(scene);
         stage.show();
     }

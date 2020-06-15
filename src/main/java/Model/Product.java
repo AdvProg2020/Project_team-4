@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import java.time.format.DateTimeFormatter;
 
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -73,6 +74,7 @@ public class Product extends SaveAble {
         this.tags = tags;
         this.sellers = sellers;
         this.amountOfExist = amountOfExist;
+        this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         giveId++;
     }
 
@@ -90,6 +92,7 @@ public class Product extends SaveAble {
         this.averageScore = product.getAverageScore();
         this.tags = product.getTags();
         this.amountOfExist = product.getAmountOfExist();
+        this.localDateTime = product.getLocalDateTime();
         allProducts.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class.toString(), "allProducts");
     }

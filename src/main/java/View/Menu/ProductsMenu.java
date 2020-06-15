@@ -2,7 +2,9 @@ package View.Menu;
 
 import Model.Category;
 import Model.Product;
-
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
+import java.util.*;
 import java.util.*;
 import java.util.regex.Matcher;
 
