@@ -100,5 +100,13 @@ public class Manager {
             e.printStackTrace();
         }
     }
+
+    public void goToCodedOffPage(ActionEvent actionEvent) {
+        try {
+            App.setRoot("off-code");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

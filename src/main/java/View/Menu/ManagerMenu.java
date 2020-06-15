@@ -200,7 +200,7 @@ public class ManagerMenu extends Menu {
                 }
                 containingCustomers.add(input.trim());
             }
-            Outputs.printCreateCodedOffResult(Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers));
+//            Outputs.printCreateCodedOffResult(Controller.getOurController().controllerCreateOffCode(barcode, startDate, expireDate, maximumOffAmount, percentOfOff, usageTime, containingCustomers));
         }while(true);
     }
 

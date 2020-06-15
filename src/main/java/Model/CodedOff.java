@@ -1,5 +1,8 @@
 package Model;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,17 +11,17 @@ import java.util.HashMap;
 public class CodedOff extends SaveAble {
     private static ArrayList<CodedOff> allOfCodes = new ArrayList<>();
     private String offBarcode;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private double offAmount;
-    private int usageTime;
-    private int percent;
+    private String startTime;
+    private String endTime;
+    private String offAmount;
+    private String usageTime;
+    private String percent;
     private HashMap<String, Integer> numberOfUsageForEachUserName;
     private ArrayList<String> discountIsForTheseUserNames;
     private ArrayList<String> containingUserNames;
 
-    public CodedOff(String offBarcode, LocalDateTime startTime, LocalDateTime endTime, double offAmount, int percent, int usageTime, ArrayList<String> containingCustomers) {
-        this.offBarcode = offBarcode;
+    public CodedOff(String startTime, String endTime, String offAmount, String percent, String usageTime, ArrayList<String> containingCustomers) {
+        this.offBarcode = Product.givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.startTime = startTime;
         this.endTime = endTime;
         this.offAmount = offAmount;
@@ -34,6 +37,10 @@ public class CodedOff extends SaveAble {
     public static void removeOffCode(String offCode) {
         allOfCodes.remove(CodedOff.getOffCodeWithName(offCode));
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+    }
+
+    public static ArrayList<CodedOff> getAllOfCodes() {
+        return allOfCodes;
     }
 
     public String getOffBarcode() {
@@ -58,20 +65,56 @@ public class CodedOff extends SaveAble {
         return offBarcode;
     }
 
-    public int getPercent() {
+    public String getPercent() {
         return percent;
     }
 
-    public double getOffAmount() {
+    public String getOffAmount() {
         return offAmount;
     }
 
-    public int getUsageTime() {
+    public String getUsageTime() {
         return usageTime;
     }
 
     public static ArrayList<CodedOff> getAllDiscounts() {
         return allOfCodes;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public HashMap<String, Integer> getNumberOfUsageForEachUserName() {
+        return numberOfUsageForEachUserName;
+    }
+
+    public ArrayList<String> getDiscountIsForTheseUserNames() {
+        return discountIsForTheseUserNames;
+    }
+
+    public ArrayList<String> getContainingUserNames() {
+        return containingUserNames;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setOffAmount(String offAmount) {
+        this.offAmount = offAmount;
+    }
+
+    public void setUsageTime(String usageTime) {
+        this.usageTime = usageTime;
+    }
+
+    public void setPercent(String percent) {
+        this.percent = percent;
     }
 
     public static CodedOff getOffCodeWithName(String name) {

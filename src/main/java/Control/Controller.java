@@ -89,21 +89,20 @@ public class Controller {
         return result;
     }
 
-    public int controllerCreateOffCode(String barcode, Matcher startDate, Matcher expireDate, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
+    public int controllerCreateOffCode(String start, String end, String maximumOffAmount, String percentOfOff, String usageTimes, ArrayList<String> containingCustomers) {
         try {
-            LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
-            LocalDateTime end = LocalDateTime.of(Integer.parseInt(expireDate.group(1)), Integer.parseInt(expireDate.group(2)), Integer.parseInt(expireDate.group(3)), Integer.parseInt(expireDate.group(4)), Integer.parseInt(expireDate.group(5)));
             if (start.compareTo(end) > 0) {
                 return 2;
             }
             ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
-            CodedOff codedOff = new CodedOff(barcode, start, end, Integer.parseInt(maximumOffAmount), Integer.parseInt(percentOfOff), Integer.parseInt(usageTimes), containingCustomers);
+            CodedOff codedOff = new CodedOff(start, end, maximumOffAmount, percentOfOff, usageTimes, containingCustomers);
             for (String customer: containingCustomers) {
                 ((Customer)Customer.getAccountWithName(customer)).addOffCode(codedOff.getOffBarcode());
                 SaveAndLoad.getSaveAndLoad().saveGenerally();
             }
             return 1;
         }catch (Exception e){
+            e.printStackTrace();
             return 3;
         }
     }

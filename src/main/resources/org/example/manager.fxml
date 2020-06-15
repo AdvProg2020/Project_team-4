@@ -51,5 +51,6 @@
         <TextField fx:id="credit" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
         <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="8" GridPane.rowIndex="10" />
         <Button fx:id="request" onAction="#goToRequestPage" mnemonicParsing="false" text="requests" GridPane.rowIndex="10" GridPane.columnIndex="9"/>
+        <Button fx:id="codedOff" onAction="#goToCodedOffPage" mnemonicParsing="false" text="requests" GridPane.rowIndex="10" GridPane.columnIndex="10"/>
     </children>
 </GridPane>

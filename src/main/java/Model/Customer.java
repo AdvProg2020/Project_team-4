@@ -86,11 +86,11 @@ public class Customer extends Account {
         //age chizi be Off ezafe shod bayad costesh hamoon ja kam beshe haaaaaa in ja off mohasebe nemishe va faghat codedOff ha tasir daran
         //too saef mahsool bayad darj beshe ke kodoom seller dare ino mofrooshe va too customer ye arrayList hast ke be tartbie product haye hashMap product haye cart seller haye har product rpo ham zakhire mikone
         int finalCost = getCartMoney();
-        if (CodedOff.getOffCodeWithName(offCode) != null && this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode))  < CodedOff.getOffCodeWithName(offCode).getUsageTime()) {
-            if ((getCartMoney() * CodedOff.getOffCodeWithName(offCode).getPercent() / 100) > CodedOff.getOffCodeWithName(offCode).getOffAmount()) {
-                finalCost -= CodedOff.getOffCodeWithName(offCode).getOffAmount();
+        if (CodedOff.getOffCodeWithName(offCode) != null && this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode))  < Integer.parseInt(CodedOff.getOffCodeWithName(offCode).getUsageTime())) {
+            if (getCartMoney() * (Integer.parseInt(CodedOff.getOffCodeWithName(offCode).getPercent()) / 100) > Double.parseDouble(CodedOff.getOffCodeWithName(offCode).getOffAmount())) {
+                finalCost -= Double.parseDouble(CodedOff.getOffCodeWithName(offCode).getOffAmount());
             } else {
-                finalCost -= (getCartMoney() * CodedOff.getOffCodeWithName(offCode).getPercent() / 100);
+                finalCost -= (getCartMoney() * Integer.parseInt(CodedOff.getOffCodeWithName(offCode).getPercent()) / 100);
             }
             this.usageOfOffCodes.set(getOffCodeIndexForUsageTimeAddingByName(offCode), this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode)) + 1);
         }
