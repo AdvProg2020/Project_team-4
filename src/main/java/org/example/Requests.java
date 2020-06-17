@@ -74,7 +74,7 @@ public class Requests implements Initializable {
         List list = new ArrayList(Manager.getEditOffRequests());
         ArrayList<String> tags = new ArrayList<>();
         ArrayList<String> sellers = new ArrayList<>();
-        Product product = new Product( "name", "company", 1000, "category", "description", 5, tags, sellers);
+        Product product = new Product( "name", "company", 1000, "category", "description", 5, tags);
         list.add(new RequestProduct(RequestType.PRODUCT, product));
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;

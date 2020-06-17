@@ -47,7 +47,7 @@ public class SellerMenu extends Menu {
             }
             tags.add(nameToAdd);
         }
-        Controller.getOurController().createProductRequest(name, companyName, cost, categoryName, description, amountOfExist, tags, sellersNames);
+        Controller.getOurController().createProductRequest(name, companyName, cost, categoryName, description, amountOfExist, tags);
     }
 
     private static void editProduct(String productId) {

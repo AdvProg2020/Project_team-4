@@ -24,6 +24,30 @@ public class History {
         this.name = sellerName;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public double getOffSCost() {
+        return offSCost;
+    }
+
+    public ArrayList<String> getProducts() {
+        return products;
+    }
+
+    public ArrayList<String> getName() {
+        return name;
+    }
+
+    public boolean isDeliveredOrNot() {
+        return deliveredOrNot;
+    }
+
     public String getLogBarcode() {
         return logBarcode;
     }

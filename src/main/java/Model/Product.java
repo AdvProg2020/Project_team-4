@@ -61,7 +61,7 @@ public class Product extends SaveAble {
         return localDateTime;
     }
 
-    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
+    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
         this.categoryTags = new ArrayList<>();
@@ -72,7 +72,7 @@ public class Product extends SaveAble {
         this.description = description;
         this.comments = new ArrayList<>();
         this.tags = tags;
-        this.sellers = sellers;
+        this.sellers = new ArrayList<>();
         this.amountOfExist = amountOfExist;
         this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         giveId++;
@@ -243,8 +243,8 @@ public class Product extends SaveAble {
     }
 
 
-    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellers) {
-        allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, sellers));
+    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags) {
+        allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags));
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class.toString(), "allProducts");
     }
 

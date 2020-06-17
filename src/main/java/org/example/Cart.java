@@ -75,7 +75,7 @@ public class Cart implements Initializable {
         //just for test
         ArrayList<String> tags = new ArrayList<>();
         ArrayList<String> sellers = new ArrayList<>();
-        Product product = new Product( "name", "company", 1000, "category", "description", 5, tags, sellers);
+        Product product = new Product( "name", "company", 1000, "category", "description", 5, tags);
         CartItem cartItem = new CartItem(product);
         cartItem.setItemNo(i);
         cartItem.setHowMany(10);

@@ -49,8 +49,6 @@ public class Controller {
     }
 
     public int controllerLogin(String username, String password) {
-        System.out.println(Account.getAccountWithName(username).getPassWord());
-        System.out.println(password);
         if (Account.getAccountWithName(username) == null) {
             return 2;
         }
@@ -193,7 +191,7 @@ public class Controller {
         return 1;
     }
 
-    public void createCategory(String name, ArrayList<String> subCategories, ArrayList<String> tags, ArrayList<String> productsList) {
+    public Category createCategory(String name, ArrayList<String> subCategories, ArrayList<String> tags, ArrayList<String> productsList) {
         ArrayList<String> products = new ArrayList<>();
         for (String product: productsList) {
             if (getProductWithBarcode(product) != null) {
@@ -206,8 +204,9 @@ public class Controller {
                 subCategory.add(category);
             }
         }
-        new Category(name, tags, products, subCategory);
+        Category category = new Category(name, tags, products, subCategory);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+        return category;
     }
 
     public ArrayList<SaveAble> showAllRequests() {
@@ -377,17 +376,17 @@ public class Controller {
         return 0;
     }
 
-    public void removeCategory(String name) {
+    public boolean removeCategory(String name) {
         Category.deleteCategoryAndProducts(name);
+        return true;
     }
 
     public ArrayList requestCompanyInfo() {
         return null;
     }
 
-    public String requestSalesHistoryInfoInSeller() {
-        String info = ((Seller)loggedInAccount).getHistory().toString();
-        return info;
+    public ArrayList<History> requestSalesHistoryInfoInSeller() {
+        return ((Seller)loggedInAccount).getHistory();
     }
 
     public ArrayList requestListOfProducts() {
@@ -411,15 +410,10 @@ public class Controller {
         return f.list();
     }
 
-    public static void createProductRequest(String name, String company, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, ArrayList<String> sellersNames) {
+    public static void createProductRequest(String name, String company, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags) {
         Category category = Category.getCategoryByName(categoryName);
         ArrayList<Seller> sellers = new ArrayList<>();
-        for (String sellerName: sellersNames) {
-            if (Seller.getAccountWithName(sellerName) != null) {
-                sellers.add((Seller) Seller.getAccountWithName(sellerName));
-            }
-        }
-        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, categoryName, description, amountOfExist, tags, sellersNames));
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, categoryName, description, amountOfExist, tags));
     }
 
 
@@ -479,8 +473,8 @@ public class Controller {
         loggedInCustomer.setEmail(email);
     }
 
-    public void setManagersField(String firstName, String lastName, String phoneNumber, String email, String passWord) {
-        Manager loggedInManager = (Manager) loggedInAccount;
+    public void changeFields(String firstName, String lastName, String phoneNumber, String email, String passWord) {
+        Account loggedInManager = loggedInAccount;
         loggedInManager.setFirstName(firstName);
         loggedInManager.setLastName(lastName);
         loggedInManager.setPhoneNumber(phoneNumber);
@@ -515,7 +509,7 @@ public class Controller {
 
     public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags) {
         Category category = Category.getCategoryByName(categoryName);
-        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product("productBarcode: " + barcode,companyName, cost, categoryName, description, amountOfExist, tags, null));
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product("productBarcode: " + barcode,companyName, cost, categoryName, description, amountOfExist, tags));
     }
 
     public void removeProductFromSellerProducts(String productId) {
