@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="finish ProductsPage">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Off.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Off.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ProductsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ProductsPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ProductsPage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ProductsPage.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="Offs and ProductsPage done" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -114,7 +109,7 @@
       <workItem from="1592210600632" duration="961000" />
       <workItem from="1592278276722" duration="5206000" />
       <workItem from="1592318429725" duration="3455000" />
-      <workItem from="1592488612396" duration="941000" />
+      <workItem from="1592488612396" duration="1273000" />
     </task>
     <task id="LOCAL-00001" summary="ignore git">
       <created>1591866561999</created>
@@ -136,7 +131,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۰۳" />
       <updated>1592211279287</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL‎۰۰۰۰۴" summary="Offs and ProductsPage done">
+      <created>1592489788402</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۴" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۴" />
+      <updated>1592489788402</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,32 +159,33 @@
     <MESSAGE value="ignore git" />
     <MESSAGE value="create init page" />
     <MESSAGE value="finish ProductsPage" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish ProductsPage" />
+    <MESSAGE value="Offs and ProductsPage done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Offs and ProductsPage done" />
   </component>
   <component name="WindowStateProjectService">
     <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser" timestamp="1591891949341">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1591891949341" />
-    <state width="1227" height="127" key="GridCell.Tab.0.bottom" timestamp="1592489272395">
+    <state width="1227" height="127" key="GridCell.Tab.0.bottom" timestamp="1592489794273">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1592489272395" />
+    <state width="1227" height="127" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1592489794273" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
-    <state width="1227" height="127" key="GridCell.Tab.0.center" timestamp="1592489272395">
+    <state width="1227" height="127" key="GridCell.Tab.0.center" timestamp="1592489794273">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1592489272395" />
+    <state width="1227" height="127" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1592489794273" />
     <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
-    <state width="1227" height="127" key="GridCell.Tab.0.left" timestamp="1592489272394">
+    <state width="1227" height="127" key="GridCell.Tab.0.left" timestamp="1592489794273">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1592489272394" />
+    <state width="1227" height="127" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1592489794273" />
     <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1591895980804" />
-    <state width="1227" height="127" key="GridCell.Tab.0.right" timestamp="1592489272395">
+    <state width="1227" height="127" key="GridCell.Tab.0.right" timestamp="1592489794273">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1592489272395" />
+    <state width="1227" height="127" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1592489794273" />
     <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
     <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1591813150242">
       <screen x="0" y="0" width="1366" height="728" />
