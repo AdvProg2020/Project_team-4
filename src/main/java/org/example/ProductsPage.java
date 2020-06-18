@@ -1,9 +1,11 @@
 package org.example;
 
+import Model.Off;
 import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,6 +17,7 @@ import java.util.*;
 import javafx.scene.layout.AnchorPane;
 
 public class ProductsPage {
+    public ArrayList<Product> allProduct;
     public TableColumn name;
     public TableColumn id;
     public TableColumn price;
@@ -25,17 +28,25 @@ public class ProductsPage {
     public TableColumn score;
     public Button reverseButton;
     public AnchorPane mainAnchorPane;
-    public ArrayList<Product> allProduct;
     public TableColumn tags;
     public TableColumn createDate;
+    private CheckBox offCheckBox;
+
     private HashSet<String> filters = new HashSet<>();
 
-    public void initialize(){
+    public void initialize() {
         allProduct = new ArrayList<>(Product.getAllProducts());
         allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
         initializeTable();
         initializeSort();
         checkBoxForFilter();
+    }
+
+    private ObservableList<Product> getInitialOffTableData() {
+        List list = new ArrayList();
+        list.addAll(Off.getAllOffs());
+        ObservableList<Product> data = FXCollections.observableArrayList(list);
+        return data;
     }
 
     private void initializeSort() {
@@ -58,7 +69,6 @@ public class ProductsPage {
         tags.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
         setTable();
-        table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     private void checkBoxForFilter() {
@@ -66,7 +76,7 @@ public class ProductsPage {
         HashSet tags = new HashSet();
         for (Product product : Product.getAllProducts()) {
             for (String tag : product.getTags()) {
-                if(tags.contains(tag)){
+                if (tags.contains(tag)) {
                     continue;
                 }
                 CheckBox checkBox = new CheckBox(tag);
@@ -78,24 +88,55 @@ public class ProductsPage {
                 checkBox.setOnAction(e -> tagsActivate(checkBox));
             }
         }
+        CheckBox checkBox = new CheckBox("show offs");
+        checkBox.setLayoutY(330);
+        checkBox.setLayoutX(i);
+        mainAnchorPane.getChildren().add(checkBox);
+        checkBox.setOnAction(e -> activeOff());
+        offCheckBox = checkBox;
+    }
+
+    private void activeOff() {
+        if (offCheckBox.isSelected()) {
+            List list = new ArrayList();
+            list.addAll(getOffsProduct());
+            allProduct = getOffsProduct();
+            ObservableList<Product> data = FXCollections.observableArrayList(list);
+            table.setItems(data);
+            table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        }else{
+            allProduct.clear();
+            allProduct.addAll(Product.getAllProducts());
+        }
+        sortAction();
     }
 
     private void tagsActivate(CheckBox checkBox) {
-        if(checkBox.isSelected()){
-            if(!filters.contains(checkBox.getText())){
+        if (checkBox.isSelected()) {
+            if (!filters.contains(checkBox.getText())) {
                 filters.add(checkBox.getText());
             }
-        }else{
+        } else {
             filters.remove(checkBox.getText());
         }
         resetFilter();
     }
 
     private void resetFilter() {
-        ArrayList<Product> temp = new ArrayList<>(allProduct);
+        if (offCheckBox.isSelected()) {
+            ArrayList<Product> temp = new ArrayList<>(getOffsProduct());
+            getFilters(temp);
+            return;
+        }
+        ArrayList<Product> temp = new ArrayList<>(Product.getAllProducts());
+        getFilters(temp);
+        setTable();
+    }
+
+    private void getFilters(ArrayList<Product> temp) {
         for (Product product : Product.getAllProducts()) {
             for (String filter : filters) {
-                if(!product.getTags().contains(filter)){
+                if (!product.getTags().contains(filter)) {
                     temp.remove(product);
                 }
             }
@@ -127,35 +168,50 @@ public class ProductsPage {
     }
 
     public void sortAction() {
-        allProduct.clear();
-        allProduct.addAll(Product.getAllProducts());
-        switch (sortList.getSelectionModel().getSelectedItem().toString()){
-            case "name":
-                allProduct.sort(Comparator.comparing(Product::getNameOfProductNotBarcode));
-                break;
-            case "score":
-                allProduct.sort(Comparator.comparing(Product::getScoreNo));
-                break;
-            case "seen number":
-                allProduct.sort(Comparator.comparing(Product::getSeen));
-                break;
-            case "price":
-                allProduct.sort(Comparator.comparing(Product::getCost));
-                break;
-            case "time":
-                allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
-                break;
-        }
-        if(reverseButton.getText().equals("decrease"))
-            Collections.reverse(allProduct);
         resetFilter();
+        if (sortList.getSelectionModel().getSelectedItem() == null) {
+            allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
+        } else {
+            switch (sortList.getSelectionModel().getSelectedItem().toString()) {
+                case "name":
+                    allProduct.sort(Comparator.comparing(Product::getNameOfProductNotBarcode));
+                    break;
+                case "score":
+                    allProduct.sort(Comparator.comparing(Product::getScoreNo));
+                    break;
+                case "seen number":
+                    allProduct.sort(Comparator.comparing(Product::getSeen));
+                    break;
+                case "price":
+                    allProduct.sort(Comparator.comparing(Product::getCost));
+                    break;
+                default:
+                    allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
+                    break;
+            }
+        }
+        if (reverseButton.getText().equals("decrease"))
+            Collections.reverse(allProduct);
+        setTable();
     }
 
 
+    private ArrayList<Product> getOffsProduct() {
+        ArrayList<Product> arrayList = new ArrayList<>();
+        for (Off allOff : Off.getAllOffs()) {
+            for (String product : allOff.getProducts()) {
+                if (Product.getProductWithName(product) != null) {
+                    arrayList.add(Product.getProductWithName(product));
+                }
+            }
+        }
+        return arrayList;
+    }
+
     public void reverse(ActionEvent actionEvent) {
-        if(reverseButton.getText().equals("increase")){
+        if (reverseButton.getText().equals("increase")) {
             reverseButton.setText("decrease");
-        }else {
+        } else {
             reverseButton.setText("increase");
         }
         Collections.reverse(allProduct);

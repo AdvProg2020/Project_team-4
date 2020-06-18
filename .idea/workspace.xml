@@ -19,69 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="create init page">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ProductsPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/ProductsPage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller$7.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Control/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Account.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Category.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/CodedOff.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Comment$commentStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Comment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Customer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Handler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/History.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Manager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Off$offStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Off.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Product$productStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Product.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Request.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestANewSellerAccount.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestOff.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestProduct.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/RequestType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/SaveAble.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/SaveAndLoad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Score.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Seller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/CustomerMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/LoginMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/MainMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ManagerMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/Menu$CommandsSource.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/Menu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/OffsMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductMenu$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductMenu$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductsMenu$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductsMenu$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/ProductsMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/SellerMenu$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/SellerMenu$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Menu/SellerMenu.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/Outputs.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/App.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/PrimaryController.class" beforeDir="false" />
+    <list default="true" id="d5dea35c-8c1a-491d-ae93-1604ec63b417" name="Default Changelist" comment="finish ProductsPage">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Off.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Off.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ProductsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ProductsPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/ProductsPage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/ProductsPage.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +59,12 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/org/example" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -163,7 +111,10 @@
       <workItem from="1591865998121" duration="124000" />
       <workItem from="1591866133330" duration="3679000" />
       <workItem from="1591885077793" duration="10964000" />
-      <workItem from="1592210600632" duration="424000" />
+      <workItem from="1592210600632" duration="961000" />
+      <workItem from="1592278276722" duration="5206000" />
+      <workItem from="1592318429725" duration="3455000" />
+      <workItem from="1592488612396" duration="941000" />
     </task>
     <task id="LOCAL-00001" summary="ignore git">
       <created>1591866561999</created>
@@ -179,7 +130,13 @@
       <option name="project" value="LOCAL" />
       <updated>1591871568347</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL‎۰۰۰۰۳" summary="finish ProductsPage">
+      <created>1592211279287</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۳" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۳" />
+      <updated>1592211279287</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,37 +157,42 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ignore git" />
     <MESSAGE value="create init page" />
-    <option name="LAST_COMMIT_MESSAGE" value="create init page" />
+    <MESSAGE value="finish ProductsPage" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish ProductsPage" />
   </component>
   <component name="WindowStateProjectService">
     <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser" timestamp="1591891949341">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="488" y="64" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1591891949341" />
-    <state width="1227" height="127" key="GridCell.Tab.0.bottom" timestamp="1592210879774">
+    <state width="1227" height="127" key="GridCell.Tab.0.bottom" timestamp="1592489272395">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
+    <state width="1227" height="127" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1592489272395" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
-    <state width="1227" height="127" key="GridCell.Tab.0.center" timestamp="1592210879774">
+    <state width="1227" height="127" key="GridCell.Tab.0.center" timestamp="1592489272395">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
+    <state width="1227" height="127" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1592489272395" />
     <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
-    <state width="1227" height="127" key="GridCell.Tab.0.left" timestamp="1592210879774">
+    <state width="1227" height="127" key="GridCell.Tab.0.left" timestamp="1592489272394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
+    <state width="1227" height="127" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1592489272394" />
     <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1591895980804" />
-    <state width="1227" height="127" key="GridCell.Tab.0.right" timestamp="1592210879774">
+    <state width="1227" height="127" key="GridCell.Tab.0.right" timestamp="1592489272395">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1227" height="127" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1592210879774" />
+    <state width="1227" height="127" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1592489272395" />
     <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1591895980805" />
     <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1591813150242">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="213" y="18" key="Maven.ArtifactSearchDialog/0.0.1366.728@0.0.1366.728" timestamp="1591813150242" />
+    <state width="498" height="451" key="SwitcherDM" timestamp="1592284023851">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="498" height="451" key="SwitcherDM/0.0.1280.720@0.0.1280.720" timestamp="1592284023851" />
     <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1591871595588">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -239,9 +201,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="499" y="141" key="chooseDestDirectoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1591867258068" />
-    <state x="413" y="114" key="extract.method.dialog" timestamp="1591893848481">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="387" y="113" key="extract.method.dialog" timestamp="1592319780108">
+      <screen x="0" y="0" width="1280" height="720" />
     </state>
+    <state x="387" y="113" key="extract.method.dialog/0.0.1280.720@0.0.1280.720" timestamp="1592319780108" />
     <state x="413" y="114" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1591893848481" />
     <state x="65" y="24" key="new project wizard" timestamp="1591812554447">
       <screen x="0" y="0" width="1366" height="728" />
