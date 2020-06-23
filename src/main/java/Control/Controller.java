@@ -513,7 +513,7 @@ public class Controller {
     }
 
     public void removeProductFromSellerProducts(String productId) {
-        ArrayList<String> products = ((Seller) loggedInAccount).getProducts();
+        ArrayList<String> products = new ArrayList<>(((Seller) loggedInAccount).getProducts());
         for (String product: products) {
             if (product.equalsIgnoreCase(productId)) {
                 ((Seller) loggedInAccount).getProducts().remove(product);

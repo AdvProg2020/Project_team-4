@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.OffCode">
+   <children>
+      <TableView fx:id="table" layoutX="7.0" layoutY="9.0" prefHeight="286.0" prefWidth="590.0">
+        <columns>
+          <TableColumn fx:id="barcode" editable="false" prefWidth="75.0" text="OffCode barcode" />
+          <TableColumn fx:id="start" editable="false" prefWidth="75.0" text="start time" />
+            <TableColumn fx:id="end" onEditCommit="#changeEnd" prefWidth="75.0" text="end time" />
+            <TableColumn fx:id="amount" onEditCommit="#changeAmount" prefWidth="75.0" text="offAmount" />
+            <TableColumn fx:id="usageTimes" onEditCommit="#changeUsageTime" prefWidth="75.0" text="usageTime" />
+            <TableColumn fx:id="percent" onEditCommit="#changePercent" prefWidth="75.0" text="percent" />
+        </columns>
+      </TableView>
+      <TextField fx:id="startField" layoutX="7.0" layoutY="305.0" prefHeight="25.0" prefWidth="182.0" promptText="start(dd-MM-yyyy HH:mm:ss)" />
+      <TextField fx:id="endField" layoutX="205.0" layoutY="305.0" prefHeight="25.0" prefWidth="54.0" promptText="end" />
+      <TextField fx:id="amountField" layoutX="317.0" layoutY="305.0" prefHeight="25.0" prefWidth="54.0" promptText="amount" />
+      <TextField fx:id="usageTimeField" layoutX="391.0" layoutY="305.0" prefHeight="25.0" prefWidth="62.0" promptText="usageTime" />
+      <TextField fx:id="percentField" layoutX="467.0" layoutY="305.0" prefHeight="25.0" prefWidth="54.0" promptText="percent" />
+      <Button fx:id="addButton" layoutX="534.0" layoutY="305.0" mnemonicParsing="false" onAction="#add" text="Add" />
+      <TextField fx:id="containingCustomers" layoutX="8.0" layoutY="347.0" prefHeight="25.0" prefWidth="516.0" promptText="enter customers with just one space between each" />
+   </children>
+</AnchorPane>

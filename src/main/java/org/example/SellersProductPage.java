@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import Control.Controller;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class SellersProductPage implements Initializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        if (checkInfoEntrance())return;
         ObservableList<Product> selectedItem = table.getSelectionModel().getSelectedItems();
         Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
+        table.getItems().remove(selectedItem);
     }
 
     private boolean checkInfoEntrance() {
@@ -80,12 +81,22 @@ public class SellersProductPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        getEditAbleTextFields();
         ArrayList<String> productsNames = new ArrayList(((Seller)Controller.getOurController().getLoggedInAccount()).getProducts());
         ArrayList<Product> products = new ArrayList<>();
         for (String name: productsNames) {
             products.add(Product.getProductWithBarcode(name));
         }
         ObservableList<Product> observableList = FXCollections.observableArrayList(products);
+
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("AmountOfExist"));
+        costColumn.setCellValueFactory(new PropertyValueFactory<>("Cost"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        tagsColumn.setCellValueFactory(new PropertyValueFactory<>("Tags"));
+        companyColumn.setCellValueFactory(new PropertyValueFactory<>("Company"));
+
+
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         table.setItems(observableList);
     }
