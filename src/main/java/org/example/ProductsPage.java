@@ -17,6 +17,7 @@ import java.util.*;
 import javafx.scene.layout.AnchorPane;
 
 public class ProductsPage {
+    public static boolean calledFromOff = false;
     public ArrayList<Product> allProduct;
     public TableColumn name;
     public TableColumn id;
@@ -94,6 +95,8 @@ public class ProductsPage {
         mainAnchorPane.getChildren().add(checkBox);
         checkBox.setOnAction(e -> activeOff());
         offCheckBox = checkBox;
+        offCheckBox.setSelected(calledFromOff);
+
     }
 
     private void activeOff() {

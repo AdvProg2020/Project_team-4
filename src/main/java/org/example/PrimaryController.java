@@ -3,6 +3,7 @@ package org.example;
 import java.io.IOException;
 
 import Control.Controller;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class PrimaryController {
@@ -24,6 +25,23 @@ public class PrimaryController {
                     App.setRoot("seller");
                     break;
             }
+        }
+    }
+
+    public void switchToProductsPage() {
+        try {
+            App.setRoot("ProductsPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToOffsPagePage() {
+        ProductsPage.calledFromOff = true;
+        try {
+            App.setRoot("ProductsPage");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
