@@ -1,6 +1,6 @@
 .root{
-    -fx-background-image: url("abstract-blurred-photo-store-with-trolley-department-store-bokeh-background_1980-8.jpg");
-    -fx-background-size: 100%;
+    -fx-background-image: url("firstMenuBackground.png");
+    -fx-background-size: cover;
     /*-fx-background-color: #dc143c;*/
 }
 

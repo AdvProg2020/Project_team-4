@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.*;
 
+import java.io.IOException;
 import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
@@ -220,5 +221,13 @@ public class ProductsPage {
         }
         Collections.reverse(allProduct);
         setTable();
+    }
+
+    public void backToFirstMenu(ActionEvent actionEvent) {
+        try {
+            App.setRoot("main");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
