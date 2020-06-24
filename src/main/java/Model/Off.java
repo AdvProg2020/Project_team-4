@@ -2,6 +2,7 @@ package Model;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Off extends SaveAble {
@@ -24,7 +25,7 @@ public class Off extends SaveAble {
         this.offAmount = offAmount;
         for (String product: products) {
             if (Product.getProductWithName(product) != null) {
-                Product.getProductWithName(product).offTheCost(Product.getProductWithBarcode(product).getCost() * offAmount / 100);
+                Product.getProductWithName(product).offTheCost(Product.getProductWithName(product).getCost() * offAmount / 100);
             }
             else {
                 System.err.println("null product");
@@ -98,8 +99,6 @@ public class Off extends SaveAble {
 
         return generatedString;
     }
-
-
 
     @Override
     public boolean equals(Object o) {
