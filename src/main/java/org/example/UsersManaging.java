@@ -1,10 +1,10 @@
 package org.example;
 
 import Control.Controller;
-import Model.Account;
-import Model.CodedOff;
+import Model.*;
 import Model.Customer;
 import Model.Manager;
+import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,19 +52,16 @@ public class UsersManaging implements Initializable {
         List<Account> users = new ArrayList<>();
         for (String userName: userNames) {
             Account account = getAccountWithName(userName);
-            if(account == null){
-                System.out.println("this username doesn't exist!");
-                continue;
-            }
-            if(!account.getClass().equals(Model.Customer.class)){
-                System.out.println("please enter customer for using codedoff");
-                continue;
-            }
-            Model.Customer customer = (Customer) account;
-            if(users.contains(account)){
-                System.out.println("this name was added one time");
-                continue;
-            }
+            users.add(account);
+        }
+        userNames = Arrays.asList(Controller.getOurController().getusers(Customer.class));
+        for (String userName: userNames) {
+            Account account = getAccountWithName(userName);
+            users.add(account);
+        }
+        userNames = Arrays.asList(Controller.getOurController().getusers(Seller.class));
+        for (String userName: userNames) {
+            Account account = getAccountWithName(userName);
             users.add(account);
         }
         ObservableList<Account> customers = FXCollections.observableArrayList(users);
@@ -105,7 +102,12 @@ public class UsersManaging implements Initializable {
             result = Controller.getOurController().controllerDeleteAnUser(account.getUserName());
         }
         if (result == 1) {
-            table.getItems().remove(account);
+            ObservableList<Account> allProducts;
+            ObservableList<Account> singleProduct;
+            allProducts = table.getItems();
+            singleProduct = table.getSelectionModel().getSelectedItems();
+            singleProduct.forEach(allProducts::remove);
         }
+        System.out.println(result);
     }
 }

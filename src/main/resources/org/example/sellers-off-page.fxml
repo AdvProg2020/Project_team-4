@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.SellersOffPage"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <TableView fx:id="table" layoutX="19.0" layoutY="40.0" prefHeight="200.0" prefWidth="675.0">
+            <columns>
+                <TableColumn fx:id="barcodeColumn" prefWidth="75.0" text="name" />
+                <TableColumn fx:id="productsColumn" prefWidth="75.0" text="category" />
+                <TableColumn fx:id="startDate" prefWidth="75.0" text="company" />
+                <TableColumn fx:id="endDate" prefWidth="75.0" text="cost" />
+                <TableColumn fx:id="offAmountColumn" prefWidth="75.0" text="amount" />
+            </columns>
+        </TableView>
+        <TextField fx:id="barcodeField" layoutX="19.0" layoutY="251.0" prefHeight="25.0" prefWidth="73.0" promptText="name" />
+        <TextField fx:id="productsField" layoutX="92.0" layoutY="251.0" prefHeight="25.0" prefWidth="84.0" promptText="category" />
+        <TextField fx:id="startDateField" layoutX="176.0" layoutY="251.0" prefHeight="25.0" prefWidth="73.0" promptText="company" />
+        <TextField fx:id="endDateField" layoutX="249.0" layoutY="251.0" prefHeight="25.0" prefWidth="73.0" promptText="cost" />
+        <TextField fx:id="offAmountField" layoutX="322.0" layoutY="251.0" prefHeight="25.0" prefWidth="73.0" promptText="amount" />
+        <Button fx:id="editButton" layoutX="547.0" layoutY="251.0" mnemonicParsing="false" onAction="#edit" text="edit" />
+    </children>
+
+</AnchorPane>

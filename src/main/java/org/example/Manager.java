@@ -16,6 +16,12 @@ import java.util.ArrayList;
 public class Manager {
     @FXML
     public Button request;
+    @FXML
+    public Button codedOff;
+    @FXML
+    public Button usersManaging;
+    @FXML
+    public Button categoriesManaging;
     ArrayList<TextField> textFields = new ArrayList<>();
     @FXML
     public TextField address;
@@ -55,7 +61,7 @@ public class Manager {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
-            Controller.getOurController().setManagersField(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
+            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
             SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Manager.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
@@ -92,7 +98,7 @@ public class Manager {
         a.show();
     }
 
-
+    @FXML
     public void goToRequestPage(ActionEvent actionEvent) {
         try {
             App.setRoot("request");
@@ -101,9 +107,28 @@ public class Manager {
         }
     }
 
+    @FXML
     public void goToCodedOffPage(ActionEvent actionEvent) {
         try {
             App.setRoot("off-code");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goToManageUsersPage(ActionEvent actionEvent) {
+        try {
+            App.setRoot("users-managing");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goToCategoriesPage(ActionEvent actionEvent) {
+        try {
+            App.setRoot("category");
         } catch (IOException e) {
             e.printStackTrace();
         }

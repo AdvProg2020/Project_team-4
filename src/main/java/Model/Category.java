@@ -49,6 +49,34 @@ public class Category extends SaveAble {
         return name;
     }
 
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public ArrayList<String> getSubCategories() {
+        return subCategories;
+    }
+
+    public ArrayList<String> getProducts() {
+        return products;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setSubCategories(ArrayList<String> subCategories) {
+        this.subCategories = subCategories;
+    }
+
+    public void setProducts(ArrayList<String> products) {
+        this.products = products;
+    }
+
     public static ArrayList<Product> getProductsOfACategory(String categoryName, ArrayList<String> filters) {
         ArrayList<Product> productsToShow = new ArrayList<Product>();
         if (getCategoryByName(categoryName).products.size() != 0) {
