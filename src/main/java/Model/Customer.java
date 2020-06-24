@@ -5,8 +5,7 @@ import Control.Controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Customer extends Account {
     //private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
@@ -99,15 +98,17 @@ public class Customer extends Account {
         } else {
             addHistory(finalCost);
             this.credit -= finalCost;
-            ArrayList<String> products = (ArrayList<String>) cart.keySet();
+            Set<String> products = cart.keySet();
+            Iterator iterator = products.iterator();
             int i = 0;
             for (String seller: sellersOfProductsOfTheCart) {
                 Seller sellerFromFile = (Seller) Seller.getAccountWithName(seller);
-                sellerFromFile.setCredit(Product.getProductWithBarcode(products.get(i)).getCost() * cart.get(products.get(i)));
+                String name = iterator.next().toString();
+                sellerFromFile.setCredit(Product.getProductWithBarcode(name).getCost() * cart.get(name));
                 SaveAndLoad.getSaveAndLoad().writeJSON(sellerFromFile, sellerFromFile.getClass().toString(), sellerFromFile.getUserName());
-                i++;
             }
             cart = new HashMap<>();
+            System.out.println("before saving");
             SaveAndLoad.getSaveAndLoad().saveGenerally();
             return true;
         }
