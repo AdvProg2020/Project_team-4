@@ -96,6 +96,7 @@ public class ProductsPage {
         checkBox.setOnAction(e -> activeOff());
         offCheckBox = checkBox;
         offCheckBox.setSelected(calledFromOff);
+        activeOff();
 
     }
 
