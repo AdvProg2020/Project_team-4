@@ -438,7 +438,7 @@ public class Controller {
         return null;
     }
 
-    public void createOrEditOffRequest(ArrayList<String> products, Matcher startDate, Matcher endDate, int offAmount) {
+    public void createOrEditOffRequest(ArrayList<String> products, String startDate, String endDate, int offAmount) {
         ArrayList<Product> productsToAddTO = new ArrayList<>();
         for (String productBarcode: products) {
             if (Product.getAllProducts().contains(getProductWithBarcode(productBarcode)) && !getProductWithBarcode(productBarcode).isInOffOrNot()) {
@@ -446,10 +446,10 @@ public class Controller {
                 getProductWithBarcode(productBarcode).setInOffOrNot(true);
             }
         }
-        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
-        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        Off off = new Off(start.format(dateTimeFormatter), products, end.format(dateTimeFormatter), offAmount);
+//        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
+//        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        Off off = new Off(startDate, products, endDate, offAmount);
         Off.getAllOffs().remove(off);
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
         new RequestOff(RequestType.OFF, off);

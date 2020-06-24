@@ -123,7 +123,7 @@ public class SellerMenu extends Menu {
                 Matcher startDate = getField("Enter start to change", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
                 Matcher endDate = getField("Enter endDate to change", "(\\d\\d\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d), (\\d\\d)");
                 int offAmount = Integer.parseInt(getField("Enter max Of offAmount", "(\\S+)").group(1));
-                Controller.getOurController().createOrEditOffRequest(productsToDeleteOrAdd, startDate, endDate, offAmount);
+//                Controller.getOurController().createOrEditOffRequest(productsToDeleteOrAdd, startDate, endDate, offAmount);
             }
             private void editOff(String name) {
                 createOff();
