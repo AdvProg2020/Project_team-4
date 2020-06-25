@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductsPage" stylesheets="@font.css">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductsPage">
     <TableView fx:id="table" layoutX="3.0" layoutY="40.0" prefHeight="275.0" prefWidth="590.0">
         <columns>
             <TableColumn fx:id="name" prefWidth="75.0" text="name" />
@@ -14,6 +14,7 @@
             <TableColumn fx:id="score" prefWidth="50.0" text="score" />
             <TableColumn fx:id="tags" prefWidth="150.0" text="tags" />
             <TableColumn fx:id="createDate" prefWidth="200.0" text="time" />
+            <TableColumn fx:id="image" prefWidth="200.0" text="image" />
         </columns>
     </TableView>
     <Button fx:id="backToFirstMenu" onAction="#backToFirstMenu" text="back" />
