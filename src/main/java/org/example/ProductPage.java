@@ -1,8 +1,10 @@
 package org.example;
 
 
-public class ProductPage {
+import javafx.scene.control.TextField;
 
+public class ProductPage {
+    public TextField comment;
 
 
 
