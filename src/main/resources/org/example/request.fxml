@@ -20,11 +20,12 @@
           <TableColumn fx:id="offBarcode" prefWidth="75.0" text="Off Barcode" />
         </columns>
       </TableView>
-      <Button fx:id="acceptSeller" onAction="#acceptSeller" layoutX="88.0" layoutY="361.0" mnemonicParsing="false" text="Accept" />
-      <Button fx:id="acceptProduct"  onAction="#acceptProduct" layoutX="297.0" layoutY="361.0" mnemonicParsing="false" text="Accept" />
-      <Button fx:id="acceptOff" onAction="#acceptOff" layoutX="497.0" layoutY="361.0" mnemonicParsing="false" text="Accept" />
-      <Button fx:id="declineSeller" onAction="#declineSeller" layoutX="148.0" layoutY="361.0" mnemonicParsing="false" text="Decline" />
-      <Button fx:id="declineProduct" onAction="#declineProduct" layoutX="371.0" layoutY="361.0" mnemonicParsing="false" text="Decline" />
-      <Button fx:id="declineOff" onAction="#declineOff" layoutX="565.0" layoutY="361.0" mnemonicParsing="false" text="Decline" />
+      <Button fx:id="acceptSeller" layoutX="88.0" layoutY="361.0" mnemonicParsing="false" onAction="#acceptSeller" text="Accept" />
+      <Button fx:id="acceptProduct" layoutX="297.0" layoutY="361.0" mnemonicParsing="false" onAction="#acceptProduct" text="Accept" />
+      <Button fx:id="acceptOff" layoutX="497.0" layoutY="361.0" mnemonicParsing="false" onAction="#acceptOff" text="Accept" />
+      <Button fx:id="declineSeller" layoutX="148.0" layoutY="361.0" mnemonicParsing="false" onAction="#declineSeller" text="Decline" />
+      <Button fx:id="declineProduct" layoutX="371.0" layoutY="361.0" mnemonicParsing="false" onAction="#declineProduct" text="Decline" />
+      <Button fx:id="declineOff" layoutX="565.0" layoutY="361.0" mnemonicParsing="false" onAction="#declineOff" text="Decline" />
+      <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
    </children>
 </AnchorPane>

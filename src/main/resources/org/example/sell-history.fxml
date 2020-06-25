@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.History"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.History">
 
     <children>
         <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="9.0" prefHeight="286.0" prefWidth="590.0">
             <columns>
-                <TableColumn fx:id="barcode"  prefWidth="75.0" text="name" />
-                <TableColumn fx:id="date"  prefWidth="75.0" text="tags" />
+                <TableColumn fx:id="barcode" prefWidth="75.0" text="name" />
+                <TableColumn fx:id="date" prefWidth="75.0" text="tags" />
                 <TableColumn fx:id="paidCost" prefWidth="75.0" text="products" />
-                <TableColumn fx:id="codedOffDiscountAmount"  prefWidth="75.0" text="subCategories" />
-                <TableColumn fx:id="boughtThings"  prefWidth="75.0" text="subCategories" />
-                <TableColumn fx:id="sellerName"  prefWidth="75.0" text="subCategories" />
-                <TableColumn fx:id="deliveredOrNot"  prefWidth="75.0" text="subCategories" />
+                <TableColumn fx:id="codedOffDiscountAmount" prefWidth="75.0" text="subCategories" />
+                <TableColumn fx:id="boughtThings" prefWidth="75.0" text="subCategories" />
+                <TableColumn fx:id="sellerName" prefWidth="75.0" text="subCategories" />
+                <TableColumn fx:id="deliveredOrNot" prefWidth="75.0" text="subCategories" />
             </columns>
         </TableView>
+      <Button layoutX="14.0" layoutY="350.0" mnemonicParsing="false" onAction="#switchToAacountPage" text="Account" />
     </children>
 
 

@@ -8,7 +8,7 @@
       <TableView fx:id="table" layoutX="3.0" layoutY="8.0" prefHeight="275.0" prefWidth="593.0">
         <columns>
           <TableColumn fx:id="itemCol" prefWidth="75.0" text="item" />
-          <TableColumn fx:id="nameCol"  prefWidth="75.0" text="name" />
+          <TableColumn fx:id="nameCol" prefWidth="75.0" text="name" />
             <TableColumn fx:id="priceCol" prefWidth="75.0" text="price" />
             <TableColumn fx:id="howManyCol" prefWidth="75.0" text="how many" />
             <TableColumn fx:id="totalPriceCol" prefWidth="75.0" text="total price" />
@@ -17,5 +17,6 @@
         </columns>
       </TableView>
       <Button fx:id="pay" layoutX="283.0" layoutY="333.0" mnemonicParsing="false" onAction="#pay" text="pay" />
+      <Button layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
    </children>
 </AnchorPane>

@@ -19,6 +19,7 @@ import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -154,5 +155,24 @@ public class OffCode implements Initializable {
         CodedOff codedOff = table.getSelectionModel().getSelectedItem();
         codedOff.setPercent(codedOffStringCellEditEvent.getNewValue());
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+    }
+
+    public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
+        if (Controller.getOurController().getLoggedInAccount() == null) {
+            LoginCreate.setBeforeRoot("main");
+            App.setRoot("login-create");
+        } else {
+            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+                case "class Model.Manager":
+                    App.setRoot("manager");
+                    break;
+                case "class Model.Customer":
+                    App.setRoot("customer");
+                    break;
+                case "class Model.Seller":
+                    App.setRoot("seller");
+                    break;
+            }
+        }
     }
 }

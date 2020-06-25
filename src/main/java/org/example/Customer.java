@@ -2,6 +2,7 @@ package org.example;
 
 import Control.Controller;
 import Model.SaveAndLoad;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -111,6 +112,22 @@ public class Customer {
     }
 
 
-
-
+    public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
+        if (Controller.getOurController().getLoggedInAccount() == null) {
+            LoginCreate.setBeforeRoot("main");
+            App.setRoot("login-create");
+        } else {
+            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+                case "class Model.Manager":
+                    App.setRoot("manager");
+                    break;
+                case "class Model.Customer":
+                    App.setRoot("customer");
+                    break;
+                case "class Model.Seller":
+                    App.setRoot("seller");
+                    break;
+            }
+        }
+    }
 }

@@ -20,6 +20,7 @@
         <TextField fx:id="products" layoutX="300.0" layoutY="305.0" prefHeight="25.0" prefWidth="68.0" promptText="products" />
         <Button fx:id="add" layoutX="534.0" layoutY="305.0" mnemonicParsing="false" onAction="#add" text="Add" />
         <Button fx:id="remove" layoutX="527.0" layoutY="340.0" mnemonicParsing="false" onAction="#remove" text="remove" />
+      <Button layoutX="15.0" layoutY="365.0" mnemonicParsing="false" onAction="#switchtoAccountPage" text="Account" />
     </children>
 
 </AnchorPane>
