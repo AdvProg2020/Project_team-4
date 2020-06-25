@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.HBox?>
+
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductPage">
-    <TextField fx:id="comment" layoutX="300" layoutY="125" onAction="#addComment" text="comment" />
     <TextField fx:id="score" layoutX="300" layoutY="200" onAction="#addScore" text="score 1-5" />
     <Button fx:id="addButton" layoutX="300" layoutY="175" onAction="#addToCart" text="add to cart" />
     <MenuButton fx:id="sellers" layoutX="300" layoutY="150" text="sellers" />
     <TableView fx:id="comments">
         <columns>
             <TableColumn fx:id="name" text="name" prefWidth="125">
-
-                <cellValueFactory><PropertyValueFactory property="name"/>
-                </cellValueFactory>
-                <cellFactory>
-                </cellFactory>
             </TableColumn>
             <TableColumn fx:id="userComment" text="comment" prefWidth="125">
-
             </TableColumn>
-
         </columns>
         <items>
         </items>
@@ -33,11 +23,11 @@
             <fx:reference source="name"/>
         </sortOrder>
     </TableView>
-    <HBox spacing="10" alignment="bottom_right" layoutX="300" layoutY="100">
+    <VBox spacing="10" alignment="bottom_right" layoutX="400" layoutY="300">
         <TextField fx:id="firstNameField" promptText="name"
-                   prefWidth="90"/>
-        <TextField fx:id="lastNameField" promptText="comment"
-                   prefWidth="90"/>
+                   prefWidth="150"/>
+        <TextField fx:id="lastNameField" promptText="comment" alignment="CENTER"
+                   prefWidth="150" prefHeight="200"/>
         <Button text="Add" onAction="#addComment"/>
-    </HBox>
+    </VBox>
 </AnchorPane>

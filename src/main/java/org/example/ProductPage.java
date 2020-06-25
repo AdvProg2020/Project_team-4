@@ -3,6 +3,7 @@ package org.example;
 
 import Control.Controller;
 import Model.Product;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
 
 public class ProductPage {
