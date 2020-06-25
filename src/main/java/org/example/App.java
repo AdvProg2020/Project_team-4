@@ -14,9 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * JavaFX App
- */
+
 public class App extends Application {
 
     private static Scene scene;
@@ -26,7 +24,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         handleData();
       if (checkInitializedOrNot()) {
-            scene = new Scene(loadFXML("main"));
+            scene = new Scene(loadFXML("ProductsPage"));
         } else {
             scene = new Scene(loadFXML("initialization"));
         }

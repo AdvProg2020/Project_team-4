@@ -32,6 +32,7 @@ public class ProductsPage {
     public AnchorPane mainAnchorPane;
     public TableColumn tags;
     public TableColumn createDate;
+    public TableColumn image;
     private CheckBox offCheckBox;
 
     private HashSet<String> filters = new HashSet<>();
@@ -70,11 +71,13 @@ public class ProductsPage {
         score.setCellValueFactory(new PropertyValueFactory<>("ScoreNo"));
         tags.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
+        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
         setTable();
     }
 
     private void checkBoxForFilter() {
         int i = 0;
+        int y = 43;
         HashSet tags = new HashSet();
         for (Product product : Product.getAllProducts()) {
             for (String tag : product.getTags()) {
@@ -84,15 +87,19 @@ public class ProductsPage {
                 CheckBox checkBox = new CheckBox(tag);
                 checkBox.setLayoutX(i);
                 i += 50;
-                checkBox.setLayoutY(330);
+                checkBox.setLayoutY(y);
                 mainAnchorPane.getChildren().add(checkBox);
                 tags.add(tag);
                 checkBox.setOnAction(e -> tagsActivate(checkBox));
+                if(i >= 300){
+                    i = 0;
+                    y += 20;
+                }
             }
         }
         CheckBox checkBox = new CheckBox("show offs");
-        checkBox.setLayoutY(330);
-        checkBox.setLayoutX(i);
+        checkBox.setLayoutY(317);
+        checkBox.setLayoutX(10);
         mainAnchorPane.getChildren().add(checkBox);
         checkBox.setOnAction(e -> activeOff());
         offCheckBox = checkBox;

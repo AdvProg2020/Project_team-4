@@ -2,6 +2,8 @@ package Model;
 
 
 
+import javafx.scene.image.Image;
+
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class Product extends SaveAble {
     private boolean isInOffOrNot;
     private ArrayList<String> tags;
     private static int giveId;
+    private Image image;
 
     public int getScoreNo() {
         return scoreNo;
@@ -75,6 +78,28 @@ public class Product extends SaveAble {
         this.sellers = new ArrayList<>();
         this.amountOfExist = amountOfExist;
         this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        giveId++;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, Image image1) {
+        this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
+        this.name = name;
+        this.categoryTags = new ArrayList<>();
+        this.company = company;
+        this.cost = cost;
+        this.sellers = new ArrayList<>();
+        this.category = category;
+        this.description = description;
+        this.comments = new ArrayList<>();
+        this.tags = tags;
+        this.sellers = new ArrayList<>();
+        this.amountOfExist = amountOfExist;
+        this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        this.image = image1;
         giveId++;
     }
 
