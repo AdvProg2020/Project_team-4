@@ -48,6 +48,7 @@ public class Product extends SaveAble {
     private static int giveId;
     private Image image;
 
+
     public int getScoreNo() {
         return scoreNo;
     }

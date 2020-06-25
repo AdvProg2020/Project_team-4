@@ -14,7 +14,8 @@
             <TableColumn fx:id="score" prefWidth="50.0" text="score" />
             <TableColumn fx:id="tags" prefWidth="150.0" text="tags" />
             <TableColumn fx:id="createDate" prefWidth="200.0" text="time" />
-            <TableColumn fx:id="image" prefWidth="200.0" text="image" />
+            <TableColumn fx:id="expireDate" prefWidth="200.0" text="expireDateTime" />
+            <TableColumn fx:id="remainingTime" prefWidth="200.0" text="remaining time" />
         </columns>
     </TableView>
     <Button fx:id="backToFirstMenu" layoutX="9.0" layoutY="8.0" onAction="#backToFirstMenu" text="back" />

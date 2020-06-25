@@ -34,6 +34,7 @@ public class App extends Application {
     }
 
     private boolean checkInitializedOrNot() {
+        new Product(new Product())
         File directory = new File(System.getProperty("user.dir") + "\\" + "class Model.Manager");
         if (directory.isDirectory()) {
             String[] files = directory.list();
