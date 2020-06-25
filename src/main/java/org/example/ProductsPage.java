@@ -72,7 +72,7 @@ public class ProductsPage {
         score.setCellValueFactory(new PropertyValueFactory<>("ScoreNo"));
         tags.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
-        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
+//        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
         setTable();
     }
 

@@ -24,7 +24,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         handleData();
       if (checkInitializedOrNot()) {
-            scene = new Scene(loadFXML("ProductsPage"));
+            scene = new Scene(loadFXML("main"));
         } else {
             scene = new Scene(loadFXML("initialization"));
         }

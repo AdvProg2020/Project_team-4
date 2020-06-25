@@ -14,7 +14,7 @@
             <TableColumn fx:id="score" prefWidth="50.0" text="score" />
             <TableColumn fx:id="tags" prefWidth="150.0" text="tags" />
             <TableColumn fx:id="createDate" prefWidth="200.0" text="time" />
-            <TableColumn fx:id="image" prefWidth="200.0" text="image" />
+<!--            <TableColumn fx:id="image" prefWidth="200.0" text="image" />-->
         </columns>
     </TableView>
     <Button fx:id="backToFirstMenu" onAction="#backToFirstMenu" text="back" />
