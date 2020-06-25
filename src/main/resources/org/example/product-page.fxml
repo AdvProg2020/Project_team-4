@@ -5,8 +5,8 @@
 
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductPage">
-    <TextField fx:id="comment" onAction="#addComment" text="comment"/>
-    <TextField fx:id="score" layoutX="50" layoutY="50" onAction="#addScore" text="score 1-5"/>
-    <Button fx:id="addButton" layoutX="150" layoutY="150" onAction="#addToCart" text="add"/>
-    <MenuButton text="sellers" fx:id="sellers"/>
+    <TextField fx:id="comment" layoutX="300" layoutY="125" onAction="#addComment" text="comment"/>
+    <TextField fx:id="score" layoutX="300" layoutY="200" onAction="#addScore" text="score 1-5"/>
+    <Button fx:id="addButton" layoutX="300" layoutY="175" onAction="#addToCart" text="add to cart"/>
+    <MenuButton fx:id="sellers" layoutX="300" layoutY="150" text="sellers" />
 </AnchorPane>
