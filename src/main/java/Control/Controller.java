@@ -416,10 +416,10 @@ public class Controller {
         return f.list();
     }
 
-    public static void createProductRequest(String name, String company, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags) {
+    public static void createProductRequest(String name, String company, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, String firstSellerName) {
         Category category = Category.getCategoryByName(categoryName);
         ArrayList<Seller> sellers = new ArrayList<>();
-        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, categoryName, description, amountOfExist, tags));
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product(name, company, cost, categoryName, description, amountOfExist, tags, firstSellerName));
     }
 
 
@@ -513,9 +513,9 @@ public class Controller {
         return product.getByers();
     }
 
-    public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags) {
+    public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, String firstSellerName) {
         Category category = Category.getCategoryByName(categoryName);
-        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product("productBarcode: " + barcode,companyName, cost, categoryName, description, amountOfExist, tags));
+        Request requestProduct = new RequestProduct(RequestType.PRODUCT, new Product("productBarcode: " + barcode,companyName, cost, categoryName, description, amountOfExist, tags, firstSellerName));
     }
 
     public void removeProductFromSellerProducts(String productId) {

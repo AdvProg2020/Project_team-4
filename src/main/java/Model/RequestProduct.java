@@ -5,12 +5,10 @@ import java.util.regex.Matcher;
 
 public class RequestProduct extends Request {
     private Product product;
-    private String productBarcode;
 
     public RequestProduct(RequestType requestType, Product product) {
         super(requestType);
         this.product = product;
-        this.productBarcode = product.getProductBarcode();
         Manager.getEditProductsRequests().add(this);
         //Product.getAllProducts().remove(product);
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class.toString(), "editProductsRequests");
@@ -20,9 +18,10 @@ public class RequestProduct extends Request {
         this.product = product;
     }
 
-    public void setProductBarcode(String productBarcode) {
-        this.productBarcode = productBarcode;
-    }
+
+//    public String getProductBarcode() {
+//        return productBarcode;
+//    }
 
     public Product getProduct() {
         return product;
@@ -32,9 +31,6 @@ public class RequestProduct extends Request {
         return product.getProductBarcode();
     }
 
-    public String getProductBarcode() {
-        return product.getProductBarcode();
-    }
 
     public ArrayList<String> getProductCategoryTags() {
         return product.getCategoryTags();
@@ -43,6 +39,10 @@ public class RequestProduct extends Request {
 
     public String getProductCompany() {
         return product.getCompany();
+    }
+
+    public boolean getProductOffStatus() {
+        return product.isInOffOrNot();
     }
 
     public int getProductCost() {
@@ -75,5 +75,9 @@ public class RequestProduct extends Request {
         return "RequestProduct{" +
                 "product=" + product +
                 '}';
+    }
+
+    public ArrayList<String> getSellers() {
+        return new ArrayList<>(product.getSellers());
     }
 }
