@@ -6,6 +6,36 @@ import Model.Product;
 import javafx.scene.control.*;
 
 public class ProductPage {
+    public TableColumn userComment;
+    public TableColumn name;
+
+    static class Comments{
+        String name;
+        String comment;
+        public Comments() {
+            this("", "");
+        }
+        public Comments(String name, String comment) {
+            setName(name);
+            setComment(comment);
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+    }
     public TextField comment;
     public TextField score;
     public Button addButton;
@@ -42,6 +72,5 @@ public class ProductPage {
             }
         }
         sellers = new MenuButton("sellers", null, menuItems);
-        comments.getColumns().add()
     }
 }
