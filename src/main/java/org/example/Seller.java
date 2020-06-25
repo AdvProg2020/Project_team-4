@@ -23,6 +23,7 @@ public class Seller implements Initializable {
     public Button products;
     @FXML
     public Button offs;
+    public TextField companyField;
     ArrayList<TextField> textFields = new ArrayList<>();
     @FXML
     public TextField userName;
@@ -77,6 +78,7 @@ public class Seller implements Initializable {
         mail.setText(Controller.getOurController().getLoggedInAccount().getEmail());
         role.setText(Controller.getOurController().getLoggedInAccount().getClass().toString());
         credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
+        companyField.setText(((Model.Seller)Controller.getOurController().getLoggedInAccount()).getCompanyName());
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
     }
@@ -86,6 +88,7 @@ public class Seller implements Initializable {
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
             Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
+            Controller.getOurController().changeCompanyName(companyField.getText().trim());
             SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Seller.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
@@ -121,6 +124,7 @@ public class Seller implements Initializable {
         textFields.add(passWord);
         textFields.add(phoneNumber);
         textFields.add(mail);
+        textFields.add(companyField);
     }
 
 

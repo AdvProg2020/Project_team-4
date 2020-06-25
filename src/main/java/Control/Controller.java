@@ -95,7 +95,9 @@ public class Controller {
             ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
             CodedOff codedOff = new CodedOff(start, end, maximumOffAmount, percentOfOff, usageTimes, containingCustomers);
             for (String customer: containingCustomers) {
-                ((Customer)Customer.getAccountWithName(customer)).addOffCode(codedOff.getOffBarcode());
+                Customer customer1 = ((Customer)Customer.getAccountWithName(customer));
+                customer1.addOffCode(codedOff.getOffBarcode());
+                SaveAndLoad.getSaveAndLoad().writeJSON(customer1, Customer.class.toString(), customer1.getUserName());
                 SaveAndLoad.getSaveAndLoad().saveGenerally();
             }
             return 1;
@@ -547,6 +549,10 @@ public class Controller {
     public void setCustomerPassWordAndAddress(String passWord, String address) {
         loggedInAccount.setPassWord(passWord);
         ((Customer)loggedInAccount).setAddress(address);
+    }
+
+    public void changeCompanyName(String trim) {
+        ((Seller) Controller.getOurController().getLoggedInAccount()).setCompanyName(trim);
     }
 }
 
