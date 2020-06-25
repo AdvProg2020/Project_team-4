@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Pay">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Pay" stylesheets="@font.css">
    <children>
       <TextField fx:id="addressField" layoutX="46.0" layoutY="36.0" onAction="#checkPhone" promptText="address" />
       <TextField fx:id="phoneField" layoutX="46.0" layoutY="71.0" onAction="#checkAddr" promptText="phone number" />

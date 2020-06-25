@@ -2,6 +2,7 @@
     -fx-padding: 1cm;
     -fx-background-color: slategray;
     -fx-background-size: 100%;
+    -fx-font : 14px "serief";
 }
 .text-field{
     -fx-end-margin: 1;
