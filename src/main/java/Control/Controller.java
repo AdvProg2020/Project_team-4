@@ -126,8 +126,8 @@ public class Controller {
         return CodedOff.getAllDiscounts();
     }
 
-    public int newComment(String comment){
-        return 0;
+    public void newComment(String comment){
+
     }
 
     public String showCart() {

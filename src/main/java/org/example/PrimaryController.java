@@ -3,6 +3,7 @@ package org.example;
 import java.io.IOException;
 
 import Control.Controller;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class PrimaryController {
@@ -11,7 +12,7 @@ public class PrimaryController {
     private void switchToAccountSection() throws IOException {
         if (Controller.getOurController().getLoggedInAccount() == null) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
+            App.setRoot("product-page");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":

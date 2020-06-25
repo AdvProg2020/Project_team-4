@@ -77,11 +77,12 @@ public class ProductMenu extends Menu {
         printAttributeResult(Product.getProductWithBarcode(productId));
     }
 
+    /**/
     private static void addNewComment(){
         System.out.println("Enter your comment or enter \"back\" to back to previous menu");
         String input;
         while(!(input = getScanner().nextLine()).equalsIgnoreCase("back")){
-            printNewCommentResult(Controller.getOurController().newComment(input));
+
         }
     }
 
