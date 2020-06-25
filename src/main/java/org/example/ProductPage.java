@@ -3,10 +3,7 @@ package org.example;
 
 import Control.Controller;
 import Model.Product;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class ProductPage {
     public TextField comment;
@@ -15,6 +12,7 @@ public class ProductPage {
     public MenuButton sellers;
     public Product product;
     public Alert alert;
+    public MenuItem[] menuItems;
     public ProductPage(Product product) {
         this.product = product;
     }
@@ -28,5 +26,15 @@ public class ProductPage {
     }
     public void addScore() {
         product.setAverageScore(Integer.parseInt(score.getText()));
+    }
+    public void initialize(){
+        menuItems = new MenuItem[product.getSellers().size()];
+        for (int i = 0; i < product.getSellers().size(); i++) {
+            for (String seller : product.getSellers()) {
+                menuItems[i].setText(seller);
+            }
+        }
+        sellers = new MenuButton("sellers", null, menuItems);
+
     }
 }
