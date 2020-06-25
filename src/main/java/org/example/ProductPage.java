@@ -5,7 +5,7 @@ import javafx.scene.control.TextField;
 
 public class ProductPage {
     public TextField comment;
-
+    public TextField score;
 
 
 }
