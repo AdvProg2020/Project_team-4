@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.*;
+import Control.Controller;
 
 import java.io.IOException;
 import java.util.*;
@@ -235,6 +236,25 @@ public class ProductsPage {
             App.setRoot("main");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
+        if (Controller.getOurController().getLoggedInAccount() == null) {
+            LoginCreate.setBeforeRoot("main");
+            App.setRoot("login-create");
+        } else {
+            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+                case "class Model.Manager":
+                    App.setRoot("manager");
+                    break;
+                case "class Model.Customer":
+                    App.setRoot("customer");
+                    break;
+                case "class Model.Seller":
+                    App.setRoot("seller");
+                    break;
+            }
         }
     }
 }

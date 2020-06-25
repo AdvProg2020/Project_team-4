@@ -13,6 +13,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -51,6 +52,25 @@ public class Pay implements Initializable {
             Controller.getOurController().pay(offCodeField.getText().trim());
         } else {
             Controller.getOurController().pay("");
+        }
+    }
+
+    public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
+        if (Controller.getOurController().getLoggedInAccount() == null) {
+            LoginCreate.setBeforeRoot("main");
+            App.setRoot("login-create");
+        } else {
+            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+                case "class Model.Manager":
+                    App.setRoot("manager");
+                    break;
+                case "class Model.Customer":
+                    App.setRoot("customer");
+                    break;
+                case "class Model.Seller":
+                    App.setRoot("seller");
+                    break;
+            }
         }
     }
 }

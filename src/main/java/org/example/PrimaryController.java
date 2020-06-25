@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 public class PrimaryController {
 
     @FXML
-    private void switchToAccountSection() throws IOException {
+    public void switchToAccountSection() throws IOException {
         if (Controller.getOurController().getLoggedInAccount() == null) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");

@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -142,5 +143,24 @@ public class Category implements Initializable {
         ArrayList<String> subCategories = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setSubCategories(subCategories);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+    }
+
+    public void switchtoAccountPage(ActionEvent actionEvent) throws IOException {
+        if (Controller.getOurController().getLoggedInAccount() == null) {
+            LoginCreate.setBeforeRoot("main");
+            App.setRoot("login-create");
+        } else {
+            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+                case "class Model.Manager":
+                    App.setRoot("manager");
+                    break;
+                case "class Model.Customer":
+                    App.setRoot("customer");
+                    break;
+                case "class Model.Seller":
+                    App.setRoot("seller");
+                    break;
+            }
+        }
     }
 }
