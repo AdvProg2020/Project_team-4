@@ -13,20 +13,27 @@ public class ProductPage {
     public Product product;
     public Alert alert;
     public MenuItem[] menuItems;
+    public TableView comments;
+
+
+
     public ProductPage(Product product) {
         this.product = product;
     }
     public void addToCart() {
         Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
     }
+
     public void addComment() {
         Controller.getOurController().newComment(comment.getText());
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
     }
+
     public void addScore() {
         product.setAverageScore(Integer.parseInt(score.getText()));
     }
+
     public void initialize(){
         menuItems = new MenuItem[product.getSellers().size()];
         for (int i = 0; i < product.getSellers().size(); i++) {
@@ -35,6 +42,6 @@ public class ProductPage {
             }
         }
         sellers = new MenuButton("sellers", null, menuItems);
-
+        comments.getColumns().add()
     }
 }
