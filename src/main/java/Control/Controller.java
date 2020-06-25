@@ -386,7 +386,11 @@ public class Controller {
     }
 
     public ArrayList<History> requestSalesHistoryInfoInSeller() {
-        return ((Seller)loggedInAccount).getHistory();
+        if (loggedInAccount.getClass().equals(Seller.class)) {
+            return ((Seller)loggedInAccount).getHistory();
+        } else {
+            return ((Customer)loggedInAccount).getHistory();
+        }
     }
 
     public ArrayList requestListOfProducts() {

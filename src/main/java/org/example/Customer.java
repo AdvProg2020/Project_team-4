@@ -169,4 +169,8 @@ public class Customer {
         alert.setContentText(CodedOff.getOffCodeWithName(name).getStartTime() + "/" + CodedOff.getOffCodeWithName(name).getEndTime());
         alert.show();
     }
+
+    public void goToHistoryPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("sell-history");
+    }
 }

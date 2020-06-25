@@ -57,6 +57,10 @@ public class Customer extends Account {
         return offCodes;
     }
 
+    public ArrayList<History> getHistory() {
+        return history;
+    }
+
     public void filterOrSearchInProducts() {
         return;
     }
