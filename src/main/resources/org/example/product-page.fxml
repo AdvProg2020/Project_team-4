@@ -7,5 +7,5 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductPage">
     <TextField fx:id="comment" onAction="#addComment" text="comment"/>
     <TextField fx:id="score" layoutX="50" layoutY="50" onAction="#addScore" text="score 1-5"/>
-
+    <Button fx:id="addButton" layoutX="150" layoutY="150" onAction="#addToCart" text="add"/>
 </AnchorPane>
