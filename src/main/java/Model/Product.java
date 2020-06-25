@@ -5,7 +5,11 @@ package Model;
 import javafx.scene.image.Image;
 
 import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -46,7 +50,28 @@ public class Product extends SaveAble {
     private boolean isInOffOrNot;
     private ArrayList<String> tags;
     private static int giveId;
+    private String endTime;
 //    private Image image;
+
+
+    public String getRemainTime() {
+        LocalDate localDate = LocalDate.now();
+        String str = endTime;
+        if(str == null){
+            return "no limit";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dateTime = LocalDate.parse(str, formatter);
+        return String.valueOf(Period.between(dateTime, localDate));
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
 
     public int getScoreNo() {
         return scoreNo;

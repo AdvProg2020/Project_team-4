@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainAnchorPane" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductsPage">
-    <TableView fx:id="table" layoutX="3.0" layoutY="40.0" prefHeight="275.0" prefWidth="590.0">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductsPage">
+    <TableView fx:id="table" layoutX="113.0" layoutY="357.0" prefHeight="275.0" prefWidth="809.0">
         <columns>
             <TableColumn fx:id="name" prefWidth="75.0" text="name" />
             <TableColumn fx:id="id" prefWidth="75.0" text="id" />
@@ -13,14 +13,15 @@
             <TableColumn fx:id="seenNumber" prefWidth="100.0" text="seen number" />
             <TableColumn fx:id="score" prefWidth="50.0" text="score" />
             <TableColumn fx:id="tags" prefWidth="150.0" text="tags" />
-            <TableColumn fx:id="createDate" prefWidth="200.0" text="time" />
-<!--            <TableColumn fx:id="image" prefWidth="200.0" text="image" />-->
+            <TableColumn fx:id="createDate" prefWidth="200.0" text="create time" />
+            <TableColumn fx:id="endTime" prefWidth="200.0" text="offEndDate" />
+            <TableColumn fx:id="remainTime" prefWidth="200.0" text="remainTime" />
         </columns>
     </TableView>
-    <Button fx:id="backToFirstMenu" onAction="#backToFirstMenu" text="back" />
-    <Button fx:id="seeProductButton" layoutX="600" layoutY="40" onAction="#seeProduct" text="see product" />
+    <Button fx:id="backToFirstMenu" layoutY="14.0" onAction="#backToFirstMenu" text="back" />
+    <Button fx:id="seeProductButton" layoutX="601.0" layoutY="327.0" onAction="#seeProduct" text="see product" />
     <ListView fx:id="sortList" layoutX="699.0" layoutY="40.0" onMouseClicked="#sortAction" prefHeight="275.0" prefWidth="247.0" />
-    <Button fx:id="reverseButton" layoutX="600" layoutY="80" onAction="#reverse" text="increase" />
-   <Button layoutX="21.0" layoutY="502.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
+    <Button fx:id="reverseButton" layoutX="630.0" layoutY="47.0" onAction="#reverse" text="increase" />
+   <Button layoutX="74.0" layoutY="15.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
 
 </AnchorPane>

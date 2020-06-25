@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="300.0" prefWidth="450.0" spacing="20.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.PrimaryController" stylesheets="@MainPage.css">
+<VBox alignment="CENTER" prefHeight="650.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.PrimaryController" stylesheets="@MainPage.css">
    <children>
       <Label text="Main Page" />
       <Button onAction="#switchToAccountSection" text="Account" />
