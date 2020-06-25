@@ -1,5 +1,6 @@
 package org.example;
 
+import Model.Category;
 import Model.Off;
 import Model.Product;
 import javafx.collections.FXCollections;
@@ -33,7 +34,8 @@ public class ProductsPage {
     public AnchorPane mainAnchorPane;
     public TableColumn tags;
     public TableColumn createDate;
-    public TableColumn image;
+    public TableColumn endTime;
+    public TableColumn remainTime;
     private CheckBox offCheckBox;
 
     private HashSet<String> filters = new HashSet<>();
@@ -46,12 +48,12 @@ public class ProductsPage {
         checkBoxForFilter();
     }
 
-    private ObservableList<Product> getInitialOffTableData() {
-        List list = new ArrayList();
-        list.addAll(Off.getAllOffs());
-        ObservableList<Product> data = FXCollections.observableArrayList(list);
-        return data;
-    }
+//    private ObservableList<Product> getInitialOffTableData() {
+//        List list = new ArrayList();
+//        list.addAll(Off.getAllOffs());
+//        ObservableList<Product> data = FXCollections.observableArrayList(list);
+//        return data;
+//    }
 
     private void initializeSort() {
         ArrayList arrayList = new ArrayList<String>();
@@ -72,7 +74,8 @@ public class ProductsPage {
         score.setCellValueFactory(new PropertyValueFactory<>("ScoreNo"));
         tags.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
-//        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
+        endTime.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
+        remainTime.setCellValueFactory(new PropertyValueFactory<>("RemainTime"));
         setTable();
     }
 
@@ -86,6 +89,32 @@ public class ProductsPage {
                     continue;
                 }
                 CheckBox checkBox = new CheckBox(tag);
+                checkBox.setLayoutX(i);
+                i += 50;
+                checkBox.setLayoutY(y);
+                mainAnchorPane.getChildren().add(checkBox);
+                tags.add(tag);
+                checkBox.setOnAction(e -> tagsActivate(checkBox));
+                if(i >= 300){
+                    i = 0;
+                    y += 20;
+                }
+            }
+        }
+        i = 0;
+        y += 40;
+        for (Product product : Product.getAllProducts()) {
+            for (String tag : product.getCategoryTags()) {
+                if (tags.contains(tag)) {
+                    continue;
+                }
+                Category category;
+                CheckBox checkBox;
+                if((category = Category.getCategoryByName(tag)) == null){
+                     checkBox = new CheckBox("catgory :" + tag + "subcat" + category.getSubCategories() + "tags" + category.getTags());
+                }else {
+                    checkBox = new CheckBox("catgory :" + tag);
+                }
                 checkBox.setLayoutX(i);
                 i += 50;
                 checkBox.setLayoutY(y);
@@ -214,6 +243,7 @@ public class ProductsPage {
         for (Off allOff : Off.getAllOffs()) {
             for (String product : allOff.getProducts()) {
                 if (Product.getProductWithName(product) != null) {
+                    Product.getProductWithName(product).setEndTime(allOff.getEndDate());
                     arrayList.add(Product.getProductWithName(product));
                 }
             }
