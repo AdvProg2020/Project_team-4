@@ -8,4 +8,5 @@
     <TextField fx:id="comment" onAction="#addComment" text="comment"/>
     <TextField fx:id="score" layoutX="50" layoutY="50" onAction="#addScore" text="score 1-5"/>
     <Button fx:id="addButton" layoutX="150" layoutY="150" onAction="#addToCart" text="add"/>
+    <MenuButton text="sellers" fx:id="sellers"/>
 </AnchorPane>
