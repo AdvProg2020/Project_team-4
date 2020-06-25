@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -15,19 +16,19 @@ public class LoginCreate {
     @FXML
     private TextField userSign;
     @FXML
-    private TextField passSign;
+    private PasswordField passSign;
     @FXML
     private Button createButton;
     @FXML
     private TextField userReq;
     @FXML
-    private TextField passReq;
+    private PasswordField passReq;
     @FXML
     private Button reqButton;
     @FXML
     private TextField userLogin;
     @FXML
-    private TextField passLogin;
+    private PasswordField passLogin;
     @FXML
     private Button loginButton;
     @FXML
