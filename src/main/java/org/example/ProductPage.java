@@ -1,6 +1,7 @@
 package org.example;
 
 
+import Control.Controller;
 import Model.Product;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -14,5 +15,8 @@ public class ProductPage {
     public Product product;
     public ProductPage(Product product) {
         this.product = product;
+    }
+    public void addToCart() {
+        Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
     }
 }
