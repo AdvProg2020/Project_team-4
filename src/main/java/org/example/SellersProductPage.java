@@ -5,10 +5,12 @@ import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import Control.Controller;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +43,7 @@ public class SellersProductPage implements Initializable {
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);
         }
-        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray);
+        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getLoggedInAccount().getUserName());
     }
 
     public void remove(ActionEvent actionEvent) {
@@ -119,5 +121,19 @@ public class SellersProductPage implements Initializable {
                     break;
             }
         }
+    }
+
+    public void updateFields(MouseEvent mouseEvent) {
+        Product product = table.getSelectionModel().getSelectedItems().get(0);
+        String name  = product.getProductBarcode();
+
+        nameField.setText(Product.getProductWithBarcode(name).getName());
+        categoryField.setText(Product.getProductWithBarcode(name).getCategory());
+        companyFiled.setText(Product.getProductWithBarcode(name).getCompany());
+        costField.setText(String.valueOf(Product.getProductWithBarcode(name).getCost()));
+        amountField.setText(String.valueOf(Product.getProductWithBarcode(name).getAmountOfExist()));
+        tagsField.setText(String.valueOf(Product.getProductWithBarcode(name).getTags()));
+        descriptionField.setText(String.valueOf(Product.getProductWithBarcode(name).getDescription()));
+
     }
 }

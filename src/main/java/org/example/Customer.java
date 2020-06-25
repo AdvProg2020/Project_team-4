@@ -1,6 +1,7 @@
 package org.example;
 
 import Control.Controller;
+import Model.CodedOff;
 import Model.SaveAndLoad;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -14,6 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Customer {
+    public Button codedOff1Button;
+    public Button codedOff2Button;
+    public Button codedOff3Button;
     ArrayList<TextField> textFields = new ArrayList<>();
     @FXML
     public TextField address;
@@ -54,7 +58,20 @@ public class Customer {
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
         cartButton.setOnAction(cartButtonHandler);
-//        offCodes.setText(Controller.getOurController().getLoggedInAccount());
+        ArrayList<String> offCodesNames = new ArrayList<>(((Model.Customer)Controller.getOurController().getLoggedInAccount()).getOffCodes());
+        int i=0;
+        if (offCodesNames.size() > 0) {
+            codedOff1Button.setText(offCodesNames.get(0));
+            codedOff1Button.setVisible(true);
+        }
+        if (offCodesNames.size() > 1) {
+            codedOff2Button.setText(offCodesNames.get(1));
+            codedOff2Button.setVisible(true);
+        }
+        if (offCodesNames.size() > 2) {
+            codedOff3Button.setText(offCodesNames.get(2));
+            codedOff3Button.setVisible(true);
+        }
     }
 
     EventHandler cartButtonHandler = new EventHandler() {
@@ -129,5 +146,31 @@ public class Customer {
                     break;
             }
         }
+    }
+
+    public void logout(ActionEvent actionEvent) {
+        int result = Controller.getOurController().logout();
+        if (result == 2) {
+            try {
+                App.setRoot("main");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void goToMainPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("main");
+    }
+
+    public void showOffCode(ActionEvent actionEvent) {
+        String name = ((Button)actionEvent.getSource()).getText();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(CodedOff.getOffCodeWithName(name).getStartTime() + "/" + CodedOff.getOffCodeWithName(name).getEndTime());
+        alert.show();
+    }
+
+    public void goToHistoryPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("sell-history");
     }
 }

@@ -51,8 +51,8 @@ public class Requests implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sellerUserName.setCellValueFactory(new PropertyValueFactory<>("UserName"));
-        productBarcode.setCellValueFactory(new PropertyValueFactory<>("ProductBarcode"));
-        offBarcode.setCellValueFactory(new PropertyValueFactory<>("OffBarcode"));
+        productBarcode.setCellValueFactory(new PropertyValueFactory<>("ProductName"));
+        offBarcode.setCellValueFactory(new PropertyValueFactory<>("OffName"));
         ObservableList<RequestANewSellerAccount> sellerRequests = getSellerReqs();
         sellerReq.setItems(sellerRequests);
         ObservableList<RequestProduct> productsRequests = getProductReqs();
@@ -65,18 +65,13 @@ public class Requests implements Initializable {
     }
 
     private ObservableList<RequestOff> getOffReqs() {
-        List list = new ArrayList(Manager.getEditProductsRequests());
-        list.add(new RequestOff(RequestType.OFF, new Off("sal, mah, rooz", new ArrayList<>(), "salm, mah,roox", 50)));
+        List list = new ArrayList(Manager.getEditOffRequests());
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;
     }
 
     private ObservableList<RequestProduct> getProductReqs() {
-        List list = new ArrayList(Manager.getEditOffRequests());
-        ArrayList<String> tags = new ArrayList<>();
-        ArrayList<String> sellers = new ArrayList<>();
-        Product product = new Product( "name", "company", 1000, "category", "description", 5, tags);
-        list.add(new RequestProduct(RequestType.PRODUCT, product));
+        List list = new ArrayList(Manager.getEditProductsRequests());
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;
     }

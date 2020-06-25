@@ -64,24 +64,30 @@ public class Product extends SaveAble {
         return localDateTime;
     }
 
-    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags) {
+    public Product(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, String firstSellerName) {
         this.productBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
         this.name = name;
         this.categoryTags = new ArrayList<>();
         this.company = company;
         this.cost = cost;
         this.sellers = new ArrayList<>();
+        System.out.println(firstSellerName);
+        sellers.add(firstSellerName);
+        System.out.println(sellers);
         this.category = category;
         this.description = description;
         this.comments = new ArrayList<>();
         this.tags = tags;
-        this.sellers = new ArrayList<>();
         this.amountOfExist = amountOfExist;
         this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         giveId++;
     }
 
-//    public Image getImage() {
+    public void setSellers(ArrayList<String> sellers) {
+        this.sellers = sellers;
+    }
+
+    //    public Image getImage() {
 //        return image;
 //    }
 
@@ -118,6 +124,12 @@ public class Product extends SaveAble {
         this.tags = product.getTags();
         this.amountOfExist = product.getAmountOfExist();
         this.localDateTime = product.getLocalDateTime();
+        Seller seller= ((Seller) Account.getAccountWithName(product.getSellers().get(0)));
+        System.out.println(seller);
+        seller.getProducts().add(product.getProductBarcode());
+        System.out.println(seller);
+        SaveAndLoad.getSaveAndLoad().writeJSON(seller, Seller.class.toString(), seller.getName());
+        System.out.println(Account.getAccountWithName(seller.getName()));
         allProducts.add(this);
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class.toString(), "allProducts");
     }
@@ -268,8 +280,8 @@ public class Product extends SaveAble {
     }
 
 
-    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags) {
-        allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags));
+    public static void createProduct(String name, String company, int cost, String category, String description, int amountOfExist, ArrayList<String> tags, String firstSellerName) {
+        allProducts.add(new Product(name, company, cost, category, description, amountOfExist, tags, firstSellerName));
         SaveAndLoad.getSaveAndLoad().writeJSON(allProducts, ArrayList.class.toString(), "allProducts");
     }
 

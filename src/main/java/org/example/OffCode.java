@@ -134,26 +134,26 @@ public class OffCode implements Initializable {
     }
 
     public void changeEnd(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        CodedOff codedOff = table.getSelectionModel().getSelectedItem();
-        codedOff.setEndTime(codedOffStringCellEditEvent.getNewValue());
+        String codedOffName = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        CodedOff.getOffCodeWithName(codedOffName).setEndTime(codedOffStringCellEditEvent.getNewValue());
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void changeAmount(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        CodedOff codedOff = table.getSelectionModel().getSelectedItem();
-        codedOff.setOffAmount(codedOffStringCellEditEvent.getNewValue());
+        String codedOff = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        CodedOff.getOffCodeWithName(codedOff).setOffAmount(codedOffStringCellEditEvent.getNewValue());
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void changeUsageTime(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        CodedOff codedOff = table.getSelectionModel().getSelectedItem();
-        codedOff.setUsageTime(codedOffStringCellEditEvent.getNewValue());
+        String codedOff = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        CodedOff.getOffCodeWithName(codedOff).setUsageTime(codedOffStringCellEditEvent.getNewValue());
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void changePercent(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        CodedOff codedOff = table.getSelectionModel().getSelectedItem();
-        codedOff.setPercent(codedOffStringCellEditEvent.getNewValue());
+        String codedOff = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        CodedOff.getOffCodeWithName(codedOff).setPercent(codedOffStringCellEditEvent.getNewValue());
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 

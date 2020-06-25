@@ -49,9 +49,13 @@
         <TextField fx:id="role" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
         <Label text="credit" GridPane.rowIndex="9" />
         <TextField fx:id="credit" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-        <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="8" GridPane.rowIndex="10" />
-        <Button fx:id="products" onAction="#goToProductsPage" mnemonicParsing="false" text="products" GridPane.rowIndex="10" GridPane.columnIndex="9"/>
-        <Button fx:id="sellHistory" onAction="#goToSellHistoryPage" mnemonicParsing="false" text="history" GridPane.rowIndex="10" GridPane.columnIndex="10"/>
-        <Button fx:id="offs" onAction="#goToOffsPage" mnemonicParsing="false" text="offs" GridPane.rowIndex="10" GridPane.columnIndex="11"/>
+        <Label text="company" GridPane.rowIndex="10" />
+        <TextField fx:id="companyField" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+        <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="8" GridPane.rowIndex="11" />
+        <Button fx:id="products" onAction="#goToProductsPage" mnemonicParsing="false" text="products" GridPane.rowIndex="11" GridPane.columnIndex="9"/>
+        <Button fx:id="sellHistory" onAction="#goToSellHistoryPage" mnemonicParsing="false" text="history" GridPane.rowIndex="11" GridPane.columnIndex="10"/>
+        <Button fx:id="offs" onAction="#goToOffsPage" mnemonicParsing="false" text="offs" GridPane.rowIndex="11" GridPane.columnIndex="11"/>
+        <Button onAction="#logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="11" GridPane.columnIndex="12"/>
+        <Button onAction="#goToMainPage" mnemonicParsing="false" text="main" GridPane.rowIndex="11" GridPane.columnIndex="13"/>
     </children>
 </GridPane>

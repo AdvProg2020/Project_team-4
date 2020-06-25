@@ -49,12 +49,17 @@
        <Label text="credit" GridPane.columnIndex="1" GridPane.rowIndex="9" />
        <TextField fx:id="credit" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="9" />
        <Label text="offCodes" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-       <TextField fx:id="offCodes" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+<!--       <TextField fx:id="offCodes" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="10" />-->
        <Label text="address" GridPane.columnIndex="1" GridPane.rowIndex="11" />
        <TextField fx:id="address" GridPane.columnIndex="2" GridPane.rowIndex="11" />
       <Button fx:id="cartButton" mnemonicParsing="false" text="cart" GridPane.columnIndex="6" GridPane.columnSpan="2" />
-       <Button fx:id="historyButton" mnemonicParsing="false" text="buyHistory" GridPane.columnIndex="8" GridPane.columnSpan="2" />
+       <Button fx:id="historyButton" mnemonicParsing="false" text="buyHistory" onAction="#goToHistoryPage" GridPane.columnIndex="8" GridPane.columnSpan="2" />
       <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="9" GridPane.rowIndex="10" />
       <Button mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" GridPane.rowIndex="12" />
+      <Button mnemonicParsing="false" onAction="#logout" text="logout" GridPane.rowIndex="13" />
+      <Button mnemonicParsing="false" onAction="#goToMainPage" text="main" GridPane.rowIndex="14" />
+      <Button fx:id="codedOff1Button" mnemonicParsing="false" onAction="#showOffCode" visible="false" GridPane.rowIndex="15" GridPane.columnIndex="1" />
+      <Button fx:id="codedOff2Button" mnemonicParsing="false" onAction="#showOffCode" visible="false" GridPane.rowIndex="15" GridPane.columnIndex="2"/>
+      <Button fx:id="codedOff3Button" mnemonicParsing="false" onAction="#showOffCode" visible="false" GridPane.rowIndex="15" GridPane.columnIndex="3"/>
    </children>
 </GridPane>
