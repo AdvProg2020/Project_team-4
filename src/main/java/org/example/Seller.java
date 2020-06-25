@@ -142,4 +142,19 @@ public class Seller implements Initializable {
             }
         }
     }
+
+    public void logout(ActionEvent actionEvent) {
+        int result = Controller.getOurController().logout();
+        if (result == 2) {
+            try {
+                App.setRoot("main");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void goToMainPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("main");
+    }
 }

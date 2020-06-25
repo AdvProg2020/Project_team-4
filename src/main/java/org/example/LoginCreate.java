@@ -1,6 +1,7 @@
 package org.example;
 
 import Control.Controller;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -179,5 +180,13 @@ public class LoginCreate {
 
     public static void setBeforeRoot(String root) {
         beforeRoot = root;
+    }
+
+    public void goToMainPage(ActionEvent actionEvent) {
+        try {
+            App.setRoot("main");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
