@@ -49,16 +49,16 @@ public class Category extends SaveAble {
         return name;
     }
 
-    public ArrayList<String> getTags() {
-        return tags;
+    public String getTags() {
+        return tags.toString();
     }
 
-    public ArrayList<String> getSubCategories() {
-        return subCategories;
+    public String getSubCategories() {
+        return subCategories.toString();
     }
 
-    public ArrayList<String> getProducts() {
-        return products;
+    public String getProducts() {
+        return products.toString();
     }
 
     public void setName(String name) {

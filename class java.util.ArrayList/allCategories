@@ -1,1 +1,1 @@
-[{"name":"cat1","tags":["tag1","tag2","tag22"],"subCategories":[],"products":[],"saveAndLoad":{}},{"name":"cat2","tags":["tag1","tag3"],"subCategories":["cat1"],"products":[],"saveAndLoad":{}}]
+[{"name":"cat2","tags":["[tag1,","tag3","]","hjdhfsa"],"subCategories":["cat1"],"products":[],"saveAndLoad":{}},{"name":"cat3","tags":["[tag33","tag34]"],"subCategories":["cat2"],"products":[],"saveAndLoad":{}}]

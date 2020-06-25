@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,13 +40,13 @@ public class Category implements Initializable {
     @FXML
     public TableView<Model.Category> table;
     @FXML
-    public TableColumn nameColumn;
+    public TableColumn<Model.Category, String> nameColumn;
     @FXML
-    public TableColumn tagsColumn;
+    public TableColumn<Model.Category, String> tagsColumn;
     @FXML
-    public TableColumn productsColumn;
+    public TableColumn<Model.Category, String> productsColumn;
     @FXML
-    public TableColumn subCategoriesColumn;
+    public TableColumn<Model.Category, String> subCategoriesColumn;
 
     public void add(ActionEvent actionEvent) {
         if (checkInfoEntrance(name, tags))return;
@@ -109,37 +110,41 @@ public class Category implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<Model.Category> categories = Controller.getOurController().showCategories();
         ObservableList<Model.Category> categoriesObserveAbleList = FXCollections.observableArrayList(categories);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        tagsColumn.setCellValueFactory(new PropertyValueFactory<>("SubCategories"));
-        subCategoriesColumn.setCellValueFactory(new PropertyValueFactory<>("Products"));
-        productsColumn.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        subCategoriesColumn.setCellValueFactory(new PropertyValueFactory<>("SubCategories"));
+        productsColumn.setCellValueFactory(new PropertyValueFactory<>("Products"));
+        tagsColumn.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         table.setItems(categoriesObserveAbleList);
         table.setEditable(true);
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        subCategoriesColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        productsColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        tagsColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
-    public void changeName(TableColumn.CellEditEvent cellEditEvent) {
-        Model.Category category = table.getSelectionModel().getSelectedItem();
+    public void changeName(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
+        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
         category.setName(cellEditEvent.getNewValue().toString());
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void changeTags(TableColumn.CellEditEvent cellEditEvent) {
-        Model.Category category = table.getSelectionModel().getSelectedItem();
+    public void changeTags(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
+        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
         ArrayList<String> tags = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setTags(tags);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void changeProducts(TableColumn.CellEditEvent cellEditEvent) {
-        Model.Category category = table.getSelectionModel().getSelectedItem();
+    public void changeProducts(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
+        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
         ArrayList<String> products = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setProducts(products);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void changeSubCategories(TableColumn.CellEditEvent cellEditEvent) {
-        Model.Category category = table.getSelectionModel().getSelectedItem();
+    public void changeSubCategories(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
+        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
         ArrayList<String> subCategories = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setSubCategories(subCategories);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
