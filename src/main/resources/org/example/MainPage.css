@@ -2,6 +2,7 @@
     -fx-background-image: url("firstMenuBackground.png");
     -fx-background-size: cover;
     /*-fx-background-color: #dc143c;*/
+    -fx-font : 14px "serief";
 }
 
 .button{

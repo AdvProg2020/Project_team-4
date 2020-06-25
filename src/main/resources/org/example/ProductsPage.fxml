@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="mainAnchorPane" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductsPage">
-    <TableView fx:id="table" layoutX="3.0" layoutY="350.0" prefHeight="275.0" prefWidth="700.0">
+    <TableView fx:id="table" layoutX="3.0" layoutY="40.0" prefHeight="275.0" prefWidth="590.0">
         <columns>
             <TableColumn fx:id="name" prefWidth="75.0" text="name" />
             <TableColumn fx:id="id" prefWidth="75.0" text="id" />
@@ -14,13 +14,13 @@
             <TableColumn fx:id="score" prefWidth="50.0" text="score" />
             <TableColumn fx:id="tags" prefWidth="150.0" text="tags" />
             <TableColumn fx:id="createDate" prefWidth="200.0" text="time" />
-            <TableColumn fx:id="expireDate" prefWidth="200.0" text="expireDateTime" />
-            <TableColumn fx:id="remainingTime" prefWidth="200.0" text="remaining time" />
+<!--            <TableColumn fx:id="image" prefWidth="200.0" text="image" />-->
         </columns>
     </TableView>
-    <Button fx:id="backToFirstMenu" layoutX="9.0" layoutY="8.0" onAction="#backToFirstMenu" text="back" />
-    <Button fx:id="seeProductButton" layoutX="319.0" layoutY="317.0" onAction="#seeProduct" text="see product" />
-    <ListView fx:id="sortList" layoutX="400.0" layoutY="40.0" onMouseClicked="#sortAction" prefHeight="275.0" prefWidth="247.0" />
-    <Button fx:id="reverseButton" layoutX="331.0" layoutY="43.0" onAction="#reverse" text="increase" />
+    <Button fx:id="backToFirstMenu" onAction="#backToFirstMenu" text="back" />
+    <Button fx:id="seeProductButton" layoutX="600" layoutY="40" onAction="#seeProduct" text="see product" />
+    <ListView fx:id="sortList" layoutX="699.0" layoutY="40.0" onMouseClicked="#sortAction" prefHeight="275.0" prefWidth="247.0" />
+    <Button fx:id="reverseButton" layoutX="600" layoutY="80" onAction="#reverse" text="increase" />
+   <Button layoutX="21.0" layoutY="502.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
 
 </AnchorPane>

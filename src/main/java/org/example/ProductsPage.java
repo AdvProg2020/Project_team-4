@@ -1,12 +1,11 @@
 package org.example;
 
-import Model.Category;
 import Model.Off;
 import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.chart.CategoryAxis;
+import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class ProductsPage {
     public static boolean calledFromOff = false;
-    public ArrayList<Product> allProduct = Product.getAllProducts();
+    public ArrayList<Product> allProduct;
     public TableColumn name;
     public TableColumn id;
     public TableColumn price;
@@ -34,8 +33,7 @@ public class ProductsPage {
     public AnchorPane mainAnchorPane;
     public TableColumn tags;
     public TableColumn createDate;
-    public TableColumn expireDate;
-    public TableColumn remainingTime;
+    public TableColumn image;
     private CheckBox offCheckBox;
 
     private HashSet<String> filters = new HashSet<>();
@@ -45,7 +43,7 @@ public class ProductsPage {
         allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
         initializeTable();
         initializeSort();
-        checkBox();
+        checkBoxForFilter();
     }
 
     private ObservableList<Product> getInitialOffTableData() {
@@ -74,10 +72,11 @@ public class ProductsPage {
         score.setCellValueFactory(new PropertyValueFactory<>("ScoreNo"));
         tags.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
+//        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
         setTable();
     }
 
-    private void checkBox() {
+    private void checkBoxForFilter() {
         int i = 0;
         int y = 43;
         HashSet tags = new HashSet();
@@ -90,30 +89,6 @@ public class ProductsPage {
                 checkBox.setLayoutX(i);
                 i += 50;
                 checkBox.setLayoutY(y);
-                mainAnchorPane.getChildren().add(checkBox);
-                tags.add(tag);
-                checkBox.setOnAction(e -> tagsActivate(checkBox));
-                if(i >= 300){
-                    i = 0;
-                    y += 20;
-                }
-            }
-        }
-        i = 0;
-        y += 20;
-        for (Product product : Product.getAllProducts()) {
-            for (String tag : product.getCategoryTags()) {
-                if (tags.contains(tag)) {
-                    continue;
-                }
-                Category cat;
-                if((cat = Category.getCategoryByName(tag)) != null){
-                    tag += ( "tags :" + cat.getTags()) + " subcat : " + cat.getSubCategories();
-                }
-                CheckBox checkBox = new CheckBox(tag);
-                checkBox.setLayoutX(i);
-                checkBox.setLayoutY(y);
-                i += 50;
                 mainAnchorPane.getChildren().add(checkBox);
                 tags.add(tag);
                 checkBox.setOnAction(e -> tagsActivate(checkBox));
@@ -140,8 +115,6 @@ public class ProductsPage {
             list.addAll(getOffsProduct());
             allProduct = getOffsProduct();
             ObservableList<Product> data = FXCollections.observableArrayList(list);
-            TableColumn endTime = new TableColumn("expire Date");
-            endTime.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
             table.setItems(data);
             table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         }else{

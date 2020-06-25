@@ -1,0 +1,12 @@
+.root{
+    -fx-font-family : "serief";
+    -fx-font : 14px "serief";
+    -fx-background-color: darkcyan;
+}
+.button{
+    -fx-font : 14px "serief";
+}
+.text-field{
+    -fx-font : 14px "serief";
+    -fx-font-style: italic;
+}
