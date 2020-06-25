@@ -26,4 +26,7 @@ public class ProductPage {
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
     }
+    public void addScore() {
+        product.setAverageScore(Integer.parseInt(score.getText()));
+    }
 }
