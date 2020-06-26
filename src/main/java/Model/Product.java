@@ -29,6 +29,10 @@ public class Product extends SaveAble {
         return null;
     }
 
+    public void setByers(String userName) {
+        this.byers.add(userName);
+    }
+
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
@@ -53,6 +57,10 @@ public class Product extends SaveAble {
     private String endTime;
 //    private Image image;
 
+
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
 
     public String getRemainTime() {
         LocalDate localDate = LocalDate.now();
@@ -79,6 +87,10 @@ public class Product extends SaveAble {
 
     public static int getGiveId() {
         return giveId;
+    }
+
+    public void setSeen(int seen) {
+        this.seen += seen;
     }
 
     public int getSeen() {
@@ -108,8 +120,9 @@ public class Product extends SaveAble {
         giveId++;
     }
 
-    public void setSellers(ArrayList<String> sellers) {
-        this.sellers = sellers;
+    public void setSellers(String sellers) {
+        this.sellers.add(sellers);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     //    public Image getImage() {
@@ -163,8 +176,8 @@ public class Product extends SaveAble {
         return productBarcode;
     }
 
-    public ArrayList<String> getByers() {
-        return byers;
+    public String getByers() {
+        return byers.toString();
     }
 
     public String getCompany() {
@@ -301,7 +314,7 @@ public class Product extends SaveAble {
     }
 
     public void setCategoryTags(ArrayList<String> categoryTags) {
-        this.categoryTags.addAll(categoryTags);
+        this.tags.addAll(categoryTags);
     }
 
 
@@ -328,10 +341,9 @@ public class Product extends SaveAble {
 
     public void setAverageScore(int newScore) {
         int lastAverage = this.averageScore;
-        this.averageScore = (lastAverage*scoreNo + newScore)/(scoreNo + 1);
+        this.averageScore = (lastAverage * scoreNo + newScore)/(scoreNo + 1);
         this.scoreNo += 1;
     }
-
 
     public void setName(String name) {
         this.name = name;

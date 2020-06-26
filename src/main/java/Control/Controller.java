@@ -97,6 +97,7 @@ public class Controller {
             for (String customer: containingCustomers) {
                 Customer customer1 = ((Customer)Customer.getAccountWithName(customer));
                 customer1.addOffCode(codedOff.getOffBarcode());
+                customer1.setUsageOfOffCodes(Integer.valueOf(usageTimes));
                 SaveAndLoad.getSaveAndLoad().writeJSON(customer1, Customer.class.toString(), customer1.getUserName());
                 SaveAndLoad.getSaveAndLoad().saveGenerally();
             }
@@ -126,9 +127,11 @@ public class Controller {
         return CodedOff.getAllDiscounts();
     }
 
-    public void newComment(String comment){
-
+    public void newComment(String comment, Product product, String name){
+        Comment comment1 = new Comment(loggedInAccount.getUserName(), product.getProductBarcode(), comment, false);
+        product.addComment(comment1);
     }
+
 
     public String showCart() {
         return (((Customer)loggedInAccount).getCart()).toString();
@@ -507,10 +510,10 @@ public class Controller {
         return ((Seller)loggedInAccount).getCompanyName();
     }
 
-    public ArrayList<String> viewByers(String productId) {
-        Product product = getProductWithBarcode(productId);
-        return product.getByers();
-    }
+//    public ArrayList<String> viewByers(String productId) {
+//        Product product = getProductWithBarcode(productId);
+//        return product.getByers();
+//    }
 
     public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, String firstSellerName) {
         Category category = Category.getCategoryByName(categoryName);
@@ -549,6 +552,7 @@ public class Controller {
         loggedInAccount.setPassWord(passWord);
         ((Customer)loggedInAccount).setAddress(address);
     }
+
 
     public void changeCompanyName(String trim) {
         ((Seller) Controller.getOurController().getLoggedInAccount()).setCompanyName(trim);

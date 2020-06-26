@@ -61,7 +61,6 @@ public class Category implements Initializable {
         ArrayList<String> tagsArray = new ArrayList<>(Arrays.asList(tags.getText().trim().split(" ")));
         ArrayList<String> productsArray = new ArrayList<>(Arrays.asList(products.getText().trim().split(" ")));
         Model.Category result = Controller.getOurController().createCategory(name.getText().trim(), subCategoriesArray, tagsArray, productsArray);
-        System.out.println(result);
         if (result != null) {
             table.getItems().add(result);
         }

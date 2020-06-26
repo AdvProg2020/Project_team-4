@@ -13,6 +13,7 @@
             <TableColumn fx:id="costColumn" prefWidth="75.0" text="cost" />
             <TableColumn fx:id="amountColumn" prefWidth="75.0" text="amount" />
             <TableColumn fx:id="tagsColumn" prefWidth="75.0" text="tags" />
+            <TableColumn fx:id="byersColumn" prefWidth="75.0" text="byers" />
         </columns>
       </TableView>
       <TextField fx:id="nameField" layoutX="19.0" layoutY="251.0" prefHeight="25.0" prefWidth="73.0" promptText="name" />

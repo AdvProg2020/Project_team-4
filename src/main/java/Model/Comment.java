@@ -5,10 +5,23 @@ import java.util.ArrayList;
 
 public class Comment extends SaveAble {
     private String commentBarcode;
-    private static ArrayList<Comment> allComments;
+    private static ArrayList<Comment> allComments = new ArrayList<>();
     private String commentingAccount;
     private String product;
     private String commentText;
+
+    public static ArrayList<Comment> getAllComments() {
+        return allComments;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public String getCommentingAccount() {
+        return commentingAccount;
+    }
+
     private enum commentStatus {
         PROCESS, APPROVED, REJECTED
     }
