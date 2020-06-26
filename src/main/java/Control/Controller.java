@@ -309,7 +309,6 @@ public class Controller {
         Product product;
         if((product = Product.getProductWithBarcode(productId)) == null)
             return 0;
-
         Account account = getLoggedInAccount();
         if(!account.getClass().equals(Customer.class)){
             return 2;

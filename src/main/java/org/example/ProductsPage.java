@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -205,19 +204,10 @@ public class ProductsPage {
     }
 
 
-    public void seeProduct(ActionEvent actionEvent) {
-        if(table.getSelectionModel().getSelectedItem() == null){
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setContentText("pls select product first");
-            alert.show();
-            return;
-        }
-        ProductPage.setProduct((Product) table.getSelectionModel().getSelectedItem());
-        try {
-            App.setRoot("product-page");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void seeProduct(ActionEvent actionEvent) throws IOException {
+        //here we should call productpage with Product
+        ProductPage.setProduct((Product) table.getSelectionModel().getSelectedItems().get(0));
+        App.setRoot("product-page");
     }
 
     public void sortAction() {
