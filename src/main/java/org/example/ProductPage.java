@@ -4,6 +4,7 @@ package org.example;
 import Control.Controller;
 import Model.Comment;
 import Model.Product;
+import Model.SaveAndLoad;
 import View.Menu.Menu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -48,6 +49,7 @@ public class ProductPage {
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
         alert.show();
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void addScore() {
@@ -55,10 +57,12 @@ public class ProductPage {
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully scored.");
         alert.show();
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void initialize() {
         product.setSeen(1);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
         comments = new ArrayList<>();
         commentsVBox.setLayoutX(400);
         commentsVBox.setLayoutY(500);
@@ -71,7 +75,7 @@ public class ProductPage {
             }
             for (MenuItem menuItem : menuItems) {
                 sellers.getItems().add(menuItem);
-                menuItem.setOnAction(EventHandler);
+                menuItem.setOnAction(event -> Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText()));
             }
 
         }
@@ -91,6 +95,7 @@ public class ProductPage {
             for (Label comment : comments) {
                 comment.setVisible(true);
                 commentsVBox.getChildren().add(comment);
+                commentsVBox.setVisible(true);
             }
         }
     }

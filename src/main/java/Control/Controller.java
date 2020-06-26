@@ -552,6 +552,7 @@ public class Controller {
         ((Customer)loggedInAccount).setAddress(address);
     }
 
+
     public void changeCompanyName(String trim) {
         ((Seller) Controller.getOurController().getLoggedInAccount()).setCompanyName(trim);
     }
