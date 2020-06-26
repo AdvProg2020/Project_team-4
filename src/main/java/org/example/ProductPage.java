@@ -43,7 +43,7 @@ public class ProductPage {
     }
 
     public void addComment() {
-        Controller.getOurController().newComment(commentField.getText(), product);
+        Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
         alert.show();
@@ -57,6 +57,8 @@ public class ProductPage {
     }
 
     public void initialize() {
+        product.setSeen(1);
+        comments = new ArrayList<>();
         commentsVBox.setLayoutX(400);
         commentsVBox.setLayoutY(500);
         if (product.getSellers() != null) {
@@ -85,6 +87,7 @@ public class ProductPage {
         }
         if (comments != null){
             for (Label comment : comments) {
+                comment.setVisible(true);
                 commentsVBox.getChildren().add(comment);
             }
         }

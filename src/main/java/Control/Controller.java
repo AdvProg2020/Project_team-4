@@ -126,7 +126,7 @@ public class Controller {
         return CodedOff.getAllDiscounts();
     }
 
-    public void newComment(String comment, Product product){
+    public void newComment(String comment, Product product, String name){
         Comment comment1 = new Comment(loggedInAccount.getUserName(), product.getProductBarcode(), comment, false);
         product.addComment(comment1);
     }

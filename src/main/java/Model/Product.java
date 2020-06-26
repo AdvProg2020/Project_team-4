@@ -85,6 +85,10 @@ public class Product extends SaveAble {
         return giveId;
     }
 
+    public void setSeen(int seen) {
+        this.seen += seen;
+    }
+
     public int getSeen() {
         return seen;
     }
