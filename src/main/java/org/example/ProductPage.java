@@ -49,7 +49,7 @@ public class ProductPage {
         menuItems = new MenuItem[product.getSellers().size()];
         for (int i = 0; i < product.getSellers().size(); i++) {
             for (String seller : product.getSellers()) {
-                menuItems[i].setText(seller);
+//                menuItems[i].setText(seller);
             }
         }
         sellers = new MenuButton("sellers", null, menuItems);
