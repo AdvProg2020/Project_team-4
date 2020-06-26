@@ -27,6 +27,9 @@ public class ProductPage {
     public static Product product;
     public Alert alert;
 
+    public static void setProduct(Product product) {
+        ProductPage.product = product;
+    }
 
     public void addToCart() {
         Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
