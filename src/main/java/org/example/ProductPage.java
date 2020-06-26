@@ -9,8 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 public class ProductPage {
-    public TableColumn userComment;
-    public TableColumn name;
     public Label productName;
     public Label cost;
     public Label company;
@@ -18,57 +16,23 @@ public class ProductPage {
     public Label description;
     public Label exist;
     public Label category;
+    public Label[] comments;
+    public TextField score;
     public TextField commentField;
     public TextField nameField;
-    public Label[] comments;
     public VBox commentsVBox;
-
-    static class Comments{
-        String name;
-        String comment;
-        public Comments() {
-            this("", "");
-        }
-        public Comments(String name, String comment) {
-            setName(name);
-            setComment(comment);
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getComment() {
-            return comment;
-        }
-
-        public void setComment(String comment) {
-            this.comment = comment;
-        }
-    }
-    public TextField comment;
-    public TextField score;
     public Button addButton;
     public MenuButton sellers;
+    public MenuItem[] menuItems;
     public Product product;
     public Alert alert;
-    public MenuItem[] menuItems;
 
-
-
-    public ProductPage(Product product) {
-        this.product = product;
-    }
     public void addToCart() {
         Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
     }
 
     public void addComment() {
-        Controller.getOurController().newComment(comment.getText());
+        Controller.getOurController().newComment(commentField.getText());
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
     }
