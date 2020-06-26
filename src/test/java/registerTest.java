@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DynamicTest;
 import java.sql.Connection;
 import java.util.Random;
 
-public class RegisterTest {
+class RegisterTest {
 
     private String username;
     private String password;
