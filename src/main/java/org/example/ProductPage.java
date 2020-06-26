@@ -4,11 +4,13 @@ package org.example;
 import Control.Controller;
 import Model.Comment;
 import Model.Product;
+import View.Menu.Menu;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ProductPage {
 
@@ -26,7 +28,7 @@ public class ProductPage {
     public VBox commentsVBox;
     public Button addButton;
     public MenuButton sellers;
-    public MenuItem[] menuItems;
+    public ArrayList<MenuItem> menuItems;
     public MenuItem example;
     private static Product product;
     public Alert alert;
@@ -52,21 +54,17 @@ public class ProductPage {
     }
 
     public void initialize() {
-        try {
-            if (product.getSellers() != null) {
-                menuItems = new MenuItem[product.getSellers().size()];
-                for (int i = 0; i < product.getSellers().size(); i++) {
-                    for (String seller : product.getSellers()) {
-                        menuItems[i].setText(seller);
-                    }
-                }
-                for (MenuItem menuItem : menuItems) {
-                    sellers.getItems().add(menuItem);
-                }
-
+        if (product.getSellers() != null) {
+            menuItems = new ArrayList<>();
+            for (String seller : product.getSellers()) {
+                    MenuItem mi = new MenuItem();
+                    mi.setText(seller);
+                    menuItems.add(mi);
             }
-        } catch (NullPointerException e) {
-            System.out.println("ey baba");
+            for (MenuItem menuItem : menuItems) {
+                sellers.getItems().add(menuItem);
+            }
+
         }
         productName.setText(product.getName());
         cost.setText(String.valueOf(product.getCost()));
