@@ -83,6 +83,7 @@ public class Customer extends Account {
         if(Product.getProductWithBarcode(product).isExistsOrNot()){
 //            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
             Controller.getOurController().increaseOrDecreaseProductNo(product, +1);
+            Product.getProductWithBarcode(product).setByers(this.getUserName());
 //            Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
 //            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
 
@@ -140,7 +141,9 @@ public class Customer extends Account {
         int cartCost = 0;
         if (this.cart.size() != 0) {
             for (String product : cart.keySet()) {
-                cartCost += Product.getProductWithBarcode(product).getCost() * cart.get(product);
+                if (Product.getProductWithBarcode(product) != null) {
+                    cartCost += Product.getProductWithBarcode(product).getCost() * cart.get(product);
+                }
             }
         }
         return cartCost;

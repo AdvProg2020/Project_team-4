@@ -156,7 +156,7 @@ public class SellerMenu extends Menu {
                             break;
                         case "2":
                             productId = getField("enter productId", "(\\S+)").group(1);
-                            System.out.println(Controller.getOurController().viewByers(productId));
+//                            System.out.println(Controller.getOurController().viewByers(productId));
                             break;
                         case "3":
                             productId = getField("enter productId", "(\\S+)").group(1);

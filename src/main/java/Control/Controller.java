@@ -508,10 +508,10 @@ public class Controller {
         return ((Seller)loggedInAccount).getCompanyName();
     }
 
-    public ArrayList<String> viewByers(String productId) {
-        Product product = getProductWithBarcode(productId);
-        return product.getByers();
-    }
+//    public ArrayList<String> viewByers(String productId) {
+//        Product product = getProductWithBarcode(productId);
+//        return product.getByers();
+//    }
 
     public void editProductRequest(String barcode, String companyName, int cost, String categoryName, String description, int amountOfExist, ArrayList<String> tags, String firstSellerName) {
         Category category = Category.getCategoryByName(categoryName);

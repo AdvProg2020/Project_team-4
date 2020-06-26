@@ -66,13 +66,15 @@ public class Cart implements Initializable {
         List list = new ArrayList();
         int i=1;
         for (String name: ((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().keySet()) {
-            CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
-            cartItem.setItemNo(i);
-            cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().get(name));
-            cartItem.setTotalPrice(cartItem.getHowMany() * cartItem.getPrice());
-            list.add(cartItem);
-            totalPriceInt += cartItem.getHowMany() * cartItem.getPrice();
-            i++;
+            if (Product.getProductWithBarcode(name) != null) {
+                CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
+                cartItem.setItemNo(i);
+                cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().get(name));
+                cartItem.setTotalPrice(cartItem.getHowMany() * cartItem.getPrice());
+                list.add(cartItem);
+                totalPriceInt += cartItem.getHowMany() * cartItem.getPrice();
+                i++;
+            }
         }
 
         //just for test
