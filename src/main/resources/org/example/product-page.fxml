@@ -34,9 +34,4 @@
             <Label fx:id="category" text="accessories" />
         </VBox>
     </HBox>
-
-
-
-
-
 </AnchorPane>
