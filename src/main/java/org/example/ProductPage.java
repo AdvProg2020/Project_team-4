@@ -6,9 +6,12 @@ import Model.Comment;
 import Model.Product;
 import Model.SaveAndLoad;
 import View.Menu.Menu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -23,7 +26,7 @@ public class ProductPage {
     public Label description;
     public Label exist;
     public Label category;
-    public ArrayList<Label> comments;
+    public ArrayList<Comment> comments = new ArrayList<>();
     public TextField score;
     public TextField commentField;
     public TextField nameField;
@@ -35,6 +38,9 @@ public class ProductPage {
     private static Product product;
     public Alert alert;
     public Button backButton;
+    public TableColumn <Comment, String> commentsColumn;
+    public TableColumn <Comment, String>nameColumn;
+    public TableView <Comment> commentsTable;
 
     public static void setProduct(Product product) {
         ProductPage.product = product;
@@ -86,18 +92,15 @@ public class ProductPage {
         description.setText(product.getDescription());
         exist.setText(String.valueOf(product.getAmountOfExist()));
         category.setText(product.getCategory());
-        for (Comment productComment : product.getComments()) {
-            Label l = new Label();
-            l.setText(String.valueOf(productComment));
-            comments.add(l);
+        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
+        ArrayList<Product> products = Product.getAllProducts();
+        for (Product product1 : products) {
+            comments.addAll(product1.getComments());
+
         }
-        if (comments != null){
-            for (Label comment : comments) {
-                comment.setVisible(true);
-                commentsVBox.getChildren().add(comment);
-                commentsVBox.setVisible(true);
-            }
-        }
+        ObservableList<Comment> obsrvlstComment = FXCollections.observableArrayList(comments);
+        commentsTable.setItems(obsrvlstComment);
     }
 
     public void back(ActionEvent actionEvent) throws IOException {

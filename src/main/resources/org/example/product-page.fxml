@@ -36,4 +36,10 @@
             <Label fx:id="category" text="accessories" />
         </VBox>
     </HBox>
+    <TableView fx:id="commentsTable" layoutX="279.0" layoutY="14.0">
+      <columns>
+         <TableColumn fx:id="commentsColumn" prefWidth="75.0" text="comment" />
+         <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
+      </columns>
+    </TableView>
 </AnchorPane>
