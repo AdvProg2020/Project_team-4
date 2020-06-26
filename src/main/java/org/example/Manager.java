@@ -168,5 +168,9 @@ public class Manager {
     public void gotToMainPage(ActionEvent actionEvent) throws IOException {
         App.setRoot("main");
     }
+
+    public void gotToProductsPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("manager-products");
+    }
 }
 
