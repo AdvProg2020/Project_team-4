@@ -9,6 +9,8 @@
     <TextField fx:id="score" layoutX="14.0" layoutY="174.0" onAction="#addScore" promptText="score this product 0 to 5" />
     <Button fx:id="addButton" layoutX="88.0" layoutY="144.0" onAction="#addToCart" text="add to cart" />
     <MenuButton fx:id="sellers" layoutX="14.0" layoutY="144.0" text="sellers" />
+    <Button fx:id="backButton" layoutX="545.0" layoutY="14.0" onAction="#back" text="back" />
+
     <VBox alignment="bottom_right" layoutX="13.0" layoutY="204.0" spacing="10">
         <TextField fx:id="nameField" prefWidth="150" promptText="name" />
         <TextField fx:id="commentField" alignment="CENTER" prefHeight="200" prefWidth="150" promptText="comment" />

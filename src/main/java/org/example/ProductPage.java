@@ -4,8 +4,11 @@ package org.example;
 import Control.Controller;
 import Model.Comment;
 import Model.Product;
+import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 public class ProductPage {
 
@@ -24,8 +27,10 @@ public class ProductPage {
     public Button addButton;
     public MenuButton sellers;
     public MenuItem[] menuItems;
+    public MenuItem example;
     private static Product product;
     public Alert alert;
+    public Button backButton;
 
     public static void setProduct(Product product) {
         ProductPage.product = product;
@@ -46,14 +51,23 @@ public class ProductPage {
         product.setAverageScore(Integer.parseInt(score.getText()));
     }
 
-    public void initialize(){
-//        menuItems = new MenuItem[product.getSellers().size()];
-//        for (int i = 0; i < product.getSellers().size(); i++) {
-//            for (String seller : product.getSellers()) {
-//                menuItems[i].setText(seller);
-//            }
-//        }
-//        sellers = new MenuButton("sellers", null, menuItems);
+    public void initialize() {
+        try {
+            if (product.getSellers() != null) {
+                menuItems = new MenuItem[product.getSellers().size()];
+                for (int i = 0; i < product.getSellers().size(); i++) {
+                    for (String seller : product.getSellers()) {
+                        menuItems[i].setText(seller);
+                    }
+                }
+                for (MenuItem menuItem : menuItems) {
+                    sellers.getItems().add(menuItem);
+                }
+
+            }
+        } catch (NullPointerException e) {
+            System.out.println("ey baba");
+        }
         productName.setText(product.getName());
         cost.setText(String.valueOf(product.getCost()));
         company.setText(product.getCompany());
@@ -66,6 +80,11 @@ public class ProductPage {
                 comments[i].setText(String.valueOf(productComment));
             }
         }
-//        commentsVBox = new VBox(comments);
+        if (comments != null)
+            commentsVBox = new VBox(comments);
+    }
+
+    public void back(ActionEvent actionEvent) throws IOException {
+        App.setRoot("ProductsPage");
     }
 }
