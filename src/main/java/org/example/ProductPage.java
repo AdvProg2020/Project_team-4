@@ -6,6 +6,7 @@ import Model.Comment;
 import Model.Product;
 import View.Menu.Menu;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
@@ -70,6 +71,7 @@ public class ProductPage {
             }
             for (MenuItem menuItem : menuItems) {
                 sellers.getItems().add(menuItem);
+                menuItem.setOnAction(EventHandler);
             }
 
         }
