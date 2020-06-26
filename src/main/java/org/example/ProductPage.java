@@ -2,9 +2,11 @@ package org.example;
 
 
 import Control.Controller;
+import Model.Comment;
 import Model.Product;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 public class ProductPage {
     public TableColumn userComment;
@@ -18,6 +20,8 @@ public class ProductPage {
     public Label category;
     public TextField commentField;
     public TextField nameField;
+    public Label[] comments;
+    public VBox commentsVBox;
 
     static class Comments{
         String name;
@@ -53,7 +57,6 @@ public class ProductPage {
     public Product product;
     public Alert alert;
     public MenuItem[] menuItems;
-    public TableView comments;
 
 
 
@@ -83,6 +86,18 @@ public class ProductPage {
         }
         sellers = new MenuButton("sellers", null, menuItems);
         productName.setText(product.getName());
+        cost.setText(String.valueOf(product.getCost()));
+        company.setText(product.getCompany());
+        averageScore.setText(String.valueOf(product.getAverageScore()));
+        description.setText(product.getDescription());
+        exist.setText(String.valueOf(product.getAmountOfExist()));
+        category.setText(product.getCategory());
+        for (Comment productComment : product.getComments()) {
+            for (int i = 0; i < product.getComments().size(); i++) {
+                comments[i].setText(String.valueOf(productComment));
+            }
+        }
+        commentsVBox = new VBox(comments);
 
     }
 }

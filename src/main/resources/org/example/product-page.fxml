@@ -38,7 +38,7 @@
             <Label text="category: "/>
             <Label text="description: "/>
         </VBox>
-        <VBox>
+        <VBox prefWidth="100">
             <Label fx:id="productName" text="shoe"/>
             <Label fx:id="cost" text="80 000"/>
             <Label fx:id="company" text="melli"/>
