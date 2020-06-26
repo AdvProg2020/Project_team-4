@@ -314,7 +314,7 @@ public class Product extends SaveAble {
         this.amountOfExist += amountOfExist;
     }
 
-    public void offTheCost(int off) {
+    public void offTheCost(double off) {
         this.cost -= off;
     }
 

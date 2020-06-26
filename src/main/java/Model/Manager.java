@@ -177,7 +177,7 @@ public class Manager extends Account {
             if (Off.getAllOffs().contains(off)) {
                 Off.getAllOffs().remove(off);
             }
-            new Off(request.getOff().getStartDate(), request.getOff().getProducts(), request.getOff().getEndDate(), request.getOff().getOffAmount());
+            new Off(request.getOff().getStartDate(), request.getOff().getProducts(), request.getOff().getEndDate(), request.getOff().getOffAmount(), request.getOffName());
             editOffRequests.remove(request);
 //            SaveAndLoad.getSaveAndLoad().writeJSON(editOffRequests, ArrayList.class, "editOffRequests");
             SaveAndLoad.getSaveAndLoad().saveGenerally();

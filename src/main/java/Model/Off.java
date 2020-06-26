@@ -17,15 +17,17 @@ public class Off extends SaveAble {
     private String endDate;
     private int offAmount;
 
-    public Off(String startDate, ArrayList<String> products, String endDate, int offAmount) {
-        this.offBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
-        this.products = products;
+    public Off(String startDate, ArrayList<String> products, String endDate, int offAmount, String name) {
+//        this.offBarcode = givenUsingPlainJava_whenGeneratingRandomStringUnbounded_thenCorrect();
+        this.offBarcode = name;
+        this.products = new ArrayList<>();
         this.startDate = startDate;
         this.endDate = endDate;
         this.offAmount = offAmount;
         for (String product: products) {
             if (Product.getProductWithName(product) != null) {
-                Product.getProductWithName(product).offTheCost(Product.getProductWithName(product).getCost() * offAmount / 100);
+                Product.getProductWithName(product).offTheCost(Product.getProductWithName(product).getCost() * (Math.sqrt(offAmount / 100)));
+                this.products.add(product);
             }
             else {
                 System.err.println("null product");
