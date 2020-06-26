@@ -8,4 +8,6 @@ module org.example {
     opens Model to javafx.fxml, com.google.gson, javafx.base;
     opens View to javafx.fxml;
     exports org.example;
+    exports Model;
+    exports Control;
 }
