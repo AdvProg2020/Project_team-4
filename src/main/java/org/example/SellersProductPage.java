@@ -1,5 +1,6 @@
 package org.example;
 
+import Model.Account;
 import Model.Product;
 import Model.Seller;
 import javafx.collections.FXCollections;
@@ -49,7 +50,11 @@ public class SellersProductPage implements Initializable {
     public void remove(ActionEvent actionEvent) {
         ObservableList<Product> selectedItem = table.getSelectionModel().getSelectedItems();
         Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
-        table.getItems().remove(selectedItem);
+        ObservableList<Product> allProducts;
+        ObservableList<Product> singleProduct;
+        allProducts = table.getItems();
+        singleProduct = table.getSelectionModel().getSelectedItems();
+        singleProduct.forEach(allProducts::remove);
     }
 
     private boolean checkInfoEntrance() {
