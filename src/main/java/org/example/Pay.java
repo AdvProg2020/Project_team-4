@@ -47,11 +47,23 @@ public class Pay implements Initializable {
         }
     }
 
-    public void pay(ActionEvent actionEvent) {
+    public void pay(ActionEvent actionEvent) throws IOException {
+        boolean result;
         if (offCodeField.getText() != null) {
-            Controller.getOurController().pay(offCodeField.getText().trim());
+            result = Controller.getOurController().pay(offCodeField.getText().trim());
         } else {
-            Controller.getOurController().pay("");
+            result = Controller.getOurController().pay("");
+        }
+        if (result) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("pay was successful");
+            alert.show();
+            App.setRoot("customer");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("pay was not successful maybe you have not the enough credit.");
+            alert.show();
+            App.setRoot("customer");
         }
     }
 

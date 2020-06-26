@@ -33,6 +33,10 @@ public class Customer extends Account {
         }
     }
 
+    public void setUsageOfOffCodes(int usageOfOffCodes) {
+        this.usageOfOffCodes.add(usageOfOffCodes);
+    }
+
     public static void newCustomer(String username, String password) {
         new Customer(username, password);
     }
@@ -75,9 +79,12 @@ public class Customer extends Account {
     }
 
     public int addProductToCart(String product) {
-        System.out.println(cart);
+//        System.out.println(cart);
         if(Product.getProductWithBarcode(product).isExistsOrNot()){
-            Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
+//            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
+            Controller.getOurController().increaseOrDecreaseProductNo(product, +1);
+//            Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
+//            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
 
             if(cart.get(product) != null) {
                 cart.replace(product, cart.get(product) + 1);
@@ -98,13 +105,13 @@ public class Customer extends Account {
         //age chizi be Off ezafe shod bayad costesh hamoon ja kam beshe haaaaaa in ja off mohasebe nemishe va faghat codedOff ha tasir daran
         //too saef mahsool bayad darj beshe ke kodoom seller dare ino mofrooshe va too customer ye arrayList hast ke be tartbie product haye hashMap product haye cart seller haye har product rpo ham zakhire mikone
         int finalCost = getCartMoney();
-        if (CodedOff.getOffCodeWithName(offCode) != null && this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode))  < Integer.parseInt(CodedOff.getOffCodeWithName(offCode).getUsageTime())) {
+        if (CodedOff.getOffCodeWithName(offCode) != null && this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode)) != 0) {
             if (getCartMoney() * (Integer.parseInt(CodedOff.getOffCodeWithName(offCode).getPercent()) / 100) > Double.parseDouble(CodedOff.getOffCodeWithName(offCode).getOffAmount())) {
                 finalCost -= Double.parseDouble(CodedOff.getOffCodeWithName(offCode).getOffAmount());
             } else {
                 finalCost -= (getCartMoney() * Integer.parseInt(CodedOff.getOffCodeWithName(offCode).getPercent()) / 100);
             }
-            this.usageOfOffCodes.set(getOffCodeIndexForUsageTimeAddingByName(offCode), this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode)) + 1);
+            this.usageOfOffCodes.set(getOffCodeIndexForUsageTimeAddingByName(offCode), this.usageOfOffCodes.get(getOffCodeIndexForUsageTimeAddingByName(offCode)) - 1);
         }
         if (this.getCredit() < finalCost) {
             return false;
@@ -115,9 +122,11 @@ public class Customer extends Account {
             Iterator iterator = products.iterator();
             int i = 0;
             for (String seller: sellersOfProductsOfTheCart) {
-                Seller sellerFromFile = (Seller) Seller.getAccountWithName(seller);
                 String name = iterator.next().toString();
+                Seller sellerFromFile = (Seller) Seller.getAccountWithName(seller);
+                System.out.println(sellerFromFile.getCredit());
                 sellerFromFile.setCredit(Product.getProductWithBarcode(name).getCost() * cart.get(name));
+                System.out.println(sellerFromFile.getCredit());
                 SaveAndLoad.getSaveAndLoad().writeJSON(sellerFromFile, sellerFromFile.getClass().toString(), sellerFromFile.getUserName());
             }
             cart = new HashMap<>();
@@ -139,7 +148,7 @@ public class Customer extends Account {
 
     public int getOffCodeIndexForUsageTimeAddingByName(String name) {
         for (int i=0; i<offCodes.size(); i++) {
-            if (Off.getOffByBarcode(offCodes.get(i)).getOffBarcode().equalsIgnoreCase(name)){
+            if (CodedOff.getOffCodeWithName(offCodes.get(i)).getOffBarcode().equalsIgnoreCase(name)){
                 return i;
             }
         }

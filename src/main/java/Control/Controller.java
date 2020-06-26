@@ -97,6 +97,7 @@ public class Controller {
             for (String customer: containingCustomers) {
                 Customer customer1 = ((Customer)Customer.getAccountWithName(customer));
                 customer1.addOffCode(codedOff.getOffBarcode());
+                customer1.setUsageOfOffCodes(Integer.valueOf(usageTimes));
                 SaveAndLoad.getSaveAndLoad().writeJSON(customer1, Customer.class.toString(), customer1.getUserName());
                 SaveAndLoad.getSaveAndLoad().saveGenerally();
             }

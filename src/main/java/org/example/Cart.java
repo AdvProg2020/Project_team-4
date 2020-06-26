@@ -8,10 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
@@ -22,6 +19,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Cart implements Initializable {
+    int totalPriceInt = 0;
     @FXML
     public TableColumn<CartItem, Integer> itemCol;
     @FXML
@@ -38,6 +36,8 @@ public class Cart implements Initializable {
     public TableColumn<CartItem, Button> decreaseCol;
     @FXML
     public TableView<CartItem> table;
+    public TextField totalPrice;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         itemCol.setCellValueFactory(new PropertyValueFactory<>("ItemNo"));
@@ -57,6 +57,8 @@ public class Cart implements Initializable {
 //                App.setRoot(newSelection.getName());
 //            }
 //        });
+
+        totalPrice.setText(String.valueOf(totalPriceInt));
     }
 
     private ObservableList<CartItem> getInitialTableData() {
@@ -64,11 +66,12 @@ public class Cart implements Initializable {
         List list = new ArrayList();
         int i=1;
         for (String name: ((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().keySet()) {
-            CartItem cartItem = new CartItem(Product.getProductWithName(name));
+            CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
             cartItem.setItemNo(i);
             cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().get(name));
             cartItem.setTotalPrice(cartItem.getHowMany() * cartItem.getPrice());
             list.add(cartItem);
+            totalPriceInt += cartItem.getHowMany() * cartItem.getPrice();
             i++;
         }
 
