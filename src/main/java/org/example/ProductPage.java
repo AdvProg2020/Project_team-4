@@ -4,11 +4,11 @@ package org.example;
 import Control.Controller;
 import Model.Comment;
 import Model.Product;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 public class ProductPage {
+
     public Label productName;
     public Label cost;
     public Label company;
@@ -24,7 +24,7 @@ public class ProductPage {
     public Button addButton;
     public MenuButton sellers;
     public MenuItem[] menuItems;
-    public Product product;
+    public static Product product;
     public Alert alert;
 
 
@@ -63,6 +63,5 @@ public class ProductPage {
             }
         }
         commentsVBox = new VBox(comments);
-
     }
 }
