@@ -22,6 +22,7 @@
     <Button fx:id="seeProductButton" layoutX="601.0" layoutY="327.0" onAction="#seeProduct" text="see product" />
     <ListView fx:id="sortList" layoutX="699.0" layoutY="40.0" onMouseClicked="#sortAction" prefHeight="275.0" prefWidth="247.0" />
     <Button fx:id="reverseButton" layoutX="630.0" layoutY="47.0" onAction="#reverse" text="increase" />
-   <Button layoutX="74.0" layoutY="15.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
-
+    <Button layoutX="74.0" layoutY="15.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
+    <Slider fx:id="slider" layoutX="150" showTickMarks="true" showTickLabels="true" minorTickCount="5" majorTickUnit="50" layoutY="317"  />
+    <Label text="Cost filter" layoutX="190" alignment="CENTER" layoutY="300"/>
 </AnchorPane>

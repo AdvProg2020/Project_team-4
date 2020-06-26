@@ -49,8 +49,8 @@ public class Category extends SaveAble {
         return name;
     }
 
-    public String getTags() {
-        return tags.toString();
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
     public String getSubCategories() {

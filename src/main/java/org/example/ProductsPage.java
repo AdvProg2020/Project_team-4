@@ -3,10 +3,11 @@ package org.example;
 import Model.Category;
 import Model.Off;
 import Model.Product;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,7 +37,9 @@ public class ProductsPage {
     public TableColumn createDate;
     public TableColumn endTime;
     public TableColumn remainTime;
+    public Slider slider;
     private CheckBox offCheckBox;
+    private CheckBox available;
 
     private HashSet<String> filters = new HashSet<>();
 
@@ -46,6 +49,20 @@ public class ProductsPage {
         initializeTable();
         initializeSort();
         checkBoxForFilter();
+        int max = 0;
+        for (Product product : Product.getAllProducts()) {
+            if(product.getCost() > max)
+                max = product.getCost();
+        }
+        slider.setMax(max + 20);
+        slider.valueProperty().addListener(
+                new ChangeListener<Number>() {
+                    public void changed(ObservableValue<? extends Number > observable, Number oldValue, Number newValue)
+                    {
+                        fullFilter();
+                    }
+                });
+        fullFilter();
     }
 
 //    private ObservableList<Product> getInitialOffTableData() {
@@ -82,51 +99,24 @@ public class ProductsPage {
     private void checkBoxForFilter() {
         int i = 0;
         int y = 43;
-        HashSet tags = new HashSet();
-        for (Product product : Product.getAllProducts()) {
-            for (String tag : product.getTags()) {
-                if (tags.contains(tag)) {
-                    continue;
-                }
-                CheckBox checkBox = new CheckBox(tag);
-                checkBox.setLayoutX(i);
-                i += 50;
-                checkBox.setLayoutY(y);
-                mainAnchorPane.getChildren().add(checkBox);
-                tags.add(tag);
-                checkBox.setOnAction(e -> tagsActivate(checkBox));
-                if(i >= 300){
-                    i = 0;
-                    y += 20;
-                }
-            }
-        }
+        TagCheckBoxInitialize tagCheckBoxInitialize = new TagCheckBoxInitialize(i, y).invoke();
+        y = tagCheckBoxInitialize.getY();
+        HashSet tags = tagCheckBoxInitialize.getTags();
         i = 0;
         y += 40;
-        for (Product product : Product.getAllProducts()) {
-            for (String tag : product.getCategoryTags()) {
-                if (tags.contains(tag)) {
-                    continue;
-                }
-                Category category;
-                CheckBox checkBox;
-                if((category = Category.getCategoryByName(tag)) == null){
-                     checkBox = new CheckBox("catgory :" + tag + "subcat" + category.getSubCategories() + "tags" + category.getTags());
-                }else {
-                    checkBox = new CheckBox("catgory :" + tag);
-                }
-                checkBox.setLayoutX(i);
-                i += 50;
-                checkBox.setLayoutY(y);
-                mainAnchorPane.getChildren().add(checkBox);
-                tags.add(tag);
-                checkBox.setOnAction(e -> tagsActivate(checkBox));
-                if(i >= 300){
-                    i = 0;
-                    y += 20;
-                }
+        categoryCheckBoxInitialize(i, y, tags);
+        for (Product product : allProduct) {
+            CheckBox checkBox = new CheckBox(product.getCategory());
+            checkBox.setLayoutX(i);
+            checkBox.setLayoutY(y);
+            i += 50;
+            checkBox.setOnAction(e -> tagsActivate(checkBox));
+            if(i >= 300){
+                i = 0;
+                y += 20;
             }
         }
+
         CheckBox checkBox = new CheckBox("show offs");
         checkBox.setLayoutY(317);
         checkBox.setLayoutX(10);
@@ -134,8 +124,75 @@ public class ProductsPage {
         checkBox.setOnAction(e -> activeOff());
         offCheckBox = checkBox;
         offCheckBox.setSelected(calledFromOff);
-        activeOff();
+        CheckBox checkBox1 = new CheckBox("show available");
+        available = checkBox1;
+        checkBox1.setLayoutY(300);
+        checkBox1.setLayoutX(10);
+        mainAnchorPane.getChildren().add(checkBox1);
+        checkBox1.setOnAction(e -> activeAvailable(checkBox1));
+    }
 
+    private void activeAvailable( CheckBox checkBox) {
+        if(checkBox.isSelected()){
+            ArrayList temp = new ArrayList<>(allProduct);
+            for (Product product : allProduct) {
+                if(product.getAmountOfExist() <= 0){
+                    temp.remove(product);
+                }
+            }
+            allProduct = temp;
+        }else{
+            allProduct.clear();
+            if(offCheckBox.isSelected()){
+                allProduct = new ArrayList<>(getOffsProduct());
+            }else{
+                allProduct = new ArrayList<>(Product.getAllProducts());
+            }
+        }
+        sortAction();
+    }
+
+    private void categoryCheckBoxInitialize(int i, int y, HashSet tags) {
+        for (Product product : Product.getAllProducts()) {
+                if (tags.contains(product.getCategory())) {
+                    continue;
+                }
+                Category category;
+                CheckBox checkBox;
+                if((category = Category.getCategoryByName(product.getCategory())) == null){
+                     checkBox = new CheckBox("catgory :" + product.getCategory() + "subcat" + category.getSubCategories() + "tags" + category.getTags());
+                }else {
+                    checkBox = new CheckBox("catgory :" + product.getCategory());
+                }
+                checkBox.setLayoutX(i);
+                i += 50;
+                checkBox.setLayoutY(y);
+                mainAnchorPane.getChildren().add(checkBox);
+                tags.add(product.getCategory());
+                checkBox.setOnAction(e -> categoryActive(category.getName(), checkBox));
+                if(i >= 300) {
+                    i = 0;
+                    y += 20;
+                }
+        }
+    }
+
+    private void categoryActive(String catName, CheckBox checkBox) {
+        System.out.println(catName);
+        Category category = Category.getCategoryByName(catName);
+        if(category == null || category.getTags() == null){
+            return;
+        }
+        if(checkBox.isSelected()){
+            for (String categoryTag : category.getTags()) {
+                filters.add(categoryTag);
+            }
+        }else{
+            for (String categoryTag : category.getTags()) {
+                filters.remove(categoryTag);
+            }
+        }
+        fullFilter();
     }
 
     private void activeOff() {
@@ -150,7 +207,7 @@ public class ProductsPage {
             allProduct.clear();
             allProduct.addAll(Product.getAllProducts());
         }
-        sortAction();
+        fullFilter();
     }
 
     private void tagsActivate(CheckBox checkBox) {
@@ -161,31 +218,7 @@ public class ProductsPage {
         } else {
             filters.remove(checkBox.getText());
         }
-        resetFilter();
-    }
-
-    private void resetFilter() {
-        if (offCheckBox.isSelected()) {
-            ArrayList<Product> temp = new ArrayList<>(getOffsProduct());
-            getFilters(temp);
-            return;
-        }
-        ArrayList<Product> temp = new ArrayList<>(Product.getAllProducts());
-        getFilters(temp);
-        setTable();
-    }
-
-    private void getFilters(ArrayList<Product> temp) {
-        for (Product product : Product.getAllProducts()) {
-            for (String filter : filters) {
-                if (!product.getTags().contains(filter)) {
-                    temp.remove(product);
-                }
-            }
-        }
-        allProduct.clear();
-        allProduct.addAll(temp);
-        setTable();
+        fullFilter();
     }
 
     private void setTable() {
@@ -211,7 +244,6 @@ public class ProductsPage {
     }
 
     public void sortAction() {
-        resetFilter();
         if (sortList.getSelectionModel().getSelectedItem() == null) {
             allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
         } else {
@@ -287,5 +319,84 @@ public class ProductsPage {
                     break;
             }
         }
+    }
+
+    private class TagCheckBoxInitialize {
+        private int i;
+        private int y;
+        private HashSet tags;
+
+        public TagCheckBoxInitialize(int i, int y) {
+            this.i = i;
+            this.y = y;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public HashSet getTags() {
+            return tags;
+        }
+
+        public TagCheckBoxInitialize invoke() {
+            tags = new HashSet();
+            for (Product product : Product.getAllProducts()) {
+                for (String tag : product.getTags()) {
+                    if (tags.contains(tag)) {
+                        continue;
+                    }
+                    CheckBox checkBox = new CheckBox(tag);
+                    checkBox.setLayoutX(i);
+                    i += 50;
+                    checkBox.setLayoutY(y);
+                    mainAnchorPane.getChildren().add(checkBox);
+                    tags.add(tag);
+                    checkBox.setOnAction(e -> tagsActivate(checkBox));
+                    if(i >= 300){
+                        i = 0;
+                        y += 20;
+                    }
+                }
+            }
+            return this;
+        }
+    }
+
+    private void fullFilter(){
+        //reset all product
+        if(offCheckBox.isSelected()){
+            allProduct = new ArrayList<>(getOffsProduct());
+        }else{
+            allProduct = new ArrayList<>(Product.getAllProducts());
+        }
+        //cost check
+        ArrayList temp = new ArrayList<>(allProduct);
+        for (Product product : allProduct) {
+            if(product.getCost() > slider.getValue()){
+                temp.remove(product);
+            }
+        }
+        allProduct = new ArrayList<>(temp);
+        //tag check
+        ArrayList temp1 = new ArrayList(allProduct);
+        for (Product product : allProduct) {
+            for (String filter : filters) {
+                if(!product.getTags().contains(filter)){
+                    temp1.remove(product);
+                    break;
+                }
+            }
+        }
+        allProduct = new ArrayList<>(temp1);
+        //available filter
+        if(available.isSelected()){
+            ArrayList temp2 = new ArrayList(allProduct);
+            for (Product product : allProduct) {
+                if(product.getAmountOfExist() <= 0)
+                    temp2.remove(product);
+            }
+        }
+        sortAction();
     }
 }
