@@ -9,6 +9,15 @@ import javafx.scene.control.*;
 public class ProductPage {
     public TableColumn userComment;
     public TableColumn name;
+    public Label productName;
+    public Label cost;
+    public Label company;
+    public Label averageScore;
+    public Label description;
+    public Label exist;
+    public Label category;
+    public TextField commentField;
+    public TextField nameField;
 
     static class Comments{
         String name;
@@ -73,5 +82,7 @@ public class ProductPage {
             }
         }
         sellers = new MenuButton("sellers", null, menuItems);
+        productName.setText(product.getName());
+
     }
 }

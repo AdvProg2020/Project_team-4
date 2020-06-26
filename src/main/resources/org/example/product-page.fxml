@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-
+<?import javafx.scene.layout.HBox?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductPage">
     <TextField fx:id="score" layoutX="300" layoutY="200" onAction="#addScore" text="score 1-5" />
     <Button fx:id="addButton" layoutX="300" layoutY="175" onAction="#addToCart" text="add to cart" />
@@ -17,17 +17,39 @@
             <TableColumn fx:id="userComment" text="comment" prefWidth="125">
             </TableColumn>
         </columns>
-        <items>
-        </items>
         <sortOrder>
             <fx:reference source="name"/>
         </sortOrder>
     </TableView>
     <VBox spacing="10" alignment="bottom_right" layoutX="400" layoutY="300">
-        <TextField fx:id="firstNameField" promptText="name"
+        <TextField fx:id="nameField" promptText="name"
                    prefWidth="150"/>
-        <TextField fx:id="lastNameField" promptText="comment" alignment="CENTER"
+        <TextField fx:id="commentField" promptText="comment" alignment="CENTER"
                    prefWidth="150" prefHeight="200"/>
         <Button text="Add" onAction="#addComment"/>
     </VBox>
+    <HBox layoutY="400" layoutX="20">
+        <VBox prefWidth="100">
+            <Label text="name: "/>
+            <Label text="cost: "/>
+            <Label text="company: "/>
+            <Label text="average score: "/>
+            <Label text="inventory: "/>
+            <Label text="category: "/>
+            <Label text="description: "/>
+        </VBox>
+        <VBox>
+            <Label fx:id="productName" text="shoe"/>
+            <Label fx:id="cost" text="80 000"/>
+            <Label fx:id="company" text="melli"/>
+            <Label fx:id="averageScore" text="4.5"/>
+            <Label fx:id="description" text="very well"/>
+            <Label fx:id="exist" text="23"/>
+            <Label fx:id="category" text="accessories"/>
+        </VBox>
+    </HBox>
+
+
+
+
 </AnchorPane>
