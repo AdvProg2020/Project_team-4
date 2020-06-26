@@ -24,7 +24,7 @@ public class ProductPage {
     public Button addButton;
     public MenuButton sellers;
     public MenuItem[] menuItems;
-    public static Product product;
+    private static Product product;
     public Alert alert;
 
     public static void setProduct(Product product) {
@@ -39,6 +39,7 @@ public class ProductPage {
         Controller.getOurController().newComment(commentField.getText());
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
+        alert.show();
     }
 
     public void addScore() {
@@ -46,13 +47,13 @@ public class ProductPage {
     }
 
     public void initialize(){
-        menuItems = new MenuItem[product.getSellers().size()];
-        for (int i = 0; i < product.getSellers().size(); i++) {
-            for (String seller : product.getSellers()) {
-                menuItems[i].setText(seller);
-            }
-        }
-        sellers = new MenuButton("sellers", null, menuItems);
+//        menuItems = new MenuItem[product.getSellers().size()];
+//        for (int i = 0; i < product.getSellers().size(); i++) {
+//            for (String seller : product.getSellers()) {
+//                menuItems[i].setText(seller);
+//            }
+//        }
+//        sellers = new MenuButton("sellers", null, menuItems);
         productName.setText(product.getName());
         cost.setText(String.valueOf(product.getCost()));
         company.setText(product.getCompany());
@@ -65,6 +66,6 @@ public class ProductPage {
                 comments[i].setText(String.valueOf(productComment));
             }
         }
-        commentsVBox = new VBox(comments);
+//        commentsVBox = new VBox(comments);
     }
 }

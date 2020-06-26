@@ -204,9 +204,10 @@ public class ProductsPage {
     }
 
 
-    public void seeProduct(ActionEvent actionEvent) {
+    public void seeProduct(ActionEvent actionEvent) throws IOException {
         //here we should call productpage with Product
-        System.out.println(table.getSelectionModel().getSelectedItem());
+        ProductPage.setProduct((Product) table.getSelectionModel().getSelectedItems().get(0));
+        App.setRoot("product-page");
     }
 
     public void sortAction() {

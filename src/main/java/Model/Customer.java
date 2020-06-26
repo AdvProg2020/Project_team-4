@@ -1,6 +1,7 @@
 package Model;
 
 import Control.Controller;
+import org.example.Cart;
 
 
 import java.time.LocalDateTime;
@@ -74,13 +75,21 @@ public class Customer extends Account {
     }
 
     public int addProductToCart(String product) {
+        System.out.println(cart);
         if(Product.getProductWithBarcode(product).isExistsOrNot()){
             Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
-            cart.put(product, cart.get(product) + 1); // maybe need edition
+
+            if(cart.get(product) != null) {
+                cart.replace(product, cart.get(product) + 1);
+            } else{
+                cart.put(product, 1);
+            }
             SaveAndLoad.getSaveAndLoad().saveGenerally();
+            System.out.println(cart);
             return 1;
         }
         else{
+            System.out.println("raft too");
             return 0;
         }
     }
