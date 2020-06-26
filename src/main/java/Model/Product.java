@@ -314,7 +314,7 @@ public class Product extends SaveAble {
     }
 
     public void setCategoryTags(ArrayList<String> categoryTags) {
-        this.categoryTags.addAll(categoryTags);
+        this.tags.addAll(categoryTags);
     }
 
 

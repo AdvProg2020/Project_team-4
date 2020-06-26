@@ -47,6 +47,7 @@ public class ProductPage {
     }
 
     public void addToCart() {
+
         Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
     }
 
@@ -81,6 +82,7 @@ public class ProductPage {
             }
             for (MenuItem menuItem : menuItems) {
                 sellers.getItems().add(menuItem);
+
                 menuItem.setOnAction(event -> Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText()));
             }
 

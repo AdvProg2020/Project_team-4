@@ -17,7 +17,6 @@
             </columns>
         </TableView>
         <Button fx:id="removeButton" layoutX="573.0" layoutY="285.0" mnemonicParsing="false" onAction="#remove" text="remove" />
-        <TextField fx:id="descriptionField" layoutX="18.0" layoutY="285.0" prefHeight="25.0" prefWidth="234.0" promptText="description" />
         <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
     </children>
 </AnchorPane>

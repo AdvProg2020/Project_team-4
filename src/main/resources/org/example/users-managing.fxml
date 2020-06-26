@@ -7,7 +7,7 @@
     <children>
         <TableView fx:id="table" layoutX="7.0" layoutY="9.0" prefHeight="286.0" prefWidth="590.0">
             <columns>
-                <TableColumn fx:id="userName" editable="false" prefWidth="75.0" text="OffCode barcode" />
+                <TableColumn fx:id="userName" editable="false" prefWidth="75.0" text="userName" />
             </columns>
         </TableView>
         <TextField fx:id="user" layoutX="7.0" layoutY="305.0" prefHeight="25.0" prefWidth="68.0" promptText="userName" />
