@@ -10,13 +10,13 @@ public class Seller extends Account {
     protected String companyName;
 
     private ArrayList<History> sellHistory;
-    private ArrayList<String> sellingProducts;
+//    private ArrayList<String> sellingProducts;
     private ArrayList<String> offs;
 
     public Seller(String userName, String passWord) {
         super(userName, passWord);
         this.sellHistory = new ArrayList<History>();
-        this.sellingProducts = new ArrayList<>();
+//        this.sellingProducts = new ArrayList<>();
         this.offs = new ArrayList<>();
         this.history = new ArrayList<>();
         this.products = new ArrayList<>();
@@ -32,9 +32,9 @@ public class Seller extends Account {
         this.sellHistory.add(soldProduct);
     }
 
-    public void setSellingProducts(ArrayList<String> sellingProducts) {
-        this.sellingProducts = sellingProducts;
-    }
+//    public void setSellingProducts(ArrayList<String> sellingProducts) {
+//        this.sellingProducts = sellingProducts;
+//    }
 
     public void sendEditProductRequest() {
         /*Manager.receive();*/
@@ -79,7 +79,7 @@ public class Seller extends Account {
                 ", products=" + products +
                 ", companyName='" + companyName + '\'' +
                 ", sellHistory=" + sellHistory +
-                ", sellingProducts=" + sellingProducts +
+//                ", sellingProducts=" + sellingProducts +
                 ", offs=" + offs +
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +

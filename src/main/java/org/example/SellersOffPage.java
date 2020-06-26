@@ -39,11 +39,11 @@ public class SellersOffPage implements Initializable {
         if (checkInfoEntrance())return;
         ArrayList<String> productsNames = new ArrayList<>();
         for (String name: productsField.getText().trim().split(" ")) {
-            if (Product.getProductWithBarcode(name) != null) {
+            if (Product.getProductWithName(name) != null) {
                 productsNames.add(name);
             }
         }
-        Controller.getOurController().createOrEditOffRequest(productsNames, startDateField.getText().trim(), endDateField.getText().trim(), Integer.parseInt(offAmountField.getText().trim()));
+        Controller.getOurController().createOrEditOffRequest(productsNames, startDateField.getText().trim(), endDateField.getText().trim(), Integer.parseInt(offAmountField.getText().trim()), barcodeField.getText().trim());
     }
 
     private boolean checkInfoEntrance() {
@@ -78,11 +78,7 @@ public class SellersOffPage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getEditAbleTextFields();
-        ArrayList<String> offsNames = new ArrayList(((Seller)Controller.getOurController().getLoggedInAccount()).getOffs());
-        ArrayList<Off> offs = new ArrayList<>();
-        for (String name: offsNames) {
-            offs.add(Off.getOffByBarcode(name));
-        }
+        ArrayList<Off> offs = new ArrayList(Off.getAllOffs());
         ObservableList<Off> observableList = FXCollections.observableArrayList(offs);
 
         barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("OffBarcode"));
