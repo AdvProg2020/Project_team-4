@@ -12,7 +12,7 @@ public class PrimaryController {
     private void switchToAccountSection() throws IOException {
         if (Controller.getOurController().getLoggedInAccount() == null) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("product-page");
+            App.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
