@@ -21,11 +21,11 @@ public class ProductPage {
     public Label description;
     public Label exist;
     public Label category;
-    public Label[] comments;
+    public ArrayList<Label> comments;
     public TextField score;
     public TextField commentField;
     public TextField nameField;
-    public VBox commentsVBox;
+    public VBox commentsVBox = new VBox();
     public Button addButton;
     public MenuButton sellers;
     public ArrayList<MenuItem> menuItems;
@@ -43,7 +43,7 @@ public class ProductPage {
     }
 
     public void addComment() {
-        Controller.getOurController().newComment(commentField.getText());
+        Controller.getOurController().newComment(commentField.getText(), product);
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
         alert.show();
@@ -51,9 +51,14 @@ public class ProductPage {
 
     public void addScore() {
         product.setAverageScore(Integer.parseInt(score.getText()));
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Successfully scored.");
+        alert.show();
     }
 
     public void initialize() {
+        commentsVBox.setLayoutX(400);
+        commentsVBox.setLayoutY(500);
         if (product.getSellers() != null) {
             menuItems = new ArrayList<>();
             for (String seller : product.getSellers()) {
@@ -74,12 +79,15 @@ public class ProductPage {
         exist.setText(String.valueOf(product.getAmountOfExist()));
         category.setText(product.getCategory());
         for (Comment productComment : product.getComments()) {
-            for (int i = 0; i < product.getComments().size(); i++) {
-                comments[i].setText(String.valueOf(productComment));
+            Label l = new Label();
+            l.setText(String.valueOf(productComment));
+            comments.add(l);
+        }
+        if (comments != null){
+            for (Label comment : comments) {
+                commentsVBox.getChildren().add(comment);
             }
         }
-        if (comments != null)
-            commentsVBox = new VBox(comments);
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
