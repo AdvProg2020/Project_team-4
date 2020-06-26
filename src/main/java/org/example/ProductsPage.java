@@ -205,7 +205,6 @@ public class ProductsPage {
 
 
     public void seeProduct(ActionEvent actionEvent) throws IOException {
-        //here we should call productpage with Product
         ProductPage.setProduct((Product) table.getSelectionModel().getSelectedItems().get(0));
         App.setRoot("product-page");
     }

@@ -54,6 +54,10 @@ public class Product extends SaveAble {
 //    private Image image;
 
 
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
+
     public String getRemainTime() {
         LocalDate localDate = LocalDate.now();
         String str = endTime;
@@ -79,6 +83,10 @@ public class Product extends SaveAble {
 
     public static int getGiveId() {
         return giveId;
+    }
+
+    public void setSeen(int seen) {
+        this.seen += seen;
     }
 
     public int getSeen() {
@@ -328,10 +336,9 @@ public class Product extends SaveAble {
 
     public void setAverageScore(int newScore) {
         int lastAverage = this.averageScore;
-        this.averageScore = (lastAverage*scoreNo + newScore)/(scoreNo + 1);
+        this.averageScore = (lastAverage * scoreNo + newScore)/(scoreNo + 1);
         this.scoreNo += 1;
     }
-
 
     public void setName(String name) {
         this.name = name;

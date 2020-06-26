@@ -4,8 +4,18 @@ package org.example;
 import Control.Controller;
 import Model.Comment;
 import Model.Product;
+import Model.SaveAndLoad;
+import View.Menu.Menu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ProductPage {
 
@@ -16,16 +26,21 @@ public class ProductPage {
     public Label description;
     public Label exist;
     public Label category;
-    public Label[] comments;
+    public ArrayList<Comment> comments = new ArrayList<>();
     public TextField score;
     public TextField commentField;
     public TextField nameField;
-    public VBox commentsVBox;
+    public VBox commentsVBox = new VBox();
     public Button addButton;
     public MenuButton sellers;
-    public MenuItem[] menuItems;
+    public ArrayList<MenuItem> menuItems;
+    public MenuItem example;
     private static Product product;
     public Alert alert;
+    public Button backButton;
+    public TableColumn <Comment, String> commentsColumn;
+    public TableColumn <Comment, String>nameColumn;
+    public TableView <Comment> commentsTable;
 
     public static void setProduct(Product product) {
         ProductPage.product = product;
@@ -36,24 +51,40 @@ public class ProductPage {
     }
 
     public void addComment() {
-        Controller.getOurController().newComment(commentField.getText());
+        Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully added.");
         alert.show();
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void addScore() {
         product.setAverageScore(Integer.parseInt(score.getText()));
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Successfully scored.");
+        alert.show();
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void initialize(){
-//        menuItems = new MenuItem[product.getSellers().size()];
-//        for (int i = 0; i < product.getSellers().size(); i++) {
-//            for (String seller : product.getSellers()) {
-//                menuItems[i].setText(seller);
-//            }
-//        }
-//        sellers = new MenuButton("sellers", null, menuItems);
+    public void initialize() {
+        product.setSeen(1);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        comments = new ArrayList<>();
+        commentsVBox.setLayoutX(400);
+        commentsVBox.setLayoutY(500);
+        if (product.getSellers() != null) {
+            menuItems = new ArrayList<>();
+            for (String seller : product.getSellers()) {
+                    MenuItem mi = new MenuItem();
+                    mi.setText(seller);
+                    menuItems.add(mi);
+            }
+            for (MenuItem menuItem : menuItems) {
+                sellers.getItems().add(menuItem);
+                menuItem.setOnAction(event -> Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText()));
+            }
+
+        }
         productName.setText(product.getName());
         cost.setText(String.valueOf(product.getCost()));
         company.setText(product.getCompany());
@@ -61,11 +92,18 @@ public class ProductPage {
         description.setText(product.getDescription());
         exist.setText(String.valueOf(product.getAmountOfExist()));
         category.setText(product.getCategory());
-        for (Comment productComment : product.getComments()) {
-            for (int i = 0; i < product.getComments().size(); i++) {
-                comments[i].setText(String.valueOf(productComment));
-            }
+        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
+        ArrayList<Product> products = Product.getAllProducts();
+        for (Product product1 : products) {
+            comments.addAll(product1.getComments());
+
         }
-//        commentsVBox = new VBox(comments);
+        ObservableList<Comment> obsrvlstComment = FXCollections.observableArrayList(comments);
+        commentsTable.setItems(obsrvlstComment);
+    }
+
+    public void back(ActionEvent actionEvent) throws IOException {
+        App.setRoot("ProductsPage");
     }
 }
