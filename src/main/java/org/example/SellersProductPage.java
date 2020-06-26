@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 
 public class SellersProductPage implements Initializable {
     public TextField descriptionField;
+    public TableColumn<Product, String> byersColumn;
     ArrayList<TextField> textFields = new ArrayList<>();
 
     public TableView<Product> table;
@@ -39,6 +40,11 @@ public class SellersProductPage implements Initializable {
     public Button removeButton;
 
     public void edit(ActionEvent actionEvent) {
+        if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && Product.getProductWithBarcode(nameField.getText().trim()) != null) {
+            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Seller)(Controller.getOurController().getLoggedInAccount())).getUserName());
+            ((Seller) Controller.getOurController().getLoggedInAccount()).setProducts(nameField.getText().trim());
+            return;
+        }
         if (checkInfoEntrance())return;
         ArrayList<String> tagsArray = new ArrayList<>();
         for (String tag: tagsField.getText().trim().split(" ")) {
@@ -103,6 +109,7 @@ public class SellersProductPage implements Initializable {
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
         tagsColumn.setCellValueFactory(new PropertyValueFactory<>("Tags"));
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("Company"));
+        byersColumn.setCellValueFactory(new PropertyValueFactory<>("Byers"));
 
 
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

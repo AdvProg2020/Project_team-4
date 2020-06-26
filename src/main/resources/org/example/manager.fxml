@@ -56,5 +56,6 @@
         <Button fx:id="categoriesManaging" onAction="#goToCategoriesPage" mnemonicParsing="false" text="categoriesManaging" GridPane.rowIndex="10" GridPane.columnIndex="12"/>
         <Button onAction="#logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="10" GridPane.columnIndex="13"/>
         <Button onAction="#gotToMainPage" mnemonicParsing="false" text="main" GridPane.rowIndex="10" GridPane.columnIndex="14"/>
+        <Button onAction="#gotToProductsPage" mnemonicParsing="false" text="products" GridPane.rowIndex="10" GridPane.columnIndex="15"/>
     </children>
 </GridPane>

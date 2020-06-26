@@ -161,4 +161,8 @@ public class Seller implements Initializable {
     public void goToMainPage(ActionEvent actionEvent) throws IOException {
         App.setRoot("main");
     }
+
+    public void goToCategoryPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("sellers-category-page");
+    }
 }

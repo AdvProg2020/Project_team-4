@@ -29,6 +29,10 @@ public class Product extends SaveAble {
         return null;
     }
 
+    public void setByers(String userName) {
+        this.byers.add(userName);
+    }
+
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED
@@ -116,8 +120,9 @@ public class Product extends SaveAble {
         giveId++;
     }
 
-    public void setSellers(ArrayList<String> sellers) {
-        this.sellers = sellers;
+    public void setSellers(String sellers) {
+        this.sellers.add(sellers);
+        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     //    public Image getImage() {
@@ -171,8 +176,8 @@ public class Product extends SaveAble {
         return productBarcode;
     }
 
-    public ArrayList<String> getByers() {
-        return byers;
+    public String getByers() {
+        return byers.toString();
     }
 
     public String getCompany() {
