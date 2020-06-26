@@ -55,6 +55,7 @@ public class ProductsPage {
                 max = product.getCost();
         }
         slider.setMax(max + 20);
+        slider.setValue(max + 20);
         slider.valueProperty().addListener(
                 new ChangeListener<Number>() {
                     public void changed(ObservableValue<? extends Number > observable, Number oldValue, Number newValue)
@@ -154,18 +155,21 @@ public class ProductsPage {
 
     private void categoryCheckBoxInitialize(int i, int y, HashSet tags) {
         for (Product product : Product.getAllProducts()) {
+            if (product.getCategory() == null) {
+                continue;
+            }
                 if (tags.contains(product.getCategory())) {
                     continue;
                 }
                 Category category;
                 CheckBox checkBox;
-                if((category = Category.getCategoryByName(product.getCategory())) == null){
+                if((category = Category.getCategoryByName(product.getCategory())) != null && product.getCategory() !=null){
                      checkBox = new CheckBox("catgory :" + product.getCategory() + "subcat" + category.getSubCategories() + "tags" + category.getTags());
-                }else {
+                }else{
                     checkBox = new CheckBox("catgory :" + product.getCategory());
                 }
                 checkBox.setLayoutX(i);
-                i += 50;
+                i += 500;
                 checkBox.setLayoutY(y);
                 mainAnchorPane.getChildren().add(checkBox);
                 tags.add(product.getCategory());
@@ -184,12 +188,16 @@ public class ProductsPage {
             return;
         }
         if(checkBox.isSelected()){
-            for (String categoryTag : category.getTags()) {
-                filters.add(categoryTag);
+            for (String categoryTag : category.getTags().substring(category.getTags().indexOf("[") +1, category.getTags().lastIndexOf("]")).split(",")) {
+//                System.out.println(categoryTag);
+//                categoryTag = categoryTag.substring(categoryTag.indexOf("\""), categoryTag.lastIndexOf("\""));
+//                System.out.println(categoryTag);
+                filters.add(categoryTag.trim());
             }
         }else{
-            for (String categoryTag : category.getTags()) {
-                filters.remove(categoryTag);
+            for (String categoryTag : category.getTags().substring(category.getTags().indexOf("[") +1, category.getTags().lastIndexOf("]")).split(",")) {
+//                categoryTag = categoryTag.substring(categoryTag.indexOf("\""), categoryTag.lastIndexOf("\""));
+                filters.remove(categoryTag.trim());
             }
         }
         fullFilter();

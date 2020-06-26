@@ -8,7 +8,7 @@ public class Category extends SaveAble {
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private String name;
     private ArrayList<String> tags;
-    private ArrayList<String> subCategories;
+    private ArrayList<String> subCategories = new ArrayList<>();
     private ArrayList<String> products;
 
     public Category(String name, ArrayList<String> tags, ArrayList<String> products, ArrayList<String> subCategories) {
@@ -20,6 +20,7 @@ public class Category extends SaveAble {
         this.subCategories = subCategories;
         this.products = products;
         for (String product: products) {
+            System.out.println(Product.getProductWithBarcode(product));
             Product.getProductWithBarcode(product).setCategoryTags(tags);
         }
         allCategories.add(this);
@@ -49,8 +50,8 @@ public class Category extends SaveAble {
         return name;
     }
 
-    public ArrayList<String> getTags() {
-        return tags;
+    public String getTags() {
+        return tags.toString();
     }
 
     public String getSubCategories() {
