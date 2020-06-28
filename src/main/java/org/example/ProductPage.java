@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -39,8 +40,26 @@ public class ProductPage {
     public Alert alert;
     public Button backButton;
     public TableColumn <Comment, String> commentsColumn;
-    public TableColumn <Comment, String>nameColumn;
+    public TableColumn <Comment, String> nameColumn;
     public TableView <Comment> commentsTable;
+    public ImageView productImage;
+    public Button scoreButton;
+    public Button replayButton;
+    public Button commentButton;
+    public TableView <Product> similarProduct;
+    public Label newCommentLabel;
+    public Button compareButton;
+    public TableView <Product> descriptionTable;
+    public TableColumn <Product, String> productNameColumn;
+    public TableColumn <Product, String> companyColumn;
+    public TableColumn <Product, String> costColumn;
+    public TableColumn <Product, String> averageScoreColumn;
+    public TableColumn <Product, String> inventoryColumn;
+    public TableColumn <Product, String> categoryColumn;
+    public TableColumn <Product, String> replayColumn;
+    public TableColumn <Product, String> rateColumn;
+    public TableColumn <Product, String> descriptionColumn;
+    public TableColumn <Product, String> existColumn;
 
     public static void setProduct(Product product) {
         ProductPage.product = product;
@@ -57,6 +76,7 @@ public class ProductPage {
         alert.setContentText("Successfully added.");
         alert.show();
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+        initializeCommentTable();
     }
 
     public void addScore() {
@@ -94,18 +114,23 @@ public class ProductPage {
         description.setText(product.getDescription());
         exist.setText(String.valueOf(product.getAmountOfExist()));
         category.setText(product.getCategory());
-        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
-        ArrayList<Product> products = Product.getAllProducts();
-        for (Product product1 : products) {
-            comments.addAll(product1.getComments());
-
-        }
-        ObservableList<Comment> obsrvlstComment = FXCollections.observableArrayList(comments);
-        commentsTable.setItems(obsrvlstComment);
+        initializeCommentTable();
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
         App.setRoot("ProductsPage");
+    }
+
+    public void initializeCommentTable(){
+        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
+        ArrayList<Product> products = Product.getAllProducts();
+        comments.clear();
+        for (Product product1 : products) {
+            comments.addAll(product1.getComments());
+        }
+        ObservableList<Comment> observeListComment = FXCollections.observableArrayList(comments);
+        commentsTable.getItems().clear();
+        commentsTable.setItems(observeListComment);
     }
 }

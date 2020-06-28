@@ -19,12 +19,16 @@ public class Comment extends SaveAble {
     }
 
     public String getCommentingAccount() {
-        return commentingAccount;
+        if (Account.getAccountWithName(commentingAccount).getFirstName() == null || Account.getAccountWithName(commentingAccount).getLastName() == null)
+            return commentingAccount;
+        else
+            return Account.getAccountWithName(commentingAccount).getFullName();
     }
 
     private enum commentStatus {
         PROCESS, APPROVED, REJECTED
     }
+
     private boolean boughtTheProductOrNot;
 
     public Comment(String commentingAccount, String product, String commentText, boolean boughtTheProductOrNot) {
@@ -39,7 +43,7 @@ public class Comment extends SaveAble {
         return commentBarcode;
     }
 
-    public boolean hasBoughtTheProductOrNot (String customer) {
+    public boolean hasBoughtTheProductOrNot(String customer) {
         return false;
     }
 
