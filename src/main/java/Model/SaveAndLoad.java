@@ -21,14 +21,14 @@ public class SaveAndLoad {
     }
 
 
-    public void writeJSON(Object object, String classType, String name){
+    public void writeJSON(Object object, String classType, String name) {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            FileWriter writer = new FileWriter(String.valueOf(  classType + "\\" + name));
+            FileWriter writer = new FileWriter(String.valueOf(classType + "\\" + name));
             writer.write(gson.toJson(object));
             writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
@@ -84,7 +84,8 @@ public class SaveAndLoad {
 
 
     public void saveGenerally() {
-        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString(), Controller.getOurController().getLoggedInAccount().getUserName());
+        if (Controller.getOurController().getLoggedInAccount() != null)
+            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString(), Controller.getOurController().getLoggedInAccount().getUserName());
         SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class.toString(), "allCategories");
         SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class.toString(), "allOffCodes");
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
