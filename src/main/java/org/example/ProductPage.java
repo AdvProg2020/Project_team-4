@@ -107,7 +107,6 @@ public class ProductPage {
             }
             for (MenuItem menuItem : menuItems) {
                 sellers.getItems().add(menuItem);
-                menuItem.setStyle("-fx-border-radius: 10px; -fx-background-radius: 10px; ");
                 menuItem.setOnAction(event -> Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText()));
             }
 
