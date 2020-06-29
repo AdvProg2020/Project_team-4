@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane stylesheets="@LoginPage.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.LoginCreate">
+   <center>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="268.0" spacing="10">
+         <Button mnemonicParsing="false" onAction="#goToMainPage" text="Main" />
+         <Button fx:id="logoutButton" disable="true" mnemonicParsing="false" text="logout" />
+         <Label alignment="CENTER" prefHeight="17.0" prefWidth="325.0" text="Login" BorderPane.alignment="CENTER" />
+         <TextField fx:id="userLogin" alignment="CENTER" prefHeight="25.0" prefWidth="3.0" promptText="username" />
+         <PasswordField fx:id="passLogin" alignment="CENTER" prefHeight="30.0" prefWidth="3.0" promptText="pass" />
+         <Button fx:id="loginButton" mnemonicParsing="false" text="Login" />
+      </VBox>
+   </center>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="429.0" prefWidth="139.0" spacing="10">
+         <Label text="Create customer account" BorderPane.alignment="CENTER" />
+         <TextField fx:id="userSign" promptText="username" />
+         <PasswordField fx:id="passSign" promptText="password">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </PasswordField>
+         <Button fx:id="createButton" mnemonicParsing="false" onAction="#createCustomer" text="Sign up" />
+      </VBox>
+   </left>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="238.0" spacing="10">
+         <Label text="Create seller account" BorderPane.alignment="CENTER" />
+         <TextField fx:id="userReq" alignment="TOP_LEFT" promptText="username" />
+         <PasswordField fx:id="passReq" alignment="TOP_LEFT" prefWidth="176.0" promptText="password" />
+         <Button fx:id="reqButton" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Send request" />
+      </VBox>
+   </right>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <top>
+      <Separator prefHeight="117.0" prefWidth="1000.0" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>

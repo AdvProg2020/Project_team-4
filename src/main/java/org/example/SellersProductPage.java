@@ -11,9 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import Control.Controller;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -21,7 +23,9 @@ import java.util.ResourceBundle;
 public class SellersProductPage implements Initializable {
     public TextField descriptionField;
     public TableColumn<Product, String> byersColumn;
+    public Label pictureStatus;
     ArrayList<TextField> textFields = new ArrayList<>();
+    File imageFile = null;
 
     public TableView<Product> table;
     public TableColumn<Product, String> nameColumn;
@@ -40,9 +44,11 @@ public class SellersProductPage implements Initializable {
     public Button removeButton;
 
     public void edit(ActionEvent actionEvent) {
+        pictureStatus.setText("no picture");
         if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && Product.getProductWithBarcode(nameField.getText().trim()) != null) {
             Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Seller)(Controller.getOurController().getLoggedInAccount())).getUserName());
             ((Seller) Controller.getOurController().getLoggedInAccount()).setProducts(nameField.getText().trim());
+            imageFile = null;
             return;
         }
         if (checkInfoEntrance())return;
@@ -51,6 +57,7 @@ public class SellersProductPage implements Initializable {
             tagsArray.add(tag);
         }
         Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getLoggedInAccount().getUserName());
+        copyImage(nameField.getText());
     }
 
     public void remove(ActionEvent actionEvent) {
@@ -147,5 +154,41 @@ public class SellersProductPage implements Initializable {
         tagsField.setText(String.valueOf(Product.getProductWithBarcode(name).getTags()));
         descriptionField.setText(String.valueOf(Product.getProductWithBarcode(name).getDescription()));
 
+    }
+
+
+    private void copyImage(String productBarcode) {
+        if(imageFile == null){
+            return;
+        }
+        try {
+            FileInputStream in = new FileInputStream(imageFile);
+            FileOutputStream out = new FileOutputStream("Image\\" + productBarcode + ".png");
+            CopyFile(in, out);
+            imageFile = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void CopyFile(FileInputStream in, FileOutputStream out) throws IOException {
+        BufferedInputStream bin = new BufferedInputStream(in);
+        BufferedOutputStream bout = new BufferedOutputStream(out);
+        int b = 0;
+        while (b != -1){
+            b = bin.read();
+            bout.write(b);
+        }
+        bin.close();
+        bout.close();
+    }
+
+    public void addPicture(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("img files (*.png)", "*.png"));
+        imageFile = fileChooser.showOpenDialog(App.getStage());
+        if(imageFile != null){
+            pictureStatus.setText("picture saved");
+        }
     }
 }
