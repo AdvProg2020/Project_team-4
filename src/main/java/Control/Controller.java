@@ -3,6 +3,7 @@ package Control;
 import Model.*;
 import View.Outputs;
 import com.google.gson.reflect.TypeToken;
+import org.example.App;
 
 
 import java.io.File;
@@ -53,18 +54,34 @@ public class Controller {
             return 2;
         }
         if (Account.getAccountWithName(username).getPassWord().equals(password)) {
-            loggedInAccount = Account.getAccountWithName(username);
+            if (Account.getAccountWithName(username).getClass().equals(Customer.class)) {
+                Set<String> barcodes = ((Customer)loggedInAccount).getCart().keySet();
+                ArrayList<String> sellers = ((Customer)loggedInAccount).getSellersOfProductsOfTheCart();
+                loggedInAccount = Account.getAccountWithName(username);
+                for (String barcode: barcodes) {
+                    Controller.getOurController().requestAddProductToCart(barcode);
+                }
+                for (String name: sellers) {
+                    Controller.getOurController().setNameOfSellerOfProductAddedToCart(name);
+                }
+            }
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
 //            Account.login(Account.getAccountWithName(username));
             return 1;
         }
         return 3;
     }
 
+    public void setLoggedInAccount(Account loggedInAccount) {
+        this.loggedInAccount = loggedInAccount;
+    }
+
     public int logout() {
         if (loggedInAccount == null) {
             return 1;
         }
-        loggedInAccount = null;
+        App.defaultCustomer = new Customer("default", "123");
+        loggedInAccount = App.defaultCustomer;
         return 2;
     }
 

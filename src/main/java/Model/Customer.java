@@ -132,9 +132,18 @@ public class Customer extends Account {
             }
             cart = new HashMap<>();
             System.out.println("before saving");
+            this.setSellersOfProductsOfTheCart(new ArrayList<>());
             SaveAndLoad.getSaveAndLoad().saveGenerally();
             return true;
         }
+    }
+
+    public ArrayList<String> getSellersOfProductsOfTheCart() {
+        return sellersOfProductsOfTheCart;
+    }
+
+    public void setSellersOfProductsOfTheCart(ArrayList<String> sellersOfProductsOfTheCart) {
+        this.sellersOfProductsOfTheCart = sellersOfProductsOfTheCart;
     }
 
     public int getCartMoney() {

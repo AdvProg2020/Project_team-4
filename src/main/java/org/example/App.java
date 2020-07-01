@@ -2,6 +2,7 @@ package org.example;
 
 import Control.Controller;
 import Model.*;
+import Model.Customer;
 import View.Menu.MainMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,11 +20,13 @@ public class App extends Application {
 
     private static Scene scene;
     private boolean isFirstManagerCreatedOrNot;
+    public static Customer defaultCustomer = new Customer("default", String.valueOf(123));
 
     @Override
     public void start(Stage stage) throws IOException {
+        Controller.getOurController().setLoggedInAccount(defaultCustomer);
         handleData();
-      if (checkInitializedOrNot()) {
+        if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));
         } else {
             scene = new Scene(loadFXML("initialization"));
