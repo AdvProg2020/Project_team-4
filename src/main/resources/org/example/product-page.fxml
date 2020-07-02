@@ -1,46 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<ScrollPane prefHeight="650" prefWidth="900" stylesheets="@productPage.css"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.ProductPage">
+    <AnchorPane prefHeight="650" prefWidth="900" stylesheets="@productPage.css"
+                xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+        <ImageView fx:id="productImage" fitHeight="205.0" fitWidth="642.0" layoutX="14.0" layoutY="14.0"/>
+        <TextField fx:id="score" layoutX="662.0" layoutY="460.0" onAction="#addScore" prefHeight="26.0"
+                   prefWidth="200.0" promptText="score this product 0 to 5" styleClass="button"/>
+        <Button fx:id="addButton" layoutX="662.0" layoutY="420.0" onAction="#addToCart" prefHeight="26.0"
+                prefWidth="200.0" styleClass="button" text="add to cart"/>
+        <MenuButton fx:id="sellers" layoutX="662.0" layoutY="384.0" prefHeight="26.0" prefWidth="200.0"
+                    styleClass="button" text="sellers" textAlignment="CENTER"/>
+        <Button fx:id="backButton" layoutX="661.0" layoutY="14.0" onAction="#back" prefHeight="26.0" prefWidth="200.0"
+                styleClass="button" text="back"/>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductPage" stylesheets="font.css">
-
-    <ImageView fx:id="image" fitHeight="121.0" fitWidth="100.0" layoutX="175" layoutY="10.0" />
-    <TextField fx:id="score" layoutX="14.0" layoutY="174.0" onAction="#addScore" promptText="score this product 0 to 5" />
-    <Button fx:id="addButton" layoutX="88.0" layoutY="144.0" onAction="#addToCart" text="add to cart" />
-    <MenuButton fx:id="sellers" layoutX="14.0" layoutY="144.0" text="sellers" />
-    <Button fx:id="backButton" layoutX="545.0" layoutY="14.0" onAction="#back" text="back" />
-
-    <VBox alignment="bottom_right" layoutX="13.0" layoutY="204.0" spacing="10">
-        <TextField fx:id="nameField" prefWidth="150" promptText="name" />
-        <TextField fx:id="commentField" alignment="CENTER" prefHeight="200" prefWidth="150" promptText="comment" />
-        <Button onAction="#addComment" text="Add" />
-    </VBox>
-    <HBox layoutX="14.0" layoutY="14.0">
-        <VBox prefWidth="100">
-            <Label text="name: " />
-            <Label text="cost: " />
-            <Label text="company: " />
-            <Label text="average score: " />
-            <Label text="inventory: " />
-            <Label text="category: " />
-            <Label text="description: " />
-        </VBox>
-        <VBox prefWidth="100">
-            <Label fx:id="productName" text="shoe" />
-            <Label fx:id="cost" text="80 000" />
-            <Label fx:id="company" text="melli" />
-            <Label fx:id="averageScore" text="4.5" />
-            <Label fx:id="description" text="very well" />
-            <Label fx:id="exist" text="23" />
-            <Label fx:id="category" text="accessories" />
-        </VBox>
-    </HBox>
-    <TableView fx:id="commentsTable" layoutX="279.0" layoutY="14.0">
-      <columns>
-         <TableColumn fx:id="commentsColumn" prefWidth="75.0" text="comment" />
-         <TableColumn fx:id="nameColumn" prefWidth="75.0" text="name" />
-      </columns>
-    </TableView>
-</AnchorPane>
+        <VBox alignment="bottom_right" layoutX="14.0" layoutY="253.0" spacing="10"/>
+        <TableView fx:id="commentsTable" layoutX="13.0" layoutY="560.0" prefHeight="112.0" prefWidth="642.0">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="48.799988746643066" text="name"/>
+                <TableColumn fx:id="commentsColumn" prefWidth="137.3999900817871" text="comment"/>
+                <TableColumn fx:id="replayColumn" prefWidth="106.60005187988281" text="replay"/>
+                <TableColumn fx:id="rateColumn" prefWidth="71.20001220703125" text="rate"/>
+            </columns>
+        </TableView>
+        <Button fx:id="scoreButton" layoutX="662.0" layoutY="494.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="200.0" styleClass="button" text="score" onAction="#addScore"/>
+        <TextField fx:id="commentField" alignment="CENTER" layoutX="659.0" layoutY="563.0" prefHeight="112.0"
+                   prefWidth="200.0" promptText="comment" styleClass="button"/>
+        <Button fx:id="commentButton" layoutX="659.0" layoutY="686.0" onAction="#addComment" prefHeight="26.0"
+                prefWidth="200.0" styleClass="button" text="comment"/>
+        <Button fx:id="replayButton" layoutX="14.0" layoutY="685.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="315.0" styleClass="button" text="replay"/>
+        <Button layoutX="335.0" layoutY="686.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="315.0"
+                styleClass="button" text="rate"/>
+        <TableView fx:id="similarProduct" layoutX="661.0" layoutY="82.0" prefHeight="217.0" prefWidth="200.0">
+            <columns>
+                <TableColumn prefWidth="198.20001220703125" styleClass="table-view" text="similar product"/>
+            </columns>
+        </TableView>
+        <Button fx:id="compareButton" layoutX="662.0" layoutY="343.0" mnemonicParsing="false" prefHeight="26.0"
+                prefWidth="200.0" styleClass="button" text="add to compare"/>
+        <Label fx:id="newCommentLabel" layoutX="659.0" layoutY="532.0" prefHeight="18.0" prefWidth="200.0"
+               text="new comment" textAlignment="CENTER">
+            <font>
+                <Font name="System Italic" size="18.0"/>
+            </font>
+        </Label>
+        <Label layoutX="14.0" layoutY="528.0" prefHeight="35.0" prefWidth="642.0" text="comments">
+            <font>
+                <Font name="System Italic" size="18.0"/>
+            </font>
+        </Label>
+        <ScrollPane layoutX="14.0" layoutY="247.0" prefHeight="274.0" prefWidth="642.0" styleClass="scroll-pane">
+            <content>
+                <HBox prefHeight="258.0" prefWidth="642.0">
+                    <children>
+                        <VBox prefHeight="188.0" prefWidth="139.0" styleClass="titleVBox">
+                            <Label text="name: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label text="cost: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label text="company: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label text="average score: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label text="inventory: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label text="category: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label text="description: ">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </HBox.margin>
+                        </VBox>
+                        <VBox prefHeight="323.0" prefWidth="459.0" styleClass="titleVBox">
+                            <Label fx:id="productName" prefHeight="27.0" prefWidth="156.0" text="shoe"
+                                   textAlignment="CENTER">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label fx:id="cost" prefHeight="27.0" prefWidth="71.0" text="80 000">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label fx:id="company" text="melli">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label fx:id="averageScore" text="4.5">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label fx:id="description" text="very well">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label fx:id="exist" text="23">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <Label fx:id="category" text="accessories">
+                                <font>
+                                    <Font size="18.0"/>
+                                </font>
+                                <VBox.margin>
+                                    <Insets left="10.0"/>
+                                </VBox.margin>
+                            </Label>
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </HBox.margin>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </HBox>
+            </content>
+        </ScrollPane>
+        <Button layoutX="662.0" layoutY="306.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0"
+                styleClass="button" text="show"/>
+        <Label layoutX="14.0" layoutY="219.0" prefHeight="18.0" prefWidth="642.0" text="details">
+            <font>
+                <Font name="System Italic" size="18.0"/>
+            </font>
+        </Label>
+        <Button layoutX="662.0" layoutY="49.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0"
+                text="account"/>
+    </AnchorPane>
+</ScrollPane>

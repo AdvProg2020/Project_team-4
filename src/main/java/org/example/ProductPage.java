@@ -5,17 +5,13 @@ import Control.Controller;
 import Model.Comment;
 import Model.Product;
 import Model.SaveAndLoad;
-import View.Menu.Menu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,26 +37,49 @@ public class ProductPage {
     private static Product product;
     public Alert alert;
     public Button backButton;
-    public TableColumn <Comment, String> commentsColumn;
-    public TableColumn <Comment, String>nameColumn;
-    public TableView <Comment> commentsTable;
-    public ImageView image;
+    public TableColumn<Comment, String> commentsColumn;
+    public TableColumn<Comment, String> nameColumn;
+    public TableView<Comment> commentsTable;
+    public ImageView productImage;
+    public Button scoreButton;
+    public Button replayButton;
+    public Button commentButton;
+    public TableView<Product> similarProduct;
+    public Label newCommentLabel;
+    public Button compareButton;
+    public TableColumn<Product, String> replayColumn;
+    public TableColumn<Product, String> rateColumn;
 
     public static void setProduct(Product product) {
         ProductPage.product = product;
     }
 
     public void addToCart() {
-
-        Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
+        if (Controller.getOurController().getLoggedInAccount() != null) {
+            Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Successfully added.");
+            alert.show();
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You must login first!");
+            alert.show();
+        }
     }
 
     public void addComment() {
-        Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
-        alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Successfully added.");
-        alert.show();
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        if (Controller.getOurController().getLoggedInAccount() != null) {
+            Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Successfully added.");
+            alert.show();
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+            initializeCommentTable();
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You must login first");
+            alert.show();
+        }
     }
 
     public void addScore() {
@@ -69,9 +88,11 @@ public class ProductPage {
         alert.setContentText("Successfully scored.");
         alert.show();
         SaveAndLoad.getSaveAndLoad().saveGenerally();
+        averageScore.setText(String.valueOf(product.getAverageScore()));
     }
 
     public void initialize() {
+
         product.setSeen(1);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
         comments = new ArrayList<>();
@@ -80,13 +101,12 @@ public class ProductPage {
         if (product.getSellers() != null) {
             menuItems = new ArrayList<>();
             for (String seller : product.getSellers()) {
-                    MenuItem mi = new MenuItem();
-                    mi.setText(seller);
-                    menuItems.add(mi);
+                MenuItem mi = new MenuItem();
+                mi.setText(seller);
+                menuItems.add(mi);
             }
             for (MenuItem menuItem : menuItems) {
                 sellers.getItems().add(menuItem);
-
                 menuItem.setOnAction(event -> Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText()));
             }
 
@@ -98,19 +118,23 @@ public class ProductPage {
         description.setText(product.getDescription());
         exist.setText(String.valueOf(product.getAmountOfExist()));
         category.setText(product.getCategory());
-        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
-        ArrayList<Product> products = Product.getAllProducts();
-        for (Product product1 : products) {
-            comments.addAll(product1.getComments());
-
-        }
-        ObservableList<Comment> obsrvlstComment = FXCollections.observableArrayList(comments);
-        commentsTable.setItems(obsrvlstComment);
-        image.setImage(product.getImageFile());
+        initializeCommentTable();
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
         App.setRoot("ProductsPage");
+    }
+
+    public void initializeCommentTable() {
+        commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
+        ArrayList<Product> products = Product.getAllProducts();
+        comments.clear();
+        for (Product product1 : products) {
+            comments.addAll(product1.getComments());
+        }
+        ObservableList<Comment> observeListComment = FXCollections.observableArrayList(comments);
+        commentsTable.getItems().clear();
+        commentsTable.setItems(observeListComment);
     }
 }

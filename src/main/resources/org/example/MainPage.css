@@ -9,3 +9,7 @@
     -fx-background-color: darkgreen;
     -fx-text-fill: azure;
 }
+
+.scrollPane {
+    -fx-border-radius: 5 px;
+}

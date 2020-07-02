@@ -13,6 +13,7 @@ public abstract class Account extends SaveAble {
     protected double credit;
 
 
+
     public Account(String userName, String passWord) {
         this.userName = userName;
         this.passWord = passWord;
@@ -88,6 +89,10 @@ public abstract class Account extends SaveAble {
 
     public void setCredit(double credit) {
         this.credit = credit;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     @Override
