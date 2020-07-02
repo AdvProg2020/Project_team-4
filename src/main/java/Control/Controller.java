@@ -64,6 +64,8 @@ public class Controller {
                 for (String name: sellers) {
                     Controller.getOurController().setNameOfSellerOfProductAddedToCart(name);
                 }
+            }else{
+                loggedInAccount = Account.getAccountWithName(username);
             }
             SaveAndLoad.getSaveAndLoad().saveGenerally();
 //            Account.login(Account.getAccountWithName(username));

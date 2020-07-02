@@ -26,13 +26,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Controller.getOurController().setLoggedInAccount(defaultCustomer);
         String path = "music\\backgroundMusic.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setCycleCount(10);
         this.stage = stage;
+        Controller.getOurController().setLoggedInAccount(defaultCustomer);
         handleData();
       if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));

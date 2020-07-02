@@ -18,6 +18,7 @@ import Control.Controller;
 import java.io.IOException;
 import java.util.*;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -68,6 +69,34 @@ public class ProductsPage {
                         fullFilter();
                     }
                 });
+        if(Product.getAllProducts().size() <= 1){
+            return;
+        }
+        if(Product.getAllProducts().get(0) != null){
+            ImageView imageView = new ImageView((Product.getAllProducts().get(0)).getImageFile());
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+            imageView.setLayoutY(10);
+            imageView.setLayoutX(320);
+            Label label = new Label(Product.getAllProducts().get(0).getNameOfProductNotBarcode());
+            label.setLayoutY(10);
+            label.setLayoutX(425);
+            mainAnchorPane.getChildren().add(imageView);
+            mainAnchorPane.getChildren().add(label);
+        }
+        if(Product.getAllProducts().get(1) != null){
+            ImageView imageView = new ImageView((Product.getAllProducts().get(1)).getImageFile());
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+            imageView.setLayoutY(110);
+            imageView.setLayoutX(320);
+            Label label = new Label(Product.getAllProducts().get(1).getNameOfProductNotBarcode());
+            label.setLayoutY(110);
+            label.setLayoutX(425);
+            mainAnchorPane.getChildren().add(imageView);
+            mainAnchorPane.getChildren().add(label);
+        }
+
         fullFilter();
     }
 
