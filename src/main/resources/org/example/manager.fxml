@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <GridPane prefHeight="400.0" prefWidth="600.0" style="-fx-padding: 3cm" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Manager" stylesheets="@font.css">
     <columnConstraints>
         <ColumnConstraints />
@@ -57,5 +58,8 @@
         <Button onAction="#logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="10" GridPane.columnIndex="13"/>
         <Button onAction="#gotToMainPage" mnemonicParsing="false" text="main" GridPane.rowIndex="10" GridPane.columnIndex="14"/>
         <Button onAction="#gotToProductsPage" mnemonicParsing="false" text="products" GridPane.rowIndex="10" GridPane.columnIndex="15"/>
+        <ImageView fx:id="imageView" fitHeight="130.0" fitWidth="125.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+        <Button fx:id="chooseImage" onAction="#chooseImage" text="select profileImage" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+
     </children>
 </GridPane>

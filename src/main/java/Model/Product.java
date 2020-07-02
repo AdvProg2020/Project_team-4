@@ -3,13 +3,12 @@ package Model;
 
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import java.nio.charset.Charset;
-import java.time.Duration;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -415,6 +414,26 @@ public class Product extends SaveAble {
             }
         }
         return products;
+    }
+
+    public ImageView getImage(){
+        Image image = getImageFile();
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        return imageView;
+    }
+
+    public Image getImageFile() {
+        String path = "Image\\" + getNameOfProductNotBarcode() + ".png";
+        File file = new File(path);
+        Image image;
+        if(file.exists()){
+            image = new Image("file:////..\\" + path );
+        }else{
+            image = new Image ("file:////..\\Image\\productImage.png");
+        }
+        return image;
     }
 
 }
