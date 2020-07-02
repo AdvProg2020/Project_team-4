@@ -9,6 +9,15 @@ public class Comment extends SaveAble {
     private String commentingAccount;
     private String product;
     private String commentText;
+    private String replay;
+
+    public void setReplay(String replay) {
+        this.replay = replay;
+    }
+
+    public String getReplay() {
+        return replay;
+    }
 
     public static ArrayList<Comment> getAllComments() {
         return allComments;
