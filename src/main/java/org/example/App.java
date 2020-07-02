@@ -2,7 +2,6 @@ package org.example;
 
 import Control.Controller;
 import Model.*;
-import Model.Customer;
 import View.Menu.MainMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +24,14 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Controller.getOurController().setLoggedInAccount(defaultCustomer);
+        String path = "music\\backgroundMusic.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        this.stage = stage;
         handleData();
-        if (checkInitializedOrNot()) {
+      if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));
         } else {
             scene = new Scene(loadFXML("initialization"));
@@ -60,6 +65,8 @@ public class App extends Application {
         file3.mkdir();
         File file4 = new File("class java.util.ArrayList");
         file4.mkdirs();
+        File file5 = new File("Image");
+        file5.mkdirs();
         Controller.readOffCodesFromFile();
         Controller.readRequestsFromFile();
         Controller.readOffsFromFile();
@@ -80,6 +87,10 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static Stage getStage(){
+        return stage;
     }
 
 }

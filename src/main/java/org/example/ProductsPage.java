@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class ProductsPage {
     public static boolean calledFromOff = false;
@@ -38,6 +40,7 @@ public class ProductsPage {
     public TableColumn endTime;
     public TableColumn remainTime;
     public Slider slider;
+    public TableColumn image;
     private CheckBox offCheckBox;
     private CheckBox available;
 
@@ -94,6 +97,7 @@ public class ProductsPage {
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
         endTime.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
         remainTime.setCellValueFactory(new PropertyValueFactory<>("RemainTime"));
+        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
         setTable();
     }
 
