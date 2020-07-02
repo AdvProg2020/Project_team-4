@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.CharArrayReader;
@@ -19,7 +21,8 @@ public class App extends Application {
 
     private static Scene scene;
     private boolean isFirstManagerCreatedOrNot;
-    public static Customer defaultCustomer = new Customer("default", String.valueOf(123));
+    private static Stage stage;
+    public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
 
     @Override
     public void start(Stage stage) throws IOException {
