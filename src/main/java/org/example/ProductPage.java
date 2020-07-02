@@ -151,6 +151,7 @@ public class ProductPage {
         exist.setText(String.valueOf(product.getAmountOfExist()));
         category.setText(product.getCategory());
         initializeCommentTable();
+        productImage.setImage(product.getImageFile());
     }
 
     public void back(ActionEvent actionEvent) throws IOException {

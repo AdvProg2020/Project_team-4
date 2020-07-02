@@ -9,7 +9,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,6 +28,7 @@ public class Manager {
     public Button usersManaging;
     @FXML
     public Button categoriesManaging;
+    public ImageView imageView;
     ArrayList<TextField> textFields = new ArrayList<>();
     @FXML
     public TextField address;
@@ -55,6 +62,14 @@ public class Manager {
         credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
+        Image image;
+        File file = new File("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        if(file.exists()){
+            image = new Image("file:////..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        }else{
+            image = new Image("file:////..\\Image\\noProfile.png");
+        }
+        imageView.setImage(image);
     }
 
     EventHandler saveButtonHandler = new EventHandler() {
@@ -135,7 +150,7 @@ public class Manager {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount() == null) {
+        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
@@ -172,5 +187,32 @@ public class Manager {
     public void gotToProductsPage(ActionEvent actionEvent) throws IOException {
         App.setRoot("manager-products");
     }
+
+
+    public void chooseImage(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("img files (*.png)", "*.png"));
+        File file = fileChooser.showOpenDialog(App.getStage());
+
+        if(file == null){
+            return;
+        }
+
+        copyImage(file);
+
+        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        imageView.setImage(image);
+    }
+
+    private void copyImage(File file) {
+        try {
+            FileInputStream in = new FileInputStream(file);
+            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            SellersProductPage.CopyFile(in, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 

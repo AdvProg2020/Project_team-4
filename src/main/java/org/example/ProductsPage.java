@@ -18,11 +18,16 @@ import Control.Controller;
 import java.io.IOException;
 import java.util.*;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class ProductsPage {
     public static boolean calledFromOff = false;
     public ArrayList<Product> allProduct;
+    private ArrayList<String> sellerTag = new ArrayList<>();
+    private ArrayList<String> comanyTag = new ArrayList<>();
     public TableColumn name;
     public TableColumn id;
     public TableColumn price;
@@ -38,6 +43,7 @@ public class ProductsPage {
     public TableColumn endTime;
     public TableColumn remainTime;
     public Slider slider;
+    public TableColumn image;
     private CheckBox offCheckBox;
     private CheckBox available;
 
@@ -63,6 +69,34 @@ public class ProductsPage {
                         fullFilter();
                     }
                 });
+        if(Product.getAllProducts().size() <= 1){
+            return;
+        }
+        if(Product.getAllProducts().get(0) != null){
+            ImageView imageView = new ImageView((Product.getAllProducts().get(0)).getImageFile());
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+            imageView.setLayoutY(10);
+            imageView.setLayoutX(320);
+            Label label = new Label(Product.getAllProducts().get(0).getNameOfProductNotBarcode());
+            label.setLayoutY(10);
+            label.setLayoutX(425);
+            mainAnchorPane.getChildren().add(imageView);
+            mainAnchorPane.getChildren().add(label);
+        }
+        if(Product.getAllProducts().get(1) != null){
+            ImageView imageView = new ImageView((Product.getAllProducts().get(1)).getImageFile());
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+            imageView.setLayoutY(110);
+            imageView.setLayoutX(320);
+            Label label = new Label(Product.getAllProducts().get(1).getNameOfProductNotBarcode());
+            label.setLayoutY(110);
+            label.setLayoutX(425);
+            mainAnchorPane.getChildren().add(imageView);
+            mainAnchorPane.getChildren().add(label);
+        }
+
         fullFilter();
     }
 
@@ -94,6 +128,7 @@ public class ProductsPage {
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
         endTime.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
         remainTime.setCellValueFactory(new PropertyValueFactory<>("RemainTime"));
+        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
         setTable();
     }
 
@@ -106,12 +141,38 @@ public class ProductsPage {
         i = 0;
         y += 40;
         categoryCheckBoxInitialize(i, y, tags);
-        for (Product product : allProduct) {
-            CheckBox checkBox = new CheckBox(product.getCategory());
+        y += 50;
+        i = 0;
+        ArrayList<String> sellers = new ArrayList<>();
+        for (Product product : Product.getAllProducts()) {
+            for (String seller : product.getSellers()) {
+                if(sellers.contains(seller))
+                    continue;
+                CheckBox checkBox = new CheckBox(seller);
+                checkBox.setLayoutX(i);
+                checkBox.setLayoutY(y);
+                sellers.add(seller);
+                mainAnchorPane.getChildren().add(checkBox);
+                i += 75;
+                checkBox.setOnAction(e -> sellerActivate(checkBox));
+                if(i >= 300){
+                    i = 0;
+                    y += 20;
+                }
+            }
+        }
+
+        ArrayList<String> company = new ArrayList<>();
+        for (Product product : Product.getAllProducts()) {
+            if(company.contains(product.getCompany()))
+                continue;
+            CheckBox checkBox = new CheckBox(product.getCompany());
             checkBox.setLayoutX(i);
             checkBox.setLayoutY(y);
-            i += 50;
-            checkBox.setOnAction(e -> tagsActivate(checkBox));
+            company.add(product.getCompany());
+            mainAnchorPane.getChildren().add(checkBox);
+            i += 75;
+            checkBox.setOnAction(e -> companyActivate(checkBox));
             if(i >= 300){
                 i = 0;
                 y += 20;
@@ -131,6 +192,28 @@ public class ProductsPage {
         checkBox1.setLayoutX(10);
         mainAnchorPane.getChildren().add(checkBox1);
         checkBox1.setOnAction(e -> activeAvailable(checkBox1));
+    }
+
+    private void companyActivate(CheckBox checkBox) {
+        if (checkBox.isSelected()) {
+            if (!comanyTag.contains(checkBox.getText())) {
+                comanyTag.add(checkBox.getText());
+            }
+        } else {
+            comanyTag.remove(checkBox.getText());
+        }
+        fullFilter();
+    }
+
+    private void sellerActivate(CheckBox checkBox) {
+        if (checkBox.isSelected()) {
+            if (!sellerTag.contains(checkBox.getText())) {
+                sellerTag.add(checkBox.getText());
+            }
+        } else {
+            sellerTag.remove(checkBox.getText());
+        }
+        fullFilter();
     }
 
     private void activeAvailable( CheckBox checkBox) {
@@ -173,7 +256,7 @@ public class ProductsPage {
                 checkBox.setLayoutY(y);
                 mainAnchorPane.getChildren().add(checkBox);
                 tags.add(product.getCategory());
-                checkBox.setOnAction(e -> categoryActive(category.getName(), checkBox));
+                checkBox.setOnAction(e -> categoryActive(product.getCategory(), checkBox));
                 if(i >= 300) {
                     i = 0;
                     y += 20;
@@ -310,7 +393,7 @@ public class ProductsPage {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount() == null) {
+        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
@@ -404,6 +487,25 @@ public class ProductsPage {
                     temp2.remove(product);
             }
         }
+        //seller filter
+        ArrayList temp2 = new ArrayList<>(allProduct);
+        for (String s : sellerTag) {
+            for (Product product : allProduct) {
+                if(!product.getSellers().contains(s))
+                temp2.remove(product);
+            }
+        }
+        allProduct = new ArrayList<>(temp2);
+
+        //company tag
+        ArrayList temp3 = new ArrayList<>(allProduct);
+        for (String s : comanyTag) {
+            for (Product product : allProduct) {
+                if(!product.getCompany().equals(s))
+                    temp3.remove(product);
+            }
+        }
+        allProduct = new ArrayList<>(temp3);
         sortAction();
     }
 }
