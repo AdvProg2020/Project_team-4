@@ -10,9 +10,10 @@ public class PrimaryController {
 
     @FXML
     public void switchToAccountSection() throws IOException {
-        if (Controller.getOurController().getLoggedInAccount() == null) {
+        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
+            return;
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
@@ -40,6 +41,14 @@ public class PrimaryController {
         ProductsPage.calledFromOff = true;
         try {
             App.setRoot("ProductsPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToCart(ActionEvent actionEvent) {
+        try {
+            App.setRoot("cart");
         } catch (IOException e) {
             e.printStackTrace();
         }

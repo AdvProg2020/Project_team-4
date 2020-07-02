@@ -92,7 +92,7 @@ public class SellersOffPage implements Initializable {
     }
 
     public void switchToAccount(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount() == null) {
+        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
