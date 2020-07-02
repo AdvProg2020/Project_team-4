@@ -157,13 +157,13 @@ public class SellersProductPage implements Initializable {
     }
 
 
-    private void copyImage(String productBarcode) {
+    private void copyImage(String productname) {
         if(imageFile == null){
             return;
         }
         try {
             FileInputStream in = new FileInputStream(imageFile);
-            FileOutputStream out = new FileOutputStream("Image\\" + productBarcode + ".png");
+            FileOutputStream out = new FileOutputStream("Image\\" + productname + ".png");
             CopyFile(in, out);
             imageFile = null;
         } catch (IOException e) {

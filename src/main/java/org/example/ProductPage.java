@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class ProductPage {
     public TableColumn <Comment, String> commentsColumn;
     public TableColumn <Comment, String>nameColumn;
     public TableView <Comment> commentsTable;
+    public ImageView image;
 
     public static void setProduct(Product product) {
         ProductPage.product = product;
@@ -103,6 +105,7 @@ public class ProductPage {
         }
         ObservableList<Comment> obsrvlstComment = FXCollections.observableArrayList(comments);
         commentsTable.setItems(obsrvlstComment);
+        image.setImage(product.getImageFile());
     }
 
     public void back(ActionEvent actionEvent) throws IOException {

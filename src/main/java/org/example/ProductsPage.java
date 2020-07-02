@@ -38,6 +38,7 @@ public class ProductsPage {
     public TableColumn endTime;
     public TableColumn remainTime;
     public Slider slider;
+    public TableColumn image;
     private CheckBox offCheckBox;
     private CheckBox available;
 
@@ -94,6 +95,7 @@ public class ProductsPage {
         createDate.setCellValueFactory(new PropertyValueFactory<>("LocalDateTime"));
         endTime.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
         remainTime.setCellValueFactory(new PropertyValueFactory<>("RemainTime"));
+        image.setCellValueFactory(new PropertyValueFactory<>("Image"));
         setTable();
     }
 

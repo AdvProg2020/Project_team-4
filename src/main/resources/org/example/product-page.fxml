@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ProductPage">
-    <ImageView />
+    <ImageView fx:id="image" fitHeight="121.0" fitWidth="100.0" layoutX="175" layoutY="10.0" />
     <TextField fx:id="score" layoutX="14.0" layoutY="174.0" onAction="#addScore" promptText="score this product 0 to 5" />
     <Button fx:id="addButton" layoutX="88.0" layoutY="144.0" onAction="#addToCart" text="add to cart" />
     <MenuButton fx:id="sellers" layoutX="14.0" layoutY="144.0" text="sellers" />

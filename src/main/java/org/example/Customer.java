@@ -200,7 +200,7 @@ public class Customer {
 
         copyImage(file);
 
-        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        Image image = new Image("file:////..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
         imageView.setImage(image);
     }
 
