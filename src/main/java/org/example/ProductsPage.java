@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class ProductsPage {
     public static boolean calledFromOff = false;
