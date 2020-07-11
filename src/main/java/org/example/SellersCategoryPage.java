@@ -20,6 +20,12 @@ import java.util.ResourceBundle;
 
 public class SellersCategoryPage implements Initializable {
 
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     @FXML
     public TableView<Category> table;
     @FXML
@@ -48,17 +54,17 @@ public class SellersCategoryPage implements Initializable {
     public void switchtoAccountPage(ActionEvent actionEvent) throws IOException {
         if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
+            clientImpl.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
-                    App.setRoot("manager");
+                    clientImpl.setRoot("manager");
                     break;
                 case "class Model.Customer":
-                    App.setRoot("customer");
+                    clientImpl.setRoot("customer");
                     break;
                 case "class Model.Seller":
-                    App.setRoot("seller");
+                    clientImpl.setRoot("seller");
                     break;
             }
         }

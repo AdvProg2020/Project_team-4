@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ComparisonPage {
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     public HBox comparisonPageHBox = new HBox();
     public static ArrayList<VBox> vBoxes = new ArrayList<>();
 
@@ -27,7 +33,7 @@ public class ComparisonPage {
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
-        App.setRoot("product-page");
+        clientImpl.setRoot("product-page");
     }
 
     public void initialize(){

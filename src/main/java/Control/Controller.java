@@ -6,9 +6,11 @@ import com.google.gson.reflect.TypeToken;
 import org.example.App;
 
 
-import java.io.File;
+import java.io.*;
 import java.lang.reflect.Type;
 
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,9 +21,152 @@ import static View.Menu.Menu.getField;
 
 public class Controller {
 
+    public static void main(String[] args) {
+        new ServerImpl().run();
+    }
+
+    static class ClientHandler extends Thread {
+        private Socket clientSocket;
+        private DataOutputStream dataOutputStream;
+        private DataInputStream dataInputStream;
+        private ServerImpl server;
+        private Account user;
+
+        public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server) {
+            this.clientSocket = clientSocket;
+            this.dataOutputStream = dataOutputStream;
+            this.dataInputStream = dataInputStream;
+            this.server = server;
+        }
+
+        private void handleClient() {
+            try {
+                String input;
+                while (true) {
+                    input = dataInputStream.readUTF();
+                    System.out.println("Client sent : " + input);
+                    if (input.startsWith("SignIn")) {
+                        int commaIndex = input.indexOf(",");
+                        String username = input.substring(6, commaIndex);
+                        String password = input.substring(commaIndex + 1);
+//                        user = server.handleSignIn(username, password, dataOutputStream);
+                    } else if (input.startsWith("ViewList")) {
+//                        dataOutputStream.writeUTF(server.getCoursesInfo());
+                        dataOutputStream.flush();
+                    } else if (input.startsWith("TakeCourse")) {
+                        String courseName = input.substring(11, input.length() - 1);
+                        System.out.println("User wants to take course : " + courseName);
+//                        server.handleTakeCourse(courseName, dataOutputStream, user);
+                    } else if (input.startsWith("DropCourse")) {
+                        String courseName = input.substring(11, input.length() - 1);
+                        System.out.println("User wants to drop course : " + courseName);
+//                        server.handleDropCourse(courseName, dataOutputStream, user);
+                    } else if (input.startsWith("MyCourse")) {
+//                        dataOutputStream.writeUTF(server.getStudentsCoursesInfo(user));
+                        dataOutputStream.flush();
+                    } else {
+                        dataOutputStream.writeUTF("Successfully Logged out!");
+                        dataOutputStream.flush();
+                        clientSocket.close();
+                        System.out.println("Connection closed!!!");
+                        break;
+                    }
+
+                }
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+
+        }
+
+        @Override
+        public void run() {
+            handleClient();
+        }
+    }
+
+    static class ServerImpl {
+
+        private ArrayList<Account> users = new ArrayList<>();
+
+        private void handleData() {
+            File file1 = new File(String.valueOf("class Model.Customer"));
+            file1.mkdir();
+            File file2 = new File("class Model.Manager");
+            file2.mkdir();
+            File file3 = new File("class Model.Seller");
+            file3.mkdir();
+            File file4 = new File("class java.util.ArrayList");
+            file4.mkdirs();
+            File file5 = new File("Image");
+            file5.mkdirs();
+            Controller.readOffCodesFromFile();
+            Controller.readRequestsFromFile();
+            Controller.readOffsFromFile();
+            Controller.readProductsFromFile();
+            Controller.readCategoriesFromFile();
+        }
+
+//        private User handleSignIn(String username, String password, DataOutputStream dataOutputStream) throws IOException {
+//            for (User user : users) {
+//                if (user.getUsername().equals(username)) {
+//                    if (!user.getPassword().equals(password)) {
+//                        dataOutputStream.writeUTF("Failure");
+//                    } else {
+//                        dataOutputStream.writeUTF("Success");
+////                        currentUser = user;
+//                        System.out.println("Logged in user with username : " + username + " and password : " + password);
+//                    }
+//                    dataOutputStream.flush();
+//                    return user;
+//                }
+//            }
+//            User newUser = new User(username, password);
+////            currentUser = newUser;
+//            users.add(newUser);
+//            usersInfo.put(newUser, new UserInfo());
+//            dataOutputStream.writeUTF("Success");
+//            dataOutputStream.flush();
+//            System.out.println("Created and Logged in user with username : " + newUser.getUsername() + " and password : " + newUser.getPassword());
+//            return newUser;
+//        }
+
+        public void run() {
+            handleData();
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            while (!input.equals("LoadFile")) {
+                System.err.println("Enter valid command!");
+                input = scanner.nextLine();
+            }
+
+            ServerSocket serverSocket = null;
+            try {
+                serverSocket = new ServerSocket(8888);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            while (true) {
+                Socket clientSocket;
+                try {
+                    System.out.println("Waiting for Client...");
+                    clientSocket = serverSocket.accept();
+                    System.out.println("A client Connected!");
+                    DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+                    DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+                    new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
+                } catch (Exception e) {
+                    System.err.println("Error in accepting client!");
+                    break;
+                }
+            }
+
+        }
+    }
+
     private final static Controller ourController = new Controller();
 
-    private Account loggedInAccount = null;
+
 
     public static Controller getOurController() {
         return ourController;
@@ -82,8 +227,8 @@ public class Controller {
         if (loggedInAccount == null) {
             return 1;
         }
-        App.defaultCustomer = new Customer("default", "123");
-        loggedInAccount = App.defaultCustomer;
+//        App.defaultCustomer = new Customer("default", "123");
+//        loggedInAccount = App.defaultCustomer;
         return 2;
     }
 
@@ -364,10 +509,6 @@ public class Controller {
             }
         }
         return sellersOfProduct;
-    }
-
-    public Account getLoggedInAccount() {
-        return loggedInAccount;
     }
 
     public void editField(String field) {

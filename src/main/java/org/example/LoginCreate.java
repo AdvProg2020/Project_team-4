@@ -13,6 +13,13 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class LoginCreate {
+
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     private static String beforeRoot;
     @FXML
     private TextField userSign;
@@ -109,7 +116,7 @@ public class LoginCreate {
             } else if (result == 1){
                 try {
                     logoutButton.setDisable(false);
-                    App.setRoot(beforeRoot);
+                    clientImpl.setRoot(beforeRoot);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -184,7 +191,7 @@ public class LoginCreate {
 
     public void goToMainPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("main");
+            clientImpl.setRoot("main");
         } catch (IOException e) {
             e.printStackTrace();
         }

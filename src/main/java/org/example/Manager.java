@@ -20,6 +20,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Manager {
+
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     @FXML
     public Button request;
     @FXML
@@ -116,7 +123,7 @@ public class Manager {
     @FXML
     public void goToRequestPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("request");
+            clientImpl.setRoot("request");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,7 +132,7 @@ public class Manager {
     @FXML
     public void goToCodedOffPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("off-code");
+            clientImpl.setRoot("off-code");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,7 +141,7 @@ public class Manager {
     @FXML
     public void goToManageUsersPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("users-managing");
+            clientImpl.setRoot("users-managing");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,7 +150,7 @@ public class Manager {
     @FXML
     public void goToCategoriesPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("category");
+            clientImpl.setRoot("category");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,17 +159,17 @@ public class Manager {
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
         if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
+            clientImpl.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
-                    App.setRoot("manager");
+                    clientImpl.setRoot("manager");
                     break;
                 case "class Model.Customer":
-                    App.setRoot("customer");
+                    clientImpl.setRoot("customer");
                     break;
                 case "class Model.Seller":
-                    App.setRoot("seller");
+                    clientImpl.setRoot("seller");
                     break;
             }
         }
@@ -172,7 +179,7 @@ public class Manager {
         int result = Controller.getOurController().logout();
         if (result == 2) {
             try {
-                App.setRoot("main");
+                clientImpl.setRoot("main");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -181,18 +188,18 @@ public class Manager {
 
 
     public void gotToMainPage(ActionEvent actionEvent) throws IOException {
-        App.setRoot("main");
+        clientImpl.setRoot("main");
     }
 
     public void gotToProductsPage(ActionEvent actionEvent) throws IOException {
-        App.setRoot("manager-products");
+        clientImpl.setRoot("manager-products");
     }
 
 
     public void chooseImage(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("img files (*.png)", "*.png"));
-        File file = fileChooser.showOpenDialog(App.getStage());
+        File file = fileChooser.showOpenDialog(clientImpl.getStage());
 
         if(file == null){
             return;

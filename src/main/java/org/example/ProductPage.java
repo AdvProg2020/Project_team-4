@@ -25,6 +25,12 @@ import static org.example.App.loadFXML;
 
 public class ProductPage {
 
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     public static HBox comparisonPageHBox = new HBox();
     public Label productName;
     public Label cost;
@@ -121,7 +127,7 @@ public class ProductPage {
     }
 
     public void showComparison() throws IOException {
-        App.setRoot("comparison-page");
+        clientImpl.setRoot("comparison-page");
     }
 
     public void initialize() {
@@ -155,7 +161,7 @@ public class ProductPage {
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
-        App.setRoot("ProductsPage");
+        clientImpl.setRoot("ProductsPage");
     }
 
     public void initializeCommentTable() {

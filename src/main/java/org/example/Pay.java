@@ -20,6 +20,12 @@ import java.util.ResourceBundle;
 
 public class Pay implements Initializable {
 
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     ArrayList<TextField> textFields = new ArrayList<>();
 
     public TextField addressField;
@@ -58,29 +64,29 @@ public class Pay implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("pay was successful");
             alert.show();
-            App.setRoot("customer");
+            clientImpl.setRoot("customer");
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("pay was not successful maybe you have not the enough credit.");
             alert.show();
-            App.setRoot("customer");
+            clientImpl.setRoot("customer");
         }
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
         if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
+            clientImpl.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
-                    App.setRoot("manager");
+                    clientImpl.setRoot("manager");
                     break;
                 case "class Model.Customer":
-                    App.setRoot("customer");
+                    clientImpl.setRoot("customer");
                     break;
                 case "class Model.Seller":
-                    App.setRoot("seller");
+                    clientImpl.setRoot("seller");
                     break;
             }
         }

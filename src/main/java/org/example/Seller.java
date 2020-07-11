@@ -23,6 +23,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Seller implements Initializable {
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     @FXML
     public Button sellHistory;
     @FXML
@@ -53,7 +59,7 @@ public class Seller implements Initializable {
 
     public void goToProductsPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("sellers-product-page");
+            clientImpl.setRoot("sellers-product-page");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +67,7 @@ public class Seller implements Initializable {
 
     public void goToSellHistoryPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("sell-history");
+            clientImpl.setRoot("sell-history");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,7 +75,7 @@ public class Seller implements Initializable {
 
     public void goToOffsPage(ActionEvent actionEvent) {
         try {
-            App.setRoot("sellers-off-page");
+            clientImpl.setRoot("sellers-off-page");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,17 +152,17 @@ public class Seller implements Initializable {
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
         if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
+            clientImpl.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
-                    App.setRoot("manager");
+                    clientImpl.setRoot("manager");
                     break;
                 case "class Model.Customer":
-                    App.setRoot("customer");
+                    clientImpl.setRoot("customer");
                     break;
                 case "class Model.Seller":
-                    App.setRoot("seller");
+                    clientImpl.setRoot("seller");
                     break;
             }
         }
@@ -166,7 +172,7 @@ public class Seller implements Initializable {
         int result = Controller.getOurController().logout();
         if (result == 2) {
             try {
-                App.setRoot("main");
+                clientImpl.setRoot("main");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -174,11 +180,11 @@ public class Seller implements Initializable {
     }
 
     public void goToMainPage(ActionEvent actionEvent) throws IOException {
-        App.setRoot("main");
+        clientImpl.setRoot("main");
     }
 
     public void goToCategoryPage(ActionEvent actionEvent) throws IOException {
-        App.setRoot("sellers-category-page");
+        clientImpl.setRoot("sellers-category-page");
     }
 
 

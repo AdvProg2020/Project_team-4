@@ -14,6 +14,13 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class Initialization {
+
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     @FXML
     private TextField initUserName;
     private String userName;
@@ -40,7 +47,7 @@ public class Initialization {
             }
             Manager.addANewManager(initUserName.getText().trim(), initPassWord.getText().trim(), false);
             try {
-                App.setRoot("main");
+                clientImpl.setRoot("main");
             } catch (IOException e) {
                 e.printStackTrace();
             }

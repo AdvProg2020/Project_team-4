@@ -21,6 +21,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Customer {
+    private App.ClientImpl clientImpl;
+
+    public void setClientImpl(App.ClientImpl clientImpl) {
+        this.clientImpl = clientImpl;
+    }
+
     public Button codedOff1Button;
     public Button codedOff2Button;
     public Button codedOff3Button;
@@ -147,17 +153,17 @@ public class Customer {
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
         if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
+            clientImpl.setRoot("login-create");
         } else {
             switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
                 case "class Model.Manager":
-                    App.setRoot("manager");
+                    clientImpl.setRoot("manager");
                     break;
                 case "class Model.Customer":
-                    App.setRoot("customer");
+                    clientImpl.setRoot("customer");
                     break;
                 case "class Model.Seller":
-                    App.setRoot("seller");
+                    clientImpl.setRoot("seller");
                     break;
             }
         }
@@ -186,13 +192,13 @@ public class Customer {
     }
 
     public void goToHistoryPage(ActionEvent actionEvent) throws IOException {
-        App.setRoot("sell-history");
+        clientImpl.setRoot("sell-history");
     }
 
     public void chooseImage(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("img files (*.png)", "*.png"));
-        File file = fileChooser.showOpenDialog(App.getStage());
+        File file = fileChooser.showOpenDialog(clientImpl.getStage());
 
         if(file == null){
             return;
