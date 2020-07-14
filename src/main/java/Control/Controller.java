@@ -6,9 +6,14 @@ import com.google.gson.reflect.TypeToken;
 import org.example.App;
 
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -21,7 +26,38 @@ public class Controller {
 
     private final static Controller ourController = new Controller();
 
+    private HashMap<String, String> token = new HashMap<>();
     private Account loggedInAccount = null;
+
+    public static void main(String[] args) throws IOException {
+        //network
+        ServerSocket serverSocket = new ServerSocket(8888);
+        Socket socket = serverSocket.accept();
+        DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+        dataInputStream.readUTF();
+        handleData();
+
+    }
+
+    private static void handleData() {
+        File file1 = new File(String.valueOf("class Model.Customer"));
+        file1.mkdir();
+        File file2 = new File("class Model.Manager");
+        file2.mkdir();
+        File file3 = new File("class Model.Seller");
+        file3.mkdir();
+        File file4 = new File("class java.util.ArrayList");
+        file4.mkdirs();
+        File file5 = new File("Image");
+        file5.mkdirs();
+        Controller.readOffCodesFromFile();
+        Controller.readRequestsFromFile();
+        Controller.readOffsFromFile();
+        Controller.readProductsFromFile();
+        Controller.readCategoriesFromFile();
+//        MainMenu mainMenu = new MainMenu();
+//        mainMenu.execute();
+    }
 
     public static Controller getOurController() {
         return ourController;

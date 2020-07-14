@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.CharArrayReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 
@@ -33,7 +34,9 @@ public class App extends Application {
         mediaPlayer.setCycleCount(10);
         this.stage = stage;
         Controller.getOurController().setLoggedInAccount(defaultCustomer);
-        handleData();
+        //add network
+        Socket socket = new Socket("localhost", 8888);
+
       if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));
         } else {
@@ -57,26 +60,6 @@ public class App extends Application {
             }
         }
         return isFirstManagerCreatedOrNot;
-    }
-
-    private void handleData() {
-        File file1 = new File(String.valueOf("class Model.Customer"));
-        file1.mkdir();
-        File file2 = new File("class Model.Manager");
-        file2.mkdir();
-        File file3 = new File("class Model.Seller");
-        file3.mkdir();
-        File file4 = new File("class java.util.ArrayList");
-        file4.mkdirs();
-        File file5 = new File("Image");
-        file5.mkdirs();
-        Controller.readOffCodesFromFile();
-        Controller.readRequestsFromFile();
-        Controller.readOffsFromFile();
-        Controller.readProductsFromFile();
-        Controller.readCategoriesFromFile();
-//        MainMenu mainMenu = new MainMenu();
-//        mainMenu.execute();
     }
 
     static void setRoot(String fxml) throws IOException {
