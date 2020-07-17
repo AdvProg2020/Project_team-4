@@ -37,10 +37,15 @@ public class Controller {
         ourController = controller;
         while(true){
             Socket socket = serverSocket.accept();
+
             DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             String input = dataInputStream.readUTF();
             ourController.checkFunction(input);
         }
+    }
+
+    class controllerThread extends Thread{
+
     }
 
     private void checkFunction(String input) {
