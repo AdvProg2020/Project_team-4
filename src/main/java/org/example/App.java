@@ -101,7 +101,6 @@ public class App {
             Controller.getOurController().setLoggedInAccount(defaultCustomer);
             if (checkInitializedOrNot()) {
                 scene = new Scene(loadFXML("main"));
-                PrimaryController.set
             } else {
                 scene = new Scene(loadFXML("initialization"));
             }
