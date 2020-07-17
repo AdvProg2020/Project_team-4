@@ -24,6 +24,7 @@ public class App extends Application {
     private boolean isFirstManagerCreatedOrNot;
     private static Stage stage;
     public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
+    public static Socket socket;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -35,7 +36,7 @@ public class App extends Application {
         this.stage = stage;
         Controller.getOurController().setLoggedInAccount(defaultCustomer);
         //add network
-        Socket socket = new Socket("localhost", 8888);
+        socket = new Socket("localhost", 8888);
 
       if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));

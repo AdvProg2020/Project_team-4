@@ -24,7 +24,7 @@ import static View.Menu.Menu.getField;
 
 public class Controller {
 
-    private final static Controller ourController = new Controller();
+    private static Controller ourController;
 
     private HashMap<String, String> token = new HashMap<>();
     private Account loggedInAccount = null;
@@ -32,11 +32,55 @@ public class Controller {
     public static void main(String[] args) throws IOException {
         //network
         ServerSocket serverSocket = new ServerSocket(8888);
-        Socket socket = serverSocket.accept();
-        DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-        dataInputStream.readUTF();
         handleData();
+        Controller controller = new Controller();
+        ourController = controller;
+        while(true){
+            Socket socket = serverSocket.accept();
+            DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            String input = dataInputStream.readUTF();
+            ourController.checkFunction(input);
+        }
+    }
 
+    private void checkFunction(String input) {
+        if(input.startsWith("controllerNewAccount")){
+            String[] substr = input.split(" ");
+            Thread thread = new Thread(() -> controllerNewAccount(substr[1], substr[2], substr[3]));
+            thread.start();
+        }else if(input.startsWith("editField")){
+            String[] substr = input.split(" ");
+            Thread thread = new Thread(() -> editField(substr[1]));
+            thread.start();
+        }else if(input.startsWith("getLoggedInAccount")){
+            String[] substr = input.split(" ");
+            Thread thread = new Thread(() -> editField(substr[1]));
+            thread.start();
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }else if(input.startsWith("")){
+
+        }
     }
 
     private static void handleData() {
