@@ -52,20 +52,20 @@ public class Manager {
     public Button saveButton;
 
     public void initialize() {
-        userName.setText(Controller.getOurController().getLoggedInAccount().getUserName());
-        firstName.setText(Controller.getOurController().getLoggedInAccount().getFirstName());
-        lastName.setText(Controller.getOurController().getLoggedInAccount().getLastName());
-        passWord.setText(Controller.getOurController().getLoggedInAccount().getPassWord());
-        phoneNumber.setText(Controller.getOurController().getLoggedInAccount().getPhoneNumber());
-        mail.setText(Controller.getOurController().getLoggedInAccount().getEmail());
-        role.setText(Controller.getOurController().getLoggedInAccount().getClass().toString());
-        credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
+        userName.setText(Controller.getOurController().getCurrentAccount().getUserName());
+        firstName.setText(Controller.getOurController().getCurrentAccount().getFirstName());
+        lastName.setText(Controller.getOurController().getCurrentAccount().getLastName());
+        passWord.setText(Controller.getOurController().getCurrentAccount().getPassWord());
+        phoneNumber.setText(Controller.getOurController().getCurrentAccount().getPhoneNumber());
+        mail.setText(Controller.getOurController().getCurrentAccount().getEmail());
+        role.setText(Controller.getOurController().getCurrentAccount().getClass().toString());
+        credit.setText(String.valueOf(Controller.getOurController().getCurrentAccount().getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
         Image image;
-        File file = new File("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        File file = new File("Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
         if(file.exists()){
-            image = new Image("file:////..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            image = new Image("file:////..\\Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
         }else{
             image = new Image("file:////..\\Image\\noProfile.png");
         }
@@ -77,7 +77,7 @@ public class Manager {
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
             Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Manager.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
+            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Model.Manager.class.toString(), Controller.getOurController().getCurrentAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
             alert.show();
@@ -150,11 +150,11 @@ public class Manager {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
@@ -200,14 +200,14 @@ public class Manager {
 
         copyImage(file);
 
-        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
         imageView.setImage(image);
     }
 
     private void copyImage(File file) {
         try {
             FileInputStream in = new FileInputStream(file);
-            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
             SellersProductPage.CopyFile(in, out);
         } catch (IOException e) {
             e.printStackTrace();

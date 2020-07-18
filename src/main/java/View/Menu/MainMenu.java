@@ -18,15 +18,15 @@ public class MainMenu extends Menu {
     }
 
     private static void goToUserSection() {
-        if(Controller.getOurController().getLoggedInAccount() == null){
+        if(Controller.getOurController().getCurrentAccount() == null){
             System.out.println("you should login first");
             return;
         }
-        if (Customer.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
+        if (Customer.class.equals(Controller.getOurController().getCurrentAccount().getClass())) {
             CustomerMenu.getCustomerMenu().execute();
-        } else if (Manager.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
+        } else if (Manager.class.equals(Controller.getOurController().getCurrentAccount().getClass())) {
             ManagerMenu.managerMenu().execute();
-        } else if (Seller.class.equals(Controller.getOurController().getLoggedInAccount().getClass())) {
+        } else if (Seller.class.equals(Controller.getOurController().getCurrentAccount().getClass())) {
             SellerMenu.getSellerMenu().execute();
         }
     }

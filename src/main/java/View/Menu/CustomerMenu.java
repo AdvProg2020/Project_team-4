@@ -1,7 +1,6 @@
 package View.Menu;
 
 import Control.Controller;
-import Model.SaveAndLoad;
 import View.Outputs;
 
 import java.util.regex.Matcher;
@@ -38,7 +37,7 @@ public class CustomerMenu extends Menu {
             }
             @Override
             protected void execute() {
-                System.out.println(Controller.getOurController().getLoggedInAccount());
+                System.out.println(Controller.getOurController().getCurrentAccount());
                 String input;
                 do {
                     System.out.println("Enter 1 for edit a field and 2 for back:");

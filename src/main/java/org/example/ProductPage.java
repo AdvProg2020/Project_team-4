@@ -8,10 +8,6 @@ import Model.SaveAndLoad;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -20,8 +16,6 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static org.example.App.loadFXML;
 
 public class ProductPage {
 
@@ -66,7 +60,7 @@ public class ProductPage {
     }
 
     public void addToCart() {
-        if (Controller.getOurController().getLoggedInAccount() != null) {
+        if (Controller.getOurController().getCurrentAccount() != null) {
             Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Successfully added.");
@@ -79,7 +73,7 @@ public class ProductPage {
     }
 
     public void addComment() {
-        if (Controller.getOurController().getLoggedInAccount() != null) {
+        if (Controller.getOurController().getCurrentAccount() != null) {
             Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Successfully added.");

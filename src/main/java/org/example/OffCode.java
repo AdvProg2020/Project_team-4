@@ -3,25 +3,17 @@ package org.example;
 import Control.Controller;
 import Model.*;
 import Model.Customer;
-import Model.Manager;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -158,11 +150,11 @@ public class OffCode implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

@@ -46,7 +46,7 @@ public class ManagerMenu extends Menu {
             }
             @Override
             protected void execute() {
-                System.out.println(Controller.getOurController().getLoggedInAccount());
+                System.out.println(Controller.getOurController().getCurrentAccount());
                 String input;
                 do {
                     System.out.println("Enter 1 for edit a field and 2 for back:");
@@ -251,7 +251,6 @@ public class ManagerMenu extends Menu {
             public void execute() {
                 String input;
                 Matcher matcher;
-                System.out.println(Controller.getOurController().showAllRequests());
                 Request request = null;
                 options.add("DETAILS_REQUEST");
                 options.add("ACCEPT_REQUEST");

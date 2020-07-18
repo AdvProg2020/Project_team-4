@@ -1,5 +1,4 @@
-package Model;
-
+package org.example;
 
 
 import javafx.scene.image.Image;
@@ -9,13 +8,12 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-import java.time.format.DateTimeFormatter;
 
 public class Product extends SaveAble {
-    private static ArrayList<Product> allProducts = new ArrayList<>();
     private String productBarcode;
     private  ArrayList<String> byers = new ArrayList<>();
 
@@ -161,7 +159,7 @@ public class Product extends SaveAble {
         this.tags = product.getTags();
         this.amountOfExist = product.getAmountOfExist();
         this.localDateTime = product.getLocalDateTime();
-        Seller seller= ((Seller) Account.getAccountWithName(product.getSellers().get(0)));
+        Model.Seller seller= ((Model.Seller) Account.getAccountWithName(product.getSellers().get(0)));
         System.out.println(seller);
         seller.getProducts().add(product.getProductBarcode());
         System.out.println(seller);

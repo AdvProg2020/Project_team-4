@@ -1,8 +1,5 @@
 package org.example;
 
-import Control.Controller;
-import Model.CartItem;
-import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,13 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class Cart implements Initializable {
     int totalPriceInt = 0;
@@ -65,11 +62,28 @@ public class Cart implements Initializable {
 
         List list = new ArrayList();
         int i=1;
-        for (String name: ((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().keySet()) {
+        String names = null;
+        try {
+            App.dataOutputStream.writeUTF(App.token + " " + "getCartKeySet");
+            App.dataOutputStream.flush();
+            names = App.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Set set;
+        for (String name: names.split(" ")){
+            try {
+                App.dataOutputStream.writeUTF(App.token + " " + name);
+                App.dataOutputStream.flush();
+                String message = App.dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (Product.getProductWithBarcode(name) != null) {
                 CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
                 cartItem.setItemNo(i);
-                cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().get(name));
+                cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getCurrentAccount())).getCart().get(name));
                 cartItem.setTotalPrice(cartItem.getHowMany() * cartItem.getPrice());
                 list.add(cartItem);
                 totalPriceInt += cartItem.getHowMany() * cartItem.getPrice();
@@ -95,11 +109,11 @@ public class Cart implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

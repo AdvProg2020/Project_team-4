@@ -2,7 +2,6 @@ package org.example;
 
 import Control.Controller;
 import Model.Category;
-import Model.SaveAndLoad;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,12 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class SellersCategoryPage implements Initializable {
@@ -46,11 +43,11 @@ public class SellersCategoryPage implements Initializable {
 
 
     public void switchtoAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

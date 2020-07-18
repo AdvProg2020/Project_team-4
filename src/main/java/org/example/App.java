@@ -1,8 +1,6 @@
 package org.example;
 
 import Control.Controller;
-import Model.*;
-import View.Menu.MainMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,11 +9,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import java.io.CharArrayReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 
 public class App extends Application {
@@ -24,7 +19,19 @@ public class App extends Application {
     private boolean isFirstManagerCreatedOrNot;
     private static Stage stage;
     public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
-    public static Socket socket;
+    private static Socket socket;
+    public static DataInputStream dataInputStream;
+    public static DataOutputStream dataOutputStream;
+    public static String token;
+
+    static {
+        try {
+            dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -34,7 +41,7 @@ public class App extends Application {
         mediaPlayer.play();
         mediaPlayer.setCycleCount(10);
         this.stage = stage;
-        Controller.getOurController().setLoggedInAccount(defaultCustomer);
+        Controller.getOurController().setCurrentAccount(defaultCustomer);
         //add network
         socket = new Socket("localhost", 8888);
 
@@ -79,5 +86,8 @@ public class App extends Application {
     public static Stage getStage(){
         return stage;
     }
+
+    public
+
 
 }

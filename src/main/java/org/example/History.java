@@ -1,7 +1,6 @@
 package org.example;
 
 import Control.Controller;
-import Model.Category;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,11 +57,11 @@ public class History implements Initializable {
     }
 
     public void switchToAacountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

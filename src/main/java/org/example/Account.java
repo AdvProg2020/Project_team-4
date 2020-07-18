@@ -1,4 +1,10 @@
-package Model;
+package org.example;
+
+import Model.Customer;
+import Model.Manager;
+import Model.Seller;
+import Model.*;
+
 import java.io.File;
 
 public abstract class Account extends SaveAble {

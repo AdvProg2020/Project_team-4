@@ -74,7 +74,7 @@ public class LoginMenu extends Menu {
 
     private boolean login() {
 
-        if(Controller.getOurController().getLoggedInAccount() != null){
+        if(Controller.getOurController().getCurrentAccount() != null){
             return printLoginResult(4);
         }
 

@@ -1,17 +1,14 @@
 package org.example;
 
-import Model.Account;
 import Model.Product;
 import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import Control.Controller;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
@@ -46,8 +43,8 @@ public class SellersProductPage implements Initializable {
     public void edit(ActionEvent actionEvent) {
         pictureStatus.setText("no picture");
         if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && Product.getProductWithBarcode(nameField.getText().trim()) != null) {
-            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Seller)(Controller.getOurController().getLoggedInAccount())).getUserName());
-            ((Seller) Controller.getOurController().getLoggedInAccount()).setProducts(nameField.getText().trim());
+            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Seller)(Controller.getOurController().getCurrentAccount())).getUserName());
+            ((Seller) Controller.getOurController().getCurrentAccount()).setProducts(nameField.getText().trim());
             imageFile = null;
             return;
         }
@@ -56,7 +53,7 @@ public class SellersProductPage implements Initializable {
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);
         }
-        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getLoggedInAccount().getUserName());
+        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
         copyImage(nameField.getText());
     }
 
@@ -103,7 +100,7 @@ public class SellersProductPage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getEditAbleTextFields();
-        ArrayList<String> productsNames = new ArrayList(((Seller)Controller.getOurController().getLoggedInAccount()).getProducts());
+        ArrayList<String> productsNames = new ArrayList(((Seller)Controller.getOurController().getCurrentAccount()).getProducts());
         ArrayList<Product> products = new ArrayList<>();
         for (String name: productsNames) {
             products.add(Product.getProductWithBarcode(name));
@@ -124,11 +121,11 @@ public class SellersProductPage implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
