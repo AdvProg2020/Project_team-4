@@ -138,6 +138,14 @@ public class ControllerThread extends Thread{
             Manager.addANewManager(subString[2], subString[3], inObject.readBoolean());
         } else if (subString[1].equalsIgnoreCase("controllerNewAccount")) {
             getOurController().controllerNewAccount(subString[3], subString[4], subString[5]);
+        } else if (subString[1].equalsIgnoreCase("login")) {
+            getOurController().controllerLogin(subString[3], subString[4]);
+        } else if (subString[1].equalsIgnoreCase("changeFields")) {
+            getOurController().changeFields(subString[2], subString[3], subString[4], subString[5], subString[6]);
+            SaveAndLoad.getSaveAndLoad().writeJSON(getOurController().getCurrentAccount(), Model.Manager.class.toString(), getOurController().getCurrentAccount().getUserName());
+        } else if (subString[1].equalsIgnoreCase("getAllProducts")) {
+            outObject.writeObject(Product.getAllProducts());
+            outObject.flush();
         }
     }
 }

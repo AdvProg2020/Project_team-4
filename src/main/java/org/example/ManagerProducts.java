@@ -1,6 +1,5 @@
 package org.example;
 
-import Control.Controller;
 import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,24 +15,26 @@ import java.util.ResourceBundle;
 
 public class ManagerProducts implements Initializable {
 
+    Model.Account account;
+
 
     public TextField descriptionField;
     ArrayList<TextField> textFields = new ArrayList<>();
 
-    public TableView<Product> table;
-    public TableColumn<Product, String> nameColumn;
-    public TableColumn<Product, String> categoryColumn;
-    public TableColumn<Product, String> companyColumn;
-    public TableColumn<Product, Double> costColumn;
-    public TableColumn<Product, Integer> amountColumn;
-    public TableColumn<Product, ArrayList<String>> tagsColumn;
+    public TableView<Model.Product> table;
+    public TableColumn<Model.Product, String> nameColumn;
+    public TableColumn<Model.Product, String> categoryColumn;
+    public TableColumn<Model.Product, String> companyColumn;
+    public TableColumn<Model.Product, Double> costColumn;
+    public TableColumn<Model.Product, Integer> amountColumn;
+    public TableColumn<Model.Product, ArrayList<String>> tagsColumn;
     public Button removeButton;
 
     public void remove(ActionEvent actionEvent) {
-        ObservableList<Product> selectedItem = table.getSelectionModel().getSelectedItems();
+        ObservableList<Model.Product> selectedItem = table.getSelectionModel().getSelectedItems();
         Controller.getOurController().controllerRemoveProduct(selectedItem.get(0).getProductBarcode());
-        ObservableList<Product> allProducts;
-        ObservableList<Product> singleProduct;
+        ObservableList<Model.Product> allProducts;
+        ObservableList<Model.Product> singleProduct;
         allProducts = table.getItems();
         singleProduct = table.getSelectionModel().getSelectedItems();
         singleProduct.forEach(allProducts::remove);
@@ -41,8 +42,24 @@ public class ManagerProducts implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Product> products = Product.getAllProducts();
-        ObservableList<Product> observableList = FXCollections.observableArrayList(products);
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<Model.Product> products = null;
+        App.sendMessageToServer("getAllProducts", "");
+        try {
+            products = (ArrayList<Product>) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//        Product.getAllProducts();
+        ObservableList<Model.Product> observableList = FXCollections.observableArrayList(products);
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("AmountOfExist"));
@@ -57,18 +74,18 @@ public class ManagerProducts implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
-                case "class Model.Manager":
+            switch (account.getUserName().substring(0, 2)) {
+                case "man":
                     App.setRoot("manager");
                     break;
-                case "class Model.Customer":
+                case "cus":
                     App.setRoot("customer");
                     break;
-                case "class Model.Seller":
+                case "sel":
                     App.setRoot("seller");
                     break;
             }

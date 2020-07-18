@@ -1,7 +1,6 @@
 package org.example;
 
-import Control.Controller;
-import Model.SaveAndLoad;
+import Model.Account;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,6 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Manager {
+
+    Account account = null;
+
+
     @FXML
     public Button request;
     @FXML
@@ -52,20 +55,27 @@ public class Manager {
     public Button saveButton;
 
     public void initialize() {
-        userName.setText(Controller.getOurController().getCurrentAccount().getUserName());
-        firstName.setText(Controller.getOurController().getCurrentAccount().getFirstName());
-        lastName.setText(Controller.getOurController().getCurrentAccount().getLastName());
-        passWord.setText(Controller.getOurController().getCurrentAccount().getPassWord());
-        phoneNumber.setText(Controller.getOurController().getCurrentAccount().getPhoneNumber());
-        mail.setText(Controller.getOurController().getCurrentAccount().getEmail());
-        role.setText(Controller.getOurController().getCurrentAccount().getClass().toString());
-        credit.setText(String.valueOf(Controller.getOurController().getCurrentAccount().getCredit()));
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        try {
+            account = ((Account)App.inObject.readObject());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        userName.setText(account.getUserName());
+        firstName.setText(account.getFirstName());
+        lastName.setText(account.getLastName());
+        passWord.setText(account.getPassWord());
+        phoneNumber.setText(account.getPhoneNumber());
+        mail.setText(account.getEmail());
+        role.setText(account.getClass().toString());
+        credit.setText(String.valueOf(account.getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
         Image image;
-        File file = new File("Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+        File file = new File("Image\\" + account.getUserName() + ".png");
         if(file.exists()){
-            image = new Image("file:////..\\Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+            image = new Image("file:////..\\Image\\" + account.getUserName() + ".png");
         }else{
             image = new Image("file:////..\\Image\\noProfile.png");
         }
@@ -76,8 +86,12 @@ public class Manager {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
-            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Model.Manager.class.toString(), Controller.getOurController().getCurrentAccount().getUserName());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(firstName.getText().trim() + " " + lastName.getText().trim() + " " + phoneNumber.getText().trim() + " " + mail.getText().trim() + " " + passWord.getText().trim());
+            App.sendMessageToServer("changeFields", stringBuilder.toString());
+
+//            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
+//            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Model.Manager.class.toString(), Controller.getOurController().getCurrentAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
             alert.show();
@@ -150,26 +164,27 @@ public class Manager {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
-                case "class Model.Manager":
+            switch (account.getUserName().substring(0, 3)) {
+                case "man":
                     App.setRoot("manager");
                     break;
-                case "class Model.Customer":
+                case "cus":
                     App.setRoot("customer");
                     break;
-                case "class Model.Seller":
+                case "sel":
                     App.setRoot("seller");
                     break;
             }
         }
     }
 
-    public void logout(ActionEvent actionEvent) {
-        int result = Controller.getOurController().logout();
+    public void logout(ActionEvent actionEvent) throws IOException {
+        App.sendMessageToServer("logout", "");
+        int result = App.inObject.readInt();
         if (result == 2) {
             try {
                 App.setRoot("main");
@@ -200,14 +215,14 @@ public class Manager {
 
         copyImage(file);
 
-        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+        Image image = new Image("file:///..\\Image\\" + account.getUserName() + ".png");
         imageView.setImage(image);
     }
 
     private void copyImage(File file) {
         try {
             FileInputStream in = new FileInputStream(file);
-            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+            FileOutputStream out = new FileOutputStream("Image\\" + account.getUserName() + ".png");
             SellersProductPage.CopyFile(in, out);
         } catch (IOException e) {
             e.printStackTrace();

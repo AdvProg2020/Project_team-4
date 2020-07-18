@@ -108,7 +108,14 @@ public class LoginCreate {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance(userLogin, loginButton, passLogin, loginButtonHandler)) return;
-            int result = Controller.getOurController().controllerLogin(userLogin.getText().trim(), passLogin.getText().trim());
+            StringBuilder stringBuilder = new StringBuilder(userLogin.getText().trim() + " " + passLogin.getText().trim());
+            App.sendMessageToServer("login", stringBuilder.toString());
+            int result = 0;
+            try {
+                result = App.inObject.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println(result);
             if (result == 2 || result == 3) {
                 Alert a = new Alert(Alert.AlertType.NONE);
@@ -134,7 +141,13 @@ public class LoginCreate {
     EventHandler logoutButtonHandler = new EventHandler() {
         @Override
         public void handle(Event event) {
-            int result = Controller.getOurController().logout();
+            App.sendMessageToServer("logout", "");
+            int result = 0;
+            try {
+                result = App.inObject.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (result == 1) {
                 Alert a = new Alert(Alert.AlertType.NONE);
 
