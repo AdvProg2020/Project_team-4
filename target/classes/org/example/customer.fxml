@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane prefHeight="400.0" prefWidth="600.0" style="-fx-padding: 3cm" stylesheets="@font.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Customer">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints maxWidth="208.66666666666666" minWidth="150.66666666666666" prefWidth="208.66666666666666" />
+      <ColumnConstraints maxWidth="102.33333333333331" minWidth="44.333333333333314" prefWidth="44.333333333333314" />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="124.99999999999999" minHeight="117.99999999999999" prefHeight="117.99999999999999" />
+      <RowConstraints maxHeight="42.0" minHeight="35.0" prefHeight="42.0" />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Label text="username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+       <TextField fx:id="userName" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Label text="firstName" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+       <TextField fx:id="firstName" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Label text="lastName" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+       <TextField fx:id="lastName" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <Label text="passWord" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+       <TextField fx:id="passWord" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <Label text="number" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+       <TextField fx:id="phoneNumber" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+      <Label text="mail" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+       <TextField fx:id="mail" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <Label text="role" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+       <TextField fx:id="role" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+       <Label text="credit" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+       <TextField fx:id="credit" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+       <Label text="offCodes" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+<!--       <TextField fx:id="offCodes" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="10" />-->
+       <Label text="address" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+       <TextField fx:id="address" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+      <Button fx:id="cartButton" mnemonicParsing="false" text="cart" GridPane.columnIndex="6" GridPane.columnSpan="2" />
+       <Button fx:id="historyButton" mnemonicParsing="false" onAction="#goToHistoryPage" text="buyHistory" GridPane.columnIndex="8" GridPane.columnSpan="2" />
+      <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="9" GridPane.rowIndex="10" />
+      <Button mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" GridPane.rowIndex="12" />
+      <Button mnemonicParsing="false" onAction="#logout" text="logout" GridPane.rowIndex="13" />
+      <Button mnemonicParsing="false" onAction="#goToMainPage" text="main" GridPane.rowIndex="14" />
+      <Button fx:id="codedOff1Button" mnemonicParsing="false" onAction="#showOffCode" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+      <Button fx:id="codedOff2Button" mnemonicParsing="false" onAction="#showOffCode" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+      <Button fx:id="codedOff3Button" mnemonicParsing="false" onAction="#showOffCode" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+       <ImageView fx:id="imageView" fitHeight="130.0" fitWidth="125.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+       <Button fx:id="chooseImage" onAction="#chooseImage" text="select profileImage" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+   </children>
+</GridPane>

@@ -1,0 +1,23 @@
+.titleVBox{
+    -fx-border-radius: 10px;
+    -fx-border-color: black;
+    -fx-background-radius: 10px;
+}
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler ,
+.table-view,
+.table-view .column-header-background{
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+.button{
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.scroll-pane > .corner,
+.scroll-pane{
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}

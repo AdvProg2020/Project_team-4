@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<GridPane prefHeight="400.0" prefWidth="600.0" style="-fx-padding: 3cm" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Manager" stylesheets="@font.css">
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Label text="username" GridPane.rowIndex="2" />
+        <TextField fx:id="userName" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="firstName" GridPane.rowIndex="3" />
+        <TextField fx:id="firstName" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label text="lastName" GridPane.rowIndex="4" />
+        <TextField fx:id="lastName" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label text="passWord" GridPane.rowIndex="5" />
+        <TextField fx:id="passWord" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label text="number" GridPane.rowIndex="6" />
+        <TextField fx:id="phoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <Label text="mail" GridPane.rowIndex="7" />
+        <TextField fx:id="mail" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <Label text="role" GridPane.rowIndex="8" />
+        <TextField fx:id="role" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+        <Label text="credit" GridPane.rowIndex="9" />
+        <TextField fx:id="credit" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+        <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="save" GridPane.columnIndex="8" GridPane.rowIndex="10" />
+        <Button fx:id="request" onAction="#goToRequestPage" mnemonicParsing="false" text="requests" GridPane.rowIndex="10" GridPane.columnIndex="9"/>
+        <Button fx:id="codedOff" onAction="#goToCodedOffPage" mnemonicParsing="false" text="CodedOff" GridPane.rowIndex="10" GridPane.columnIndex="10"/>
+        <Button fx:id="usersManaging" onAction="#goToManageUsersPage" mnemonicParsing="false" text="usersManaging" GridPane.rowIndex="10" GridPane.columnIndex="11"/>
+        <Button fx:id="categoriesManaging" onAction="#goToCategoriesPage" mnemonicParsing="false" text="categoriesManaging" GridPane.rowIndex="10" GridPane.columnIndex="12"/>
+        <Button onAction="#logout" mnemonicParsing="false" text="logout" GridPane.rowIndex="10" GridPane.columnIndex="13"/>
+        <Button onAction="#gotToMainPage" mnemonicParsing="false" text="main" GridPane.rowIndex="10" GridPane.columnIndex="14"/>
+        <Button onAction="#gotToProductsPage" mnemonicParsing="false" text="products" GridPane.rowIndex="10" GridPane.columnIndex="15"/>
+        <ImageView fx:id="imageView" fitHeight="130.0" fitWidth="125.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+        <Button fx:id="chooseImage" onAction="#chooseImage" text="select profileImage" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+
+    </children>
+</GridPane>
