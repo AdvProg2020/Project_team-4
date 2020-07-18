@@ -1,6 +1,6 @@
 package org.example;
 
-import Model.Manager;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -38,7 +38,10 @@ public class Initialization {
                 initButton.setOnAction(initButtonHandler);
                 return;
             }
-            Manager.addANewManager(initUserName.getText().trim(), initPassWord.getText().trim(), false);
+            StringBuilder stringBuilder = new StringBuilder(initUserName.getText().trim() + " " + initPassWord.getText().trim());
+            App.sendMessageToServer("addANewManager", stringBuilder.toString());
+            App.sendObjectToServer(false);
+//            Manager.addANewManager(initUserName.getText().trim(), initPassWord.getText().trim(), false);
             try {
                 App.setRoot("main");
             } catch (IOException e) {

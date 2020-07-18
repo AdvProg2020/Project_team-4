@@ -1,7 +1,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class RequestProduct extends Request {
     private Product product;

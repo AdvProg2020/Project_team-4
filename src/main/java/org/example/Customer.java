@@ -1,8 +1,7 @@
 package org.example;
 
-import Control.Controller;
+
 import Model.CodedOff;
-import Model.SaveAndLoad;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -18,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Customer {
+    Model.Account account;
     public Button codedOff1Button;
     public Button codedOff2Button;
     public Button codedOff3Button;
@@ -51,18 +51,25 @@ public class Customer {
     public Button saveButton;
 
     public void initialize() {
-        userName.setText(Controller.getOurController().getCurrentAccount().getUserName());
-        firstName.setText(Controller.getOurController().getCurrentAccount().getFirstName());
-        lastName.setText(Controller.getOurController().getCurrentAccount().getLastName());
-        passWord.setText(Controller.getOurController().getCurrentAccount().getPassWord());
-        phoneNumber.setText(Controller.getOurController().getCurrentAccount().getPhoneNumber());
-        mail.setText(Controller.getOurController().getCurrentAccount().getEmail());
-        role.setText(Controller.getOurController().getCurrentAccount().getClass().toString());
-        credit.setText(String.valueOf(Controller.getOurController().getCurrentAccount().getCredit()));
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        userName.setText(account.getUserName());
+        firstName.setText(account.getFirstName());
+        lastName.setText(account.getLastName());
+        passWord.setText(account.getPassWord());
+        phoneNumber.setText(account.getPhoneNumber());
+        mail.setText(account.getEmail());
+        role.setText(account.getClass().toString());
+        credit.setText(String.valueOf(account.getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
         cartButton.setOnAction(cartButtonHandler);
-        ArrayList<String> offCodesNames = new ArrayList<>(((Model.Customer)Controller.getOurController().getCurrentAccount()).getOffCodes());
+        ArrayList<String> offCodesNames = new ArrayList<>(((Model.Customer)account).getOffCodes());
         int i=0;
         if (offCodesNames.size() > 0) {
             codedOff1Button.setText(offCodesNames.get(0));
@@ -77,9 +84,9 @@ public class Customer {
             codedOff3Button.setVisible(true);
         }
         Image image;
-        File file = new File("Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+        File file = new File("Image\\" + account.getUserName() + ".png");
         if(file.exists()){
-            image = new Image("file:////..\\Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+            image = new Image("file:////..\\Image\\" + account.getUserName() + ".png");
         }else{
             image = new Image("file:////..\\Image\\noProfile.png");
         }
@@ -101,9 +108,15 @@ public class Customer {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
-            Controller.getOurController().setCustomersField(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim());
-            Controller.getOurController().setCustomerPassWordAndAddress(passWord.getText().trim(), address.getText().trim());
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Model.Customer.class.toString(), Controller.getOurController().getCurrentAccount().getUserName());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(firstName.getText().trim() + " " + lastName.getText().trim() + " " + phoneNumber.getText().trim() + " " + mail.getText().trim() + " ");
+            App.sendMessageToServer("setCustomersField", stringBuilder.toString());
+//            Controller.getOurController().setCustomersField(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim());
+            stringBuilder = new StringBuilder();
+            stringBuilder.append(passWord.getText().trim() + " " + address.getText().trim());
+            App.sendMessageToServer("setCustomerPassWordAndAddress", stringBuilder.toString());
+//            Controller.getOurController().setCustomerPassWordAndAddress(passWord.getText().trim(), address.getText().trim());
+//            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Model.Customer.class.toString(), Controller.getOurController().getCurrentAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
             alert.show();
@@ -142,26 +155,27 @@ public class Customer {
 
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
-                case "class Model.Manager":
+            switch (account.getUserName().substring(0, 2)) {
+                case "man":
                     App.setRoot("manager");
                     break;
-                case "class Model.Customer":
+                case "cus":
                     App.setRoot("customer");
                     break;
-                case "class Model.Seller":
+                case "sel":
                     App.setRoot("seller");
                     break;
             }
         }
     }
 
-    public void logout(ActionEvent actionEvent) {
-        int result = Controller.getOurController().logout();
+    public void logout(ActionEvent actionEvent) throws IOException {
+        App.sendMessageToServer("logout", "");
+        int result = App.inObject.readInt();
         if (result == 2) {
             try {
                 App.setRoot("main");
@@ -175,10 +189,12 @@ public class Customer {
         App.setRoot("main");
     }
 
-    public void showOffCode(ActionEvent actionEvent) {
+    public void showOffCode(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         String name = ((Button)actionEvent.getSource()).getText();
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(CodedOff.getOffCodeWithName(name).getStartTime() + "/" + CodedOff.getOffCodeWithName(name).getEndTime());
+        App.sendMessageToServer("getOffCodeWithName", name);
+        Model.CodedOff codedOff = (CodedOff) App.inObject.readObject();
+        alert.setContentText(codedOff.getStartTime() + "/" + codedOff.getEndTime());
         alert.show();
     }
 
@@ -197,14 +213,14 @@ public class Customer {
 
         copyImage(file);
 
-        Image image = new Image("file:////..\\Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+        Image image = new Image("file:////..\\Image\\" + account.getUserName() + ".png");
         imageView.setImage(image);
     }
 
     private void copyImage(File file) {
         try {
             FileInputStream in = new FileInputStream(file);
-            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getCurrentAccount().getUserName() + ".png");
+            FileOutputStream out = new FileOutputStream("Image\\" + account.getUserName() + ".png");
             SellersProductPage.CopyFile(in, out);
         } catch (IOException e) {
             e.printStackTrace();

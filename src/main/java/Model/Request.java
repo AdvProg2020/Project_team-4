@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public abstract class Request extends SaveAble {
     private RequestType requestType;
     //protected String requestId;

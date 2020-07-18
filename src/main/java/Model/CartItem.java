@@ -1,5 +1,7 @@
-package org.example;
+package Model;
 
+import Control.Controller;
+import Control.ControllerThread;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -22,7 +24,7 @@ public class CartItem {
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Controller.getOurController().increaseOrDecreaseProductNo(product.getProductBarcode(), +1);
+                ((ControllerThread)Thread.currentThread()).getOurController().increaseOrDecreaseProductNo(product.getProductBarcode(), +1);
             }
         });
         decreaseButton = new Button();
@@ -30,7 +32,7 @@ public class CartItem {
         decreaseButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Controller.getOurController().increaseOrDecreaseProductNo(product.getProductBarcode(), -1);
+                ((ControllerThread)Thread.currentThread()).getOurController().increaseOrDecreaseProductNo(product.getProductBarcode(), -1);
             }
         });
     }

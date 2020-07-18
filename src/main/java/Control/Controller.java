@@ -2,68 +2,21 @@ package Control;
 
 import Model.*;
 import View.Outputs;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.example.App;
 
-
 import java.io.*;
 import java.lang.reflect.Type;
-
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 import static Model.Product.getProductWithBarcode;
 import static View.Menu.Menu.getField;
-
- class ControllerThread extends Thread{
-     private Socket socket;
-     private Account loggedInAccount = null;
-     private String token = null;
-     Controller controller;
-
-     public ControllerThread(Socket socket) {
-         this.socket = socket;
-         controller = new Controller();
-     }
-
-     @Override
-     public void run() {
-         DataInputStream dataInputStream = null;
-         DataOutputStream dataOutputStream;
-         try {
-             dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-             dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-         while(true){
-             String input = dataInputStream.readUTF();
-             String[] subString = input.split(" ");
-             checkFunction(subString, dataOutputStream);
-         }
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
-     }
-
-     private void checkFunction(String[] subString, DataOutputStream dataOutputStream) {
-         StringBuilder stringBuilder = new StringBuilder();
-         if(subString[1].equals("getCartKeySet")){
-             for (Object o : controller.getCart().keySet()) {
-                 stringBuilder.append(o + " ");
-             }
-         }else if(subString[1].startsWith("")){
-
-         }
-         try {
-             dataOutputStream.writeUTF(String.valueOf(stringBuilder));
-             dataOutputStream.flush();
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
-     }
- }
 
 public class Controller {
 
@@ -71,12 +24,14 @@ public class Controller {
     private Account currentAccount = null;
 
     public static void main(String[] args) throws IOException {
+        int port = 8888;
         //network
-        ServerSocket serverSocket = new ServerSocket(8888);
+        ServerSocket serverSocket = new ServerSocket(port);
         handleData();
         while(true){
             Socket socket = serverSocket.accept();
             ControllerThread ct = new ControllerThread(socket);
+            ct.run();
         }
     }
 
@@ -98,13 +53,9 @@ public class Controller {
         Controller.readOffsFromFile();
         Controller.readProductsFromFile();
         Controller.readCategoriesFromFile();
-//        MainMenu mainMenu = new MainMenu();
-//        mainMenu.execute();
     }
 
-    public static Controller getOurController() {
-        return ourController;
-    }
+
 
 
     public int controllerNewAccount(String type, String username, String password) {
@@ -138,10 +89,10 @@ public class Controller {
                 ArrayList<String> sellers = ((Customer) currentAccount).getSellersOfProductsOfTheCart();
                 currentAccount = Account.getAccountWithName(username);
                 for (String barcode: barcodes) {
-                    Controller.getOurController().requestAddProductToCart(barcode);
+                    this.requestAddProductToCart(barcode);
                 }
                 for (String name: sellers) {
-                    Controller.getOurController().setNameOfSellerOfProductAddedToCart(name);
+                    this.setNameOfSellerOfProductAddedToCart(name);
                 }
             }else{
                 currentAccount = Account.getAccountWithName(username);
@@ -471,7 +422,7 @@ public class Controller {
             case "password" :
                 currentAccount.setPassWord(newAmount.group(1));
         }
-        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Controller.getOurController().getCurrentAccount().getClass().toString(), Controller.getOurController().getCurrentAccount().getUserName());
+        SaveAndLoad.getSaveAndLoad().writeJSON(this.getCurrentAccount(), this.getCurrentAccount().getClass().toString(), this.getCurrentAccount().getUserName());
     }
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
@@ -653,7 +604,7 @@ public class Controller {
 
 
     public void changeCompanyName(String trim) {
-        ((Seller) Controller.getOurController().getCurrentAccount()).setCompanyName(trim);
+        ((Seller) this.getCurrentAccount()).setCompanyName(trim);
     }
 
     public HashMap getCart(){

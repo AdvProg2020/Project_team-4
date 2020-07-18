@@ -1,6 +1,7 @@
 package org.example;
 
-import Control.Controller;
+
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,30 +21,34 @@ public class App extends Application {
     private static Stage stage;
     public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
     private static Socket socket;
-    public static DataInputStream dataInputStream;
-    public static DataOutputStream dataOutputStream;
+    public  static DataInputStream dataInputStream;
+    public  static DataOutputStream dataOutputStream;
+    public static ObjectOutputStream outObject;
+    public static ObjectInputStream inObject;
     public static String token;
 
-    static {
+
+
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        socket = new Socket("localhost", 8888);
         try {
+            outObject = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            inObject = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void start(Stage stage) throws IOException {
         String path = "music\\backgroundMusic.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setCycleCount(10);
         this.stage = stage;
-        Controller.getOurController().setCurrentAccount(defaultCustomer);
-        //add network
-        socket = new Socket("localhost", 8888);
+        sendMessageToServer("setCurrentAccount", "");
+        sendObjectToServer(defaultCustomer);
 
       if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));
@@ -87,7 +92,23 @@ public class App extends Application {
         return stage;
     }
 
-    public
+    public static void sendMessageToServer(String typeOfRequest, String contentOfRequest) {
+        try {
+            dataOutputStream.writeUTF(token + " " + typeOfRequest + " " + contentOfRequest);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendObjectToServer(Object obj) {
+        try {
+            outObject.writeObject(obj);
+            outObject.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

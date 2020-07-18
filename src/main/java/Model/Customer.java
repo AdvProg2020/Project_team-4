@@ -1,12 +1,13 @@
 package Model;
 
 import Control.Controller;
-import org.example.Cart;
-
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Customer extends Account {
     //private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();

@@ -1,5 +1,8 @@
 package org.example;
 
+import Model.Account;
+import Model.CartItem;
+import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,10 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class Cart implements Initializable {
     int totalPriceInt = 0;
@@ -80,10 +80,33 @@ public class Cart implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (Product.getProductWithBarcode(name) != null) {
+
+            //get product from server
+            App.sendMessageToServer("getProductWithBarcode", name);
+            Model.Product product = null;
+            try {
+                Object obj;
+                if ((obj = App.inObject.readObject()) != null) {
+                    product = ((Product) obj);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (product != null) {
                 CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
                 cartItem.setItemNo(i);
-                cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getCurrentAccount())).getCart().get(name));
+                App.sendMessageToServer("getCart", "");
+                HashMap<String, Integer> cart = null;
+                try {
+                     cart = ((HashMap<String, Integer>)App.inObject.readObject());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                cartItem.setHowMany(cart.get(name));
                 cartItem.setTotalPrice(cartItem.getHowMany() * cartItem.getPrice());
                 list.add(cartItem);
                 totalPriceInt += cartItem.getHowMany() * cartItem.getPrice();
@@ -109,18 +132,25 @@ public class Cart implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Account account = null;
+        try {
+             account = ((Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
-                case "class Model.Manager":
+            switch (account.getUserName().substring(0, 2)) {
+                case "man":
                     App.setRoot("manager");
                     break;
-                case "class Model.Customer":
+                case "cus":
                     App.setRoot("customer");
                     break;
-                case "class Model.Seller":
+                case "sel":
                     App.setRoot("seller");
                     break;
             }

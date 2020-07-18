@@ -1,6 +1,6 @@
 package org.example;
 
-import Control.Controller;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -40,7 +40,14 @@ public class LoginCreate {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance(userSign, createButton, passSign, createButtonHandler)) return;
-            int result = Controller.getOurController().controllerNewAccount("customer", userSign.getText(), passSign.getText());
+            StringBuilder stringBuilder = new StringBuilder("customer " + userSign.getText().trim() + " " + passSign.getText().trim());
+            App.sendMessageToServer("controllerNewAccount", stringBuilder.toString());
+            int result = 0;
+            try {
+                result = App.inObject.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             showResult(result, "registered");
         }
     };
@@ -63,7 +70,14 @@ public class LoginCreate {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance(userReq, reqButton, passReq, requestButtonHandler)) return;
-            int result = Controller.getOurController().controllerNewAccount("seller", userReq.getText(), passReq.getText());
+            StringBuilder stringBuilder = new StringBuilder("seller " + userReq.getText().trim() + " " + passReq.getText().trim());
+            App.sendMessageToServer("controllerNewAccount", stringBuilder.toString());
+            int result = 0;
+            try {
+                result = App.inObject.readInt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             showResult(result, "request sent");
         }
     };

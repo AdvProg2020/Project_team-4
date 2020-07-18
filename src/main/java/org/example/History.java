@@ -1,6 +1,7 @@
 package org.example;
 
-import Control.Controller;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,7 +39,16 @@ public class History implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Model.History> histories = Controller.getOurController().requestSalesHistoryInfoInSeller();
+        App.sendMessageToServer("requestSalesHistoryInfoInSeller", "");
+        ArrayList<Model.History> histories = null;
+        try {
+            histories = (ArrayList<Model.History>) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//        Controller.getOurController().requestSalesHistoryInfoInSeller();
         ArrayList<String> sellerNames = new ArrayList<>();
         sellerNames.add("ali");
         sellerNames.add("rpo");
@@ -57,18 +67,25 @@ public class History implements Initializable {
     }
 
     public void switchToAacountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
-                case "class Model.Manager":
+            switch (account.getUserName().substring(0, 2)) {
+                case "man":
                     App.setRoot("manager");
                     break;
-                case "class Model.Customer":
+                case "cus":
                     App.setRoot("customer");
                     break;
-                case "class Model.Seller":
+                case "sel":
                     App.setRoot("seller");
                     break;
             }
