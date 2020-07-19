@@ -1,8 +1,6 @@
 package org.example;
 
-import Model.Off;
 import Model.Product;
-import Control.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,12 +18,12 @@ public class SellersOffPage implements Initializable {
 
     ArrayList<TextField> textFields = new ArrayList<>();
 
-    public TableView<Off> table;
-    public TableColumn<Off, String> barcodeColumn;
-    public TableColumn<Off, String> productsColumn;
-    public TableColumn<Off, String> startDate;
-    public TableColumn<Off, String> endDate;
-    public TableColumn<Off, String> offAmountColumn;
+    public TableView<Model.Off> table;
+    public TableColumn<Model.Off, String> barcodeColumn;
+    public TableColumn<Model.Off, String> productsColumn;
+    public TableColumn<Model.Off, String> startDate;
+    public TableColumn<Model.Off, String> endDate;
+    public TableColumn<Model.Off, String> offAmountColumn;
     public TextField barcodeField;
     public TextField productsField;
     public TextField startDateField;
@@ -34,15 +32,19 @@ public class SellersOffPage implements Initializable {
     public Button editButton;
 
     @FXML
-    public void edit(ActionEvent actionEvent) {
+    public void edit(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         if (checkInfoEntrance())return;
         ArrayList<String> productsNames = new ArrayList<>();
         for (String name: productsField.getText().trim().split(" ")) {
-            if (Product.getProductWithName(name) != null) {
+            App.sendMessageToServer("getProductWithName", name);
+            Model.Product product = (Product) App.inObject.readObject();
+            if (product != null) {
                 productsNames.add(name);
             }
         }
-        Controller.getOurController().createOrEditOffRequest(productsNames, startDateField.getText().trim(), endDateField.getText().trim(), Integer.parseInt(offAmountField.getText().trim()), barcodeField.getText().trim());
+        App.sendMessageToServer("createOrEditOffRequest", startDateField.getText().trim() + " "  + endDateField.getText().trim() + " " + Integer.parseInt(offAmountField.getText().trim()) + " " + barcodeField.getText().trim());
+        App.sendObjectToServer(productsNames);
+//        Controller.getOurController().createOrEditOffRequest(productsNames, startDateField.getText().trim(), endDateField.getText().trim(), Integer.parseInt(offAmountField.getText().trim()), barcodeField.getText().trim());
     }
 
     private boolean checkInfoEntrance() {
@@ -77,8 +79,16 @@ public class SellersOffPage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getEditAbleTextFields();
-        ArrayList<Off> offs = new ArrayList(Off.getAllOffs());
-        ObservableList<Off> observableList = FXCollections.observableArrayList(offs);
+        App.sendMessageToServer("getAllOffs", "");
+        ArrayList<Model.Off> offs = null;
+        try {
+            offs = new ArrayList((Integer) App.inObject.readObject());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObservableList<Model.Off> observableList = FXCollections.observableArrayList(offs);
 
         barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("OffBarcode"));
         productsColumn.setCellValueFactory(new PropertyValueFactory<>("Products"));
@@ -91,11 +101,19 @@ public class SellersOffPage implements Initializable {
     }
 
     public void switchToAccount(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

@@ -1,13 +1,11 @@
 package org.example;
 
 import Model.Product;
-import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import Control.Controller;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -18,19 +16,23 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SellersProductPage implements Initializable {
+
+    Model.Account account;
+    String type;
+
     public TextField descriptionField;
-    public TableColumn<Product, String> byersColumn;
+    public TableColumn<Model.Product, String> byersColumn;
     public Label pictureStatus;
     ArrayList<TextField> textFields = new ArrayList<>();
     File imageFile = null;
 
-    public TableView<Product> table;
-    public TableColumn<Product, String> nameColumn;
-    public TableColumn<Product, String> categoryColumn;
-    public TableColumn<Product, String> companyColumn;
-    public TableColumn<Product, Double> costColumn;
-    public TableColumn<Product, Integer> amountColumn;
-    public TableColumn<Product, ArrayList<String>> tagsColumn;
+    public TableView<Model.Product> table;
+    public TableColumn<Model.Product, String> nameColumn;
+    public TableColumn<Model.Product, String> categoryColumn;
+    public TableColumn<Model.Product, String> companyColumn;
+    public TableColumn<Model.Product, Double> costColumn;
+    public TableColumn<Model.Product, Integer> amountColumn;
+    public TableColumn<Model.Product, ArrayList<String>> tagsColumn;
     public TextField nameField;
     public TextField categoryField;
     public TextField companyFiled;
@@ -40,11 +42,21 @@ public class SellersProductPage implements Initializable {
     public Button editButton;
     public Button removeButton;
 
-    public void edit(ActionEvent actionEvent) {
+    public void edit(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         pictureStatus.setText("no picture");
-        if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && Product.getProductWithBarcode(nameField.getText().trim()) != null) {
-            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Seller)(Controller.getOurController().getCurrentAccount())).getUserName());
-            ((Seller) Controller.getOurController().getCurrentAccount()).setProducts(nameField.getText().trim());
+        App.sendMessageToServer("getProductWithBarcode", nameField.getText().trim());
+        Model.Product product = (Product) App.inObject.readObject();
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && product != null) {
+            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Model.Seller)(account)).getUserName());
+            ((Model.Seller) account).setProducts(nameField.getText().trim());
             imageFile = null;
             return;
         }
@@ -53,13 +65,16 @@ public class SellersProductPage implements Initializable {
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);
         }
-        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
+        App.sendObjectToServer(tagsArray);
+        App.sendMessageToServer("createProductRequest", nameField.getText().trim() + " " + companyFiled.getText().trim() + " " + Integer.parseInt(costField.getText().trim()) + " " +  categoryField.getText().trim() + " " +  descriptionField.getText().trim() + " " +  Integer.parseInt(amountField.getText().trim()) + " " +   account.getUserName());
+//        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
         copyImage(nameField.getText());
     }
 
     public void remove(ActionEvent actionEvent) {
         ObservableList<Product> selectedItem = table.getSelectionModel().getSelectedItems();
-        Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
+        App.sendMessageToServer("removeProductFromSellerProducts", selectedItem.get(0).getProductBarcode());
+//        Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
         ObservableList<Product> allProducts;
         ObservableList<Product> singleProduct;
         allProducts = table.getItems();
@@ -99,8 +114,20 @@ public class SellersProductPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        try {
+            type = App.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
         getEditAbleTextFields();
-        ArrayList<String> productsNames = new ArrayList(((Seller)Controller.getOurController().getCurrentAccount()).getProducts());
+        ArrayList<String> productsNames = new ArrayList(((Model.Seller)account).getProducts());
         ArrayList<Product> products = new ArrayList<>();
         for (String name: productsNames) {
             products.add(Product.getProductWithBarcode(name));
@@ -121,11 +148,11 @@ public class SellersProductPage implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

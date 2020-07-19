@@ -1,8 +1,8 @@
 package org.example;
 
-import Control.Controller;
-import Model.*;
-import Model.Customer;
+
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,22 +18,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import static Model.Account.getAccountWithName;
+
+
 
 public class OffCode implements Initializable {
 
     @FXML
-    public TableColumn<CodedOff, String> barcode;
+    public TableColumn<Model.CodedOff, String> barcode;
     @FXML
-    public TableColumn<CodedOff, String> start;
+    public TableColumn<Model.CodedOff, String> start;
     @FXML
-    public TableColumn<CodedOff, String> end;
+    public TableColumn<Model.CodedOff, String> end;
     @FXML
-    public TableColumn<CodedOff, String> amount;
+    public TableColumn<Model.CodedOff, String> amount;
     @FXML
-    public TableColumn<CodedOff, String> usageTimes;
+    public TableColumn<Model.CodedOff, String> usageTimes;
     @FXML
-    public TableColumn<CodedOff, String> percent;
+    public TableColumn<Model.CodedOff, String> percent;
     @FXML
     public TextField startField;
     @FXML
@@ -49,17 +50,26 @@ public class OffCode implements Initializable {
     @FXML
     public TextField containingCustomers;
     @FXML
-    public TableView<CodedOff> table;
+    public TableView<Model.CodedOff> table;
 
     @FXML
-    public void add(ActionEvent actionEvent) {
+    public void add(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         if (checkInfoEntrance(startField, endField))return;
         if (checkInfoEntrance(amountField, usageTimeField))return;
         if (checkInfoEntrance(percentField, containingCustomers))return;
         ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(containingCustomers.getText().trim().split(" ")));
         ArrayList<String> containingCustomers = new ArrayList<>();
         for (String name: arrayList) {
-            Account account = getAccountWithName(name);
+            App.sendMessageToServer("getAccountWithName", name);
+
+            Model.Account account = null;
+            try {
+                account = (Model.Account) App.inObject.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             if(account == null){
                 System.out.println("this username doesn't exist!");
                 continue;
@@ -68,17 +78,24 @@ public class OffCode implements Initializable {
                 System.out.println("please enter customer for using codedoff");
                 continue;
             }
-            Model.Customer customer = (Customer) account;
+            Model.Customer customer = (Model.Customer) account;
             if(containingCustomers.contains(account)){
                 System.out.println("this name was added one time");
                 continue;
             }
             containingCustomers.add(account.getUserName());
         }
-        int result = Controller.getOurController().controllerCreateOffCode(startField.getText().trim(), endField.getText().trim(), amountField.getText().trim(), percentField.getText().trim(), usageTimeField.getText().trim(), containingCustomers);
-        System.out.println(result);
+        StringBuilder stringBuilder = new StringBuilder(startField.getText().trim() + " " + endField.getText().trim() + " " + amountField.getText().trim() + " " + percentField.getText().trim() + " " + usageTimeField.getText().trim());
+        App.sendMessageToServer("controllerCreateOffCode", stringBuilder.toString());
+        App.sendObjectToServer(containingCustomers);
+//        int result = Controller.getOurController().controllerCreateOffCode(startField.getText().trim(), endField.getText().trim(), amountField.getText().trim(), percentField.getText().trim(), usageTimeField.getText().trim(), containingCustomers);
+        int result = App.inObject.readInt();
+
+        App.sendMessageToServer("getAllDiscounts", "");
+
+        ArrayList<Model.CodedOff> codedOffArrayList = (ArrayList<Model.CodedOff>) App.inObject.readObject();
         if (result == 1) {
-            table.getItems().add(CodedOff.getAllDiscounts().get(CodedOff.getAllDiscounts().size() - 1));
+            table.getItems().add(codedOffArrayList.get(codedOffArrayList.size() - 1));
         }
     }
 
@@ -107,8 +124,17 @@ public class OffCode implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<CodedOff> codedOffs = FXCollections.observableArrayList(new ArrayList<>(
-                Controller.getOurController().showAllDiscountCodes()
+        App.sendMessageToServer("showAllDiscountCodes", "");
+        ArrayList<Model.CodedOff> codedOff = null;
+        try {
+            codedOff = (ArrayList<Model.CodedOff>) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObservableList<Model.CodedOff> codedOffs = FXCollections.observableArrayList(new ArrayList<>(
+                codedOff
         ));
         barcode.setCellValueFactory(new PropertyValueFactory<>("OffBarcode"));
         start.setCellValueFactory(new PropertyValueFactory<>("StartTime"));
@@ -125,36 +151,45 @@ public class OffCode implements Initializable {
         percent.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
-    public void changeEnd(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
+    public void changeEnd(TableColumn.CellEditEvent<Model.CodedOff, String> codedOffStringCellEditEvent) throws IOException, ClassNotFoundException {
         String codedOffName = table.getSelectionModel().getSelectedItem().getOffBarcode();
-        CodedOff.getOffCodeWithName(codedOffName).setEndTime(codedOffStringCellEditEvent.getNewValue());
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        App.sendMessageToServer("setEndTimeForOffCode", codedOffName + " " + codedOffStringCellEditEvent.getNewValue());
+//        CodedOff codedOff = (CodedOff) App.inObject.readObject();
+//        codedOff.setEndTime(codedOffStringCellEditEvent.getNewValue());
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void changeAmount(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        String codedOff = table.getSelectionModel().getSelectedItem().getOffBarcode();
-        CodedOff.getOffCodeWithName(codedOff).setOffAmount(codedOffStringCellEditEvent.getNewValue());
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+    public void changeAmount(TableColumn.CellEditEvent<Model.CodedOff, String> codedOffStringCellEditEvent) {
+        String codedOffName = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        App.sendMessageToServer("setAmountForOffCode", codedOffName + " " + codedOffStringCellEditEvent.getNewValue());
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void changeUsageTime(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        String codedOff = table.getSelectionModel().getSelectedItem().getOffBarcode();
-        CodedOff.getOffCodeWithName(codedOff).setUsageTime(codedOffStringCellEditEvent.getNewValue());
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+    public void changeUsageTime(TableColumn.CellEditEvent<Model.CodedOff, String> codedOffStringCellEditEvent) {
+        String codedOffName = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        App.sendMessageToServer("setUsageTimeForOffCode", codedOffName + " " + codedOffStringCellEditEvent.getNewValue());
     }
 
-    public void changePercent(TableColumn.CellEditEvent<CodedOff, String> codedOffStringCellEditEvent) {
-        String codedOff = table.getSelectionModel().getSelectedItem().getOffBarcode();
-        CodedOff.getOffCodeWithName(codedOff).setPercent(codedOffStringCellEditEvent.getNewValue());
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+    public void changePercent(TableColumn.CellEditEvent<Model.CodedOff, String> codedOffStringCellEditEvent) {
+        String codedOffName = table.getSelectionModel().getSelectedItem().getOffBarcode();
+        App.sendMessageToServer("setPercentForOffCode", codedOffName + " " + codedOffStringCellEditEvent.getNewValue());
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

@@ -1,6 +1,5 @@
 package org.example;
 
-import Model.Category;
 import Model.Off;
 import Model.Product;
 import javafx.beans.value.ChangeListener;
@@ -13,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.*;
-import Control.Controller;
 
 import java.io.IOException;
 import java.util.*;
@@ -23,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class ProductsPage {
     public static boolean calledFromOff = false;
-    public ArrayList<Product> allProduct;
+    public ArrayList<Model.Product> allProduct;
     private ArrayList<String> sellerTag = new ArrayList<>();
     private ArrayList<String> comanyTag = new ArrayList<>();
     public TableColumn name;
@@ -47,14 +45,17 @@ public class ProductsPage {
 
     private HashSet<String> filters = new HashSet<>();
 
-    public void initialize() {
-        allProduct = new ArrayList<>(Product.getAllProducts());
-        allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
+    public void initialize() throws IOException, ClassNotFoundException {
+        App.sendMessageToServer("getAllProducts", "");
+        allProduct = new ArrayList<>(((ArrayList<Model.Product>)App.inObject.readObject()));
+//        allProduct = new ArrayList<>(Product.getAllProducts());
+        //*************///////INJA PRODUCT GHERMEZ BOOD MAN MODEL. AVVALESHB EZAFE KARDAM DOROST SHOD NEMIDUNAM CHERA/////////////******
+        allProduct.sort(Comparator.comparing(Model.Product::getLocalDateTime));
         initializeTable();
         initializeSort();
         checkBoxForFilter();
         int max = 0;
-        for (Product product : Product.getAllProducts()) {
+        for (Model.Product product : allProduct) {
             if(product.getCost() > max)
                 max = product.getCost();
         }
@@ -64,31 +65,37 @@ public class ProductsPage {
                 new ChangeListener<Number>() {
                     public void changed(ObservableValue<? extends Number > observable, Number oldValue, Number newValue)
                     {
-                        fullFilter();
+                        try {
+                            fullFilter();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-        if(Product.getAllProducts().size() <= 1){
+        if(allProduct.size() <= 1){
             return;
         }
-        if(Product.getAllProducts().get(0) != null){
-            ImageView imageView = new ImageView((Product.getAllProducts().get(0)).getImageFile());
+        if(allProduct.get(0) != null){
+            ImageView imageView = new ImageView((allProduct.get(0)).getImageFile());
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
             imageView.setLayoutY(10);
             imageView.setLayoutX(320);
-            Label label = new Label(Product.getAllProducts().get(0).getNameOfProductNotBarcode());
+            Label label = new Label(allProduct.get(0).getNameOfProductNotBarcode());
             label.setLayoutY(10);
             label.setLayoutX(425);
             mainAnchorPane.getChildren().add(imageView);
             mainAnchorPane.getChildren().add(label);
         }
-        if(Product.getAllProducts().get(1) != null){
-            ImageView imageView = new ImageView((Product.getAllProducts().get(1)).getImageFile());
+        if(allProduct.get(1) != null){
+            ImageView imageView = new ImageView((allProduct.get(1)).getImageFile());
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
             imageView.setLayoutY(110);
             imageView.setLayoutX(320);
-            Label label = new Label(Product.getAllProducts().get(1).getNameOfProductNotBarcode());
+            Label label = new Label(allProduct.get(1).getNameOfProductNotBarcode());
             label.setLayoutY(110);
             label.setLayoutX(425);
             mainAnchorPane.getChildren().add(imageView);
@@ -130,7 +137,7 @@ public class ProductsPage {
         setTable();
     }
 
-    private void checkBoxForFilter() {
+    private void checkBoxForFilter() throws IOException, ClassNotFoundException {
         int i = 0;
         int y = 43;
         TagCheckBoxInitialize tagCheckBoxInitialize = new TagCheckBoxInitialize(i, y).invoke();
@@ -142,7 +149,7 @@ public class ProductsPage {
         y += 50;
         i = 0;
         ArrayList<String> sellers = new ArrayList<>();
-        for (Product product : Product.getAllProducts()) {
+        for (Model.Product product : allProduct) {
             for (String seller : product.getSellers()) {
                 if(sellers.contains(seller))
                     continue;
@@ -152,7 +159,15 @@ public class ProductsPage {
                 sellers.add(seller);
                 mainAnchorPane.getChildren().add(checkBox);
                 i += 75;
-                checkBox.setOnAction(e -> sellerActivate(checkBox));
+                checkBox.setOnAction(e -> {
+                    try {
+                        sellerActivate(checkBox);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                });
                 if(i >= 300){
                     i = 0;
                     y += 20;
@@ -161,7 +176,7 @@ public class ProductsPage {
         }
 
         ArrayList<String> company = new ArrayList<>();
-        for (Product product : Product.getAllProducts()) {
+        for (Model.Product product : allProduct) {
             if(company.contains(product.getCompany()))
                 continue;
             CheckBox checkBox = new CheckBox(product.getCompany());
@@ -170,7 +185,15 @@ public class ProductsPage {
             company.add(product.getCompany());
             mainAnchorPane.getChildren().add(checkBox);
             i += 75;
-            checkBox.setOnAction(e -> companyActivate(checkBox));
+            checkBox.setOnAction(e -> {
+                try {
+                    companyActivate(checkBox);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+            });
             if(i >= 300){
                 i = 0;
                 y += 20;
@@ -181,7 +204,15 @@ public class ProductsPage {
         checkBox.setLayoutY(317);
         checkBox.setLayoutX(10);
         mainAnchorPane.getChildren().add(checkBox);
-        checkBox.setOnAction(e -> activeOff());
+        checkBox.setOnAction(e -> {
+            try {
+                activeOff();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+        });
         offCheckBox = checkBox;
         offCheckBox.setSelected(calledFromOff);
         CheckBox checkBox1 = new CheckBox("show available");
@@ -189,10 +220,18 @@ public class ProductsPage {
         checkBox1.setLayoutY(300);
         checkBox1.setLayoutX(10);
         mainAnchorPane.getChildren().add(checkBox1);
-        checkBox1.setOnAction(e -> activeAvailable(checkBox1));
+        checkBox1.setOnAction(e -> {
+            try {
+                activeAvailable(checkBox1);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+        });
     }
 
-    private void companyActivate(CheckBox checkBox) {
+    private void companyActivate(CheckBox checkBox) throws IOException, ClassNotFoundException {
         if (checkBox.isSelected()) {
             if (!comanyTag.contains(checkBox.getText())) {
                 comanyTag.add(checkBox.getText());
@@ -203,7 +242,7 @@ public class ProductsPage {
         fullFilter();
     }
 
-    private void sellerActivate(CheckBox checkBox) {
+    private void sellerActivate(CheckBox checkBox) throws IOException, ClassNotFoundException {
         if (checkBox.isSelected()) {
             if (!sellerTag.contains(checkBox.getText())) {
                 sellerTag.add(checkBox.getText());
@@ -214,10 +253,10 @@ public class ProductsPage {
         fullFilter();
     }
 
-    private void activeAvailable( CheckBox checkBox) {
+    private void activeAvailable( CheckBox checkBox) throws IOException, ClassNotFoundException {
         if(checkBox.isSelected()){
             ArrayList temp = new ArrayList<>(allProduct);
-            for (Product product : allProduct) {
+            for (Model.Product product : allProduct) {
                 if(product.getAmountOfExist() <= 0){
                     temp.remove(product);
                 }
@@ -234,7 +273,7 @@ public class ProductsPage {
         sortAction();
     }
 
-    private void categoryCheckBoxInitialize(int i, int y, HashSet tags) {
+    private void categoryCheckBoxInitialize(int i, int y, HashSet tags) throws IOException, ClassNotFoundException {
         for (Product product : Product.getAllProducts()) {
             if (product.getCategory() == null) {
                 continue;
@@ -242,9 +281,11 @@ public class ProductsPage {
                 if (tags.contains(product.getCategory())) {
                     continue;
                 }
-                Category category;
+                Model.Category category;
                 CheckBox checkBox;
-                if((category = Category.getCategoryByName(product.getCategory())) != null && product.getCategory() !=null){
+                App.sendMessageToServer("getCategoryByName", product.getCategory());
+                Model.Category category1 = (Model.Category) App.inObject.readObject();
+                if(((category = category1) != null && product.getCategory() !=null)){
                      checkBox = new CheckBox("catgory :" + product.getCategory() + "subcat" + category.getSubCategories() + "tags" + category.getTags());
                 }else{
                     checkBox = new CheckBox("catgory :" + product.getCategory());
@@ -254,7 +295,15 @@ public class ProductsPage {
                 checkBox.setLayoutY(y);
                 mainAnchorPane.getChildren().add(checkBox);
                 tags.add(product.getCategory());
-                checkBox.setOnAction(e -> categoryActive(product.getCategory(), checkBox));
+                checkBox.setOnAction(e -> {
+                    try {
+                        categoryActive(product.getCategory(), checkBox);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                });
                 if(i >= 300) {
                     i = 0;
                     y += 20;
@@ -262,9 +311,12 @@ public class ProductsPage {
         }
     }
 
-    private void categoryActive(String catName, CheckBox checkBox) {
+    private void categoryActive(String catName, CheckBox checkBox) throws IOException, ClassNotFoundException {
         System.out.println(catName);
-        Category category = Category.getCategoryByName(catName);
+        App.sendMessageToServer("getCategoryByName", catName);
+        Model.Category category1 = (Model.Category) App.inObject.readObject();
+        Model.Category category = category1;
+//        Category.getCategoryByName(catName);
         if(category == null || category.getTags() == null){
             return;
         }
@@ -284,7 +336,7 @@ public class ProductsPage {
         fullFilter();
     }
 
-    private void activeOff() {
+    private void activeOff() throws IOException, ClassNotFoundException {
         if (offCheckBox.isSelected()) {
             List list = new ArrayList();
             list.addAll(getOffsProduct());
@@ -299,7 +351,7 @@ public class ProductsPage {
         fullFilter();
     }
 
-    private void tagsActivate(CheckBox checkBox) {
+    private void tagsActivate(CheckBox checkBox) throws IOException, ClassNotFoundException {
         if (checkBox.isSelected()) {
             if (!filters.contains(checkBox.getText())) {
                 filters.add(checkBox.getText());
@@ -359,11 +411,15 @@ public class ProductsPage {
     }
 
 
-    private ArrayList<Product> getOffsProduct() {
-        ArrayList<Product> arrayList = new ArrayList<>();
-        for (Off allOff : Off.getAllOffs()) {
+    private ArrayList<Model.Product> getOffsProduct() throws IOException, ClassNotFoundException {
+        ArrayList<Model.Product> arrayList = new ArrayList<>();
+        App.sendMessageToServer("getAllOffs", "");
+        ArrayList<Model.Off> offs = (ArrayList<Off>) App.inObject.readObject();
+        for (Model.Off allOff : offs) {
             for (String product : allOff.getProducts()) {
-                if (Product.getProductWithName(product) != null) {
+                App.sendMessageToServer("getProductWithName", product);
+                Model.Product product1 = (Product) App.inObject.readObject();
+                if (product1 != null) {
                     Product.getProductWithName(product).setEndTime(allOff.getEndDate());
                     arrayList.add(Product.getProductWithName(product));
                 }
@@ -391,11 +447,19 @@ public class ProductsPage {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (account.getClass().toString()) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
@@ -440,7 +504,15 @@ public class ProductsPage {
                     checkBox.setLayoutY(y);
                     mainAnchorPane.getChildren().add(checkBox);
                     tags.add(tag);
-                    checkBox.setOnAction(e -> tagsActivate(checkBox));
+                    checkBox.setOnAction(e -> {
+                        try {
+                            tagsActivate(checkBox);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                        }
+                    });
                     if(i >= 300){
                         i = 0;
                         y += 20;
@@ -451,7 +523,7 @@ public class ProductsPage {
         }
     }
 
-    private void fullFilter(){
+    private void fullFilter() throws IOException, ClassNotFoundException {
         //reset all product
         if(offCheckBox.isSelected()){
             allProduct = new ArrayList<>(getOffsProduct());

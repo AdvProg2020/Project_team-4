@@ -495,7 +495,7 @@ public class Controller {
         return null;
     }
 
-    public void createOrEditOffRequest(ArrayList<String> products, String startDate, String endDate, int offAmount, String name) {
+    public void createOrEditOffRequest(ArrayList<String> products, String startDate, String endDate, String offAmount, String name) {
         ArrayList<Product> productsToAddTO = new ArrayList<>();
         for (String productBarcode: products) {
             if (Product.getAllProducts().contains(getProductWithBarcode(productBarcode)) && !getProductWithBarcode(productBarcode).isInOffOrNot()) {
@@ -506,7 +506,7 @@ public class Controller {
 //        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
 //        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
 //        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        Off off = new Off(startDate, products, endDate, offAmount, name);
+        Off off = new Off(startDate, products, endDate, Integer.parseInt(offAmount), name);
         Off.getAllOffs().remove(off);
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
         new RequestOff(RequestType.OFF, off);

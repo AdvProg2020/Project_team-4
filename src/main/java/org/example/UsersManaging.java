@@ -1,9 +1,6 @@
 package org.example;
 
-import Control.Controller;
-import Model.*;
-import Model.Customer;
-import Model.Manager;
+import Model.Account;
 import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,35 +30,93 @@ public class UsersManaging implements Initializable {
     @FXML
     public Button addButton;
     @FXML
-    public TableView<Account> table;
+    public TableView<Model.Account> table;
     public Button remove;
 
     @FXML
-    public void add(ActionEvent actionEvent) {
+    public void add(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         if (checkInfoEntrance(user, pass))return;
-        int result = Controller.getOurController().controllerCreateNewManagerAccountFromManager(user.getText().trim(), pass.getText().trim());
+        App.sendMessageToServer("controllerCreateNewManagerAccountFromManager", user.getText().trim() + " " + pass.getText().trim());
+        int result = App.inObject.readInt();
+//                Controller.getOurController().controllerCreateNewManagerAccountFromManager(user.getText().trim(), pass.getText().trim());
         System.out.println(result);
         if (result == 1) {
-            table.getItems().add(Account.getAccountWithName(user.getText().trim()));
+            App.sendMessageToServer("getAccountWithName", user.getText().trim());
+            Account account = (Account) App.inObject.readObject();
+            table.getItems().add(account);
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<String> userNames = Arrays.asList(Controller.getOurController().getusers(Manager.class));
+        String[] users1 = null;
+        App.sendMessageToServer("getusers", "");
+        App.sendObjectToServer(Manager.class);
+        try {
+            users1 = (String[]) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        List<String> userNames = Arrays.asList(users1);
         List<Account> users = new ArrayList<>();
         for (String userName: userNames) {
-            Account account = getAccountWithName(userName);
+            App.sendMessageToServer("getAccountWithName", userName);
+            Account account = null;
+            try {
+                account = (Account) App.inObject.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             users.add(account);
         }
-        userNames = Arrays.asList(Controller.getOurController().getusers(Customer.class));
+        String[] users2 = null;
+        App.sendMessageToServer("getusers", "");
+        App.sendObjectToServer(Customer.class);
+        try {
+            users2 = (String[]) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        userNames = Arrays.asList(users2);
         for (String userName: userNames) {
-            Account account = getAccountWithName(userName);
+            App.sendMessageToServer("getAccountWithName", userName);
+            Account account = null;
+            try {
+                account = (Account) App.inObject.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             users.add(account);
         }
-        userNames = Arrays.asList(Controller.getOurController().getusers(Seller.class));
+        String[] users3 = null;
+        App.sendMessageToServer("getusers", "");
+        App.sendObjectToServer(Seller.class);
+        try {
+            users3 = (String[]) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        userNames = Arrays.asList(users3);
         for (String userName: userNames) {
-            Account account = getAccountWithName(userName);
+            App.sendMessageToServer("getAccountWithName", userName);
+            Account account = null;
+            try {
+                account = (Account) App.inObject.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             users.add(account);
         }
         ObservableList<Account> customers = FXCollections.observableArrayList(users);
@@ -95,11 +150,13 @@ public class UsersManaging implements Initializable {
     }
 
     @FXML
-    public void remove(ActionEvent actionEvent) {
+    public void remove(ActionEvent actionEvent) throws IOException {
         Account account = getAccountWithName(table.getSelectionModel().getSelectedItem().getUserName());
         int result = 0;
         if (account != null) {
-            result = Controller.getOurController().controllerDeleteAnUser(account.getUserName());
+            App.sendMessageToServer("controllerDeleteAnUser", account.getUserName());
+            result = App.inObject.readInt();
+//                    Controller.getOurController().controllerDeleteAnUser(account.getUserName());
         }
         if (result == 1) {
             ObservableList<Account> allProducts;
@@ -112,11 +169,19 @@ public class UsersManaging implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

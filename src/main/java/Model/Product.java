@@ -31,6 +31,10 @@ public class Product extends SaveAble {
         this.byers.add(userName);
     }
 
+    public void setComment(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
+
     //private static HashMap<String, Product> products;
     private enum  productStatus {
         MAKING, EDITING, APPROVED

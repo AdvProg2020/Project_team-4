@@ -32,7 +32,8 @@ public class ManagerProducts implements Initializable {
 
     public void remove(ActionEvent actionEvent) {
         ObservableList<Model.Product> selectedItem = table.getSelectionModel().getSelectedItems();
-        Controller.getOurController().controllerRemoveProduct(selectedItem.get(0).getProductBarcode());
+//        Controller.getOurController().controllerRemoveProduct(selectedItem.get(0).getProductBarcode());
+        App.sendMessageToServer("controllerRemoveProduct", selectedItem.get(0).getProductBarcode());
         ObservableList<Model.Product> allProducts;
         ObservableList<Model.Product> singleProduct;
         allProducts = table.getItems();

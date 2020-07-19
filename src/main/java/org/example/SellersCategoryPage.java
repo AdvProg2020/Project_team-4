@@ -1,7 +1,5 @@
 package org.example;
 
-import Control.Controller;
-import Model.Category;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +16,7 @@ import java.util.ResourceBundle;
 public class SellersCategoryPage implements Initializable {
 
     @FXML
-    public TableView<Category> table;
+    public TableView<Model.Category> table;
     @FXML
     public TableColumn<Model.Category, String> nameColumn;
     @FXML
@@ -31,7 +29,17 @@ public class SellersCategoryPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Model.Category> categories = Controller.getOurController().showCategories();
+        App.sendMessageToServer("showCategories", "");
+
+        ArrayList<Model.Category> categories = null;
+        try {
+            categories = (ArrayList<Model.Category>) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//        Controller.getOurController().showCategories();
         ObservableList<Model.Category> categoriesObserveAbleList = FXCollections.observableArrayList(categories);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -43,11 +51,19 @@ public class SellersCategoryPage implements Initializable {
 
 
     public void switchtoAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

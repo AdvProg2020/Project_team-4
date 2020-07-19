@@ -1,6 +1,7 @@
 package Control;
 
 import Model.*;
+import org.example.App;
 
 import java.io.*;
 import java.net.Socket;
@@ -146,6 +147,83 @@ public class ControllerThread extends Thread{
         } else if (subString[1].equalsIgnoreCase("getAllProducts")) {
             outObject.writeObject(Product.getAllProducts());
             outObject.flush();
+        } else if(subString[1].equalsIgnoreCase("controllerRemoveProduct")) {
+            getOurController().controllerRemoveProduct(subString[2]);
+        } else if (subString[1].equalsIgnoreCase("getAccountWithName")) {
+            outObject.writeObject(Account.getAccountWithName(subString[2]));
+            outObject.flush();
+            dataOutputStream.writeUTF(Account.getAccountWithName(subString[2]).getClass().toString());
+            dataOutputStream.flush();
+        } else if (subString[1].equalsIgnoreCase("controllerCreateOffCode")) {
+            int result = getOurController().controllerCreateOffCode(subString[2], subString[3], subString[4], subString[5], subString[6], (ArrayList<String>) inObject.readObject());
+            outObject.writeObject(result);
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("setEndTimeForOffCode")) {
+            CodedOff.getOffCodeWithName(subString[2]).setEndTime(subString[3]);
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+        } else if (subString[1].equalsIgnoreCase("setAmountForOffCode")) {
+            CodedOff.getOffCodeWithName(subString[2]).setOffAmount(subString[3]);
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+        } else if (subString[1].equalsIgnoreCase("setUsageTimeForOffCode")) {
+            CodedOff.getOffCodeWithName(subString[2]).setUsageTime(subString[3]);
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+        } else if (subString[1].equalsIgnoreCase("setPercentForOffCode")) {
+            CodedOff.getOffCodeWithName(subString[2]).setPercent(subString[3]);
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+        } else if (subString[1].equalsIgnoreCase("pay")) {
+
+            outObject.writeObject(getOurController().pay(subString[2]));
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("requestAddProductToCart")) {
+            getOurController().requestAddProductToCart(subString[2]);
+        } else if (subString[1].equalsIgnoreCase("newComment")) {
+            getOurController().newComment(subString[2], (Product) inObject.readObject(), subString[4]);
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+        } else if (subString[1].equalsIgnoreCase("setAverageScore")) {
+            ((Product) inObject.readObject()).setAverageScore(Integer.parseInt(subString[2]));
+        } else if (subString[1].equalsIgnoreCase("setSeen")) {
+            ((Product) inObject.readObject()).setSeen(Integer.parseInt(subString[2]));
+        } else if (subString[1].equalsIgnoreCase("setNameOfSellerOfProductAddedToCart")) {
+            getOurController().setNameOfSellerOfProductAddedToCart(subString[2]);
+        } else if (subString[1].equalsIgnoreCase("getAllOffs")) {
+            outObject.writeObject(Off.getAllOffs());
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("getEditOffRequests")) {
+            outObject.writeObject(Manager.getEditOffRequests());
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("getEditProductRequests")) {
+            outObject.writeObject(Manager.getEditOffRequests());
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("getRegisterSellerAccountRequests")) {
+            outObject.writeObject(Manager.getEditOffRequests());
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("RequestANewSellerAccountAccept")) {
+            getOurController().acceptRequest((RequestANewSellerAccount)inObject.readObject());
+        } else if (subString[1].equalsIgnoreCase("RequestProductAccountAccept")) {
+            getOurController().acceptRequest((RequestProduct)inObject.readObject());
+        } else if (subString[1].equalsIgnoreCase("RequestOffAccountAccept")) {
+            getOurController().acceptRequest((RequestProduct)inObject.readObject());
+        } else if (subString[1].equalsIgnoreCase("RequestANewSellerAccountDecline")) {
+            getOurController().declineRequest((RequestANewSellerAccount)inObject.readObject());
+        } else if (subString[1].equalsIgnoreCase("RequestProductAccountDecline")) {
+            getOurController().declineRequest((RequestProduct)inObject.readObject());
+        } else if (subString[1].equalsIgnoreCase("RequestOffAccountDecline")) {
+            getOurController().declineRequest((RequestProduct)inObject.readObject());
+        } else if (subString[1].equalsIgnoreCase("createOrEditOffRequest")) {
+            getOurController().createOrEditOffRequest(inObject.readObject(), subString[2], subString[3], subString[4], subString[5]);
+        } else if (subString[1].equalsIgnoreCase("createProductRequest")) {
+            Controller.createProductRequest(subString[2],subString[3], Integer.parseInt(subString[4]), subString[5], subString[6], Integer.parseInt(subString[7]), (ArrayList<String>) inObject.readObject(), subString[8]);
+        } else if (subString[1].equalsIgnoreCase("removeProductFromSellerProducts")) {
+            getOurController().removeProductFromSellerProducts(subString[2]);
+        } else if (subString[1].equalsIgnoreCase("controllerCreateNewManagerAccountFromManager")) {
+            outObject.writeObject(getOurController().controllerCreateNewManagerAccountFromManager(subString[2], subString[3]));
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("getusers")) {
+            outObject.writeObject(getOurController().getusers((Class) inObject.readObject()));
+            outObject.flush();
+        } else if (subString[1].equalsIgnoreCase("saveProduct")) {
+            Product.getProductWithBarcode(subString[2]).setComment(((Product) inObject.readObject()).getComments());
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
         }
     }
 }

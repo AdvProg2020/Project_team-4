@@ -1,6 +1,6 @@
 package org.example;
 
-import Control.Controller;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -44,9 +44,12 @@ public class Pay implements Initializable {
     public void pay(ActionEvent actionEvent) throws IOException {
         boolean result;
         if (offCodeField.getText() != null) {
-            result = Controller.getOurController().pay(offCodeField.getText().trim());
+            App.sendMessageToServer("pay", offCodeField.getText().trim());
+            result = App.inObject.readBoolean();
+//                    Controller.getOurController().pay(offCodeField.getText().trim());
         } else {
-            result = Controller.getOurController().pay("");
+            App.sendMessageToServer("pay", " ");
+            result = App.inObject.readBoolean();
         }
         if (result) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -62,11 +65,19 @@ public class Pay implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getCurrentAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getCurrentAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
