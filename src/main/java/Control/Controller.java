@@ -1,7 +1,6 @@
 package Control;
 
 import Model.*;
-import View.Outputs;
 import com.google.gson.reflect.TypeToken;
 import org.example.App;
 
@@ -16,7 +15,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 import static Model.Product.getProductWithBarcode;
-import static View.Menu.Menu.getField;
 
 public class Controller {
 
@@ -24,7 +22,7 @@ public class Controller {
     private Account currentAccount = null;
 
     public static void main(String[] args) throws IOException {
-        int port = 8888;
+        int port = 8887;
         //network
         ServerSocket serverSocket = new ServerSocket(port);
         handleData();
@@ -280,7 +278,7 @@ public class Controller {
         try {
             CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffCodes", offCodesListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all offCodes");
+            System.out.println("Didn't read the array of all offCodes");
         }
         //readArrayFromFile(CodedOff.getAllDiscounts(), "offCodes");
     }
@@ -290,19 +288,19 @@ public class Controller {
         try {
             Manager.getRegisterSellerAccountRequests().addAll((Collection<? extends RequestANewSellerAccount>) SaveAndLoad.getSaveAndLoad().readJSONByType("registerSellerAccountRequests", sellerAccountRequestListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all RequestANewSellerAccount");
+            System.out.println("Didn't read the array of all RequestANewSellerAccount");
         }
         Type offRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
         try {
             Manager.getEditOffRequests().addAll((Collection<? extends RequestOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("editOffRequests", offRequestListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all RequestOff");
+            System.out.println("Didn't read the array of all RequestOff");
         }
         Type productRequestListType = new TypeToken<ArrayList<RequestProduct>>(){}.getType();
         try {
             Manager.getEditProductsRequests().addAll((Collection<? extends RequestProduct>) SaveAndLoad.getSaveAndLoad().readJSONByType("editProductsRequests", productRequestListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all RequestProduct");
+            System.out.println("Didn't read the array of all RequestProduct");
         }
 
     }
@@ -400,30 +398,30 @@ public class Controller {
         return currentAccount;
     }
 
-    public void editField(String field) {
-        System.out.println("Enter your new amount for the field you choose");
-        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
-        switch (field.toLowerCase()) {
-            case "firstname":
-                currentAccount.setFirstName(newAmount.group(1));
-                return;
-            case "lastname":
-                currentAccount.setLastName(newAmount.group(1));
-                return;
-            case "credit" :
-                currentAccount.setCredit(Double.parseDouble(newAmount.group(1)));
-                return;
-            case "phonenumber" :
-                currentAccount.setPhoneNumber(newAmount.group(1));
-                return;
-            case "email" :
-                currentAccount.setEmail(newAmount.group(1));
-                return;
-            case "password" :
-                currentAccount.setPassWord(newAmount.group(1));
-        }
-        SaveAndLoad.getSaveAndLoad().writeJSON(this.getCurrentAccount(), this.getCurrentAccount().getClass().toString(), this.getCurrentAccount().getUserName());
-    }
+//    public void editField(String field) {
+//        System.out.println("Enter your new amount for the field you choose");
+//        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
+//        switch (field.toLowerCase()) {
+//            case "firstname":
+//                currentAccount.setFirstName(newAmount.group(1));
+//                return;
+//            case "lastname":
+//                currentAccount.setLastName(newAmount.group(1));
+//                return;
+//            case "credit" :
+//                currentAccount.setCredit(Double.parseDouble(newAmount.group(1)));
+//                return;
+//            case "phonenumber" :
+//                currentAccount.setPhoneNumber(newAmount.group(1));
+//                return;
+//            case "email" :
+//                currentAccount.setEmail(newAmount.group(1));
+//                return;
+//            case "password" :
+//                currentAccount.setPassWord(newAmount.group(1));
+//        }
+//        SaveAndLoad.getSaveAndLoad().writeJSON(this.getCurrentAccount(), this.getCurrentAccount().getClass().toString(), this.getCurrentAccount().getUserName());
+//    }
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
         return 0;

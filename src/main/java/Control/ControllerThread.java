@@ -210,7 +210,7 @@ public class ControllerThread extends Thread{
         } else if (subString[1].equalsIgnoreCase("RequestOffAccountDecline")) {
             getOurController().declineRequest((RequestProduct)inObject.readObject());
         } else if (subString[1].equalsIgnoreCase("createOrEditOffRequest")) {
-            getOurController().createOrEditOffRequest(inObject.readObject(), subString[2], subString[3], subString[4], subString[5]);
+            getOurController().createOrEditOffRequest((ArrayList<String>) inObject.readObject(), subString[2], subString[3], subString[4], subString[5]);
         } else if (subString[1].equalsIgnoreCase("createProductRequest")) {
             Controller.createProductRequest(subString[2],subString[3], Integer.parseInt(subString[4]), subString[5], subString[6], Integer.parseInt(subString[7]), (ArrayList<String>) inObject.readObject(), subString[8]);
         } else if (subString[1].equalsIgnoreCase("removeProductFromSellerProducts")) {

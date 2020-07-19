@@ -32,12 +32,18 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        socket = new Socket("localhost", 8888);
+        socket = new Socket("localhost", 8887);
         try {
-            outObject = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            System.out.println(socket);
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
             inObject = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            System.out.println("here1");
+            outObject = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            System.out.println("here2");
+            System.out.println("here3");
         } catch (IOException e) {
             e.printStackTrace();
         }

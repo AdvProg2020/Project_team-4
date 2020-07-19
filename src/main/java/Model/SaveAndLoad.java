@@ -1,6 +1,7 @@
 package Model;
 
 import Control.Controller;
+import Control.ControllerThread;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -84,8 +85,7 @@ public class SaveAndLoad {
 
 
     public void saveGenerally() {
-        if (Controller.getOurController().getCurrentAccount() != null)
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Controller.getOurController().getCurrentAccount().getClass().toString(), Controller.getOurController().getCurrentAccount().getUserName());
+        SaveAndLoad.getSaveAndLoad().writeJSON(((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount(), ((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount().getClass().toString(), ((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount().getUserName());
         SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class.toString(), "allCategories");
         SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class.toString(), "allOffCodes");
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");

@@ -1,6 +1,7 @@
 package Model;
 
 import Control.Controller;
+import Control.ControllerThread;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -83,7 +84,7 @@ public class Customer extends Account {
 //        System.out.println(cart);
         if(Product.getProductWithBarcode(product).isExistsOrNot()){
 //            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
-            Controller.getOurController().increaseOrDecreaseProductNo(product, +1);
+            ((ControllerThread)Thread.currentThread()).getOurController().increaseOrDecreaseProductNo(product, +1);
             Product.getProductWithBarcode(product).setByers(this.getUserName());
 //            Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
 //            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
