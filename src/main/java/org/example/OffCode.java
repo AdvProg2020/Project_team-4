@@ -178,29 +178,6 @@ public class OffCode implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        App.sendMessageToServer("getCurrentAccount", "");
-        Model.Account account = null;
-        String type = App.dataInputStream.readUTF();
-        try {
-            account = ((Model.Account)App.inObject.readObject());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (account.equals(App.defaultCustomer)) {
-            LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
-        } else {
-            switch (type) {
-                case "class Model.Manager":
-                    App.setRoot("manager");
-                    break;
-                case "class Model.Customer":
-                    App.setRoot("customer");
-                    break;
-                case "class Model.Seller":
-                    App.setRoot("seller");
-                    break;
-            }
-        }
+        Category.getCurrentAccountInClient();
     }
 }

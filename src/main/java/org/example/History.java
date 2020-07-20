@@ -67,28 +67,6 @@ public class History implements Initializable {
     }
 
     public void switchToAacountPage(ActionEvent actionEvent) throws IOException {
-        App.sendMessageToServer("getCurrentAccount", "");
-        Model.Account account = null;
-        try {
-            account = ((Model.Account)App.inObject.readObject());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (account.equals(App.defaultCustomer)) {
-            LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
-        } else {
-            switch (account.getUserName().substring(0, 2)) {
-                case "man":
-                    App.setRoot("manager");
-                    break;
-                case "cus":
-                    App.setRoot("customer");
-                    break;
-                case "sel":
-                    App.setRoot("seller");
-                    break;
-            }
-        }
+        Category.getCurrentAccountInClient();
     }
 }

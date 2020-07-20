@@ -190,8 +190,13 @@ public class Category implements Initializable {
     }
 
     public void switchtoAccountPage(ActionEvent actionEvent) throws IOException {
+        getCurrentAccountInClient();
+    }
+
+    static void getCurrentAccountInClient() throws IOException {
         App.sendMessageToServer("getCurrentAccount", "");
         Account account = null;
+        String type = App.dataInputStream.readUTF();
         try {
             account = ((Account)App.inObject.readObject());
         } catch (ClassNotFoundException e) {
@@ -201,7 +206,7 @@ public class Category implements Initializable {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (account.getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

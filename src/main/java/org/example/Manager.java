@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class Manager {
 
     Account account = null;
+    String type;
 
 
     @FXML
@@ -54,12 +55,13 @@ public class Manager {
     @FXML
     public Button saveButton;
 
-    public void initialize() {
+    public void initialize() throws IOException {
         App.sendMessageToServer("getCurrentAccount", "");
         account = null;
+        type = App.dataInputStream.readUTF();
         try {
-            account = ((Account)App.inObject.readObject());
-        } catch (ClassNotFoundException | IOException e) {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         userName.setText(account.getUserName());
@@ -164,18 +166,19 @@ public class Manager {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
+
         if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (account.getUserName().substring(0, 3)) {
-                case "man":
+            switch (type) {
+                case "class Model.Manager":
                     App.setRoot("manager");
                     break;
-                case "cus":
+                case "class Model.Customer":
                     App.setRoot("customer");
                     break;
-                case "sel":
+                case "class Model.Seller":
                     App.setRoot("seller");
                     break;
             }

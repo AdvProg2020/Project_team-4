@@ -72,6 +72,7 @@ public class ControllerThread extends Thread{
             System.out.println("get product with barcode server");
             try {
                 outObject.writeObject(Product.getProductWithBarcode(subString[2]));
+                outObject.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
