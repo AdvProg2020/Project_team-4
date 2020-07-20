@@ -284,6 +284,11 @@ public class ControllerThread extends Thread{
             boolean hasMan = hasMan();
             System.out.println("first man" + hasMan);
             dataOutputStream.writeUTF(String.valueOf(hasMan));
+        } else if (subString[1].equalsIgnoreCase("changeFieldsOffSeller")) {
+            getOurController().changeFields(subString[2], subString[3], subString[4], subString[5], subString[6]);SaveAndLoad.getSaveAndLoad().writeJSON(getOurController().getCurrentAccount(), Model.Seller.class.toString(), getOurController().getCurrentAccount().getUserName());
+        } else if (subString[1].equalsIgnoreCase("changeCompanyName")) {
+            getOurController().changeCompanyName(subString[2]);
+            SaveAndLoad.getSaveAndLoad().writeJSON(getOurController().getCurrentAccount(), Model.Seller.class.toString(), getOurController().getCurrentAccount().getUserName());
         }
     }
     private String getAccounttype() {
