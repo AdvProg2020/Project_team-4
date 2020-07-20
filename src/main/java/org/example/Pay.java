@@ -41,15 +41,15 @@ public class Pay implements Initializable {
         }
     }
 
-    public void pay(ActionEvent actionEvent) throws IOException {
+    public void pay(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         boolean result;
         if (offCodeField.getText() != null) {
             App.sendMessageToServer("pay", offCodeField.getText().trim());
-            result = App.inObject.readBoolean();
+            result = (boolean) App.inObject.readObject();
 //                    Controller.getOurController().pay(offCodeField.getText().trim());
         } else {
             App.sendMessageToServer("pay", " ");
-            result = App.inObject.readBoolean();
+            result = (boolean) App.inObject.readObject();
         }
         if (result) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

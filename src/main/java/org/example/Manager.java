@@ -182,9 +182,9 @@ public class Manager {
         }
     }
 
-    public void logout(ActionEvent actionEvent) throws IOException {
+    public void logout(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         App.sendMessageToServer("logout", "");
-        int result = App.inObject.readInt();
+        int result = (int) App.inObject.readObject();
         if (result == 2) {
             try {
                 App.setRoot("main");

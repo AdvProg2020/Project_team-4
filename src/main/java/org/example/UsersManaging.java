@@ -37,7 +37,7 @@ public class UsersManaging implements Initializable {
     public void add(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         if (checkInfoEntrance(user, pass))return;
         App.sendMessageToServer("controllerCreateNewManagerAccountFromManager", user.getText().trim() + " " + pass.getText().trim());
-        int result = App.inObject.readInt();
+        int result = (int) App.inObject.readObject();
 //                Controller.getOurController().controllerCreateNewManagerAccountFromManager(user.getText().trim(), pass.getText().trim());
         System.out.println(result);
         if (result == 1) {
@@ -150,12 +150,12 @@ public class UsersManaging implements Initializable {
     }
 
     @FXML
-    public void remove(ActionEvent actionEvent) throws IOException {
+    public void remove(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Account account = getAccountWithName(table.getSelectionModel().getSelectedItem().getUserName());
         int result = 0;
         if (account != null) {
             App.sendMessageToServer("controllerDeleteAnUser", account.getUserName());
-            result = App.inObject.readInt();
+            result = (int) App.inObject.readObject();
 //                    Controller.getOurController().controllerDeleteAnUser(account.getUserName());
         }
         if (result == 1) {

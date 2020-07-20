@@ -83,7 +83,7 @@ public class Category implements Initializable {
         boolean result =false;
         if (category != null) {
             App.sendMessageToServer("removeCategory", category.getName());
-            result = App.inObject.readBoolean();
+            result = (boolean) App.inObject.readObject();
         }
         if (result) {
             ObservableList<Model.Category> allProducts;

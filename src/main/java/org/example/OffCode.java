@@ -89,7 +89,7 @@ public class OffCode implements Initializable {
         App.sendMessageToServer("controllerCreateOffCode", stringBuilder.toString());
         App.sendObjectToServer(containingCustomers);
 //        int result = Controller.getOurController().controllerCreateOffCode(startField.getText().trim(), endField.getText().trim(), amountField.getText().trim(), percentField.getText().trim(), usageTimeField.getText().trim(), containingCustomers);
-        int result = App.inObject.readInt();
+        int result = (int) App.inObject.readObject();
 
         App.sendMessageToServer("getAllDiscounts", "");
 

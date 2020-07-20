@@ -144,8 +144,8 @@ public class LoginCreate {
             App.sendMessageToServer("logout", "");
             int result = 0;
             try {
-                result = App.inObject.readInt();
-            } catch (IOException e) {
+                result = (int) App.inObject.readObject();
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             if (result == 1) {
