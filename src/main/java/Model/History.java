@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class History {
+public class History implements Serializable {
     private String logBarcode;
     private String date;
     private double cost;

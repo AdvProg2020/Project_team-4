@@ -6,7 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
 
     private int itemNo;
     private String name;
