@@ -1,6 +1,7 @@
 package Model;
 import java.io.File;
 import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class Account extends SaveAble implements Serializable {
 
@@ -99,5 +100,18 @@ public abstract class Account extends SaveAble implements Serializable {
     @Override
     protected String getName() {
         return userName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return userName.equals(account.userName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName);
     }
 }
