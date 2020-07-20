@@ -162,10 +162,12 @@ public class ControllerThread extends Thread{
             Manager.addANewManager(subString[2], subString[3], (Boolean) inObject.readObject());
         } else if (subString[1].equalsIgnoreCase("controllerNewAccount")) {
             System.out.println("new Account server");
-            getOurController().controllerNewAccount(subString[3], subString[4], subString[5]);
+            int result = getOurController().controllerNewAccount(subString[2], subString[3], subString[4]);
+            outObject.writeObject(result);
         } else if (subString[1].equalsIgnoreCase("login")) {
             System.out.println("login server");
-            getOurController().controllerLogin(subString[3], subString[4]);
+            int result = getOurController().controllerLogin(subString[2], subString[3]);
+            outObject.writeObject(result);
         } else if (subString[1].equalsIgnoreCase("changeFields")) {
             System.out.println("change fields server");
             getOurController().changeFields(subString[2], subString[3], subString[4], subString[5], subString[6]);

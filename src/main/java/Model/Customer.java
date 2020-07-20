@@ -3,6 +3,7 @@ package Model;
 import Control.Controller;
 import Control.ControllerThread;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,7 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Customer extends Account implements java.io.Serializable{
+public class Customer extends Account implements Serializable {
+    private static final long serialVersionUID = 6128016096756071380L;
     //private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private HashMap<String, Integer> cart;
     private ArrayList<String> sellersOfProductsOfTheCart;

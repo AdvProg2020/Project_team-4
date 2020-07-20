@@ -44,8 +44,8 @@ public class LoginCreate {
             App.sendMessageToServer("controllerNewAccount", stringBuilder.toString());
             int result = 0;
             try {
-                result = App.inObject.readInt();
-            } catch (IOException e) {
+                result = (int) App.inObject.readObject();
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             showResult(result, "registered");
@@ -74,8 +74,8 @@ public class LoginCreate {
             App.sendMessageToServer("controllerNewAccount", stringBuilder.toString());
             int result = 0;
             try {
-                result = App.inObject.readInt();
-            } catch (IOException e) {
+                result = (int) App.inObject.readObject();
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             showResult(result, "request sent");
@@ -112,8 +112,8 @@ public class LoginCreate {
             App.sendMessageToServer("login", stringBuilder.toString());
             int result = 0;
             try {
-                result = App.inObject.readInt();
-            } catch (IOException e) {
+                result = (int) App.inObject.readObject();
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             System.out.println(result);

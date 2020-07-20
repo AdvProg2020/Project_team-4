@@ -9,7 +9,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class SaveAndLoad {
+public class SaveAndLoad implements Serializable{
 
     private static SaveAndLoad saveAndLoad = new SaveAndLoad();
 
@@ -85,7 +85,8 @@ public class SaveAndLoad {
 
 
     public void saveGenerally() {
-        SaveAndLoad.getSaveAndLoad().writeJSON(((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount(), ((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount().getClass().toString(), ((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount().getUserName());
+        if(Thread.currentThread() instanceof ControllerThread)
+            SaveAndLoad.getSaveAndLoad().writeJSON(((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount(), ((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount().getClass().toString(), ((ControllerThread)Thread.currentThread()).getOurController().getCurrentAccount().getUserName());
         SaveAndLoad.getSaveAndLoad().writeJSON(Category.getAllCategories(), ArrayList.class.toString(), "allCategories");
         SaveAndLoad.getSaveAndLoad().writeJSON(CodedOff.getAllDiscounts(), ArrayList.class.toString(), "allOffCodes");
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
