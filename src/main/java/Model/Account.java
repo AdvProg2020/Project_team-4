@@ -1,7 +1,8 @@
 package Model;
 import java.io.File;
+import java.io.Serializable;
 
-public abstract class Account extends SaveAble {
+public abstract class Account extends SaveAble implements Serializable {
 
     protected String userName;
     protected String firstName;

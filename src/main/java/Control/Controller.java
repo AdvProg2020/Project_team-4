@@ -22,7 +22,7 @@ public class Controller {
     private Account currentAccount = null;
 
     public static void main(String[] args) throws IOException {
-        int port = 8889;
+        int port = 8888;
         //network
         ServerSocket serverSocket = new ServerSocket(port);
         handleData();

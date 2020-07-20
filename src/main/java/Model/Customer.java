@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Customer extends Account {
+public class Customer extends Account implements java.io.Serializable{
     //private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private HashMap<String, Integer> cart;
     private ArrayList<String> sellersOfProductsOfTheCart;

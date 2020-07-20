@@ -17,7 +17,6 @@ import java.net.Socket;
 public class App extends Application {
 
     private static Scene scene;
-    private boolean isFirstManagerCreatedOrNot;
     private static Stage stage;
     public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
     private static Socket socket;
@@ -32,18 +31,15 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        socket = new Socket("localhost", 8887);
+        socket = new Socket("localhost", 8888);
         try {
             System.out.println(socket);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
             dataOutputStream = new DataOutputStream(os);
             dataInputStream = new DataInputStream(is);
-            System.out.println("here1");
             inObject = new ObjectInputStream(dataInputStream);
-            System.out.println("here2");
             outObject = new ObjectOutputStream(dataOutputStream);
-            System.out.println("here3");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,19 +62,10 @@ public class App extends Application {
         stage.show();
     }
 
-    private boolean checkInitializedOrNot() {
-        File directory = new File(System.getProperty("user.dir") + "\\" + "class Model.Manager");
-        if (directory.isDirectory()) {
-            String[] files = directory.list();
-            if (files.length > 0) {
-//                System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
-                isFirstManagerCreatedOrNot = true;
-            }
-            else {
-                isFirstManagerCreatedOrNot = false;
-            }
-        }
-        return isFirstManagerCreatedOrNot;
+    private boolean checkInitializedOrNot() throws IOException {
+        sendMessageToServer("firstManExist", "");
+        String hasMan = dataInputStream.readUTF();
+        return Boolean.parseBoolean(hasMan);
     }
 
     static void setRoot(String fxml) throws IOException {

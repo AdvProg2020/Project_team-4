@@ -8,7 +8,8 @@ public class RequestProduct extends Request {
     public RequestProduct(RequestType requestType, Product product) {
         super(requestType);
         this.product = product;
-        Manager.getEditProductsRequests().add(this);
+//        Manager.getEditProductsRequests().add(this);
+//        for dupblicate creating
         //Product.getAllProducts().remove(product);
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditProductsRequests(), ArrayList.class.toString(), "editProductsRequests");
     }

@@ -18,7 +18,7 @@ public class PrimaryController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        if (account.equals(App.defaultCustomer)) {
+        if (account.getUserName().equals("default")) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
             return;
