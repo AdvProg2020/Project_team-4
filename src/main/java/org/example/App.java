@@ -37,12 +37,12 @@ public class App extends Application {
             System.out.println(socket);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
+            dataOutputStream = new DataOutputStream(os);
+            dataInputStream = new DataInputStream(is);
             System.out.println("here1");
-            dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            outObject = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            System.out.println("here2");
             inObject = new ObjectInputStream(dataInputStream);
+            System.out.println("here2");
+            outObject = new ObjectOutputStream(dataOutputStream);
             System.out.println("here3");
         } catch (IOException e) {
             e.printStackTrace();

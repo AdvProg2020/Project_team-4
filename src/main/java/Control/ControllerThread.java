@@ -23,13 +23,20 @@ public class ControllerThread extends Thread{
     @Override
     public void run() {
         DataInputStream dataInputStream = null;
-        DataOutputStream dataOutputStream;
+        DataOutputStream dataOutputStream = null;
         try {
-            outObject = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            inObject = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-        while(true){
+//            dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//            dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
+            dataOutputStream = new DataOutputStream(os);
+            dataInputStream = new DataInputStream(is);
+            System.out.println("before1");
+            outObject = new ObjectOutputStream(dataOutputStream);
+            System.out.println("afeter1");
+            inObject = new ObjectInputStream(dataInputStream);
+            System.out.println("afeter2");
+            while(true){
             String input = dataInputStream.readUTF();
             String[] subString = input.split(" ");
             checkFunction(subString, dataOutputStream);
