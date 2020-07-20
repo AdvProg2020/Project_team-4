@@ -133,6 +133,7 @@ public class Cart implements Initializable {
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
         App.sendMessageToServer("getCurrentAccount", "");
+        String type = App.dataInputStream.readUTF();
         Account account = null;
         try {
              account = ((Account)App.inObject.readObject());
@@ -143,14 +144,14 @@ public class Cart implements Initializable {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (account.getUserName().substring(0, 2)) {
-                case "man":
+            switch (type) {
+                case "class Model.Manager":
                     App.setRoot("manager");
                     break;
-                case "cus":
+                case "class Model.Customer":
                     App.setRoot("customer");
                     break;
-                case "sel":
+                case "class Model.Seller":
                     App.setRoot("seller");
                     break;
             }

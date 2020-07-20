@@ -2,6 +2,7 @@ package org.example;
 
 
 
+import Model.Customer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +19,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
-    public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
+    public static Customer defaultCustomer = new Customer("default", String.valueOf(123));
     private static Socket socket;
     public  static DataInputStream dataInputStream;
     public  static DataOutputStream dataOutputStream;
@@ -31,7 +32,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        socket = new Socket("localhost", 8888);
+        socket = new Socket("localhost", 8889);
         try {
             System.out.println(socket);
             InputStream is = socket.getInputStream();

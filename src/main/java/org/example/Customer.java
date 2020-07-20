@@ -54,6 +54,7 @@ public class Customer {
         App.sendMessageToServer("getCurrentAccount", "");
         account = null;
         try {
+            String type = App.dataInputStream.readUTF();
             account = ((Model.Account)App.inObject.readObject());
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
@@ -83,6 +84,7 @@ public class Customer {
             codedOff3Button.setText(offCodesNames.get(2));
             codedOff3Button.setVisible(true);
         }
+        // chera faghat 3 ta??
         Image image;
         File file = new File("Image\\" + account.getUserName() + ".png");
         if(file.exists()){

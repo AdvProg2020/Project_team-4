@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.regex.Matcher;
 
 import static Model.Product.getProductWithBarcode;
 
@@ -22,7 +21,7 @@ public class Controller {
     private Account currentAccount = null;
 
     public static void main(String[] args) throws IOException {
-        int port = 8888;
+        int port = 8889;
         //network
         ServerSocket serverSocket = new ServerSocket(port);
         handleData();
@@ -142,7 +141,7 @@ public class Controller {
             ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
             CodedOff codedOff = new CodedOff(start, end, maximumOffAmount, percentOfOff, usageTimes, containingCustomers);
             for (String customer: containingCustomers) {
-                Customer customer1 = ((Customer)Customer.getAccountWithName(customer));
+                Customer customer1 = ((Customer) Customer.getAccountWithName(customer));
                 customer1.addOffCode(codedOff.getOffBarcode());
                 customer1.setUsageOfOffCodes(Integer.valueOf(usageTimes));
                 SaveAndLoad.getSaveAndLoad().writeJSON(customer1, Customer.class.toString(), customer1.getUserName());

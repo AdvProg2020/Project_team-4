@@ -1,7 +1,6 @@
 package Control;
 
 import Model.*;
-import org.example.App;
 
 import java.io.*;
 import java.net.Socket;
@@ -79,15 +78,17 @@ public class ControllerThread extends Thread{
         } else if (subString[1].equalsIgnoreCase("getCart")) {
             System.out.println("get cart server");
             try {
-                outObject.writeObject(((Model.Customer)getOurController().getCurrentAccount()).getCart());
+                outObject.writeObject(((Customer)getOurController().getCurrentAccount()).getCart());
                 outObject.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (subString[1].equalsIgnoreCase("getCurrentAccount")) {
             System.out.println("get current Account server");
+            System.out.println(getOurController().getCurrentAccount());
             try {
                 dataOutputStream.writeUTF(getAccounttype());
+                dataOutputStream.flush();
                 outObject.writeObject((getOurController().getCurrentAccount()));
                 outObject.flush();
 
@@ -99,15 +100,12 @@ public class ControllerThread extends Thread{
             try {
                 String name = subString[2];
                 ArrayList<String> subCategoriesArray = ((ArrayList<String>)inObject.readObject());
-                Thread.currentThread().wait(100);
                 ArrayList<String> tagsArray = ((ArrayList<String>)inObject.readObject());
-                Thread.currentThread().wait(100);
                 ArrayList<String> productsArray = ((ArrayList<String>)inObject.readObject());
-                Thread.currentThread().wait(100);
                 outObject.writeObject(getOurController().createCategory(name, subCategoriesArray, tagsArray, productsArray));
                 outObject.flush();
 
-            } catch (IOException | ClassNotFoundException | InterruptedException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         } else if (subString[1].equalsIgnoreCase("removeCategory")) {
