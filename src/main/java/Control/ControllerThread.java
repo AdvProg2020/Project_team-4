@@ -290,6 +290,13 @@ public class ControllerThread extends Thread{
         } else if (subString[1].equalsIgnoreCase("changeCompanyName")) {
             getOurController().changeCompanyName(subString[2]);
             SaveAndLoad.getSaveAndLoad().writeJSON(getOurController().getCurrentAccount(), Model.Seller.class.toString(), getOurController().getCurrentAccount().getUserName());
+        } else if (subString[1].equalsIgnoreCase("setSellersOfProduct")) {
+            Product.getProductWithBarcode(subString[2]).setSellers(subString[3]);
+            SaveAndLoad.getSaveAndLoad().saveGenerally();
+        } else if (subString[1].equalsIgnoreCase("setProductsOfASeller")) {
+            ((Seller)Account.getAccountWithName(subString[2])).setProducts(subString[3]);
+        } else if (subString[1].equalsIgnoreCase("setProductEndTime")) {
+            Product.getProductWithBarcode(subString[2]).setEndTime(subString[3]);
         }
     }
     private String getAccounttype() {

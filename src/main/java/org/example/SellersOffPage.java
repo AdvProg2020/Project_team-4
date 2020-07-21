@@ -1,6 +1,5 @@
 package org.example;
 
-import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,7 +36,7 @@ public class SellersOffPage implements Initializable {
         ArrayList<String> productsNames = new ArrayList<>();
         for (String name: productsField.getText().trim().split(" ")) {
             App.sendMessageToServer("getProductWithName", name);
-            Model.Product product = (Product) App.inObject.readObject();
+            Model.Product product = (Model.Product) App.inObject.readObject();
             if (product != null) {
                 productsNames.add(name);
             }

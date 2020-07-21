@@ -97,7 +97,7 @@ public class Requests implements Initializable {
 
     private ObservableList<Model.RequestANewSellerAccount> getSellerReqs() throws IOException, ClassNotFoundException {
         App.sendMessageToServer("getRegisterSellerAccountRequests", "");
-        List list = new ArrayList((Integer) App.inObject.readObject());
+        List list = new ArrayList((ArrayList<Model.Request>) App.inObject.readObject());
         list.add(new Model.RequestANewSellerAccount(Model.RequestType.ACCOUNT, "ali", "pass123"));
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;

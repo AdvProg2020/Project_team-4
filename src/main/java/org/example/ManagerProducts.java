@@ -1,7 +1,5 @@
 package org.example;
 
-import Model.Account;
-import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class ManagerProducts implements Initializable {
 
-    Account account = null;
+    Model.Account account = null;
     String type;
 
 
@@ -60,7 +58,7 @@ public class ManagerProducts implements Initializable {
         ArrayList<Model.Product> products = null;
         App.sendMessageToServer("getAllProducts", "");
         try {
-            products = (ArrayList<Product>) App.inObject.readObject();
+            products = (ArrayList<Model.Product>) App.inObject.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

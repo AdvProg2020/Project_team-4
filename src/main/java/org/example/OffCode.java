@@ -3,7 +3,6 @@ package org.example;
 
 
 
-import Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -79,7 +78,7 @@ public class OffCode implements Initializable {
                 System.out.println("please enter customer for using codedoff");
                 continue;
             }
-            Customer customer = (Customer) account;
+            Model.Customer customer = (Model.Customer) account;
             if(containingCustomers.contains(account)){
                 System.out.println("this name was added one time");
                 continue;

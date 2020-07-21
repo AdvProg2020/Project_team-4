@@ -1,7 +1,6 @@
 package org.example;
 
 
-import Model.CodedOff;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -196,7 +195,7 @@ public class Customer {
         String name = ((Button)actionEvent.getSource()).getText();
         Alert alert = new Alert(Alert.AlertType.ERROR);
         App.sendMessageToServer("getOffCodeWithName", name);
-        Model.CodedOff codedOff = (CodedOff) App.inObject.readObject();
+        Model.CodedOff codedOff = (Model.CodedOff) App.inObject.readObject();
         alert.setContentText(codedOff.getStartTime() + "/" + codedOff.getEndTime());
         alert.show();
     }

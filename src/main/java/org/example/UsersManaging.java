@@ -1,7 +1,6 @@
 package org.example;
 
 import Model.Account;
-import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,7 +41,7 @@ public class UsersManaging implements Initializable {
         System.out.println(result);
         if (result == 1) {
             App.sendMessageToServer("getAccountWithName", user.getText().trim());
-            Account account = (Account) App.inObject.readObject();
+            Model.Account account = (Model.Account) App.inObject.readObject();
             table.getItems().add(account);
         }
     }
@@ -60,12 +59,12 @@ public class UsersManaging implements Initializable {
             e.printStackTrace();
         }
         List<String> userNames = Arrays.asList(users1);
-        List<Account> users = new ArrayList<>();
+        List<Model.Account> users = new ArrayList<>();
         for (String userName: userNames) {
             App.sendMessageToServer("getAccountWithName", userName);
-            Account account = null;
+            Model.Account account = null;
             try {
-                account = (Account) App.inObject.readObject();
+                account = (Model.Account) App.inObject.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -86,9 +85,9 @@ public class UsersManaging implements Initializable {
         userNames = Arrays.asList(users2);
         for (String userName: userNames) {
             App.sendMessageToServer("getAccountWithName", userName);
-            Account account = null;
+            Model.Account account = null;
             try {
-                account = (Account) App.inObject.readObject();
+                account = (Model.Account) App.inObject.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -109,9 +108,9 @@ public class UsersManaging implements Initializable {
         userNames = Arrays.asList(users3);
         for (String userName: userNames) {
             App.sendMessageToServer("getAccountWithName", userName);
-            Account account = null;
+            Model.Account account = null;
             try {
-                account = (Account) App.inObject.readObject();
+                account = (Model.Account) App.inObject.readObject();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -119,7 +118,7 @@ public class UsersManaging implements Initializable {
             }
             users.add(account);
         }
-        ObservableList<Account> customers = FXCollections.observableArrayList(users);
+        ObservableList<Model.Account> customers = FXCollections.observableArrayList(users);
         userName.setCellValueFactory(new PropertyValueFactory<>("UserName"));
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         table.setItems(customers);
@@ -151,7 +150,9 @@ public class UsersManaging implements Initializable {
 
     @FXML
     public void remove(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        Account account = getAccountWithName(table.getSelectionModel().getSelectedItem().getUserName());
+        App.sendMessageToServer("getAccountWithName", table.getSelectionModel().getSelectedItem().getUserName());
+        Model.Account account = (Account) App.inObject.readObject();
+//                getAccountWithName(table.getSelectionModel().getSelectedItem().getUserName());
         int result = 0;
         if (account != null) {
             App.sendMessageToServer("controllerDeleteAnUser", account.getUserName());

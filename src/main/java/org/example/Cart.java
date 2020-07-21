@@ -1,8 +1,5 @@
 package org.example;
 
-import Model.Account;
-import Model.CartItem;
-import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,21 +15,21 @@ import java.util.*;
 public class Cart implements Initializable {
     int totalPriceInt = 0;
     @FXML
-    public TableColumn<CartItem, Integer> itemCol;
+    public TableColumn<Model.CartItem, Integer> itemCol;
     @FXML
-    public TableColumn<CartItem, String> nameCol;
+    public TableColumn<Model.CartItem, String> nameCol;
     @FXML
-    public TableColumn<CartItem, Double> priceCol;
+    public TableColumn<Model.CartItem, Double> priceCol;
     @FXML
-    public TableColumn<CartItem, Integer> howManyCol;
+    public TableColumn<Model.CartItem, Integer> howManyCol;
     @FXML
-    public TableColumn<CartItem, Double> totalPriceCol;
+    public TableColumn<Model.CartItem, Double> totalPriceCol;
     @FXML
-    public TableColumn<CartItem, Button> addCol;
+    public TableColumn<Model.CartItem, Button> addCol;
     @FXML
-    public TableColumn<CartItem, Button> decreaseCol;
+    public TableColumn<Model.CartItem, Button> decreaseCol;
     @FXML
-    public TableView<CartItem> table;
+    public TableView<Model.CartItem> table;
     public TextField totalPrice;
 
     @Override
@@ -44,7 +41,7 @@ public class Cart implements Initializable {
         totalPriceCol.setCellValueFactory(new PropertyValueFactory<>("TotalPrice"));
         addCol.setCellValueFactory(new PropertyValueFactory<>("AddButton"));
         decreaseCol.setCellValueFactory(new PropertyValueFactory<>("DecreaseButton"));
-        ObservableList<CartItem> data = getInitialTableData();
+        ObservableList<Model.CartItem> data = getInitialTableData();
         table.setItems(data);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ////////////////////Pak NAKONI HA JOZVE CODE///////////////////////////
@@ -58,7 +55,7 @@ public class Cart implements Initializable {
         totalPrice.setText(String.valueOf(totalPriceInt));
     }
 
-    private ObservableList<CartItem> getInitialTableData() {
+    private ObservableList<Model.CartItem> getInitialTableData() {
 
         List list = new ArrayList();
         int i=1;
@@ -87,7 +84,7 @@ public class Cart implements Initializable {
             try {
                 Object obj;
                 if ((obj = App.inObject.readObject()) != null) {
-                    product = ((Product) obj);
+                    product = ((Model.Product) obj);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -95,7 +92,7 @@ public class Cart implements Initializable {
                 e.printStackTrace();
             }
             if (product != null) {
-                CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
+                Model.CartItem cartItem = new Model.CartItem(Model.Product.getProductWithBarcode(name));
                 cartItem.setItemNo(i);
                 App.sendMessageToServer("getCart", "");
                 HashMap<String, Integer> cart = null;
@@ -118,7 +115,7 @@ public class Cart implements Initializable {
         ArrayList<String> tags = new ArrayList<>();
         ArrayList<String> sellers = new ArrayList<>();
 
-        ObservableList<CartItem> data = FXCollections.observableArrayList(list);
+        ObservableList<Model.CartItem> data = FXCollections.observableArrayList(list);
 
         return data;
     }
@@ -134,9 +131,9 @@ public class Cart implements Initializable {
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
         App.sendMessageToServer("getCurrentAccount", "");
         String type = App.dataInputStream.readUTF();
-        Account account = null;
+        Model.Account account = null;
         try {
-             account = ((Account)App.inObject.readObject());
+             account = ((Model.Account)App.inObject.readObject());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

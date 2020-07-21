@@ -2,7 +2,6 @@ package org.example;
 
 
 
-import Model.Customer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +18,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
-    public static Customer defaultCustomer = new Customer("default", String.valueOf(123));
+    public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
     private static Socket socket;
     public  static DataInputStream dataInputStream;
     public  static DataOutputStream dataOutputStream;

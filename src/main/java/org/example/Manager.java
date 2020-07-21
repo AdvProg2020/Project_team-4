@@ -1,6 +1,5 @@
 package org.example;
 
-import Model.Account;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 
 public class Manager {
 
-    Account account = null;
+    Model.Account account = null;
     String type;
 
 

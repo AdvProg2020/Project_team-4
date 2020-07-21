@@ -1,7 +1,8 @@
 package org.example;
 
-import Model.Off;
-import Model.Product;
+
+
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -267,14 +268,17 @@ public class ProductsPage {
             if(offCheckBox.isSelected()){
                 allProduct = new ArrayList<>(getOffsProduct());
             }else{
-                allProduct = new ArrayList<>(Product.getAllProducts());
+                App.sendMessageToServer("getAllProducts", "");
+                allProduct = new ArrayList<>((ArrayList<Model.Product>)App.inObject.readObject());
             }
         }
         sortAction();
     }
 
     private void categoryCheckBoxInitialize(int i, int y, HashSet tags) throws IOException, ClassNotFoundException {
-        for (Product product : Product.getAllProducts()) {
+        App.sendMessageToServer("getAllProducts", "");
+        ArrayList<Model.Product> products = (ArrayList<Model.Product>) App.inObject.readObject();
+        for (Model.Product product : products) {
             if (product.getCategory() == null) {
                 continue;
             }
@@ -341,12 +345,13 @@ public class ProductsPage {
             List list = new ArrayList();
             list.addAll(getOffsProduct());
             allProduct = getOffsProduct();
-            ObservableList<Product> data = FXCollections.observableArrayList(list);
+            ObservableList<Model.Product> data = FXCollections.observableArrayList(list);
             table.setItems(data);
             table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         }else{
             allProduct.clear();
-            allProduct.addAll(Product.getAllProducts());
+            App.sendMessageToServer("getAllProducts", "");
+            allProduct.addAll((Collection<? extends Model.Product>) App.inObject.readObject());
         }
         fullFilter();
     }
@@ -363,23 +368,23 @@ public class ProductsPage {
     }
 
     private void setTable() {
-        ObservableList<Product> data = getInitialTableData();
+        ObservableList<Model.Product> data = getInitialTableData();
         table.setItems(data);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
-    private ObservableList<Product> getInitialTableData() {
+    private ObservableList<Model.Product> getInitialTableData() {
         List list = new ArrayList();
         list.addAll(allProduct);
 
-        ObservableList<Product> data = FXCollections.observableArrayList(list);
+        ObservableList<Model.Product> data = FXCollections.observableArrayList(list);
 
         return data;
     }
 
 
     public void seeProduct(ActionEvent actionEvent) throws IOException {
-        ProductPage.setProduct((Product) table.getSelectionModel().getSelectedItems().get(0));
+        ProductPage.setProduct((Model.Product) table.getSelectionModel().getSelectedItems().get(0));
         App.setRoot("product-page");
     }
 
@@ -414,14 +419,18 @@ public class ProductsPage {
     private ArrayList<Model.Product> getOffsProduct() throws IOException, ClassNotFoundException {
         ArrayList<Model.Product> arrayList = new ArrayList<>();
         App.sendMessageToServer("getAllOffs", "");
-        ArrayList<Model.Off> offs = (ArrayList<Off>) App.inObject.readObject();
+        ArrayList<Model.Off> offs = (ArrayList<Model.Off>) App.inObject.readObject();
         for (Model.Off allOff : offs) {
             for (String product : allOff.getProducts()) {
                 App.sendMessageToServer("getProductWithName", product);
-                Model.Product product1 = (Product) App.inObject.readObject();
+                Model.Product product1 = (Model.Product) App.inObject.readObject();
                 if (product1 != null) {
-                    Product.getProductWithName(product).setEndTime(allOff.getEndDate());
-                    arrayList.add(Product.getProductWithName(product));
+                    App.sendMessageToServer("getProductWithBarcode", product);
+//                    Product.getProductWithName(product)
+                    Model.Product product2 = (Model.Product)App.inObject.readObject();
+                    product2.setEndTime(allOff.getEndDate());
+                    App.sendMessageToServer("setProductEndTime", product + " " + allOff.getEndDate());
+                    arrayList.add(product2);
                 }
             }
         }
@@ -491,9 +500,11 @@ public class ProductsPage {
             return tags;
         }
 
-        public TagCheckBoxInitialize invoke() {
+        public TagCheckBoxInitialize invoke() throws IOException, ClassNotFoundException {
             tags = new HashSet();
-            for (Product product : Product.getAllProducts()) {
+            App.sendMessageToServer("getAllProducts", "");
+            ArrayList<Model.Product> products = (ArrayList<Model.Product>) App.inObject.readObject();
+            for (Model.Product product : products) {
                 for (String tag : product.getTags()) {
                     if (tags.contains(tag)) {
                         continue;
@@ -528,11 +539,12 @@ public class ProductsPage {
         if(offCheckBox.isSelected()){
             allProduct = new ArrayList<>(getOffsProduct());
         }else{
-            allProduct = new ArrayList<>(Product.getAllProducts());
+            App.sendMessageToServer("getAllProducts", "");
+            allProduct = new ArrayList<>((ArrayList<Model.Product>)App.inObject.readObject());
         }
         //cost check
         ArrayList temp = new ArrayList<>(allProduct);
-        for (Product product : allProduct) {
+        for (Model.Product product : allProduct) {
             if(product.getCost() > slider.getValue()){
                 temp.remove(product);
             }
@@ -540,7 +552,7 @@ public class ProductsPage {
         allProduct = new ArrayList<>(temp);
         //tag check
         ArrayList temp1 = new ArrayList(allProduct);
-        for (Product product : allProduct) {
+        for (Model.Product product : allProduct) {
             for (String filter : filters) {
                 if(!product.getTags().contains(filter)){
                     temp1.remove(product);
@@ -552,7 +564,7 @@ public class ProductsPage {
         //available filter
         if(available.isSelected()){
             ArrayList temp2 = new ArrayList(allProduct);
-            for (Product product : allProduct) {
+            for (Model.Product product : allProduct) {
                 if(product.getAmountOfExist() <= 0)
                     temp2.remove(product);
             }
@@ -560,7 +572,7 @@ public class ProductsPage {
         //seller filter
         ArrayList temp2 = new ArrayList<>(allProduct);
         for (String s : sellerTag) {
-            for (Product product : allProduct) {
+            for (Model.Product product : allProduct) {
                 if(!product.getSellers().contains(s))
                 temp2.remove(product);
             }
@@ -570,7 +582,7 @@ public class ProductsPage {
         //company tag
         ArrayList temp3 = new ArrayList<>(allProduct);
         for (String s : comanyTag) {
-            for (Product product : allProduct) {
+            for (Model.Product product : allProduct) {
                 if(!product.getCompany().equals(s))
                     temp3.remove(product);
             }

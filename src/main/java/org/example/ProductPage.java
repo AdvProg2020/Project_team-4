@@ -2,7 +2,6 @@ package org.example;
 
 
 
-import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -173,10 +172,10 @@ public class ProductPage {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
         replayColumn.setCellValueFactory(new PropertyValueFactory<>("Replay"));
         App.sendMessageToServer("getAllProducts", "");
-        ArrayList<Model.Product> products = (ArrayList<Product>) App.inObject.readObject();
+        ArrayList<Model.Product> products = (ArrayList<Model.Product>) App.inObject.readObject();
 //                Product.getAllProducts();
         comments.clear();
-        for (Product product1 : products) {
+        for (Model.Product product1 : products) {
             comments.addAll(product1.getComments());
         }
         ObservableList<Model.Comment> observeListComment = FXCollections.observableArrayList(comments);

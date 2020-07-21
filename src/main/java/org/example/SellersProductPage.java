@@ -45,7 +45,7 @@ public class SellersProductPage implements Initializable {
     public void edit(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         pictureStatus.setText("no picture");
         App.sendMessageToServer("getProductWithBarcode", nameField.getText().trim());
-        Model.Product product = (Product) App.inObject.readObject();
+        Model.Product product = (Model.Product) App.inObject.readObject();
         App.sendMessageToServer("getCurrentAccount", "");
         Model.Account account = null;
         String type = App.dataInputStream.readUTF();
@@ -55,8 +55,12 @@ public class SellersProductPage implements Initializable {
             e.printStackTrace();
         }
         if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && product != null) {
-            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Model.Seller)(account)).getUserName());
-            ((Model.Seller) account).setProducts(nameField.getText().trim());
+//            App.sendMessageToServer("getProductWithBarcode", ((Model.Seller)(account)).getUserName());
+//            Product.getProductWithBarcode(nameField.getText().trim())
+            App.sendMessageToServer("setSellersOfProduct", nameField.getText().trim() + " " + ((Model.Seller)(account)).getUserName());
+//                    .setSellers(((Model.Seller)(account)).getUserName());
+//            ((Model.Seller) account).setProducts(nameField.getText().trim());
+            App.sendMessageToServer("setProductsOfASeller", account.getUserName() + " " + nameField.getText().trim());
             imageFile = null;
             return;
         }
@@ -72,11 +76,11 @@ public class SellersProductPage implements Initializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        ObservableList<Product> selectedItem = table.getSelectionModel().getSelectedItems();
+        ObservableList<Model.Product> selectedItem = table.getSelectionModel().getSelectedItems();
         App.sendMessageToServer("removeProductFromSellerProducts", selectedItem.get(0).getProductBarcode());
 //        Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
-        ObservableList<Product> allProducts;
-        ObservableList<Product> singleProduct;
+        ObservableList<Model.Product> allProducts;
+        ObservableList<Model.Product> singleProduct;
         allProducts = table.getItems();
         singleProduct = table.getSelectionModel().getSelectedItems();
         singleProduct.forEach(allProducts::remove);
@@ -128,9 +132,17 @@ public class SellersProductPage implements Initializable {
         }
         getEditAbleTextFields();
         ArrayList<String> productsNames = new ArrayList(((Model.Seller)account).getProducts());
-        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<Model.Product> products = new ArrayList<>();
         for (String name: productsNames) {
-            products.add(Product.getProductWithBarcode(name));
+            App.sendMessageToServer("getProductWithBarcode", name);
+
+            try {
+                products.add((Product) App.inObject.readObject());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         ObservableList<Product> observableList = FXCollections.observableArrayList(products);
 
