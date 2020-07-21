@@ -390,23 +390,23 @@ public class ProductsPage {
 
     public void sortAction() {
         if (sortList.getSelectionModel().getSelectedItem() == null) {
-            allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
+            allProduct.sort(Comparator.comparing(Model.Product::getLocalDateTime));
         } else {
             switch (sortList.getSelectionModel().getSelectedItem().toString()) {
                 case "name":
-                    allProduct.sort(Comparator.comparing(Product::getNameOfProductNotBarcode));
+                    allProduct.sort(Comparator.comparing(Model.Product::getNameOfProductNotBarcode));
                     break;
                 case "score":
-                    allProduct.sort(Comparator.comparing(Product::getScoreNo));
+                    allProduct.sort(Comparator.comparing(Model.Product::getScoreNo));
                     break;
                 case "seen number":
-                    allProduct.sort(Comparator.comparing(Product::getSeen));
+                    allProduct.sort(Comparator.comparing(Model.Product::getSeen));
                     break;
                 case "price":
-                    allProduct.sort(Comparator.comparing(Product::getCost));
+                    allProduct.sort(Comparator.comparing(Model.Product::getCost));
                     break;
                 default:
-                    allProduct.sort(Comparator.comparing(Product::getLocalDateTime));
+                    allProduct.sort(Comparator.comparing(Model.Product::getLocalDateTime));
                     break;
             }
         }
