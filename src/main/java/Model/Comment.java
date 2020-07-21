@@ -10,6 +10,7 @@ public class Comment extends SaveAble {
     private String product;
     private String commentText;
     private String replay;
+    
 
     public void setReplay(String replay) {
         this.replay = replay;

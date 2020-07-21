@@ -1,7 +1,5 @@
 package org.example;
 
-import Control.Controller;
-import Model.SaveAndLoad;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,6 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Manager {
+
+    Model.Account account = null;
+    String type;
+
+
     @FXML
     public Button request;
     @FXML
@@ -51,21 +54,29 @@ public class Manager {
     @FXML
     public Button saveButton;
 
-    public void initialize() {
-        userName.setText(Controller.getOurController().getLoggedInAccount().getUserName());
-        firstName.setText(Controller.getOurController().getLoggedInAccount().getFirstName());
-        lastName.setText(Controller.getOurController().getLoggedInAccount().getLastName());
-        passWord.setText(Controller.getOurController().getLoggedInAccount().getPassWord());
-        phoneNumber.setText(Controller.getOurController().getLoggedInAccount().getPhoneNumber());
-        mail.setText(Controller.getOurController().getLoggedInAccount().getEmail());
-        role.setText(Controller.getOurController().getLoggedInAccount().getClass().toString());
-        credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
+    public void initialize() throws IOException {
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        userName.setText(account.getUserName());
+        firstName.setText(account.getFirstName());
+        lastName.setText(account.getLastName());
+        passWord.setText(account.getPassWord());
+        phoneNumber.setText(account.getPhoneNumber());
+        mail.setText(account.getEmail());
+        role.setText(account.getClass().toString());
+        credit.setText(String.valueOf(account.getCredit()));
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
         Image image;
-        File file = new File("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        File file = new File("Image\\" + account.getUserName() + ".png");
         if(file.exists()){
-            image = new Image("file:////..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            image = new Image("file:////..\\Image\\" + account.getUserName() + ".png");
         }else{
             image = new Image("file:////..\\Image\\noProfile.png");
         }
@@ -76,8 +87,12 @@ public class Manager {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
-            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Manager.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(firstName.getText().trim() + " " + lastName.getText().trim() + " " + phoneNumber.getText().trim() + " " + mail.getText().trim() + " " + passWord.getText().trim());
+            App.sendMessageToServer("changeFields", stringBuilder.toString());
+
+//            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
+//            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getCurrentAccount(), Model.Manager.class.toString(), Controller.getOurController().getCurrentAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
             alert.show();
@@ -150,11 +165,12 @@ public class Manager {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
@@ -168,8 +184,9 @@ public class Manager {
         }
     }
 
-    public void logout(ActionEvent actionEvent) {
-        int result = Controller.getOurController().logout();
+    public void logout(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        App.sendMessageToServer("logout", "");
+        int result = (int) App.inObject.readObject();
         if (result == 2) {
             try {
                 App.setRoot("main");
@@ -200,14 +217,14 @@ public class Manager {
 
         copyImage(file);
 
-        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        Image image = new Image("file:///..\\Image\\" + account.getUserName() + ".png");
         imageView.setImage(image);
     }
 
     private void copyImage(File file) {
         try {
             FileInputStream in = new FileInputStream(file);
-            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            FileOutputStream out = new FileOutputStream("Image\\" + account.getUserName() + ".png");
             SellersProductPage.CopyFile(in, out);
         } catch (IOException e) {
             e.printStackTrace();

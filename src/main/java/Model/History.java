@@ -1,12 +1,9 @@
 package Model;
 
-import Control.Controller;
-
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class History {
+public class History implements Serializable {
     private String logBarcode;
     private String date;
     private double cost;

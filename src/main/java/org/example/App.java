@@ -1,8 +1,7 @@
 package org.example;
 
-import Control.Controller;
-import Model.*;
-import View.Menu.MainMenu;
+
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,29 +10,48 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import java.io.CharArrayReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
+import java.net.Socket;
 
 
 public class App extends Application {
 
     private static Scene scene;
-    private boolean isFirstManagerCreatedOrNot;
     private static Stage stage;
     public static Model.Customer defaultCustomer = new Model.Customer("default", String.valueOf(123));
+    private static Socket socket;
+    public  static DataInputStream dataInputStream;
+    public  static DataOutputStream dataOutputStream;
+    public static ObjectOutputStream outObject;
+    public static ObjectInputStream inObject;
+    public static String token;
+
+
+
 
     @Override
     public void start(Stage stage) throws IOException {
+        socket = new Socket("localhost", 8889);
+        try {
+            System.out.println(socket);
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
+            dataOutputStream = new DataOutputStream(os);
+            dataInputStream = new DataInputStream(is);
+            inObject = new ObjectInputStream(dataInputStream);
+            outObject = new ObjectOutputStream(dataOutputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String path = "music\\backgroundMusic.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setCycleCount(10);
         this.stage = stage;
-        Controller.getOurController().setLoggedInAccount(defaultCustomer);
-        handleData();
+        sendMessageToServer("setCurrentAccount", "");
+        sendObjectToServer(defaultCustomer);
+
       if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));
         } else {
@@ -44,39 +62,10 @@ public class App extends Application {
         stage.show();
     }
 
-    private boolean checkInitializedOrNot() {
-        File directory = new File(System.getProperty("user.dir") + "\\" + "class Model.Manager");
-        if (directory.isDirectory()) {
-            String[] files = directory.list();
-            if (files.length > 0) {
-//                System.out.println(System.getProperty("user.dir") + "\\" + Manager.class);
-                isFirstManagerCreatedOrNot = true;
-            }
-            else {
-                isFirstManagerCreatedOrNot = false;
-            }
-        }
-        return isFirstManagerCreatedOrNot;
-    }
-
-    private void handleData() {
-        File file1 = new File(String.valueOf("class Model.Customer"));
-        file1.mkdir();
-        File file2 = new File("class Model.Manager");
-        file2.mkdir();
-        File file3 = new File("class Model.Seller");
-        file3.mkdir();
-        File file4 = new File("class java.util.ArrayList");
-        file4.mkdirs();
-        File file5 = new File("Image");
-        file5.mkdirs();
-        Controller.readOffCodesFromFile();
-        Controller.readRequestsFromFile();
-        Controller.readOffsFromFile();
-        Controller.readProductsFromFile();
-        Controller.readCategoriesFromFile();
-//        MainMenu mainMenu = new MainMenu();
-//        mainMenu.execute();
+    private boolean checkInitializedOrNot() throws IOException {
+        sendMessageToServer("firstManExist", "");
+        String hasMan = dataInputStream.readUTF();
+        return Boolean.parseBoolean(hasMan);
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -95,5 +84,24 @@ public class App extends Application {
     public static Stage getStage(){
         return stage;
     }
+
+    public static void sendMessageToServer(String typeOfRequest, String contentOfRequest) {
+        try {
+            dataOutputStream.writeUTF(token + " " + typeOfRequest + " " + contentOfRequest);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sendObjectToServer(Object obj) {
+        try {
+            outObject.writeObject(obj);
+            outObject.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

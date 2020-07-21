@@ -1,10 +1,7 @@
 package org.example;
 
-import Control.Controller;
-import Model.*;
-import Model.Customer;
-import Model.Manager;
-import Model.Seller;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,10 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import static Model.Account.getAccountWithName;
 
 public class Category implements Initializable {
 
@@ -48,29 +42,47 @@ public class Category implements Initializable {
     @FXML
     public TableColumn<Model.Category, String> subCategoriesColumn;
 
-    public void add(ActionEvent actionEvent) {
+    public void add(ActionEvent actionEvent) throws InterruptedException, IOException, ClassNotFoundException {
         if (checkInfoEntrance(name, tags))return;
         if (checkInfoEntrance(name, products))return;
         ArrayList<String> subCategoriesArray = new ArrayList<>();
         for (String string: subCategories.getText().trim().split(" ")) {
-            Model.Category category = Model.Category.getCategoryByName(string);
+            App.sendMessageToServer("getCategoryByName", string);
+            Model.Category category = (Model.Category) App.inObject.readObject();
             if (category!=null) {
                 subCategoriesArray.add(string);
             }
         }
         ArrayList<String> tagsArray = new ArrayList<>(Arrays.asList(tags.getText().trim().split(" ")));
         ArrayList<String> productsArray = new ArrayList<>(Arrays.asList(products.getText().trim().split(" ")));
-        Model.Category result = Controller.getOurController().createCategory(name.getText().trim(), subCategoriesArray, tagsArray, productsArray);
+        App.sendMessageToServer("createCategory", name.getText().trim());
+        App.sendObjectToServer(subCategoriesArray);
+        Thread.currentThread().wait(100);
+        App.sendObjectToServer(tagsArray);
+        Thread.currentThread().wait(100);
+        App.sendObjectToServer(productsArray);
+        Thread.currentThread().wait(100);
+        Model.Category result = null;
+        try {
+            result = ((Model.Category)App.inObject.readObject());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         if (result != null) {
             table.getItems().add(result);
         }
     }
 
-    public void remove(ActionEvent actionEvent) {
-        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
+    public void remove(ActionEvent actionEvent) throws IOException, InterruptedException, ClassNotFoundException {
+        App.sendMessageToServer("getCategoryByName", table.getSelectionModel().getSelectedItem().getName());
+        Thread.currentThread().wait(100);
+        Model.Category category = (Model.Category) App.inObject.readObject();
         boolean result =false;
         if (category != null) {
-            result = Controller.getOurController().removeCategory(category.getName());
+            App.sendMessageToServer("removeCategory", category.getName());
+            result = (boolean) App.inObject.readObject();
         }
         if (result) {
             ObservableList<Model.Category> allProducts;
@@ -107,7 +119,15 @@ public class Category implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Model.Category> categories = Controller.getOurController().showCategories();
+        App.sendMessageToServer("showCategories", "");
+        ArrayList<Model.Category> categories = null;
+        try {
+            categories = (ArrayList<Model.Category>) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         ObservableList<Model.Category> categoriesObserveAbleList = FXCollections.observableArrayList(categories);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -122,39 +142,70 @@ public class Category implements Initializable {
         tagsColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
-    public void changeName(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
-        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
+    public void changeName(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) throws InterruptedException, IOException, ClassNotFoundException {
+        App.sendMessageToServer("getCategoryByName", table.getSelectionModel().getSelectedItem().getName());
+        Thread.currentThread().wait(100);
+        Model.Category category = (Model.Category) App.inObject.readObject();
         category.setName(cellEditEvent.getNewValue().toString());
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        ////////////Also for the server
+        App.sendMessageToServer("setNameOfCategory", cellEditEvent.getNewValue());
+        App.sendObjectToServer(category);
+
+
+        ////SAVED IN THE SERVER
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
-    public void changeTags(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
-        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
-        ArrayList<String> tags = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
+    public void changeTags(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) throws InterruptedException, IOException, ClassNotFoundException {
+        App.sendMessageToServer("getCategoryByName", table.getSelectionModel().getSelectedItem().getName());
+        Thread.currentThread().wait(100);
+        Model.Category category = (Model.Category) App.inObject.readObject();ArrayList<String> tags = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setTags(tags);
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        App.sendObjectToServer(tags);
+        App.sendMessageToServer("setTagsOfCategory", cellEditEvent.getNewValue());
+        App.sendObjectToServer(category);
     }
 
-    public void changeProducts(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
-        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
+    public void changeProducts(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) throws InterruptedException, IOException, ClassNotFoundException {
+        App.sendMessageToServer("getCategoryByName", table.getSelectionModel().getSelectedItem().getName());
+        Thread.currentThread().wait(100);
+        Model.Category category = (Model.Category) App.inObject.readObject();ArrayList<String> tags = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         ArrayList<String> products = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setProducts(products);
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        App.sendObjectToServer(products);
+        App.sendMessageToServer("setProductsOfCategory", cellEditEvent.getNewValue());
+        App.sendObjectToServer(category);
     }
 
-    public void changeSubCategories(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) {
-        Model.Category category = Model.Category.getCategoryByName(table.getSelectionModel().getSelectedItem().getName());
+    public void changeSubCategories(TableColumn.CellEditEvent<Model.Category, String> cellEditEvent) throws InterruptedException, IOException, ClassNotFoundException {
+        App.sendMessageToServer("getCategoryByName", table.getSelectionModel().getSelectedItem().getName());
+        Thread.currentThread().wait(100);
+        Model.Category category = (Model.Category) App.inObject.readObject();ArrayList<String> tags = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         ArrayList<String> subCategories = new ArrayList<>(Arrays.asList(cellEditEvent.getNewValue().toString().split(" ")));
         category.setSubCategories(subCategories);
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        App.sendObjectToServer(subCategories);
+        App.sendMessageToServer("setSubCategoriesOfCategory", cellEditEvent.getNewValue());
+        App.sendObjectToServer(category);
     }
 
     public void switchtoAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        getCurrentAccountInClient();
+    }
+
+    static void getCurrentAccountInClient() throws IOException {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

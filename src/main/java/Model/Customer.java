@@ -1,14 +1,16 @@
 package Model;
 
-import Control.Controller;
-import org.example.Cart;
+import Control.ControllerThread;
 
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
-public class Customer extends Account {
+public class Customer extends Account implements Serializable {
     //private static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
     private HashMap<String, Integer> cart;
     private ArrayList<String> sellersOfProductsOfTheCart;
@@ -82,7 +84,7 @@ public class Customer extends Account {
 //        System.out.println(cart);
         if(Product.getProductWithBarcode(product).isExistsOrNot()){
 //            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());
-            Controller.getOurController().increaseOrDecreaseProductNo(product, +1);
+            ((ControllerThread)Thread.currentThread()).getOurController().increaseOrDecreaseProductNo(product, +1);
             Product.getProductWithBarcode(product).setByers(this.getUserName());
 //            Product.getProductWithBarcode(product).setAmountOfExist(Product.getProductWithBarcode(product).getAmountOfExist() - 1);
 //            Product.getProductWithBarcode("amount of exist of product:" + Product.getProductWithBarcode(product) + " " + Product.getProductWithBarcode(product).getAmountOfExist());

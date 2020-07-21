@@ -1,8 +1,5 @@
 package org.example;
 
-import Control.Controller;
-import Model.CartItem;
-import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,32 +7,29 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Cart implements Initializable {
     int totalPriceInt = 0;
     @FXML
-    public TableColumn<CartItem, Integer> itemCol;
+    public TableColumn<Model.CartItem, Integer> itemCol;
     @FXML
-    public TableColumn<CartItem, String> nameCol;
+    public TableColumn<Model.CartItem, String> nameCol;
     @FXML
-    public TableColumn<CartItem, Double> priceCol;
+    public TableColumn<Model.CartItem, Double> priceCol;
     @FXML
-    public TableColumn<CartItem, Integer> howManyCol;
+    public TableColumn<Model.CartItem, Integer> howManyCol;
     @FXML
-    public TableColumn<CartItem, Double> totalPriceCol;
+    public TableColumn<Model.CartItem, Double> totalPriceCol;
     @FXML
-    public TableColumn<CartItem, Button> addCol;
+    public TableColumn<Model.CartItem, Button> addCol;
     @FXML
-    public TableColumn<CartItem, Button> decreaseCol;
+    public TableColumn<Model.CartItem, Button> decreaseCol;
     @FXML
-    public TableView<CartItem> table;
+    public TableView<Model.CartItem> table;
     public TextField totalPrice;
 
     @Override
@@ -47,7 +41,7 @@ public class Cart implements Initializable {
         totalPriceCol.setCellValueFactory(new PropertyValueFactory<>("TotalPrice"));
         addCol.setCellValueFactory(new PropertyValueFactory<>("AddButton"));
         decreaseCol.setCellValueFactory(new PropertyValueFactory<>("DecreaseButton"));
-        ObservableList<CartItem> data = getInitialTableData();
+        ObservableList<Model.CartItem> data = getInitialTableData();
         table.setItems(data);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ////////////////////Pak NAKONI HA JOZVE CODE///////////////////////////
@@ -61,15 +55,55 @@ public class Cart implements Initializable {
         totalPrice.setText(String.valueOf(totalPriceInt));
     }
 
-    private ObservableList<CartItem> getInitialTableData() {
+    private ObservableList<Model.CartItem> getInitialTableData() {
 
         List list = new ArrayList();
         int i=1;
-        for (String name: ((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().keySet()) {
-            if (Product.getProductWithBarcode(name) != null) {
-                CartItem cartItem = new CartItem(Product.getProductWithBarcode(name));
+        String names = null;
+        try {
+            App.dataOutputStream.writeUTF(App.token + " " + "getCartKeySet");
+            App.dataOutputStream.flush();
+            names = App.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Set set;
+        for (String name: names.split(" ")){
+            try {
+                App.dataOutputStream.writeUTF(App.token + " " + name);
+                App.dataOutputStream.flush();
+                String message = App.dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //get product from server
+            App.sendMessageToServer("getProductWithBarcode", name);
+            Model.Product product = null;
+            try {
+                Object obj;
+                if ((obj = App.inObject.readObject()) != null) {
+                    product = ((Model.Product) obj);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (product != null) {
+                Model.CartItem cartItem = new Model.CartItem(Model.Product.getProductWithBarcode(name));
                 cartItem.setItemNo(i);
-                cartItem.setHowMany(((Model.Customer)(Controller.getOurController().getLoggedInAccount())).getCart().get(name));
+                App.sendMessageToServer("getCart", "");
+                HashMap<String, Integer> cart = null;
+                try {
+                     cart = ((HashMap<String, Integer>)App.inObject.readObject());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                cartItem.setHowMany(cart.get(name));
                 cartItem.setTotalPrice(cartItem.getHowMany() * cartItem.getPrice());
                 list.add(cartItem);
                 totalPriceInt += cartItem.getHowMany() * cartItem.getPrice();
@@ -81,7 +115,7 @@ public class Cart implements Initializable {
         ArrayList<String> tags = new ArrayList<>();
         ArrayList<String> sellers = new ArrayList<>();
 
-        ObservableList<CartItem> data = FXCollections.observableArrayList(list);
+        ObservableList<Model.CartItem> data = FXCollections.observableArrayList(list);
 
         return data;
     }
@@ -95,11 +129,19 @@ public class Cart implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        String type = App.dataInputStream.readUTF();
+        Model.Account account = null;
+        try {
+             account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

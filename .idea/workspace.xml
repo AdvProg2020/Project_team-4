@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b5b448c0-53d7-42b4-84e0-eeeef8b67a33" name="Default Changelist" comment="copy classes in client, add function to find order" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ClientServer" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ed3WYuj4k4kl4er4t0f4RfTth8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.example" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.App" />
+      <module name="Project_team-4" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b5b448c0-53d7-42b4-84e0-eeeef8b67a33" name="Default Changelist" comment="" />
+      <created>1594637675068</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594637675068</updated>
+      <workItem from="1594637680385" duration="4145000" />
+      <workItem from="1594714802485" duration="736000" />
+      <workItem from="1594976443727" duration="12078000" />
+      <workItem from="1595057882823" duration="162000" />
+    </task>
+    <task id="LOCAL‎۰۰۰۰۱" summary="trying to add network">
+      <created>1594715423926</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۱" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۱" />
+      <updated>1594715423926</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۰۲" summary="trying to add network">
+      <created>1594984026456</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۲" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۲" />
+      <updated>1594984026456</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۰۳" summary="trying to add network">
+      <created>1594985369055</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۳" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۳" />
+      <updated>1594985369055</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۰۴" summary="copy classes in client, add function to find order">
+      <created>1595058003537</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۴" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۴" />
+      <updated>1595058003537</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="trying to add network" />
+    <MESSAGE value="copy classes in client, add function to find order" />
+    <option name="LAST_COMMIT_MESSAGE" value="copy classes in client, add function to find order" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="96" y="13" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594985806644">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="96" y="13" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1594985806644" />
+    <state x="446" y="74" key="#com.intellij.ide.util.MemberChooser" timestamp="1594986529449">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="446" y="74" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1594986529449" />
+    <state x="412" y="213" width="456" height="302" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1594988490053">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="412" y="213" width="456" height="302" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.720@0.0.1280.720" timestamp="1594988490053" />
+    <state width="1227" height="109" key="GridCell.Tab.0.bottom" timestamp="1594992653237">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1227" height="109" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1594992653237" />
+    <state width="1227" height="109" key="GridCell.Tab.0.center" timestamp="1594992653237">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1227" height="109" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1594992653237" />
+    <state width="1227" height="109" key="GridCell.Tab.0.left" timestamp="1594992653236">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1227" height="109" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1594992653236" />
+    <state width="1227" height="109" key="GridCell.Tab.0.right" timestamp="1594992653237">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1227" height="109" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1594992653237" />
+    <state x="371" y="83" key="extract.method.dialog" timestamp="1594987537955">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="371" y="83" key="extract.method.dialog/0.0.1280.720@0.0.1280.720" timestamp="1594987537955" />
+    <state x="389" y="65" key="git4idea.branch.GitSmartOperationDialog" timestamp="1594985364234">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="389" y="65" key="git4idea.branch.GitSmartOperationDialog/0.0.1280.720@0.0.1280.720" timestamp="1594985364234" />
+    <state x="0" y="0" key="new project wizard" timestamp="1594990918861">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="0" y="0" key="new project wizard/0.0.1280.720@0.0.1280.720" timestamp="1594990918861" />
+  </component>
+</project>

@@ -1,6 +1,5 @@
 package Model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class RequestOff extends Request {
@@ -9,7 +8,8 @@ public class RequestOff extends Request {
         super(requestType);
         this.off = off;
         //Off.getAllOffs().remove(off);
-        Manager.getEditOffRequests().add(this);
+//        Manager.getEditOffRequests().add(this);
+        // for duplicate creating off
         SaveAndLoad.getSaveAndLoad().writeJSON(Manager.getEditOffRequests(), ArrayList.class.toString(), "editOffRequests");
     }
 

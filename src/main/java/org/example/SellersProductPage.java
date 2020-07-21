@@ -1,17 +1,12 @@
 package org.example;
 
-import Model.Account;
 import Model.Product;
-import Model.Seller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import Control.Controller;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
@@ -21,19 +16,23 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SellersProductPage implements Initializable {
+
+    Model.Account account;
+    String type;
+
     public TextField descriptionField;
-    public TableColumn<Product, String> byersColumn;
+    public TableColumn<Model.Product, String> byersColumn;
     public Label pictureStatus;
     ArrayList<TextField> textFields = new ArrayList<>();
     File imageFile = null;
 
-    public TableView<Product> table;
-    public TableColumn<Product, String> nameColumn;
-    public TableColumn<Product, String> categoryColumn;
-    public TableColumn<Product, String> companyColumn;
-    public TableColumn<Product, Double> costColumn;
-    public TableColumn<Product, Integer> amountColumn;
-    public TableColumn<Product, ArrayList<String>> tagsColumn;
+    public TableView<Model.Product> table;
+    public TableColumn<Model.Product, String> nameColumn;
+    public TableColumn<Model.Product, String> categoryColumn;
+    public TableColumn<Model.Product, String> companyColumn;
+    public TableColumn<Model.Product, Double> costColumn;
+    public TableColumn<Model.Product, Integer> amountColumn;
+    public TableColumn<Model.Product, ArrayList<String>> tagsColumn;
     public TextField nameField;
     public TextField categoryField;
     public TextField companyFiled;
@@ -43,11 +42,25 @@ public class SellersProductPage implements Initializable {
     public Button editButton;
     public Button removeButton;
 
-    public void edit(ActionEvent actionEvent) {
+    public void edit(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         pictureStatus.setText("no picture");
-        if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && Product.getProductWithBarcode(nameField.getText().trim()) != null) {
-            Product.getProductWithBarcode(nameField.getText().trim()).setSellers(((Seller)(Controller.getOurController().getLoggedInAccount())).getUserName());
-            ((Seller) Controller.getOurController().getLoggedInAccount()).setProducts(nameField.getText().trim());
+        App.sendMessageToServer("getProductWithBarcode", nameField.getText().trim());
+        Model.Product product = (Model.Product) App.inObject.readObject();
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (nameField.getText() != null && !nameField.getText().trim().equalsIgnoreCase("") && product != null) {
+//            App.sendMessageToServer("getProductWithBarcode", ((Model.Seller)(account)).getUserName());
+//            Product.getProductWithBarcode(nameField.getText().trim())
+            App.sendMessageToServer("setSellersOfProduct", nameField.getText().trim() + " " + ((Model.Seller)(account)).getUserName());
+//                    .setSellers(((Model.Seller)(account)).getUserName());
+//            ((Model.Seller) account).setProducts(nameField.getText().trim());
+            App.sendMessageToServer("setProductsOfASeller", account.getUserName() + " " + nameField.getText().trim());
             imageFile = null;
             return;
         }
@@ -56,15 +69,18 @@ public class SellersProductPage implements Initializable {
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);
         }
-        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getLoggedInAccount().getUserName());
+        App.sendObjectToServer(tagsArray);
+        App.sendMessageToServer("createProductRequest", nameField.getText().trim() + " " + companyFiled.getText().trim() + " " + Integer.parseInt(costField.getText().trim()) + " " +  categoryField.getText().trim() + " " +  descriptionField.getText().trim() + " " +  Integer.parseInt(amountField.getText().trim()) + " " +   account.getUserName());
+//        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
         copyImage(nameField.getText());
     }
 
     public void remove(ActionEvent actionEvent) {
-        ObservableList<Product> selectedItem = table.getSelectionModel().getSelectedItems();
-        Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
-        ObservableList<Product> allProducts;
-        ObservableList<Product> singleProduct;
+        ObservableList<Model.Product> selectedItem = table.getSelectionModel().getSelectedItems();
+        App.sendMessageToServer("removeProductFromSellerProducts", selectedItem.get(0).getProductBarcode());
+//        Controller.getOurController().removeProductFromSellerProducts(selectedItem.get(0).getProductBarcode());
+        ObservableList<Model.Product> allProducts;
+        ObservableList<Model.Product> singleProduct;
         allProducts = table.getItems();
         singleProduct = table.getSelectionModel().getSelectedItems();
         singleProduct.forEach(allProducts::remove);
@@ -102,11 +118,31 @@ public class SellersProductPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        try {
+            type = App.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
         getEditAbleTextFields();
-        ArrayList<String> productsNames = new ArrayList(((Seller)Controller.getOurController().getLoggedInAccount()).getProducts());
-        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<String> productsNames = new ArrayList(((Model.Seller)account).getProducts());
+        ArrayList<Model.Product> products = new ArrayList<>();
         for (String name: productsNames) {
-            products.add(Product.getProductWithBarcode(name));
+            App.sendMessageToServer("getProductWithBarcode", name);
+
+            try {
+                products.add((Product) App.inObject.readObject());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         ObservableList<Product> observableList = FXCollections.observableArrayList(products);
 
@@ -124,11 +160,11 @@ public class SellersProductPage implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;

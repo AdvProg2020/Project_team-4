@@ -1,17 +1,11 @@
 package org.example;
 
-import Control.Controller;
-import Model.Off;
-import Model.Seller;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,12 +41,15 @@ public class Pay implements Initializable {
         }
     }
 
-    public void pay(ActionEvent actionEvent) throws IOException {
+    public void pay(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         boolean result;
         if (offCodeField.getText() != null) {
-            result = Controller.getOurController().pay(offCodeField.getText().trim());
+            App.sendMessageToServer("pay", offCodeField.getText().trim());
+            result = (boolean) App.inObject.readObject();
+//                    Controller.getOurController().pay(offCodeField.getText().trim());
         } else {
-            result = Controller.getOurController().pay("");
+            App.sendMessageToServer("pay", " ");
+            result = (boolean) App.inObject.readObject();
         }
         if (result) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -68,21 +65,6 @@ public class Pay implements Initializable {
     }
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
-            LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
-        } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
-                case "class Model.Manager":
-                    App.setRoot("manager");
-                    break;
-                case "class Model.Customer":
-                    App.setRoot("customer");
-                    break;
-                case "class Model.Seller":
-                    App.setRoot("seller");
-                    break;
-            }
-        }
+        Category.getCurrentAccountInClient();
     }
 }

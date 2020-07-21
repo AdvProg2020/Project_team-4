@@ -1,31 +1,58 @@
 package Control;
 
 import Model.*;
-import View.Outputs;
 import com.google.gson.reflect.TypeToken;
 import org.example.App;
 
-
-import java.io.File;
+import java.io.*;
 import java.lang.reflect.Type;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.regex.Matcher;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 
 import static Model.Product.getProductWithBarcode;
-import static View.Menu.Menu.getField;
 
 public class Controller {
 
-    private final static Controller ourController = new Controller();
+//    private static Controller ourController;
+    private Account currentAccount = null;
 
-    private Account loggedInAccount = null;
-
-    public static Controller getOurController() {
-        return ourController;
+    public static void main(String[] args) throws IOException {
+        int port = 8889;
+        //network
+        ServerSocket serverSocket = new ServerSocket(port);
+        handleData();
+        while(true){
+            Socket socket = serverSocket.accept();
+            ControllerThread ct = new ControllerThread(socket);
+            ct.run();
+        }
     }
+
+
+
+    private static void handleData() {
+        File file1 = new File(String.valueOf("class Model.Customer"));
+        file1.mkdir();
+        File file2 = new File("class Model.Manager");
+        file2.mkdir();
+        File file3 = new File("class Model.Seller");
+        file3.mkdir();
+        File file4 = new File("class java.util.ArrayList");
+        file4.mkdirs();
+        File file5 = new File("Image");
+        file5.mkdirs();
+        Controller.readOffCodesFromFile();
+        Controller.readRequestsFromFile();
+        Controller.readOffsFromFile();
+        Controller.readProductsFromFile();
+        Controller.readCategoriesFromFile();
+    }
+
+
 
 
     public int controllerNewAccount(String type, String username, String password) {
@@ -55,17 +82,17 @@ public class Controller {
         }
         if (Account.getAccountWithName(username).getPassWord().equals(password)) {
             if (Account.getAccountWithName(username).getClass().equals(Customer.class)) {
-                Set<String> barcodes = ((Customer)loggedInAccount).getCart().keySet();
-                ArrayList<String> sellers = ((Customer)loggedInAccount).getSellersOfProductsOfTheCart();
-                loggedInAccount = Account.getAccountWithName(username);
+                Set<String> barcodes = ((Customer) currentAccount).getCart().keySet();
+                ArrayList<String> sellers = ((Customer) currentAccount).getSellersOfProductsOfTheCart();
+                currentAccount = Account.getAccountWithName(username);
                 for (String barcode: barcodes) {
-                    Controller.getOurController().requestAddProductToCart(barcode);
+                    this.requestAddProductToCart(barcode);
                 }
                 for (String name: sellers) {
-                    Controller.getOurController().setNameOfSellerOfProductAddedToCart(name);
+                    this.setNameOfSellerOfProductAddedToCart(name);
                 }
             }else{
-                loggedInAccount = Account.getAccountWithName(username);
+                currentAccount = Account.getAccountWithName(username);
             }
             SaveAndLoad.getSaveAndLoad().saveGenerally();
 //            Account.login(Account.getAccountWithName(username));
@@ -74,16 +101,16 @@ public class Controller {
         return 3;
     }
 
-    public void setLoggedInAccount(Account loggedInAccount) {
-        this.loggedInAccount = loggedInAccount;
+    public void setCurrentAccount(Account currentAccount) {
+        this.currentAccount = currentAccount;
     }
 
     public int logout() {
-        if (loggedInAccount == null) {
+        if (currentAccount == null) {
             return 1;
         }
         App.defaultCustomer = new Customer("default", "123");
-        loggedInAccount = App.defaultCustomer;
+        currentAccount = App.defaultCustomer;
         return 2;
     }
 
@@ -114,7 +141,7 @@ public class Controller {
             ////parametre akhar arrayList new bood fek kardam hamooni pas bedim behtare
             CodedOff codedOff = new CodedOff(start, end, maximumOffAmount, percentOfOff, usageTimes, containingCustomers);
             for (String customer: containingCustomers) {
-                Customer customer1 = ((Customer)Customer.getAccountWithName(customer));
+                Customer customer1 = ((Customer) Customer.getAccountWithName(customer));
                 customer1.addOffCode(codedOff.getOffBarcode());
                 customer1.setUsageOfOffCodes(Integer.valueOf(usageTimes));
                 SaveAndLoad.getSaveAndLoad().writeJSON(customer1, Customer.class.toString(), customer1.getUserName());
@@ -147,13 +174,13 @@ public class Controller {
     }
 
     public void newComment(String comment, Product product, String name){
-        Comment comment1 = new Comment(loggedInAccount.getUserName(), product.getProductBarcode(), comment, false);
+        Comment comment1 = new Comment(currentAccount.getUserName(), product.getProductBarcode(), comment, false);
         product.addComment(comment1);
     }
 
 
     public String showCart() {
-        return (((Customer)loggedInAccount).getCart()).toString();
+        return (((Customer) currentAccount).getCart()).toString();
     }
 
     public void increaseOrDecreaseProductNo(String productId, int n) {
@@ -163,7 +190,7 @@ public class Controller {
             System.out.println("this product in not availAble any more");
             return;
         }
-        ((Customer)loggedInAccount).setNumberOfProductInCart(productId, n);
+        ((Customer) currentAccount).setNumberOfProductInCart(productId, n);
         SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
@@ -193,7 +220,7 @@ public class Controller {
     }
 
     public boolean pay(String offCode) {
-        if (((Customer)loggedInAccount).pay(offCode)) {
+        if (((Customer) currentAccount).pay(offCode)) {
             return true;
         }
         return false;
@@ -250,7 +277,7 @@ public class Controller {
         try {
             CodedOff.getAllDiscounts().addAll((Collection<? extends CodedOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("allOffCodes", offCodesListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all offCodes");
+            System.out.println("Didn't read the array of all offCodes");
         }
         //readArrayFromFile(CodedOff.getAllDiscounts(), "offCodes");
     }
@@ -260,19 +287,19 @@ public class Controller {
         try {
             Manager.getRegisterSellerAccountRequests().addAll((Collection<? extends RequestANewSellerAccount>) SaveAndLoad.getSaveAndLoad().readJSONByType("registerSellerAccountRequests", sellerAccountRequestListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all RequestANewSellerAccount");
+            System.out.println("Didn't read the array of all RequestANewSellerAccount");
         }
         Type offRequestListType = new TypeToken<ArrayList<RequestOff>>(){}.getType();
         try {
             Manager.getEditOffRequests().addAll((Collection<? extends RequestOff>) SaveAndLoad.getSaveAndLoad().readJSONByType("editOffRequests", offRequestListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all RequestOff");
+            System.out.println("Didn't read the array of all RequestOff");
         }
         Type productRequestListType = new TypeToken<ArrayList<RequestProduct>>(){}.getType();
         try {
             Manager.getEditProductsRequests().addAll((Collection<? extends RequestProduct>) SaveAndLoad.getSaveAndLoad().readJSONByType("editProductsRequests", productRequestListType));
         } catch (Exception e) {
-            Outputs.printReadFileResult("Didn't read the array of all RequestProduct");
+            System.out.println("Didn't read the array of all RequestProduct");
         }
 
     }
@@ -331,7 +358,7 @@ public class Controller {
         Product product;
         if((product = Product.getProductWithBarcode(productId)) == null)
             return 0;
-        Account account = getLoggedInAccount();
+        Account account = getCurrentAccount();
         if(!account.getClass().equals(Customer.class)){
             return 2;
         }
@@ -341,7 +368,7 @@ public class Controller {
     }
 
     public int calculateCartCost() {
-        return ((Customer)loggedInAccount).getCartMoney();
+        return ((Customer) currentAccount).getCartMoney();
     }
 
     public ArrayList<String> requestProductSeller(String productId) {
@@ -366,34 +393,34 @@ public class Controller {
         return sellersOfProduct;
     }
 
-    public Account getLoggedInAccount() {
-        return loggedInAccount;
+    public Account getCurrentAccount() {
+        return currentAccount;
     }
 
-    public void editField(String field) {
-        System.out.println("Enter your new amount for the field you choose");
-        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
-        switch (field.toLowerCase()) {
-            case "firstname":
-                loggedInAccount.setFirstName(newAmount.group(1));
-                return;
-            case "lastname":
-                loggedInAccount.setLastName(newAmount.group(1));
-                return;
-            case "credit" :
-                loggedInAccount.setCredit(Double.parseDouble(newAmount.group(1)));
-                return;
-            case "phonenumber" :
-                loggedInAccount.setPhoneNumber(newAmount.group(1));
-                return;
-            case "email" :
-                loggedInAccount.setEmail(newAmount.group(1));
-                return;
-            case "password" :
-                loggedInAccount.setPassWord(newAmount.group(1));
-        }
-        SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Controller.getOurController().getLoggedInAccount().getClass().toString(), Controller.getOurController().getLoggedInAccount().getUserName());
-    }
+//    public void editField(String field) {
+//        System.out.println("Enter your new amount for the field you choose");
+//        Matcher newAmount = getField("Please enter a valid string", "(\\S+)");
+//        switch (field.toLowerCase()) {
+//            case "firstname":
+//                currentAccount.setFirstName(newAmount.group(1));
+//                return;
+//            case "lastname":
+//                currentAccount.setLastName(newAmount.group(1));
+//                return;
+//            case "credit" :
+//                currentAccount.setCredit(Double.parseDouble(newAmount.group(1)));
+//                return;
+//            case "phonenumber" :
+//                currentAccount.setPhoneNumber(newAmount.group(1));
+//                return;
+//            case "email" :
+//                currentAccount.setEmail(newAmount.group(1));
+//                return;
+//            case "password" :
+//                currentAccount.setPassWord(newAmount.group(1));
+//        }
+//        SaveAndLoad.getSaveAndLoad().writeJSON(this.getCurrentAccount(), this.getCurrentAccount().getClass().toString(), this.getCurrentAccount().getUserName());
+//    }
 
     public int requestAddProduct(String name, String company, double cost, String category, String description) {
         return 0;
@@ -409,10 +436,10 @@ public class Controller {
     }
 
     public ArrayList<History> requestSalesHistoryInfoInSeller() {
-        if (loggedInAccount.getClass().equals(Seller.class)) {
-            return ((Seller)loggedInAccount).getHistory();
+        if (currentAccount.getClass().equals(Seller.class)) {
+            return ((Seller) currentAccount).getHistory();
         } else {
-            return ((Customer)loggedInAccount).getHistory();
+            return ((Customer) currentAccount).getHistory();
         }
     }
 
@@ -448,7 +475,7 @@ public class Controller {
     public ArrayList<Off> getAllOffsOfSeller() {
         ArrayList<Off> sellersOff = new ArrayList<>();
         for (Off off: Off.getAllOffs()) {
-            if (((Seller)loggedInAccount).getOffs().contains(off.getOffBarcode())) {
+            if (((Seller) currentAccount).getOffs().contains(off.getOffBarcode())) {
                 sellersOff.add(off);
             }
         }
@@ -465,7 +492,7 @@ public class Controller {
         return null;
     }
 
-    public void createOrEditOffRequest(ArrayList<String> products, String startDate, String endDate, int offAmount, String name) {
+    public void createOrEditOffRequest(ArrayList<String> products, String startDate, String endDate, String offAmount, String name) {
         ArrayList<Product> productsToAddTO = new ArrayList<>();
         for (String productBarcode: products) {
             if (Product.getAllProducts().contains(getProductWithBarcode(productBarcode)) && !getProductWithBarcode(productBarcode).isInOffOrNot()) {
@@ -476,7 +503,7 @@ public class Controller {
 //        LocalDateTime start = LocalDateTime.of(Integer.parseInt(startDate.group(1)), Integer.parseInt(startDate.group(2)), Integer.parseInt(startDate.group(3)), Integer.parseInt(startDate.group(4)), Integer.parseInt(startDate.group(5)));
 //        LocalDateTime end = LocalDateTime.of(Integer.parseInt(endDate.group(1)), Integer.parseInt(endDate.group(2)), Integer.parseInt(endDate.group(3)), Integer.parseInt(endDate.group(4)), Integer.parseInt(endDate.group(5)));
 //        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        Off off = new Off(startDate, products, endDate, offAmount, name);
+        Off off = new Off(startDate, products, endDate, Integer.parseInt(offAmount), name);
         Off.getAllOffs().remove(off);
         SaveAndLoad.getSaveAndLoad().writeJSON(Off.getAllOffs(), ArrayList.class.toString(), "allOffs");
         new RequestOff(RequestType.OFF, off);
@@ -493,7 +520,7 @@ public class Controller {
     }
 
     public void setCustomersField(String firstName, String lastName, String phoneNumber, String email) {
-        Customer loggedInCustomer = (Customer) loggedInAccount;
+        Customer loggedInCustomer = (Customer) currentAccount;
         loggedInCustomer.setFirstName(firstName);
         loggedInCustomer.setLastName(lastName);
         loggedInCustomer.setPhoneNumber(phoneNumber);
@@ -501,7 +528,7 @@ public class Controller {
     }
 
     public void changeFields(String firstName, String lastName, String phoneNumber, String email, String passWord) {
-        Account loggedInManager = loggedInAccount;
+        Account loggedInManager = currentAccount;
         loggedInManager.setFirstName(firstName);
         loggedInManager.setLastName(lastName);
         loggedInManager.setPhoneNumber(phoneNumber);
@@ -510,7 +537,7 @@ public class Controller {
     }
 
     public void setCustomerAddress(String address) {
-        ((Customer) loggedInAccount).setAddress(address);
+        ((Customer) currentAccount).setAddress(address);
     }
 
     public void addOffCodeToCustomer() {
@@ -518,15 +545,15 @@ public class Controller {
     }
 
     public double getCredit() {
-        return (loggedInAccount.getCredit());
+        return (currentAccount.getCredit());
     }
 
     public ArrayList<String> getCustomerDiscountCodes() {
-        return ((Customer)loggedInAccount).getOffCodes();
+        return ((Customer) currentAccount).getOffCodes();
     }
 
     public String getCompanyNameInSeller() {
-        return ((Seller)loggedInAccount).getCompanyName();
+        return ((Seller) currentAccount).getCompanyName();
     }
 
 //    public ArrayList<String> viewByers(String productId) {
@@ -540,10 +567,10 @@ public class Controller {
     }
 
     public void removeProductFromSellerProducts(String productId) {
-        ArrayList<String> products = new ArrayList<>(((Seller) loggedInAccount).getProducts());
+        ArrayList<String> products = new ArrayList<>(((Seller) currentAccount).getProducts());
         for (String product: products) {
             if (product.equalsIgnoreCase(productId)) {
-                ((Seller) loggedInAccount).getProducts().remove(product);
+                ((Seller) currentAccount).getProducts().remove(product);
             }
         }
         SaveAndLoad.getSaveAndLoad().saveGenerally();
@@ -563,18 +590,27 @@ public class Controller {
     }
 
     public void setNameOfSellerOfProductAddedToCart(String sellerName) {
-        Customer customer = (Customer) getLoggedInAccount();
+        Customer customer = (Customer) getCurrentAccount();
         customer.setSellerName(sellerName);
     }
 
     public void setCustomerPassWordAndAddress(String passWord, String address) {
-        loggedInAccount.setPassWord(passWord);
-        ((Customer)loggedInAccount).setAddress(address);
+        currentAccount.setPassWord(passWord);
+        ((Customer) currentAccount).setAddress(address);
     }
 
 
     public void changeCompanyName(String trim) {
-        ((Seller) Controller.getOurController().getLoggedInAccount()).setCompanyName(trim);
+        ((Seller) this.getCurrentAccount()).setCompanyName(trim);
     }
+
+    public HashMap getCart(){
+        return ((Customer) currentAccount).getCart();
+    }
+
+    public Product getProductWithBarcodeController(String string){
+        return Product.getProductWithName(string);
+    }
+
 }
 

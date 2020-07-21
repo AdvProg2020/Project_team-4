@@ -1,7 +1,7 @@
 package org.example;
 
-import Control.Controller;
-import Model.Category;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,7 +39,16 @@ public class History implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<Model.History> histories = Controller.getOurController().requestSalesHistoryInfoInSeller();
+        App.sendMessageToServer("requestSalesHistoryInfoInSeller", "");
+        ArrayList<Model.History> histories = null;
+        try {
+            histories = (ArrayList<Model.History>) App.inObject.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+//        Controller.getOurController().requestSalesHistoryInfoInSeller();
         ArrayList<String> sellerNames = new ArrayList<>();
         sellerNames.add("ali");
         sellerNames.add("rpo");
@@ -58,21 +67,6 @@ public class History implements Initializable {
     }
 
     public void switchToAacountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
-            LoginCreate.setBeforeRoot("main");
-            App.setRoot("login-create");
-        } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
-                case "class Model.Manager":
-                    App.setRoot("manager");
-                    break;
-                case "class Model.Customer":
-                    App.setRoot("customer");
-                    break;
-                case "class Model.Seller":
-                    App.setRoot("seller");
-                    break;
-            }
-        }
+        Category.getCurrentAccountInClient();
     }
 }

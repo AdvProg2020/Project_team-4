@@ -1,7 +1,6 @@
 package Model;
 
 
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -9,10 +8,10 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-import java.time.format.DateTimeFormatter;
 
 public class Product extends SaveAble {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -30,6 +29,10 @@ public class Product extends SaveAble {
 
     public void setByers(String userName) {
         this.byers.add(userName);
+    }
+
+    public void setComment(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 
     //private static HashMap<String, Product> products;

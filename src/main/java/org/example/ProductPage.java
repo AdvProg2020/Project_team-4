@@ -1,17 +1,10 @@
 package org.example;
 
 
-import Control.Controller;
-import Model.Comment;
-import Model.Product;
-import Model.SaveAndLoad;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -21,9 +14,9 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.example.App.loadFXML;
-
 public class ProductPage {
+
+    Model.Account account;
 
     public static HBox comparisonPageHBox = new HBox();
     public Label productName;
@@ -33,7 +26,7 @@ public class ProductPage {
     public Label description;
     public Label exist;
     public Label category;
-    public ArrayList<Comment> comments = new ArrayList<>();
+    public ArrayList<Model.Comment> comments = new ArrayList<>();
     public TextField score;
     public TextField commentField;
     public TextField nameField;
@@ -42,32 +35,33 @@ public class ProductPage {
     public MenuButton sellers;
     public ArrayList<MenuItem> menuItems;
     public MenuItem example;
-    private static Product product;
+    private static Model.Product product;
     public Alert alert;
     public Button backButton;
-    public TableColumn<Comment, String> commentsColumn;
-    public TableColumn<Comment, String> nameColumn;
-    public TableView<Comment> commentsTable;
+    public TableColumn<Model.Comment, String> commentsColumn;
+    public TableColumn<Model.Comment, String> nameColumn;
+    public TableView<Model.Comment> commentsTable;
     public ImageView productImage;
     public Button scoreButton;
     public Button replayButton;
     public Button commentButton;
-    public TableView<Product> similarProduct;
+    public TableView<Model.Product> similarProduct;
     public Label newCommentLabel;
     public Button compareButton;
-    public TableColumn<Comment, String> replayColumn;
-    public TableColumn<Product, String> rateColumn;
+    public TableColumn<Model.Comment, String> replayColumn;
+    public TableColumn<Model.Product, String> rateColumn;
     public Button rate;
     public Button showComparisonButton;
     public javafx.scene.layout.HBox HBox = new HBox();
 
-    public static void setProduct(Product product) {
+    public static void setProduct(Model.Product product) {
         ProductPage.product = product;
     }
 
-    public void addToCart() {
-        if (Controller.getOurController().getLoggedInAccount() != null) {
-            Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
+    public void addToCart() throws IOException {
+        if (account != null) {
+            App.sendMessageToServer("requestAddProductToCart", product.getProductBarcode());
+//            Controller.getOurController().requestAddProductToCart(product.getProductBarcode());
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Successfully added.");
             alert.show();
@@ -78,13 +72,15 @@ public class ProductPage {
         }
     }
 
-    public void addComment() {
-        if (Controller.getOurController().getLoggedInAccount() != null) {
-            Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
+    public void addComment() throws IOException, ClassNotFoundException {
+        if (account != null) {
+            App.sendMessageToServer("newComment", commentField.getText() + " " + product + " " + nameField.getText());
+            App.sendObjectToServer(product);
+//            Controller.getOurController().newComment(commentField.getText(), product, nameField.getText());
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Successfully added.");
             alert.show();
-            SaveAndLoad.getSaveAndLoad().saveGenerally();
+//            SaveAndLoad.getSaveAndLoad().saveGenerally();
             initializeCommentTable();
         } else {
             alert = new Alert(Alert.AlertType.ERROR);
@@ -94,11 +90,13 @@ public class ProductPage {
     }
 
     public void addScore() {
+        App.sendMessageToServer("setAverageScore", score.getText());
+        App.sendObjectToServer(product);
         product.setAverageScore(Integer.parseInt(score.getText()));
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Successfully scored.");
         alert.show();
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
         averageScore.setText(String.valueOf(product.getAverageScore()));
     }
 
@@ -117,16 +115,26 @@ public class ProductPage {
         labels[6].setText(product.getDescription());
         vBox.getChildren().addAll(labels);
         ComparisonPage.setVBox(vBox);
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
     }
 
     public void showComparison() throws IOException {
         App.setRoot("comparison-page");
     }
 
-    public void initialize() {
+    public void initialize() throws IOException, ClassNotFoundException {
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         product.setSeen(1);
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        App.sendMessageToServer("setSeen", String.valueOf(1));
+        App.sendObjectToServer(product);
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
         comments = new ArrayList<>();
         commentsVBox.setLayoutX(400);
         commentsVBox.setLayoutY(500);
@@ -139,7 +147,8 @@ public class ProductPage {
             }
             for (MenuItem menuItem : menuItems) {
                 sellers.getItems().add(menuItem);
-                menuItem.setOnAction(event -> Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText()));
+//                Controller.getOurController().setNameOfSellerOfProductAddedToCart(menuItem.getText());
+                menuItem.setOnAction(event -> App.sendMessageToServer("setNameOfSellerOfProductAddedToCart", menuItem.getText()));
             }
 
         }
@@ -158,29 +167,35 @@ public class ProductPage {
         App.setRoot("ProductsPage");
     }
 
-    public void initializeCommentTable() {
+    public void initializeCommentTable() throws IOException, ClassNotFoundException {
         commentsColumn.setCellValueFactory(new PropertyValueFactory<>("CommentText"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("CommentingAccount"));
         replayColumn.setCellValueFactory(new PropertyValueFactory<>("Replay"));
-        ArrayList<Product> products = Product.getAllProducts();
+        App.sendMessageToServer("getAllProducts", "");
+        ArrayList<Model.Product> products = (ArrayList<Model.Product>) App.inObject.readObject();
+//                Product.getAllProducts();
         comments.clear();
-        for (Product product1 : products) {
+        for (Model.Product product1 : products) {
             comments.addAll(product1.getComments());
         }
-        ObservableList<Comment> observeListComment = FXCollections.observableArrayList(comments);
+        ObservableList<Model.Comment> observeListComment = FXCollections.observableArrayList(comments);
         commentsTable.getItems().clear();
         commentsTable.setItems(observeListComment);
     }
 
-    public void replay(ActionEvent actionEvent) {
-        for (Comment comment : product.getComments()) {
+
+    //////////////////////NAFAHMIDAM CHI KAR MIKONE JODA NATOONESTAM BEKONAM
+    public void replay(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        for (Model.Comment comment : product.getComments()) {
             if(comment.getCommentText().equals(commentsTable.getSelectionModel().getSelectedItem().getCommentText()))
                 comment.setReplay(commentField.getText());
         }
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("successfully replayed.");
         alert.show();
-        SaveAndLoad.getSaveAndLoad().saveGenerally();
+        App.sendMessageToServer("saveProduct", product.getProductBarcode());
+        App.sendObjectToServer(product);
+//        SaveAndLoad.getSaveAndLoad().saveGenerally();
         initializeCommentTable();
     }
 

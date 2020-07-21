@@ -1,7 +1,5 @@
 package org.example;
 
-import Control.Controller;
-import Model.SaveAndLoad;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -23,6 +21,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Seller implements Initializable {
+
+    Model.Account account;
+    String type = null;
+
+
     @FXML
     public Button sellHistory;
     @FXML
@@ -77,21 +80,33 @@ public class Seller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        userName.setText(Controller.getOurController().getLoggedInAccount().getUserName());
-        firstName.setText(Controller.getOurController().getLoggedInAccount().getFirstName());
-        lastName.setText(Controller.getOurController().getLoggedInAccount().getLastName());
-        passWord.setText(Controller.getOurController().getLoggedInAccount().getPassWord());
-        phoneNumber.setText(Controller.getOurController().getLoggedInAccount().getPhoneNumber());
-        mail.setText(Controller.getOurController().getLoggedInAccount().getEmail());
-        role.setText(Controller.getOurController().getLoggedInAccount().getClass().toString());
-        credit.setText(String.valueOf(Controller.getOurController().getLoggedInAccount().getCredit()));
-        companyField.setText(((Model.Seller)Controller.getOurController().getLoggedInAccount()).getCompanyName());
+        App.sendMessageToServer("getCurrentAccount", "");
+        account = null;
+        try {
+            type = App.dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        userName.setText(account.getUserName());
+        firstName.setText(account.getFirstName());
+        lastName.setText(account.getLastName());
+        passWord.setText(account.getPassWord());
+        phoneNumber.setText(account.getPhoneNumber());
+        mail.setText(account.getEmail());
+        role.setText(type);
+        credit.setText(String.valueOf(account.getCredit()));
+        companyField.setText(((Model.Seller)account).getCompanyName());
         getEditAbleTextFields();
         saveButton.setOnAction(saveButtonHandler);
         Image image;
-        File file = new File("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        File file = new File("Image\\" + account.getUserName() + ".png");
         if(file.exists()){
-            image = new Image("file:////..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            image = new Image("file:////..\\Image\\" + account.getUserName() + ".png");
         }else{
             image = new Image("file:////..\\Image\\noProfile.png");
         }
@@ -102,9 +117,11 @@ public class Seller implements Initializable {
         @Override
         public void handle(Event event) {
             if (checkInfoEntrance()) return;
-            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
-            Controller.getOurController().changeCompanyName(companyField.getText().trim());
-            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Seller.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
+            App.sendMessageToServer("changeFieldsOffSeller", firstName.getText().trim() + " " + lastName.getText().trim() + " " +  phoneNumber.getText().trim() + " " + mail.getText().trim() + " " + passWord.getText().trim());
+//            Controller.getOurController().changeFields(firstName.getText().trim(), lastName.getText().trim(), phoneNumber.getText().trim(), mail.getText().trim(), passWord.getText().trim());
+            App.sendMessageToServer("changeCompanyName", companyField.getText().trim());
+//            Controller.getOurController().changeCompanyName(companyField.getText().trim());
+//            SaveAndLoad.getSaveAndLoad().writeJSON(Controller.getOurController().getLoggedInAccount(), Model.Seller.class.toString(), Controller.getOurController().getLoggedInAccount().getUserName());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("saved SuccessFully");
             alert.show();
@@ -144,11 +161,11 @@ public class Seller implements Initializable {
 
 
     public void switchToAccountPage(ActionEvent actionEvent) throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
@@ -162,8 +179,10 @@ public class Seller implements Initializable {
         }
     }
 
-    public void logout(ActionEvent actionEvent) {
-        int result = Controller.getOurController().logout();
+    public void logout(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        App.sendMessageToServer("logout", "");
+        int result = (int) App.inObject.readObject();
+//        int result = Controller.getOurController().logout();
         if (result == 2) {
             try {
                 App.setRoot("main");
@@ -191,14 +210,14 @@ public class Seller implements Initializable {
         }
         copyImage(file);
 
-        Image image = new Image("file:///..\\Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+        Image image = new Image("file:///..\\Image\\" + account.getUserName() + ".png");
         imageView.setImage(image);
     }
 
     private void copyImage(File file) {
         try {
             FileInputStream in = new FileInputStream(file);
-            FileOutputStream out = new FileOutputStream("Image\\" + Controller.getOurController().getLoggedInAccount().getUserName() + ".png");
+            FileOutputStream out = new FileOutputStream("Image\\" + account.getUserName() + ".png");
             SellersProductPage.CopyFile(in, out);
         } catch (IOException e) {
             e.printStackTrace();

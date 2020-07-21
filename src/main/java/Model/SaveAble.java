@@ -1,6 +1,8 @@
 package Model;
 
-public class SaveAble {
+import java.io.Serializable;
+
+public class SaveAble implements Serializable {
 
     String nameinsave;
 

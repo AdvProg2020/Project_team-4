@@ -2,7 +2,7 @@ package org.example;
 
 import java.io.IOException;
 
-import Control.Controller;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -10,12 +10,20 @@ public class PrimaryController {
 
     @FXML
     public void switchToAccountSection() throws IOException {
-        if (Controller.getOurController().getLoggedInAccount().equals(App.defaultCustomer)) {
+        App.sendMessageToServer("getCurrentAccount", "");
+        Model.Account account = null;
+        String type = App.dataInputStream.readUTF();
+        try {
+            account = ((Model.Account)App.inObject.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (account.equals(App.defaultCustomer)) {
             LoginCreate.setBeforeRoot("main");
             App.setRoot("login-create");
             return;
         } else {
-            switch (Controller.getOurController().getLoggedInAccount().getClass().toString()) {
+            switch (type) {
                 case "class Model.Manager":
                     App.setRoot("manager");
                     break;
