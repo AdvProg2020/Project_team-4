@@ -110,9 +110,7 @@ public class Product extends SaveAble {
         this.company = company;
         this.cost = cost;
         this.sellers = new ArrayList<>();
-        System.out.println(firstSellerName);
         sellers.add(firstSellerName);
-        System.out.println(sellers);
         this.category = category;
         this.description = description;
         this.comments = new ArrayList<>();
@@ -165,7 +163,6 @@ public class Product extends SaveAble {
         this.amountOfExist = product.getAmountOfExist();
         this.localDateTime = product.getLocalDateTime();
         Seller seller= ((Seller) Account.getAccountWithName(product.getSellers().get(0)));
-        System.out.println(seller);
         seller.getProducts().add(product.getProductBarcode());
         System.out.println(seller);
         SaveAndLoad.getSaveAndLoad().writeJSON(seller, Seller.class.toString(), seller.getName());

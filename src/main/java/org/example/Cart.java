@@ -61,8 +61,7 @@ public class Cart implements Initializable {
         int i=1;
         String names = null;
         try {
-            App.dataOutputStream.writeUTF(App.token + " " + "getCartKeySet");
-            App.dataOutputStream.flush();
+            App.sendMessageToServer("getCartKeySet", "");
             names = App.dataInputStream.readUTF();
         } catch (IOException e) {
             e.printStackTrace();

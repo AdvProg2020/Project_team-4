@@ -1,5 +1,6 @@
 package org.example;
 
+
 import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -137,14 +138,14 @@ public class SellersProductPage implements Initializable {
             App.sendMessageToServer("getProductWithBarcode", name);
 
             try {
-                products.add((Product) App.inObject.readObject());
+                products.add((Model.Product) App.inObject.readObject());
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        ObservableList<Product> observableList = FXCollections.observableArrayList(products);
+        ObservableList<Model.Product> observableList = FXCollections.observableArrayList(products);
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("AmountOfExist"));
@@ -178,17 +179,20 @@ public class SellersProductPage implements Initializable {
         }
     }
 
-    public void updateFields(MouseEvent mouseEvent) {
-        Product product = table.getSelectionModel().getSelectedItems().get(0);
+    public void updateFields(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
+        Model. Product product = table.getSelectionModel().getSelectedItems().get(0);
         String name  = product.getProductBarcode();
 
-        nameField.setText(Product.getProductWithBarcode(name).getName());
-        categoryField.setText(Product.getProductWithBarcode(name).getCategory());
-        companyFiled.setText(Product.getProductWithBarcode(name).getCompany());
-        costField.setText(String.valueOf(Product.getProductWithBarcode(name).getCost()));
-        amountField.setText(String.valueOf(Product.getProductWithBarcode(name).getAmountOfExist()));
-        tagsField.setText(String.valueOf(Product.getProductWithBarcode(name).getTags()));
-        descriptionField.setText(String.valueOf(Product.getProductWithBarcode(name).getDescription()));
+        App.sendMessageToServer("getProductWithBarcode", "");
+        Model.Product product1 = (Product) App.inObject.readObject();
+
+        nameField.setText(product1.getName());
+        categoryField.setText(product1.getCategory());
+        companyFiled.setText(product1.getCompany());
+        costField.setText(String.valueOf(product1.getCost()));
+        amountField.setText(String.valueOf(product1.getAmountOfExist()));
+        tagsField.setText(String.valueOf(product1.getTags()));
+        descriptionField.setText(String.valueOf(product1.getDescription()));
 
     }
 

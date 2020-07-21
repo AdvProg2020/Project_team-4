@@ -5,6 +5,7 @@ import Model.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ControllerThread extends Thread{
     private Socket socket;
@@ -48,6 +49,7 @@ public class ControllerThread extends Thread{
 
     private void checkFunction(String[] subString, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
         StringBuilder stringBuilder = new StringBuilder();
+        System.out.println(Arrays.toString(subString));
         if(subString[1].equals("getCartKeySet")){
             System.out.println("get cart server");
             for (Object o : controller.getCart().keySet()) {

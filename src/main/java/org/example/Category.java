@@ -194,10 +194,10 @@ public class Category implements Initializable {
 
     static void getCurrentAccountInClient() throws IOException {
         App.sendMessageToServer("getCurrentAccount", "");
-        Account account = null;
+        Model.Account account = null;
         String type = App.dataInputStream.readUTF();
         try {
-            account = ((Account)App.inObject.readObject());
+            account = ((Model.Account)App.inObject.readObject());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -102,7 +102,10 @@ public class ProductsPage {
             mainAnchorPane.getChildren().add(imageView);
             mainAnchorPane.getChildren().add(label);
         }
-
+        if(calledFromOff){
+            offCheckBox.setSelected(true);
+            activeOff();
+        }
         fullFilter();
     }
 
