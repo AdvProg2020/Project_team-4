@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RequestProduct extends Request {
     private Product product;
@@ -75,6 +76,19 @@ public class RequestProduct extends Request {
         return "RequestProduct{" +
                 "product=" + product +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RequestProduct that = (RequestProduct) o;
+        return Objects.equals(product, that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(product);
     }
 
     public ArrayList<String> getSellers() {

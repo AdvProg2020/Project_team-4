@@ -58,40 +58,12 @@ public class OffCode implements Initializable {
         if (checkInfoEntrance(amountField, usageTimeField))return;
         if (checkInfoEntrance(percentField, containingCustomers))return;
         ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(containingCustomers.getText().trim().split(" ")));
-        ArrayList<String> containingCustomers = new ArrayList<>();
-        for (String name: arrayList) {
-            App.sendMessageToServer("getAccountWithName", name);
-
-            Model.Account account = null;
-            try {
-                account = (Model.Account) App.inObject.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            if(account == null){
-                System.out.println("this username doesn't exist!");
-                continue;
-            }
-            if(!account.getClass().equals(Customer.class)){
-                System.out.println("please enter customer for using codedoff");
-                continue;
-            }
-            Model.Customer customer = (Model.Customer) account;
-            if(containingCustomers.contains(account)){
-                System.out.println("this name was added one time");
-                continue;
-            }
-            containingCustomers.add(account.getUserName());
-        }
-        StringBuilder stringBuilder = new StringBuilder(startField.getText().trim() + " " + endField.getText().trim() + " " + amountField.getText().trim() + " " + percentField.getText().trim() + " " + usageTimeField.getText().trim());
-        App.sendMessageToServer("controllerCreateOffCode", stringBuilder.toString());
-        App.sendObjectToServer(containingCustomers);
+        App.sendMessageToServer("controllerCreateOffCode", startField.getText().trim() + " " + endField.getText().trim() + " " + amountField.getText().trim() + " " + percentField.getText().trim() + " " + usageTimeField.getText().trim());
+        App.sendObjectToServer(arrayList);
 //        int result = Controller.getOurController().controllerCreateOffCode(startField.getText().trim(), endField.getText().trim(), amountField.getText().trim(), percentField.getText().trim(), usageTimeField.getText().trim(), containingCustomers);
         int result = (int) App.inObject.readObject();
 
-        App.sendMessageToServer("getAllDiscounts", "");
+        App.sendMessageToServer("showAllDiscountCodes", "");
 
         ArrayList<Model.CodedOff> codedOffArrayList = (ArrayList<Model.CodedOff>) App.inObject.readObject();
         if (result == 1) {
@@ -124,15 +96,22 @@ public class OffCode implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("dfdf");
         App.sendMessageToServer("showAllDiscountCodes", "");
+        System.out.println("2");
         ArrayList<Model.CodedOff> codedOff = null;
+        Object object = null;
         try {
-            codedOff = (ArrayList<Model.CodedOff>) App.inObject.readObject();
+             object= App.inObject.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        if (object!=null) {
+            codedOff = (ArrayList<Model.CodedOff>) object;
+        }
+
         ObservableList<Model.CodedOff> codedOffs = FXCollections.observableArrayList(new ArrayList<>(
                 codedOff
         ));

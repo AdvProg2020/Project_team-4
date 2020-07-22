@@ -1,6 +1,7 @@
 package Control;
 
 import Model.*;
+import org.example.App;
 
 import java.io.*;
 import java.net.Socket;
@@ -105,7 +106,19 @@ public class ControllerThread extends Thread{
                 ArrayList<String> subCategoriesArray = ((ArrayList<String>)inObject.readObject());
                 ArrayList<String> tagsArray = ((ArrayList<String>)inObject.readObject());
                 ArrayList<String> productsArray = ((ArrayList<String>)inObject.readObject());
-                outObject.writeObject(getOurController().createCategory(name, subCategoriesArray, tagsArray, productsArray));
+                ArrayList<String> subs = new ArrayList<>();
+                ArrayList<String> pros = new ArrayList<>();
+                for (String string: subCategoriesArray) {
+                    if (Category.getCategoryByName(string) != null) {
+                        subs.add(string);
+                    }
+                }
+                for (String string: productsArray) {
+                    if (Product.getProductWithBarcode(string) != null) {
+                        pros.add(string);
+                    }
+                }
+                outObject.writeObject(getOurController().createCategory(name, subs, tagsArray, pros));
                 outObject.flush();
 
             } catch (IOException | ClassNotFoundException e) {
@@ -182,13 +195,34 @@ public class ControllerThread extends Thread{
             getOurController().controllerRemoveProduct(subString[2]);
         } else if (subString[1].equalsIgnoreCase("getAccountWithName")) {
             System.out.println("get Account with name server");
+            System.out.println(subString[2]);
+            System.out.println(Account.getAccountWithName(subString[2]));
             outObject.writeObject(Account.getAccountWithName(subString[2]));
             outObject.flush();
             dataOutputStream.writeUTF(Account.getAccountWithName(subString[2]).getClass().toString());
             dataOutputStream.flush();
         } else if (subString[1].equalsIgnoreCase("controllerCreateOffCode")) {
             System.out.println("create off code server");
-            int result = getOurController().controllerCreateOffCode(subString[2], subString[3], subString[4], subString[5], subString[6], (ArrayList<String>) inObject.readObject());
+            ArrayList<String> arrayList = (ArrayList<String>) inObject.readObject();
+            ArrayList<String> containingCustomers = new ArrayList<>();
+            for (String name: arrayList) {
+                Model.Account account = Account.getAccountWithName(name);
+                if(account == null){
+                    System.out.println("this username doesn't exist!");
+                    continue;
+                }
+                if(!account.getClass().equals(org.example.Customer.class)){
+                    System.out.println("please enter customer for using codedoff");
+                    continue;
+                }
+                Model.Customer customer = (Model.Customer) account;
+                if(containingCustomers.contains(account)){
+                    System.out.println("this name was added one time");
+                    continue;
+                }
+                containingCustomers.add(account.getUserName());
+            }
+            int result = getOurController().controllerCreateOffCode(subString[2], subString[3], subString[4], subString[5], subString[6], containingCustomers);
             outObject.writeObject(result);
             outObject.flush();
         } else if (subString[1].equalsIgnoreCase("setEndTimeForOffCode")) {
@@ -238,21 +272,23 @@ public class ControllerThread extends Thread{
             outObject.flush();
         } else if (subString[1].equalsIgnoreCase("getEditProductRequests")) {
             System.out.println("get edit prodcut request server");
-            outObject.writeObject(Manager.getEditOffRequests());
+            outObject.writeObject(Manager.getEditProductsRequests());
             outObject.flush();
         } else if (subString[1].equalsIgnoreCase("getRegisterSellerAccountRequests")) {
             System.out.println("get register seller Account server");
-            outObject.writeObject(Manager.getEditOffRequests());
+            outObject.writeObject(Manager.getRegisterSellerAccountRequests());
             outObject.flush();
         } else if (subString[1].equalsIgnoreCase("RequestANewSellerAccountAccept")) {
             System.out.println("request a new seller Account Accept server");
-            getOurController().acceptRequest((RequestANewSellerAccount)inObject.readObject());
+            RequestANewSellerAccount requestANewSellerAccount = (RequestANewSellerAccount)inObject.readObject();
+            System.out.println(requestANewSellerAccount);
+            getOurController().acceptRequest(requestANewSellerAccount);
         } else if (subString[1].equalsIgnoreCase("RequestProductAccountAccept")) {
             System.out.println("Request Product Account accept server");
             getOurController().acceptRequest((RequestProduct)inObject.readObject());
         } else if (subString[1].equalsIgnoreCase("RequestOffAccountAccept")) {
             System.out.println("Request off Accouunt Acccept server");
-            getOurController().acceptRequest((RequestProduct)inObject.readObject());
+            getOurController().acceptRequest((RequestOff)inObject.readObject());
         } else if (subString[1].equalsIgnoreCase("RequestANewSellerAccountDecline")) {
             System.out.println("Request a new seller Account decline server");
             getOurController().declineRequest((RequestANewSellerAccount)inObject.readObject());
@@ -275,9 +311,18 @@ public class ControllerThread extends Thread{
             System.out.println("creat new Manager from manager server");
             outObject.writeObject(getOurController().controllerCreateNewManagerAccountFromManager(subString[2], subString[3]));
             outObject.flush();
-        } else if (subString[1].equalsIgnoreCase("getusers")) {
+        } else if (subString[1].equalsIgnoreCase("getUsers")) {
             System.out.println("get users server");
-            outObject.writeObject(getOurController().getusers((Class) inObject.readObject()));
+            String[] users = new String[100];
+            if (subString[2].equalsIgnoreCase(Manager.class.toString())) {
+                users = getOurController().getusers(Manager.class);
+            } else if (subString[2].equalsIgnoreCase(Customer.class.toString())) {
+                users = getOurController().getusers(Customer.class);
+            } else if (subString[2].equalsIgnoreCase(Seller.class.toString())) {
+                users = getOurController().getusers(Seller.class);
+            }
+            System.out.println(users);
+            outObject.writeObject(users);
             outObject.flush();
         } else if (subString[1].equalsIgnoreCase("saveProduct")) {
             System.out.println("save product server");
@@ -299,6 +344,9 @@ public class ControllerThread extends Thread{
             ((Seller)Account.getAccountWithName(subString[2])).setProducts(subString[3]);
         } else if (subString[1].equalsIgnoreCase("setProductEndTime")) {
             Product.getProductWithBarcode(subString[2]).setEndTime(subString[3]);
+        } else if (subString[1].equalsIgnoreCase("showAllDiscountCodes")) {
+            outObject.writeObject(getOurController().showAllDiscountCodes());
+            outObject.flush();
         }
     }
     private String getAccounttype() {

@@ -115,6 +115,7 @@ public class Manager extends Account implements Serializable {
 
     public static boolean acceptRequest(Request request) {
         if (request.getRequestType() == RequestType.ACCOUNT) {
+            System.out.println("salam");
             accountRequestAccept((RequestANewSellerAccount) request);
             declineRequest(request);
             return true;

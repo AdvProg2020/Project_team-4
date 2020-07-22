@@ -46,7 +46,12 @@ public class SellersProductPage implements Initializable {
     public void edit(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         pictureStatus.setText("no picture");
         App.sendMessageToServer("getProductWithBarcode", nameField.getText().trim());
-        Model.Product product = (Model.Product) App.inObject.readObject();
+        Object object = App.inObject.readObject();
+        Model.Product product = null;
+        if (object != null) {
+            product = (Model.Product) object;
+        }
+
         App.sendMessageToServer("getCurrentAccount", "");
         Model.Account account = null;
         String type = App.dataInputStream.readUTF();
@@ -66,14 +71,15 @@ public class SellersProductPage implements Initializable {
             return;
         }
         if (checkInfoEntrance())return;
+        System.out.println("het");
         ArrayList<String> tagsArray = new ArrayList<>();
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);
         }
-        App.sendObjectToServer(tagsArray);
-        App.sendMessageToServer("createProductRequest", nameField.getText().trim() + " " + companyFiled.getText().trim() + " " + Integer.parseInt(costField.getText().trim()) + " " +  categoryField.getText().trim() + " " +  descriptionField.getText().trim() + " " +  Integer.parseInt(amountField.getText().trim()) + " " +   account.getUserName());
-//        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
         copyImage(nameField.getText());
+        App.sendMessageToServer("createProductRequest", nameField.getText().trim() + " " + companyFiled.getText().trim() + " " + Integer.parseInt(costField.getText().trim()) + " " +  categoryField.getText().trim() + " " +  descriptionField.getText().trim() + " " +  Integer.parseInt(amountField.getText().trim()) + " " +   account.getUserName());
+        App.sendObjectToServer(tagsArray);
+        //        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
     }
 
     public void remove(ActionEvent actionEvent) {
