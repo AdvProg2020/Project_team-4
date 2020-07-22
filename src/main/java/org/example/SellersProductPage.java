@@ -1,5 +1,6 @@
 package org.example;
 
+
 import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,7 +46,12 @@ public class SellersProductPage implements Initializable {
     public void edit(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         pictureStatus.setText("no picture");
         App.sendMessageToServer("getProductWithBarcode", nameField.getText().trim());
-        Model.Product product = (Model.Product) App.inObject.readObject();
+        Object object = App.inObject.readObject();
+        Model.Product product = null;
+        if (object != null) {
+            product = (Model.Product) object;
+        }
+
         App.sendMessageToServer("getCurrentAccount", "");
         Model.Account account = null;
         String type = App.dataInputStream.readUTF();
@@ -65,14 +71,15 @@ public class SellersProductPage implements Initializable {
             return;
         }
         if (checkInfoEntrance())return;
+        System.out.println("het");
         ArrayList<String> tagsArray = new ArrayList<>();
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);
         }
-        App.sendObjectToServer(tagsArray);
-        App.sendMessageToServer("createProductRequest", nameField.getText().trim() + " " + companyFiled.getText().trim() + " " + Integer.parseInt(costField.getText().trim()) + " " +  categoryField.getText().trim() + " " +  descriptionField.getText().trim() + " " +  Integer.parseInt(amountField.getText().trim()) + " " +   account.getUserName());
-//        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
         copyImage(nameField.getText());
+        App.sendMessageToServer("createProductRequest", nameField.getText().trim() + " " + companyFiled.getText().trim() + " " + Integer.parseInt(costField.getText().trim()) + " " +  categoryField.getText().trim() + " " +  descriptionField.getText().trim() + " " +  Integer.parseInt(amountField.getText().trim()) + " " +   account.getUserName());
+        App.sendObjectToServer(tagsArray);
+        //        Controller.createProductRequest(nameField.getText().trim(), companyFiled.getText().trim(), Integer.parseInt(costField.getText().trim()), categoryField.getText().trim(), descriptionField.getText().trim(), Integer.parseInt(amountField.getText().trim()), tagsArray, Controller.getOurController().getCurrentAccount().getUserName());
     }
 
     public void remove(ActionEvent actionEvent) {
@@ -137,14 +144,14 @@ public class SellersProductPage implements Initializable {
             App.sendMessageToServer("getProductWithBarcode", name);
 
             try {
-                products.add((Product) App.inObject.readObject());
+                products.add((Model.Product) App.inObject.readObject());
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        ObservableList<Product> observableList = FXCollections.observableArrayList(products);
+        ObservableList<Model.Product> observableList = FXCollections.observableArrayList(products);
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("AmountOfExist"));
@@ -178,17 +185,20 @@ public class SellersProductPage implements Initializable {
         }
     }
 
-    public void updateFields(MouseEvent mouseEvent) {
-        Product product = table.getSelectionModel().getSelectedItems().get(0);
+    public void updateFields(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
+        Model. Product product = table.getSelectionModel().getSelectedItems().get(0);
         String name  = product.getProductBarcode();
 
-        nameField.setText(Product.getProductWithBarcode(name).getName());
-        categoryField.setText(Product.getProductWithBarcode(name).getCategory());
-        companyFiled.setText(Product.getProductWithBarcode(name).getCompany());
-        costField.setText(String.valueOf(Product.getProductWithBarcode(name).getCost()));
-        amountField.setText(String.valueOf(Product.getProductWithBarcode(name).getAmountOfExist()));
-        tagsField.setText(String.valueOf(Product.getProductWithBarcode(name).getTags()));
-        descriptionField.setText(String.valueOf(Product.getProductWithBarcode(name).getDescription()));
+        App.sendMessageToServer("getProductWithBarcode", "");
+        Model.Product product1 = (Product) App.inObject.readObject();
+
+        nameField.setText(product1.getName());
+        categoryField.setText(product1.getCategory());
+        companyFiled.setText(product1.getCompany());
+        costField.setText(String.valueOf(product1.getCost()));
+        amountField.setText(String.valueOf(product1.getAmountOfExist()));
+        tagsField.setText(String.valueOf(product1.getTags()));
+        descriptionField.setText(String.valueOf(product1.getDescription()));
 
     }
 

@@ -83,14 +83,14 @@ public class Requests implements Initializable {
 
     private ObservableList<Model.RequestOff> getOffReqs() throws IOException, ClassNotFoundException {
         App.sendMessageToServer("getEditOffRequests", "");
-        List list = new ArrayList((Integer) App.inObject.readObject());
+        List list = new ArrayList((ArrayList<Model.Request>) App.inObject.readObject());
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;
     }
 
     private ObservableList<Model.RequestProduct> getProductReqs() throws IOException, ClassNotFoundException {
         App.sendMessageToServer("getEditProductRequests", "");
-        List list = new ArrayList((Integer) App.inObject.readObject());
+        List list = new ArrayList((ArrayList<Model.Request>) App.inObject.readObject());
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;
     }

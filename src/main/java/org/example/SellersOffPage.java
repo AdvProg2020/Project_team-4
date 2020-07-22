@@ -35,12 +35,17 @@ public class SellersOffPage implements Initializable {
         if (checkInfoEntrance())return;
         ArrayList<String> productsNames = new ArrayList<>();
         for (String name: productsField.getText().trim().split(" ")) {
-            App.sendMessageToServer("getProductWithName", name);
-            Model.Product product = (Model.Product) App.inObject.readObject();
+            App.sendMessageToServer("getProductWithBarcode", name);
+            Object object = App.inObject.readObject();
+            Model.Product product =null;
+            if (object!=null) {
+                 product = (Model.Product) object;
+            }
             if (product != null) {
                 productsNames.add(name);
             }
         }
+        System.out.println("hhh");
         App.sendMessageToServer("createOrEditOffRequest", startDateField.getText().trim() + " "  + endDateField.getText().trim() + " " + Integer.parseInt(offAmountField.getText().trim()) + " " + barcodeField.getText().trim());
         App.sendObjectToServer(productsNames);
 //        Controller.getOurController().createOrEditOffRequest(productsNames, startDateField.getText().trim(), endDateField.getText().trim(), Integer.parseInt(offAmountField.getText().trim()), barcodeField.getText().trim());
@@ -81,7 +86,7 @@ public class SellersOffPage implements Initializable {
         App.sendMessageToServer("getAllOffs", "");
         ArrayList<Model.Off> offs = null;
         try {
-            offs = new ArrayList((Integer) App.inObject.readObject());
+            offs = new ArrayList((ArrayList<Model.Off>) App.inObject.readObject());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

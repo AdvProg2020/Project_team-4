@@ -47,21 +47,14 @@ public class Category implements Initializable {
         if (checkInfoEntrance(name, products))return;
         ArrayList<String> subCategoriesArray = new ArrayList<>();
         for (String string: subCategories.getText().trim().split(" ")) {
-            App.sendMessageToServer("getCategoryByName", string);
-            Model.Category category = (Model.Category) App.inObject.readObject();
-            if (category!=null) {
-                subCategoriesArray.add(string);
-            }
+            subCategoriesArray.add(string);
         }
         ArrayList<String> tagsArray = new ArrayList<>(Arrays.asList(tags.getText().trim().split(" ")));
         ArrayList<String> productsArray = new ArrayList<>(Arrays.asList(products.getText().trim().split(" ")));
         App.sendMessageToServer("createCategory", name.getText().trim());
         App.sendObjectToServer(subCategoriesArray);
-        Thread.currentThread().wait(100);
         App.sendObjectToServer(tagsArray);
-        Thread.currentThread().wait(100);
         App.sendObjectToServer(productsArray);
-        Thread.currentThread().wait(100);
         Model.Category result = null;
         try {
             result = ((Model.Category)App.inObject.readObject());
@@ -77,7 +70,6 @@ public class Category implements Initializable {
 
     public void remove(ActionEvent actionEvent) throws IOException, InterruptedException, ClassNotFoundException {
         App.sendMessageToServer("getCategoryByName", table.getSelectionModel().getSelectedItem().getName());
-        Thread.currentThread().wait(100);
         Model.Category category = (Model.Category) App.inObject.readObject();
         boolean result =false;
         if (category != null) {
@@ -194,10 +186,10 @@ public class Category implements Initializable {
 
     static void getCurrentAccountInClient() throws IOException {
         App.sendMessageToServer("getCurrentAccount", "");
-        Account account = null;
+        Model.Account account = null;
         String type = App.dataInputStream.readUTF();
         try {
-            account = ((Account)App.inObject.readObject());
+            account = ((Model.Account)App.inObject.readObject());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

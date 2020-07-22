@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RequestOff extends Request {
     private Off off;
@@ -38,6 +39,19 @@ public class RequestOff extends Request {
 
     public Off getOff() {
         return off;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RequestOff that = (RequestOff) o;
+        return off.equals(that.off);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(off);
     }
 
     @Override
