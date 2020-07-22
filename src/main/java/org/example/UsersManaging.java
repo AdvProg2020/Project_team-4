@@ -1,6 +1,6 @@
 package org.example;
 
-import Model.Account;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -151,7 +151,7 @@ public class UsersManaging implements Initializable {
     @FXML
     public void remove(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         App.sendMessageToServer("getAccountWithName", table.getSelectionModel().getSelectedItem().getUserName());
-        Model.Account account = (Account) App.inObject.readObject();
+        Model.Account account = (Model.Account) App.inObject.readObject();
 //                getAccountWithName(table.getSelectionModel().getSelectedItem().getUserName());
         int result = 0;
         if (account != null) {
@@ -160,8 +160,8 @@ public class UsersManaging implements Initializable {
 //                    Controller.getOurController().controllerDeleteAnUser(account.getUserName());
         }
         if (result == 1) {
-            ObservableList<Account> allProducts;
-            ObservableList<Account> singleProduct;
+            ObservableList<Model.Account> allProducts;
+            ObservableList<Model.Account> singleProduct;
             allProducts = table.getItems();
             singleProduct = table.getSelectionModel().getSelectedItems();
             singleProduct.forEach(allProducts::remove);
