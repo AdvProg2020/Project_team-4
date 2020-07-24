@@ -53,9 +53,7 @@ public class UsersManaging implements Initializable {
 //        App.sendObjectToServer(Manager.class);
         try {
             users1 = (String[]) App.inObject.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         System.out.println(users1);
@@ -69,9 +67,7 @@ public class UsersManaging implements Initializable {
                     Model.Account account = null;
                     try {
                         account = (Model.Account) App.inObject.readObject();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
                     users.add(account);
@@ -83,9 +79,7 @@ public class UsersManaging implements Initializable {
 //        App.sendObjectToServer(Customer.class);
         try {
             users2 = (String[]) App.inObject.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         if (users2 != null && users2.length != 0) {
@@ -96,9 +90,7 @@ public class UsersManaging implements Initializable {
                     Model.Account account = null;
                     try {
                         account = (Model.Account) App.inObject.readObject();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
                     users.add(account);

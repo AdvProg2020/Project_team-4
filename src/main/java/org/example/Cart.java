@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -73,7 +74,9 @@ public class Cart implements Initializable {
                 App.dataOutputStream.writeUTF(App.token + " " + name);
                 App.dataOutputStream.flush();
                 String message = App.dataInputStream.readUTF();
-            } catch (IOException e) {
+            } catch (EOFException e){
+                e.printStackTrace();
+            }catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -85,7 +88,9 @@ public class Cart implements Initializable {
                 if ((obj = App.inObject.readObject()) != null) {
                     product = ((Model.Product) obj);
                 }
-            } catch (IOException e) {
+            }catch (EOFException e){
+                e.printStackTrace();
+            }catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
