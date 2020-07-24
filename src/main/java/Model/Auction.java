@@ -8,6 +8,8 @@ public class Auction {
     private final Date expireDate;
     private final Account seller;
     private final ArrayList<String> chatMassages;
+    private final Product product;
+    private static double maximumOfferedPrice;
 
     public Date getExpireDate() {
         return expireDate;
@@ -21,9 +23,16 @@ public class Auction {
         return chatMassages;
     }
 
-    public Auction(Date expireDate, Account seller) {
+    public Auction(Date expireDate, Account seller, Product product) {
         this.expireDate = expireDate;
         this.seller = seller;
         this.chatMassages = new ArrayList<>();
+        this.product = product;
+    }
+
+    public static void offerPrice(double offer){
+        if(offer > maximumOfferedPrice){
+            maximumOfferedPrice = offer;
+        }
     }
 }

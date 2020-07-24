@@ -237,4 +237,14 @@ public class SellersProductPage implements Initializable {
             pictureStatus.setText("picture saved");
         }
     }
+
+    public void addToAuction(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        App.setRoot("addToAuction");
+        Object object = App.inObject.readObject();
+        Model.Product product = null;
+        if (object != null) {
+            product = (Model.Product) object;
+        }
+        AddToAuction.setProduct(product);
+    }
 }

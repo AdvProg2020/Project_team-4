@@ -28,5 +28,6 @@
       <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
       <Label fx:id="pictureStatus" text="no picture" layoutX="350" layoutY="300" textFill="tomato"/>
        <Button text="add picture" layoutY="350" layoutX="350" onAction="#addPicture"/>
+       <Button text="add to auction" layoutY="350" layoutX="450" onAction="#addToAuction"/>
    </children>
 </AnchorPane>
