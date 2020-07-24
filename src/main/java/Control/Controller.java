@@ -459,7 +459,7 @@ public class Controller {
         return null;
     }
 
-    public String[] getusers(Class className) {
+    public String[] getUsers(Class className) {
         File f = new File(String.valueOf(className));
         return f.list();
     }

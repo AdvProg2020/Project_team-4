@@ -91,7 +91,7 @@ public class Cart implements Initializable {
                 e.printStackTrace();
             }
             if (product != null) {
-                Model.CartItem cartItem = new Model.CartItem(Model.Product.getProductWithBarcode(name));
+                Model.CartItem cartItem = new Model.CartItem(product);
                 cartItem.setItemNo(i);
                 App.sendMessageToServer("getCart", "");
                 HashMap<String, Integer> cart = null;

@@ -1,7 +1,6 @@
 package Control;
 
 import Model.*;
-import org.example.App;
 
 import java.io.*;
 import java.net.Socket;
@@ -91,7 +90,7 @@ public class ControllerThread extends Thread{
             System.out.println("get current Account server");
             System.out.println(getOurController().getCurrentAccount());
             try {
-                dataOutputStream.writeUTF(getAccounttype());
+                dataOutputStream.writeUTF(getAccountType());
                 dataOutputStream.flush();
                 outObject.writeObject((getOurController().getCurrentAccount()));
                 outObject.flush();
@@ -315,11 +314,11 @@ public class ControllerThread extends Thread{
             System.out.println("get users server");
             String[] users = new String[100];
             if (subString[2].equalsIgnoreCase(Manager.class.toString())) {
-                users = getOurController().getusers(Manager.class);
+                users = getOurController().getUsers(Manager.class);
             } else if (subString[2].equalsIgnoreCase(Customer.class.toString())) {
-                users = getOurController().getusers(Customer.class);
+                users = getOurController().getUsers(Customer.class);
             } else if (subString[2].equalsIgnoreCase(Seller.class.toString())) {
-                users = getOurController().getusers(Seller.class);
+                users = getOurController().getUsers(Seller.class);
             }
             System.out.println(users);
             outObject.writeObject(users);
@@ -349,7 +348,7 @@ public class ControllerThread extends Thread{
             outObject.flush();
         }
     }
-    private String getAccounttype() {
+    private String getAccountType() {
         String type;
         if(getOurController().getCurrentAccount().getClass().equals(Manager.class)){
             type = "class Model.Manager";
