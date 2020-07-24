@@ -18,6 +18,7 @@
       </TableView>
       <Button fx:id="pay" layoutX="283.0" layoutY="333.0" mnemonicParsing="false" onAction="#pay" text="pay" />
       <Button layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#switchToAccountPage" text="Account" />
+       <Button fx:id="back" text="back" layoutX="400" layoutY="400" onAction="#back"/>
       <TextField fx:id="totalPrice" layoutX="411.0" layoutY="296.0" />
    </children>
 </AnchorPane>

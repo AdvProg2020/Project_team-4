@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Auction {
-    private Date expireDate;
-    private Account seller;
-    private ArrayList<String> chatMassages = new ArrayList<>();
+    private static ArrayList<Auction> auctions = new ArrayList<>();
+    private final Date expireDate;
+    private final Account seller;
+    private final ArrayList<String> chatMassages;
 
     public Date getExpireDate() {
         return expireDate;
@@ -23,5 +24,6 @@ public class Auction {
     public Auction(Date expireDate, Account seller) {
         this.expireDate = expireDate;
         this.seller = seller;
+        this.chatMassages = new ArrayList<>();
     }
 }

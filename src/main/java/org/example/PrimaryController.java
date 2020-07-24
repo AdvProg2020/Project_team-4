@@ -61,4 +61,8 @@ public class PrimaryController {
             e.printStackTrace();
         }
     }
+
+    public void switchToAuctionsPage(ActionEvent actionEvent) throws IOException {
+        App.setRoot("auctions");
+    }
 }

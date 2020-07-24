@@ -153,4 +153,8 @@ public class Cart implements Initializable {
             }
         }
     }
+
+    public void back(ActionEvent actionEvent) throws IOException {
+        App.setRoot("main");
+    }
 }

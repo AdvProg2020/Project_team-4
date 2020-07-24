@@ -43,11 +43,11 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String path = "music\\backgroundMusic.mp3";
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.play();
-        mediaPlayer.setCycleCount(10);
+//        String path = "music/backgroundMusic.mp3";
+//        Media media = new Media(new File(path).toURI().toString());
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//        mediaPlayer.play();
+//        mediaPlayer.setCycleCount(10);
         this.stage = stage;
         sendMessageToServer("setCurrentAccount", "");
         sendObjectToServer(defaultCustomer);
