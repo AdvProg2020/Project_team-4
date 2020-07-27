@@ -51,7 +51,6 @@ public class SellersProductPage implements Initializable {
         if (object != null) {
             product = (Model.Product) object;
         }
-
         App.sendMessageToServer("getCurrentAccount", "");
         Model.Account account = null;
         String type = App.dataInputStream.readUTF();
@@ -71,7 +70,6 @@ public class SellersProductPage implements Initializable {
             return;
         }
         if (checkInfoEntrance())return;
-        System.out.println("het");
         ArrayList<String> tagsArray = new ArrayList<>();
         for (String tag: tagsField.getText().trim().split(" ")) {
             tagsArray.add(tag);

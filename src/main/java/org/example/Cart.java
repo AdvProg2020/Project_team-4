@@ -67,18 +67,20 @@ public class Cart implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Set set;
-        for (String name: names.split(" ")){
-            try {
-                App.dataOutputStream.writeUTF(App.token + " " + name);
-                App.dataOutputStream.flush();
-                String message = App.dataInputStream.readUTF();
-            } catch (EOFException e){
-                e.printStackTrace();
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
+        System.out.println("here");
+        System.out.println(names);
+//        assert names != null;
+        if(!names.equals(""))
+            for (String name: names.split(" ")){
+//            try {
+//                App.dataOutputStream.writeUTF(App.token + " " + name);
+//                App.dataOutputStream.flush();
+//                String message = App.dataInputStream.readUTF();
+//            } catch (EOFException e){
+//                e.printStackTrace();
+//            }catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             //get product from server
             App.sendMessageToServer("getProductWithBarcode", name);
@@ -115,12 +117,7 @@ public class Cart implements Initializable {
             }
         }
 
-        //just for test
-        ArrayList<String> tags = new ArrayList<>();
-        ArrayList<String> sellers = new ArrayList<>();
-
         ObservableList<Model.CartItem> data = FXCollections.observableArrayList(list);
-
         return data;
     }
 

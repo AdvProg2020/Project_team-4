@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class UsersManaging implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String[] users1 = new String[100];
+        String[] users1 = null;
         App.sendMessageToServer("getUsers", Model.Manager.class.toString());
 //        App.sendObjectToServer(Manager.class);
         try {
@@ -56,17 +57,22 @@ public class UsersManaging implements Initializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println(users1);
         List<String> userNames = new ArrayList<>();
         List<Model.Account> users = new ArrayList<>();
         if (users1 != null && users1.length != 0) {
             userNames = Arrays.asList(users1);
+            System.out.println(userNames);
             if (userNames!=null && userNames.size() != 0) {
                 for (String userName: userNames) {
                     App.sendMessageToServer("getAccountWithName", userName);
                     Model.Account account = null;
                     try {
-                        account = (Model.Account) App.inObject.readObject();
+                        Object o = App.inObject.readObject();
+                        App.dataInputStream.readUTF();
+                        if(o == null){
+                            continue;
+                        }
+                        account = (Model.Manager) o;
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -74,22 +80,27 @@ public class UsersManaging implements Initializable {
                 }
             }
         }
-        String[] users2 = new String[100];
+        String[] users2 = null;
         App.sendMessageToServer("getUsers", Model.Customer.class.toString());
 //        App.sendObjectToServer(Customer.class);
         try {
-            users2 = (String[]) App.inObject.readObject();
+            Object o = App.inObject.readObject();
+            if(o != null){
+                users2 = (String[]) o;
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         if (users2 != null && users2.length != 0) {
             userNames = Arrays.asList(users2);
             if (userNames != null && userNames.size()!=0) {
+                System.out.println(userNames);
                 for (String userName: userNames) {
                     App.sendMessageToServer("getAccountWithName", userName);
                     Model.Account account = null;
                     try {
                         account = (Model.Account) App.inObject.readObject();
+                        App.dataInputStream.readUTF();
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -97,11 +108,14 @@ public class UsersManaging implements Initializable {
                 }
             }
         }
-        String[] users3 = new String[100];
+        String[] users3 = null;
         App.sendMessageToServer("getUsers", Model.Seller.class.toString());
 //        App.sendObjectToServer(Seller.class);
         try {
-            users3 = (String[]) App.inObject.readObject();
+            Object o = App.inObject.readObject();
+            if(o != null){
+                users3 = (String[]) o;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -115,6 +129,7 @@ public class UsersManaging implements Initializable {
                     Model.Account account = null;
                     try {
                         account = (Model.Account) App.inObject.readObject();
+                        App.dataInputStream.readUTF();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {

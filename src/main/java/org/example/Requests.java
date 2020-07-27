@@ -91,6 +91,7 @@ public class Requests implements Initializable {
     private ObservableList<Model.RequestProduct> getProductReqs() throws IOException, ClassNotFoundException {
         App.sendMessageToServer("getEditProductRequests", "");
         List list = new ArrayList((ArrayList<Model.Request>) App.inObject.readObject());
+        System.out.println(list);
         ObservableList observableList = FXCollections.observableArrayList(list);
         return observableList;
     }

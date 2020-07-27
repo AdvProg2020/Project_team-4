@@ -33,7 +33,6 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         socket = new Socket("localhost", 8889);
         try {
-            System.out.println(socket);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
             dataOutputStream = new DataOutputStream(os);
@@ -43,6 +42,7 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        token = dataInputStream.readUTF();
 //        String path = "music/backgroundMusic.mp3";
 //        Media media = new Media(new File(path).toURI().toString());
 //        MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -51,7 +51,6 @@ public class App extends Application {
         this.stage = stage;
         sendMessageToServer("setCurrentAccount", "");
         sendObjectToServer(defaultCustomer);
-
       if (checkInitializedOrNot()) {
             scene = new Scene(loadFXML("main"));
         } else {

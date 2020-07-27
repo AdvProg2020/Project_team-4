@@ -4,6 +4,7 @@ import Model.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,6 +15,7 @@ public class ControllerThread extends Thread{
     Controller controller;
     ObjectOutputStream outObject;
     ObjectInputStream inObject;
+    ArrayList<String> allToken = new ArrayList<>();
 
     public ControllerThread(Socket socket) {
         this.socket = socket;
@@ -33,14 +35,35 @@ public class ControllerThread extends Thread{
             dataInputStream = new DataInputStream(is);
             outObject = new ObjectOutputStream(dataOutputStream);
             inObject = new ObjectInputStream(dataInputStream);
+            dataOutputStream.writeUTF(createToken());
             while(true){
-            String input = dataInputStream.readUTF();
+                String input = "";
+            try {
+                input = dataInputStream.readUTF();
+            }catch (SocketException e){
+                Thread.currentThread().stop();
+            }
+            System.out.println(" from client " + input);
             String[] subString = input.split(" ");
+            if(!allToken.contains(subString[0])){
+                return;
+            }
             checkFunction(subString, dataOutputStream);
         }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private String createToken() {
+        final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 16; i++) {
+            int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        allToken.add(builder.toString());
+        return builder.toString();
     }
 
     public  Controller getOurController() {
@@ -49,7 +72,6 @@ public class ControllerThread extends Thread{
 
     private void checkFunction(String[] subString, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
         StringBuilder stringBuilder = new StringBuilder();
-        System.out.println(Arrays.toString(subString));
         if(subString[1].equals("getCartKeySet")){
             System.out.println("get cart server");
             for (Object o : controller.getCart().keySet()) {
@@ -94,7 +116,6 @@ public class ControllerThread extends Thread{
                 dataOutputStream.flush();
                 outObject.writeObject((getOurController().getCurrentAccount()));
                 outObject.flush();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -313,6 +334,7 @@ public class ControllerThread extends Thread{
         } else if (subString[1].equalsIgnoreCase("getUsers")) {
             System.out.println("get users server");
             String[] users = new String[100];
+            subString[2] = subString[2] + " " + subString[3];
             if (subString[2].equalsIgnoreCase(Manager.class.toString())) {
                 users = getOurController().getUsers(Manager.class);
             } else if (subString[2].equalsIgnoreCase(Customer.class.toString())) {
@@ -320,7 +342,8 @@ public class ControllerThread extends Thread{
             } else if (subString[2].equalsIgnoreCase(Seller.class.toString())) {
                 users = getOurController().getUsers(Seller.class);
             }
-            System.out.println(users);
+            System.out.println("here");
+            System.out.println(Arrays.toString(users));
             outObject.writeObject(users);
             outObject.flush();
         } else if (subString[1].equalsIgnoreCase("saveProduct")) {
